@@ -1,0 +1,24 @@
+project:
+  type: website
+  output-dir: docs
+
+
+website:
+  title: "Rural MN Migration Trends"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Summary
+      - href: pop_estimates_components_of_change.qmd
+        text: Population estimates - components of change
+      - href: migration_by_age_groups.qmd
+        text: Migration by age groups
+      - lit_review.qmd
+      - ipums_analysis.qmd
+      - USPS_change_of_address.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
