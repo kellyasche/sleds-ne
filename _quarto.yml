@@ -9,13 +9,11 @@ website:
     left:
       - href: index.qmd
         text: Summary
-      - href: pop_estimates_components_of_change.qmd
-        text: Population estimates - components of change
-      - href: migration_by_age_groups.qmd
-        text: Migration by age groups
-      - lit_review.qmd
-      - ipums_analysis.qmd
-      - USPS_change_of_address.qmd
+      - text: Data Prep and Summaries
+        icon: fa-gear
+        menu:
+          - text: K12Enrollment
+            href: k12enrollment.qmd
 
 format:
   html:
