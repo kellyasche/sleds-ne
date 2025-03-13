@@ -1,0 +1,54 @@
+---
+title: "K12Enrollment"
+editor: visual
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+library(htmlwidgets)
+library(RColorBrewer)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(systemfonts)
+reset_font_cache()
+library(ggtext)
+```
+
+<br>
+
+# Data Prep
+
+This dataset is of all the individuals that have graduated from a high school in Southwest Minnesota.
+
+<br>
+
+```{r import original dataset}
+
+enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  
+  mutate(PersonID = as.integer(PersonID),
+         K12OrganizationID = as.integer(K12OrganizationID)) %>%
+  drop_na(PersonID)
+
+head(enrollment.original)
+
+names(enrollment.original)
+
+```

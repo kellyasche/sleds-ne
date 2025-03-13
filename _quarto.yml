@@ -14,6 +14,8 @@ website:
         menu:
           - text: K12Enrollment
             href: k12enrollment.qmd
+          - text: K12Orgs
+            href: k12orgs.qmd
 
 format:
   html:
