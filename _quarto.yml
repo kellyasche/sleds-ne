@@ -17,8 +17,8 @@ website:
           - text: K12Orgs
             href: k12orgs.qmd
 
+
 format:
   html:
     theme: cosmo
-    css: styles.css
     toc: true
