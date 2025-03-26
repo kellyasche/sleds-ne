@@ -22,6 +22,8 @@ website:
             href: ap.qmd
           - text: CTEEnrollment
             href: cteenrollment.qmd
+          - text: CTEDemographics
+            href: ctedemographics.qmd
 
 
 format:
