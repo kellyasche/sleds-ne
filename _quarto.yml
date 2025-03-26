@@ -20,6 +20,8 @@ website:
             href: act.qmd
           - text: AP
             href: ap.qmd
+          - text: CTEEnrollment
+            href: cteenrollment.qmd
 
 
 format:
