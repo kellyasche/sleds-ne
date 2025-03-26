@@ -959,22 +959,32 @@ ul.task-list li input[type="checkbox"] {
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 5%">
-<col style="width: 10%">
-<col style="width: 5%">
 <col style="width: 3%">
-<col style="width: 19%">
-<col style="width: 10%">
+<col style="width: 6%">
 <col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 9%">
-<col style="width: 7%">
+<col style="width: 4%">
+<col style="width: 3%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 3%">
+<col style="width: 2%">
+<col style="width: 13%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;">PersonID</th>
 <th style="text-align: right;">K12OrganizationID</th>
+<th style="text-align: left;">OrganizationName</th>
+<th style="text-align: left;">county.name</th>
+<th style="text-align: left;">countyfp</th>
+<th style="text-align: left;">Dem_Desc</th>
+<th style="text-align: left;">edr</th>
 <th style="text-align: right;">grad.year</th>
 <th style="text-align: left;">Gender</th>
 <th style="text-align: left;">LimitedEnglishProficiencyIndicator</th>
@@ -990,6 +1000,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">6140596</td>
 <td style="text-align: right;">15068</td>
+<td style="text-align: left;">CHERRY SECONDARY</td>
+<td style="text-align: left;">St.&nbsp;Louis</td>
+<td style="text-align: left;">137</td>
+<td style="text-align: left;">Urban/town/rural mix</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2017</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
@@ -1003,6 +1018,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: right;">1986818</td>
 <td style="text-align: right;">207340</td>
+<td style="text-align: left;">ALC Independent Study</td>
+<td style="text-align: left;">St.&nbsp;Louis</td>
+<td style="text-align: left;">137</td>
+<td style="text-align: left;">Urban/town/rural mix</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2022</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
@@ -1016,6 +1036,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">8332752</td>
 <td style="text-align: right;">67509</td>
+<td style="text-align: left;">EAST HIGH SCHOOL</td>
+<td style="text-align: left;">St.&nbsp;Louis</td>
+<td style="text-align: left;">137</td>
+<td style="text-align: left;">Urban/town/rural mix</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2016</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
@@ -1029,6 +1054,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: right;">6569729</td>
 <td style="text-align: right;">49396</td>
+<td style="text-align: left;">AITKIN SECONDARY SCHOOL</td>
+<td style="text-align: left;">Aitkin</td>
+<td style="text-align: left;">001</td>
+<td style="text-align: left;">Entirely rural</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2012</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
@@ -1042,6 +1072,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: right;">322283</td>
 <td style="text-align: right;">43867</td>
+<td style="text-align: left;">MESABI EAST SECONDARY</td>
+<td style="text-align: left;">St.&nbsp;Louis</td>
+<td style="text-align: left;">137</td>
+<td style="text-align: left;">Urban/town/rural mix</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2015</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
@@ -1055,6 +1090,11 @@ ul.task-list li input[type="checkbox"] {
 <tr class="even">
 <td style="text-align: right;">2657233</td>
 <td style="text-align: right;">211618</td>
+<td style="text-align: left;">HERMANTOWN SENIOR HIGH</td>
+<td style="text-align: left;">St.&nbsp;Louis</td>
+<td style="text-align: left;">137</td>
+<td style="text-align: left;">Urban/town/rural mix</td>
+<td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2023</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
@@ -1069,10 +1109,10 @@ ul.task-list li input[type="checkbox"] {
 </table>
 </div>
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small" data-quarto-postprocess="true">
+<table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th style="text-align: left;" data-quarto-table-cell-role="th">x</th>
+<th style="text-align: left;">x</th>
 </tr>
 </thead>
 <tbody>
@@ -1083,40 +1123,53 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">K12OrganizationID</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">OrganizationName</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">county.name</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">countyfp</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Dem_Desc</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">edr</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">grad.year</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Gender</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">LimitedEnglishProficiencyIndicator</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">HomelessIndicator</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">economic.status</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">pseo.participant</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">SpecialEdStatus</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">non.english.home</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">RaceEthnicity</td>
 </tr>
 </tbody>
 </table>
-
-
 </div>
 </div>
 <p><br></p>
-<p>The prepped enrollment data has 28,788 observations and 11 columns.</p>
+<p>The prepped enrollment data has 28,788 observations and 16 columns.</p>
 <p><br></p>
 </section>
 <section id="summary-of-k12enrollment-data" class="level1">
@@ -1135,8 +1188,8 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-b31a3f07d5a0f1bc4c09" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-b31a3f07d5a0f1bc4c09">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"55\" data-max=\"14142\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[14142,9800,379,55,236,8037,10476,4263],[28788,28788,28788,28788,28788,28788,28788,28788],["49.1%","34.0%","1.3%","0.2%","0.8%","27.9%","36.4%","14.8%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-59d3be0cbba3ef0a5cb3" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-59d3be0cbba3ef0a5cb3">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"55\" data-max=\"14142\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[14142,9800,379,55,236,8037,10476,4263],[28788,28788,28788,28788,28788,28788,28788,28788],["49.1%","34.0%","1.3%","0.2%","0.8%","27.9%","36.4%","14.8%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>

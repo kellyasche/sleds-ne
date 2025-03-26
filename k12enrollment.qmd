@@ -230,7 +230,7 @@ graduates <- enrollment.org.ne %>%
   filter(StatusEnd %in% c(8,9)) %>%
   mutate(grad.year = str_sub(TimeID, 1, 4),
          grad.year = as.integer(grad.year)) %>%
-  select(PersonID, K12OrganizationID, grad.year, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator) %>%
+  select(PersonID, K12OrganizationID, OrganizationName, grad.year, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, county.name, countyfp, Dem_Desc, edr) %>%
   distinct(PersonID, .keep_all = TRUE) %>%
   filter(grad.year > 2007)
 
@@ -328,11 +328,12 @@ k12.enrollment.master <- graduates %>%
   left_join(k12.enr.pseo.indicator, by = "PersonID") %>%
   left_join(k12.enr.spced.indicator, by = "PersonID") %>%
   left_join(k12.enr.homeprimlang.indicator, by = "PersonID") %>%
-  left_join(k12.enr.race, by = "PersonID")
+  left_join(k12.enr.race, by = "PersonID") %>%
+  select(PersonID, K12OrganizationID, OrganizationName, county.name, countyfp, Dem_Desc, edr, grad.year, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, economic.status, pseo.participant, SpecialEdStatus, non.english.home, RaceEthnicity)
 
 kable(head(k12.enrollment.master))
 
-kable(names(k12.enrollment.master), escape = FALSE, format = "html") 
+kable(names(k12.enrollment.master)) 
 
 
 write_csv(k12.enrollment.master, "Data/SLEDS/K12 Enrollment/K12Enrollment-master.csv")
@@ -366,15 +367,15 @@ k12.enr.pct.total <- k12.enrollment.master %>%
          LimitedEnglishProficiencyIndicator = ifelse(LimitedEnglishProficiencyIndicator == "Y", 1, 0),
          HomelessIndicator = ifelse(HomelessIndicator == "Y", 1, 0),
          RaceEthnicity = ifelse(RaceEthnicity == "White", 0, 1)) %>%
-  rename(Female = 4,
-         `Limited English Proficiency` = 5,
-         Homeless = 6,
-         `Free or reduced lunch` = 7,
-         `PSEO participant` = 8,
-         `Special Ed` = 9,
-         `Non-english in home` = 10,
-         `Non-white` = 11) %>%
-  gather(key = "indicator", value = "value", 4:11) %>%
+  rename(Female = 9,
+         `Limited English Proficiency` = 10,
+         Homeless = 11,
+         `Free or reduced lunch` = 12,
+         `PSEO participant` = 13,
+         `Special Ed` = 14,
+         `Non-english in home` = 15,
+         `Non-white` = 16) %>%
+  gather(key = "indicator", value = "value", 9:16) %>%
   group_by(indicator) %>%
   summarise(confirmed.indicator = sum(value, na.rm = TRUE),
             total.observations = n()) %>%
