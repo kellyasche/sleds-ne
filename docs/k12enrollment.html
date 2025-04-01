@@ -140,6 +140,14 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./assessments.html">
  <span class="dropdown-text">Assessments</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./sat.html">
+ <span class="dropdown-text">SAT</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./nscenrollment.html">
+ <span class="dropdown-text">National Student Clearinghouse - Enrollment</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -961,6 +969,7 @@ ul.task-list li input[type="checkbox"] {
 <li>Homeless: Keep with no changes.</li>
 </ul>
 <p>We first need to create a list of all individuals with the StatusEnd code of 8 or 9 (graduated). In addition, we need to remove any student that graduated before 2008. This is because we will not have their full Sophmore - Senior records which is especially important when attempting to identify whether the number of CTE courses taken predicts migration.</p>
+<p>The other element I want to add is a pre-covid and post-covid variable. All individuals whose grad year is before 2020 will be labeled pre-covid and all others wil lbe post-covid.</p>
 <p>This “graduates list” will be the list on which we will bind all the other variables.</p>
 <p><br></p>
 <p><br></p>
@@ -981,18 +990,19 @@ ul.task-list li input[type="checkbox"] {
 <colgroup>
 <col style="width: 3%">
 <col style="width: 6%">
-<col style="width: 9%">
+<col style="width: 8%">
 <col style="width: 4%">
 <col style="width: 3%">
-<col style="width: 8%">
+<col style="width: 7%">
 <col style="width: 6%">
 <col style="width: 3%">
+<col style="width: 5%">
 <col style="width: 2%">
-<col style="width: 13%">
+<col style="width: 12%">
 <col style="width: 6%">
+<col style="width: 5%">
 <col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 6%">
+<col style="width: 5%">
 <col style="width: 6%">
 <col style="width: 5%">
 </colgroup>
@@ -1006,6 +1016,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">Dem_Desc</th>
 <th style="text-align: left;">edr</th>
 <th style="text-align: right;">grad.year</th>
+<th style="text-align: left;">grad.year.covid</th>
 <th style="text-align: left;">Gender</th>
 <th style="text-align: left;">LimitedEnglishProficiencyIndicator</th>
 <th style="text-align: left;">HomelessIndicator</th>
@@ -1026,6 +1037,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2017</td>
+<td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">Y</td>
@@ -1044,6 +1056,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2022</td>
+<td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">Y</td>
@@ -1062,6 +1075,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2016</td>
+<td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">N</td>
@@ -1080,6 +1094,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Entirely rural</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2012</td>
+<td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">N</td>
@@ -1098,6 +1113,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2015</td>
+<td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">M</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">N</td>
@@ -1116,6 +1132,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
 <td style="text-align: right;">2023</td>
+<td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">F</td>
 <td style="text-align: left;">N</td>
 <td style="text-align: left;">N</td>
@@ -1161,27 +1178,30 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">grad.year</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;">grad.year.covid</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">Gender</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">LimitedEnglishProficiencyIndicator</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">HomelessIndicator</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">economic.status</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">pseo.participant</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">SpecialEdStatus</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">non.english.home</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">RaceEthnicity</td>
 </tr>
 </tbody>
@@ -1189,7 +1209,7 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p><br></p>
-<p>The prepped enrollment data has 28,788 observations and 16 columns.</p>
+<p>The prepped enrollment data has 28,788 observations and 17 columns.</p>
 <p><br></p>
 </section>
 <section id="summary-of-k12enrollment-data" class="level1">
@@ -1208,8 +1228,8 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-941a88340410f121e81a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-941a88340410f121e81a">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"55\" data-max=\"14142\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[14142,9800,379,55,236,8037,10476,4263],[28788,28788,28788,28788,28788,28788,28788,28788],["49.1%","34.0%","1.3%","0.2%","0.8%","27.9%","36.4%","14.8%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-69cbc59d8f4df09f0b31" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-69cbc59d8f4df09f0b31">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"55\" data-max=\"14142\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[14142,9800,379,55,236,8037,10476,4263],[28788,28788,28788,28788,28788,28788,28788,28788],["49.1%","34.0%","1.3%","0.2%","0.8%","27.9%","36.4%","14.8%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>

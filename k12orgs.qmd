@@ -236,7 +236,7 @@ k12.org.summary.county.map <- ggplot(k12.org.summary.county) +
   scale_fill_fermenter(palette = "PuBu", direction = 1, labels = scales::percent) +
   labs(title = "Percent of high school graduates by\ncounty location of school",
        subtitle = "The highest percentage of graduates were from\nSt. Louis County schools.") +
-  theme(legend.box.margin = margin(50, 0, 0, -100),
+  theme(legend.box.margin = margin(50, 0, 0, -50),
         text = element_text(size = 16))
 
 girafe(ggobj = k12.org.summary.county.map) %>%

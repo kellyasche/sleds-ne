@@ -26,6 +26,10 @@ website:
             href: ctedemographics.qmd
           - text: Assessments
             href: assessments.qmd
+          - text: SAT
+            href: sat.qmd
+          - text: National Student Clearinghouse - Enrollment
+            href: nscenrollment.qmd
 
 
 format:

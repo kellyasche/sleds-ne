@@ -132,11 +132,30 @@ cte.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/Goog
          CareerCluster = str_replace(CareerCluster, "Design", "11"),
          CareerCluster = as.integer(CareerCluster))
 
-career.cluster.codes.names <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/career-cluster-codes-names.xlsx')
+
+career.cluster.codes.names.original <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/career-cluster-codes-names_from SLEDS_March2025.xlsx') %>%
+  mutate(cte.year = ifelse(Introduced > 2020, 2021, Discontinued),
+         cte.year = ifelse(is.na(Introduced) & is.na(Discontinued), 2021, cte.year),
+         cte.year = ifelse(is.na(cte.year), 2020, cte.year),
+         CareerClusterName.new = as_factor(CareerClusterName.new))
+
+
+career.cluster.codes.names.addendum <- data.frame(`CareerCluster` = c(0, 1, 2),
+                                                  CareerClusterName.new = c("NULL", "Agriculture, Food, and Natural Resources", "Architecture & Construction"),
+                                                  Status = c("Retired", "Retired", "Retired"),
+                                                  Introduced = c(2021, 2021, 2021),
+                                                  Discontinued = c(2021, 2021, 2021),
+                                                  cte.year = c(2020, 2020, 2020))
+
+career.cluster.codes.names <- career.cluster.codes.names.original %>%
+  rbind(career.cluster.codes.names.addendum)
 
 cte.enrollment.master <- cte.enrollment.original %>%
-  left_join(career.cluster.codes.names, by = "CareerCluster") %>%
-  select(-CareerClusterName) %>%
+  mutate(year = str_sub(FiscalYearTimeID, 1, 4),
+         year = as.integer(year),
+         cte.year = ifelse(year < 2021, 2020, 2021)) %>%
+  left_join(career.cluster.codes.names[,c(1,2,6)], by = c("CareerCluster", "cte.year")) %>%
+  select(-CareerClusterName, -year, -cte.year) %>%
   rename(CareerClusterName = CareerClusterName.new)
 
 kable(head(cte.enrollment.master))
@@ -183,15 +202,16 @@ Next I'm going to create a dataset that calculates the number of CTE courses eac
 
 ```{r cteenrollment by careercluster}
 cte.n.careercluster <- cte.enrollment.master %>%
-  group_by(PersonID, CareerCluster) %>%
+  group_by(PersonID, CareerClusterName) %>%
   summarise(cte.n.careercluster = n()) %>%
   ungroup() %>%
   right_join(graduate, by = "PersonID") %>%
-  complete(PersonID, CareerCluster, fill = list(cte.n.careercluster = 0)) %>%
-  drop_na(CareerCluster) %>%
-  mutate(CareerCluster = paste("cte.", CareerCluster, sep = "")) %>%
-  spread(key = CareerCluster, value = cte.n.careercluster) %>%
-  select(PersonID, 2:3, 8, 15:21, 4:7, 9:14)
+  complete(PersonID, CareerClusterName, fill = list(cte.n.careercluster = 0)) %>%
+  drop_na(CareerClusterName) %>%
+  mutate(CareerClusterName,
+         CareerClusterName = str_replace(CareerClusterName, "Arts, A/V Technology, & Communication", "Arts, A/V Technology & Communication")) %>%
+  spread(key = CareerClusterName, value = cte.n.careercluster) %>%
+  select(PersonID, 2, 4:18, 20:ncol(.))
 
 kable(head(cte.n.careercluster))
 
@@ -249,9 +269,9 @@ After joining the CTE enrollment data with the master dataset we continue to hav
 
 We'll start with summarising the number of cte courses the observations have taken.
 
-The tables below show that the average number of CTE courses taken by all PersonID in the master dataset is 5.69 with a standard deviation of +/-4.95. This is a high standard deviation meaning there are values quite far from the mean.
+The tables below show that the average number of CTE courses taken by all PersonID in the master dataset is 2.22 with a standard deviation of +/-2.33. This is a high standard deviation meaning there are values quite far from the mean.
 
-The second table below shows the average number of CTE courses taken by all PersonID that have taken at least one CTE course was 6.29 with a standard deviation of +/-4.82. So the standard deviation decreases a bit with this population likely because we got rid of all the "0" values that are in the full dataset. But not significant.
+The second row of the table shows the average number of CTE courses taken by individuals who took at least one CTE course. The average jumps up a bit to 3.15 with a standard deviation of 2.19.
 
 <br>
 
@@ -370,23 +390,16 @@ CrossTable(cte.yes.no.ruca$Dem_Desc, cte.yes.no.ruca$cte.yes, expected = TRUE, p
 
 Let's dig into the breadth of CTE course concentrations a graduate would take by looking at the proportion of graduates that took at least one course within a concentration.
 
-The table below shows that over half of the graduates took at least one course in business, management, and administration; ag, food and natural resources; and human services.
-
-From there, the percentage drops off quite a bit with architecture and construction, and then finance. From there, it gets into the single digit percentage points.
+The table below shows that a third of all graduates took a CTE course in Transportation, Distribution & Logistics, followed by 19% in Manufacturing, and 15% in each Architecture & Construction and Human Services.
 
 <br>
 
 ```{r cte concentration grad prop}
 cte.cf.prop <- master.4 %>%
-  gather(key = "CareerCluster", value = "n.courses", cte.1:cte.21) %>% 
+  gather(key = "CareerCluster", value = "n.courses", `ACTE-SPED`:`Youth Apprenticeship`) %>%
   mutate(cte.cf.taken = ifelse(n.courses > 0, "Yes", "No")) %>%
   tabyl(CareerCluster, cte.cf.taken) %>%
-  mutate(pct.taken.cf = Yes / (Yes + No),
-         CareerCluster = str_sub(CareerCluster, 5,6),
-         CareerCluster = trimws(CareerCluster, which = "both"),
-         CareerCluster = as.integer(CareerCluster)) %>%
-  left_join(career.cluster.codes.names, by = "CareerCluster") %>%
-  select(5,2,3,4) %>%
+  mutate(pct.taken.cf = Yes / (Yes + No)) %>% 
   arrange(desc(pct.taken.cf))
 
 datatable(cte.cf.prop, class = "cell-border stripe", filter = "top", rownames = FALSE,
@@ -402,27 +415,21 @@ Now we will take a look at the breakdown of the number of times a CTE courses ha
 
 First, lets look at the concentrations of courses taken across CareerClusters.
 
-Not surprisingly, Transportation, Distribution & Logistics was the careercluster with the highest percentage of courses taken with 25.3%. This was followed by manfacturing with 14.1% and architecture and construction with 13.3% of CTE courses taken in that CareerCluster.
+Not surprisingly, Transportation, Distribution & Logistics was the careercluster with the highest percentage of courses taken with 20.6%. This was followed by manfacturing with 12.4% and architecture and construction with 11.2% of CTE courses taken in that CareerCluster.
 
 <br>
 
 ```{r cte CareerClusters concentration, echo=FALSE}
 cte.cf.concentration.total <- master.4 %>%
-  select(PersonID, cte.1:cte.21) %>%
-  gather(key = "CareerCluster", value = "n.courses", cte.1:cte.21) %>%
+  select(PersonID,  `ACTE-SPED`:`Youth Apprenticeship`) %>%
+  gather(key = "CareerCluster", value = "n.courses", 2:ncol(.)) %>%
   group_by(CareerCluster) %>%
   summarise(n = sum(n.courses)) %>%
   ungroup() %>%
-  mutate(pct = percent(n / sum(n), accuracy = .1),
-         CareerCluster = str_sub(CareerCluster, 5, 6),
-         CareerCluster = trimws(CareerCluster, which = "both"),
-         CareerCluster = as.integer(CareerCluster)) %>%
-  left_join(career.cluster.codes.names, by = c("CareerCluster")) %>%
-  rename(CareerClusterName = CareerClusterName.new) %>%
-  select(4, 1, 2, 3) %>%
+  mutate(pct = percent(n / sum(n), accuracy = .1)) %>%
   arrange(CareerCluster)
 
-datatable(cte.cf.concentration.total, class = "cell-border stripe", filter = "top", rownames = FALSE)
+  datatable(cte.cf.concentration.total, class = "cell-border stripe", filter = "top", rownames = FALSE)
 
 ```
 
@@ -430,7 +437,7 @@ datatable(cte.cf.concentration.total, class = "cell-border stripe", filter = "to
 
 Lets see how this looks broken down by county.
 
-The county maps do show some differences in percentages across career clusters. Manufacturing was consistently offered and taken across the region, as well as transportation, distribution and logistics.
+The county maps do show some differences in percentages across career clusters. Manufacturing was consistently offered and taken across the region, as well as transportation, distribution and logistics and Human Services.
 
 Koochiching has a high percentage of students that take health science & health occupations as well as human services.
 
@@ -438,23 +445,18 @@ Koochiching has a high percentage of students that take health science & health 
 
 ```{r cte CareerClusters concentration  by county, echo=FALSE}
 cte.cf.concentration.county <- master.4 %>%
-  select(PersonID, county.name, countyfp, cte.1:cte.21) %>%
-  gather(key = "CareerCluster", value = "n.courses", cte.1:cte.21) %>%
+  select(PersonID, county.name, countyfp,  `ACTE-SPED`:`Youth Apprenticeship`) %>%
+  gather(key = "CareerCluster", value = "n.courses",  `ACTE-SPED`:`Youth Apprenticeship`) %>%
   group_by(county.name, countyfp, CareerCluster) %>%
   summarise(n = sum(n.courses)) %>%
   ungroup() %>%
   group_by(county.name, countyfp) %>%
-  mutate(pct = n / sum(n),
-         CareerCluster = str_sub(CareerCluster, 5, 6),
-         CareerCluster = trimws(CareerCluster, which = "both"),
-         CareerCluster = as.integer(CareerCluster)) %>%
+  mutate(pct = n / sum(n)) %>%
   ungroup() %>%
-  left_join(career.cluster.codes.names, by = c("CareerCluster")) %>%
-  rename(CareerClusterName = CareerClusterName.new) %>%
-  select(1,2,6,5) %>%
+  rename(CareerClusterName = CareerCluster) %>%
   left_join(mn_counties[,c(5,7)], by = "countyfp")
 
-cte.cf.concentration.county.map <- ggplot(cte.cf.concentration.county) +
+cte.cf.concentration.county.map <- ggplot(data = filter(cte.cf.concentration.county, pct > .05)) +
   facet_wrap(~CareerClusterName, ncol = 2,
              labeller = label_wrap_gen(15)) +
   geom_sf_interactive(color = "grey85", aes(geometry = geometry, fill = pct, data_id = countyfp, tooltip = paste(county.name, "\nCareerCluster: ", CareerClusterName, "\nPercent of courses taken in this CareerCluster: ", percent(pct, accuracy = .1), sep = ""))) +
@@ -462,10 +464,12 @@ cte.cf.concentration.county.map <- ggplot(cte.cf.concentration.county) +
   scale_fill_fermenter(palette = "PuBu", direction = 1, labels = scales::percent) +
   labs(title = str_wrap("Percent of CTE courses taken within each CareerCluster by county", 39)) +
   theme(legend.box.margin = margin(0, 0, 0, 0),
-        text = element_text(size = 16))
+        text = element_text(size = 16),
+        strip.text = element_text(size = 8))
 
 girafe(ggobj = cte.cf.concentration.county.map, height_svg = 20) %>%
   girafe_options(opts_sizing(rescale = FALSE))
+
 
 ```
 
@@ -481,22 +485,17 @@ There was a big increase in the transportation, distribution and logistics caree
 
 ```{r cte CareerClusters concentration  by year, echo=FALSE}
 cte.cf.concentration.year <- master.4 %>%
-  select(PersonID, grad.year, cte.1:cte.21) %>%
-  gather(key = "CareerCluster", value = "n.courses", cte.1:cte.21) %>%
+  select(PersonID, grad.year, `ACTE-SPED`:`Youth Apprenticeship`) %>%
+  gather(key = "CareerCluster", value = "n.courses", `ACTE-SPED`:`Youth Apprenticeship`) %>%
   group_by(grad.year, CareerCluster) %>%
   summarise(n = sum(n.courses)) %>%
   ungroup() %>%
   group_by(grad.year) %>%
   mutate(pct = n / sum(n)) %>%
   ungroup() %>%
-  mutate(CareerCluster = str_sub(CareerCluster, 5,6),
-         CareerCluster = trimws(CareerCluster, which = "both"),
-         CareerCluster = as.integer(CareerCluster)) %>%
-  left_join(career.cluster.codes.names, by = c("CareerCluster")) %>%
-  select(1,5,4) %>%
   filter(grad.year > 2006) %>%
   mutate(data_id = seq(n())) %>%
-  rename(CareerClusterName = CareerClusterName.new) 
+  rename(CareerClusterName = CareerCluster) 
 
 
 cte.cf.concentration.year.plot <- ggplot(cte.cf.concentration.year, aes(grad.year, pct, color = CareerClusterName)) +

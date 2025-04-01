@@ -256,7 +256,7 @@ act.taken.county.map <- ggplot(act.taken.county) +
   theme(legend.box.margin = margin(50, 0, 0, -100),
         text = element_text(size = 18))
 
-girafe(ggobj = act.taken.county.map, height_svg = 10, width_svg = 10) %>%
+girafe(ggobj = act.taken.county.map) %>%
   girafe_options(opts_sizing(rescale = FALSE))
   
 ```

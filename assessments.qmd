@@ -553,5 +553,4 @@ CrossTable(master.7$Dem_Desc, master.7$MCA.S, expected = TRUE, prop.t = FALSE, p
 ```{r write master}
 
 write_csv(master.7, "Data/SLEDS/Masters/Master-7.csv")
-
 ```
