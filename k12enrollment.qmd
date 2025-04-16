@@ -151,8 +151,11 @@ Next we need to create a dataset that only has students who graduated from a hig
 k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") %>%
   distinct(K12OrganizationID, .keep_all = TRUE) %>%
   drop_na(K12OrganizationID) %>%
-  mutate(K12OrganizationID = as.integer(K12OrganizationID))
-
+  mutate(K12OrganizationID = as.integer(K12OrganizationID)) %>%
+  group_by(NCESID) %>%
+  fill(SiteCountyCode, .direction = "downup") %>%
+  ungroup()
+  
 kable(head(k12.org.original))
 
 kable(names(k12.org.original))
