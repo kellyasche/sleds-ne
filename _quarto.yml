@@ -34,6 +34,10 @@ website:
             href: nsccompletions.qmd
           - text: Employment states each year
             href: emp_states_each_year.qmd
+          - text: Unemployment
+            href: unemployment.qmd
+          - text: Average wages
+            href: avgwages.qmd
 
 
 format:
