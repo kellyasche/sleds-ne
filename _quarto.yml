@@ -38,6 +38,14 @@ website:
             href: unemployment.qmd
           - text: Average wages
             href: avgwages.qmd
+      - text: Analysis
+        icon: fa-gear
+        menu:
+          - text: Multiple Correspondence Analysis
+            href: analysis_mca.qmd
+          - text: Dependent Variable States
+            href: analysis_dep_var_states.qmd
+        
 
 
 format:

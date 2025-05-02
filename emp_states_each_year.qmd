@@ -207,7 +207,7 @@ mn.emp.record.year <- employment.original %>%
   distinct(PersonID, CalendarYear) %>%
   mutate(mn.emp.record = "MN emp record") %>%
   filter(CalendarYear > 2007) %>%
-  filter(CalendarYear < 2020) %>%
+  filter(CalendarYear < 2024) %>%
   complete(PersonID, CalendarYear, fill = list(mn.emp.record = "No MN emp record")) 
 
 mn.emp.record <- grad.years %>%
@@ -215,7 +215,7 @@ mn.emp.record <- grad.years %>%
   mutate(CalendarYear = ifelse(is.na(CalendarYear), hs.grad.year, CalendarYear),
          mn.emp.record = ifelse(is.na(mn.emp.record), "No MN emp record", mn.emp.record),
          update = ifelse(CalendarYear < hs.grad.year, "Not graduated HS", "Graduated")) %>%
-filter(update == "Graduated") %>%
+  filter(update == "Graduated") %>%
   select(!update) %>%
   group_by(PersonID) %>%
   mutate(grad.year.seq = seq(n())) %>%
@@ -225,7 +225,7 @@ filter(update == "Graduated") %>%
   fill(hs.grad.year, .direction = "down") %>%
   ungroup() %>%
   mutate(CalendarYear = ifelse(is.na(CalendarYear), hs.grad.year + (grad.year.seq - 1), CalendarYear),
-         mn.emp.record = ifelse(CalendarYear > 2019, "After 2019", mn.emp.record),
+         mn.emp.record = ifelse(CalendarYear > 2023, "After 2023", mn.emp.record),
          mn.emp.record = ifelse(is.na(mn.emp.record), "No MN emp record", mn.emp.record),
          grad.year = paste("grad.year.", grad.year.seq-1, sep = "")) %>%
   select(-grad.year.seq)
@@ -270,7 +270,7 @@ meaningful.employer <- employment.original %>%
   right_join(mn.emp.record, by = c("PersonID", "CalendarYear")) %>%
   mutate(grad.year = fct_relevel(grad.year, "grad.year.0", "grad.year.1", "grad.year.2", "grad.year.3", "grad.year.4", "grad.year.5", "grad.year.6", "grad.year.7", "grad.year.8", "grad.year.9", "grad.year.10", "grad.year.11"),
          new.mn.emp.record = ifelse(AnnualHoursWorked > 999, "Meaningful employment", mn.emp.record),
-         new.mn.emp.record = ifelse(CalendarYear > 2019, "After 2019", new.mn.emp.record),
+         new.mn.emp.record = ifelse(CalendarYear > 2023, "After 2023", new.mn.emp.record),
          new.mn.emp.record = ifelse(new.mn.emp.record == "MN emp record", "MN emp record - not meaningful", new.mn.emp.record),
          new.mn.emp.record = ifelse(mn.emp.record == "No MN emp record", "No MN emp record", new.mn.emp.record),
          meaningful.emp.code = ifelse(new.mn.emp.record == "Meaningful employment", 1, 0)) %>%
@@ -334,13 +334,13 @@ emp.original.locations <- employment.original %>%
 meaningful.emp.locations <- meaningful.employer %>%
   left_join(emp.original.locations, by = c("PersonID", "CalendarYear", "EmploymentOrganizationID")) %>%
   mutate(emp.edr = ifelse(employment.county == "Statewide (i.e. no fixed location)", "Unknown", as.character(emp.edr)),
-         emp.Dem_Desc = ifelse(employment.county == "Statewide (i.e. no fixed location)", "Unknown", emp.Dem_Desc),
+         emp.Dem_Desc = ifelse(employment.county == "Statewide (i.e. no fixed location)", "Unknown", as.character(emp.Dem_Desc)),
          emp.edr = ifelse(employment.county == "Hennepin", "EDR 11 - 7 County Twin Cities", emp.edr),
          emp.edr = ifelse(employment.county == "Ramsey", "EDR 11 - 7 County Twin Cities", emp.edr),
          emp.edr = ifelse(employment.county == "St. Louis", "EDR 3 - Arrowhead", emp.edr),
          emp.edr = ifelse(employment.county == "Unknown", "Unknown", emp.edr),
-         emp.Dem_Desc = ifelse(employment.county == "Unknown", "Unknown", emp.Dem_Desc),
-         emp.Dem_Desc = ifelse(employment.county == "NULL", "NULL", emp.Dem_Desc),
+         emp.Dem_Desc = ifelse(employment.county == "Unknown", "Unknown", as.character(emp.Dem_Desc)),
+         emp.Dem_Desc = ifelse(employment.county == "NULL", "NULL", as.character(emp.Dem_Desc)),
          emp.edr = ifelse(employment.county == "Mahnomen", "EDR 2 - Headwaters", emp.edr))
 
 grad.locations <- read_csv("Data/SLEDS/Masters/Master-10.csv") %>%
@@ -354,31 +354,31 @@ grad.emp.location.match <- grad.locations %>%
   mutate(county.match = new.mn.emp.record,
          new.county.match = ifelse(county.match == "Meaningful employment" & employment.county == hs.county.name, "Meaningful emp - match", county.match),
          new.county.match = ifelse(new.county.match == "Meaningful employment", "Meaningful emp - no match", new.county.match),
-         new.county.match = fct_relevel(new.county.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2019")) %>%
+         new.county.match = fct_relevel(new.county.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2023")) %>%
   select(-county.match) %>%
   rename(county.match = new.county.match) %>%
   mutate(edr.match = new.mn.emp.record,
          new.edr.match = ifelse(edr.match == "Meaningful employment" & emp.edr == hs.edr, "Meaningful emp - match", edr.match),
          new.edr.match = ifelse(new.edr.match == "Meaningful employment", "Meaningful emp - no match", new.edr.match),
-         new.edr.match = fct_relevel(new.edr.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2019")) %>%
+         new.edr.match = fct_relevel(new.edr.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2023")) %>%
   select(-edr.match) %>%
   rename(edr.match = new.edr.match) %>%
   mutate(region.match = new.mn.emp.record,
          new.region.match = ifelse(region.match == "Meaningful employment" & emp.edr %in% c("EDR 3 - Arrowhead"), "Meaningful emp - match", region.match),
          new.region.match = ifelse(new.region.match == "Meaningful employment", "Meaningful emp - no match", new.region.match),
-         new.region.match = fct_relevel(new.region.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2019")) %>%
+         new.region.match = fct_relevel(new.region.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2023")) %>%
   select(-region.match) %>%
   rename(region.match = new.region.match) %>%
   mutate(state.match = new.mn.emp.record,
          new.state.match = ifelse(!is.na(emp.edr) & state.match == "Meaningful employment", "Meaningful emp - match",
                                   ifelse(employment.county == "Statewide (i.e. no fixed location)" & state.match == "Meaningful employment", "Meaningful emp - match", state.match)),
-         new.state.match = fct_relevel(new.state.match, "Meaningful emp - match", "MN emp record - not meaningful", "No MN emp record", "After 2019")) %>%
+         new.state.match = fct_relevel(new.state.match, "Meaningful emp - match", "MN emp record - not meaningful", "No MN emp record", "After 2023")) %>%
   select(-state.match) %>%
   rename(state.match = new.state.match) %>%
   mutate(Dem_Desc.match = new.mn.emp.record,
          new.Dem_Desc.match = ifelse(Dem_Desc.match == "Meaningful employment" & hs.Dem_Desc == emp.Dem_Desc, "Meaningful emp - match", Dem_Desc.match),
          new.Dem_Desc.match = ifelse(new.Dem_Desc.match == "Meaningful employment", "Meaningful emp - no match", new.Dem_Desc.match),
-         new.Dem_Desc.match = fct_relevel(new.Dem_Desc.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2019")) %>%
+         new.Dem_Desc.match = fct_relevel(new.Dem_Desc.match, "Meaningful emp - match", "Meaningful emp - no match", "MN emp record - not meaningful", "No MN emp record", "After 2023")) %>%
   select(-Dem_Desc.match) %>%
   rename(Dem_Desc.match = new.Dem_Desc.match) %>%
   distinct(PersonID, EmploymentOrganizationID, grad.year, .keep_all = TRUE) %>%
@@ -534,8 +534,8 @@ state.match.matrix.table <- matrix.states %>%
   pivot_wider(names_from = grad.year, values_from = pct.state)
 
 datatable(state.match.matrix.table, class = "cell-border stripe", filter = "top", rownames = FALSE,
-          options = list(columnDefs = list(list(className = "dt-center", targets = 1:12)))) %>%
-  formatPercentage(2:13)
+          options = list(columnDefs = list(list(className = "dt-center", targets = 1:16)))) %>%
+  formatPercentage(2:17)
 
 
 ```
