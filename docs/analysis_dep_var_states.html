@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.57">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -66,6 +100,15 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/d3-bundle-5.16.0/d3-bundle.min.js"></script>
+<script src="site_libs/d3-lasso-0.0.5/d3-lasso.min.js"></script>
+<script src="site_libs/save-svg-as-png-1.4.17/save-svg-as-png.min.js"></script>
+<script src="site_libs/flatbush-4.4.0/flatbush.min.js"></script>
+<link href="site_libs/ggiraphjs-0.8.10/ggiraphjs.min.css" rel="stylesheet">
+<script src="site_libs/ggiraphjs-0.8.10/ggiraphjs.min.js"></script>
+<script src="site_libs/girafe-binding-0.8.13/girafe.js"></script>
 
 
 </head>
@@ -167,6 +210,14 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./analysis_dep_var_states.html">
  <span class="dropdown-text">Dependent Variable States</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_local_employment_ct.html">
+ <span class="dropdown-text">Local Employment Cross-tabs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_local_employment_CART.html">
+ <span class="dropdown-text">Local Employment CART Analysis</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -180,8 +231,16 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#employment-states" id="toc-employment-states" class="nav-link active" data-scroll-target="#employment-states">Employment states</a></li>
+  <li><a href="#prep-post-secondary-data" id="toc-prep-post-secondary-data" class="nav-link" data-scroll-target="#prep-post-secondary-data">Prep Post-secondary data</a></li>
+  <li><a href="#proportion-of-individuals-per-path-by-grad.year.x" id="toc-proportion-of-individuals-per-path-by-grad.year.x" class="nav-link" data-scroll-target="#proportion-of-individuals-per-path-by-grad.year.x">Proportion of individuals per path by grad.year.x</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -205,8 +264,850 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p><br></p>
+<p>There are many paths in which an individual can take after graduating high school. What we are most concerned with is whether an individual has “meaningful” employment, when and where this employment takes place, and are there any variables that are associated with each of these pathways.</p>
+<p>The paths that we want to identify are the following;</p>
+<ol type="1">
+<li>Meaningful employment - same county as high school</li>
+<li>Meaningful employment - same EDR as high school, but not the same county</li>
+<li>Meaningful employment - in NE Minnesota, but not in the same EDR as their high school</li>
+<li>Meaningful employment - in Minnesota, but not in Northeast Minnesota</li>
+<li>Not meaningful employment or no MN Employment record - attending post-secondary</li>
+<li>Not meaningful employment - not attending post-secondary</li>
+<li>No MN employment record - not attending post-secondary</li>
+</ol>
+<p>We are going to assess each PersonID on which of those pathways they are at the time of their high school graduation, and each subsequent year up to 2023.</p>
+<p>We have already created the employment states for each year.</p>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 16%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: right;">hs.grad.year</th>
+<th style="text-align: left;">grad.year</th>
+<th style="text-align: left;">county.match</th>
+<th style="text-align: left;">edr.match</th>
+<th style="text-align: left;">region.match</th>
+<th style="text-align: left;">Dem_Desc.match</th>
+<th style="text-align: left;">state.match</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.2</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.3</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.4</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.5</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.6</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hs.grad.year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">grad.year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">county.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">edr.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">region.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dem_Desc.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">state.match</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<section id="employment-states" class="level1">
+<h1>Employment states</h1>
+<p>The employment states dataset has 795,888 rows and 8 columns providing the year they graduated high school, the subsequent year title after graduating high school (grad.year.0, grad.year.1, grad.year.2 ….. grad.year.x) and the employment state for each PersonID and grad.year.x. The employment states for each geography location and grad.year.x are;</p>
+<ul>
+<li>Meaningful employment - geography match</li>
+<li>Meaningful employment - no geographic match</li>
+<li>Has MN emp record - not meaningful employment</li>
+<li>Has no MN employment record</li>
+<li>the grad.year.x is after 2019.</li>
+</ul>
+<p>Ultimately we want a dataset that has this information paired together with whether the PersonID was attending a post-secondary institution at each grad.year.x. So let’s prep that data.</p>
+<p><br></p>
+</section>
+<section id="prep-post-secondary-data" class="level1">
+<h1>Prep Post-secondary data</h1>
+<p>Okay, lets check out the National Student Clearinghouse enrollment data.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>grads <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/Master.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>nsc.enrollment.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PersonID =</span> <span class="fu">as.integer</span>(PersonID),</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">OPEID =</span> <span class="fu">str_pad</span>(OPEID, <span class="at">width =</span> <span class="dv">8</span>, <span class="at">side =</span> <span class="st">"left"</span>, <span class="at">pad =</span> <span class="st">"0"</span>),</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">OPEID.6 =</span> <span class="fu">str_sub</span>(OPEID, <span class="dv">1</span>, <span class="dv">6</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(OPEID) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(grads, <span class="at">by =</span> <span class="st">"PersonID"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(nsc.enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 25%">
+<col style="width: 23%">
+<col style="width: 10%">
+<col style="width: 20%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: right;">EnrollmentBeginTimeID</th>
+<th style="text-align: right;">EnrollmentEndTimeID</th>
+<th style="text-align: left;">OPEID</th>
+<th style="text-align: left;">EnrollmentStatus</th>
+<th style="text-align: left;">OPEID.6</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11364693</td>
+<td style="text-align: right;">20130122</td>
+<td style="text-align: right;">20130517</td>
+<td style="text-align: left;">00238881</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">002388</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11127041</td>
+<td style="text-align: right;">20200601</td>
+<td style="text-align: right;">20200819</td>
+<td style="text-align: left;">00238200</td>
+<td style="text-align: left;">L</td>
+<td style="text-align: left;">002382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10554185</td>
+<td style="text-align: right;">20160120</td>
+<td style="text-align: right;">20160510</td>
+<td style="text-align: left;">00217500</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">002175</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4577203</td>
+<td style="text-align: right;">20100201</td>
+<td style="text-align: right;">20100521</td>
+<td style="text-align: left;">00234500</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">002345</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5456903</td>
+<td style="text-align: right;">20230109</td>
+<td style="text-align: right;">20230513</td>
+<td style="text-align: left;">00575700</td>
+<td style="text-align: left;">F</td>
+<td style="text-align: left;">005757</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1607818</td>
+<td style="text-align: right;">20210601</td>
+<td style="text-align: right;">20210726</td>
+<td style="text-align: left;">00233900</td>
+<td style="text-align: left;">L</td>
+<td style="text-align: left;">002339</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(nsc.enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">EnrollmentBeginTimeID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrollmentEndTimeID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OPEID</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">EnrollmentStatus</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">OPEID.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>The dataset has 260,854 rows and 6 columns. Here are the columns and their definitions.</p>
+<ul>
+<li>EnrollmentBeginTimeID: Begin date for the student’s period of attendance.</li>
+<li>EnrollmentEndTimeID: End date for the student’s period of attendance.</li>
+<li>OPEID: Office of Postsecondary Education (OPE)/FICE code of the college that the student attended (Foreign Key to IPEDSCharacteristics).</li>
+<li>InstitutionName: Name of institution</li>
+<li>EnrollmentStatus: The last enrollment status reported for the student. This field will have ‘N/A’ or “NULL” if the reporting college has not defined the student’s enrollment status as directory information. Here are the code definitions;
+<ul>
+<li>F: Full-time</li>
+<li>Q: Three-quarter time</li>
+<li>H: Half-time</li>
+<li>L: Less than half-time</li>
+<li>A: Leave of absence</li>
+<li>W: Withdrawn</li>
+<li>D: Deceased</li>
+</ul></li>
+</ul>
+<p>Essentially, this dataset provides semester-based information - each observation is a semester/single period with the institutional information and beginning and end time of that single period (usually a semester). For example, if an individual attended South Dakota State University, attended in a “typical” fashion (fall and spring semesters), and graduated in 4 years, there would be 8 observations for that PersonID - one observation per semester.</p>
+<p>The primary pieces of information I want from this dataset is each year a PersonID was attending a post-secondary institution. So let’s shrink the dataset down to just the following columns;</p>
+<ul>
+<li>PersonID</li>
+<li>unique year attending a post-secondary institution</li>
+</ul>
+<p>The PersonID will be filtered using the EnrollmentStatus variable equaling full-time, three-quarter time, half-time, and less than half-time.</p>
+<p>For the unique year, it won’t matter how many semesters they were attending. If an individual attended half a year, then worked full-time, my meaningful employment definition should pick it up and transfer it into that category. Otherwise, they will be in the category - attending post-secondary with no meaningful employment or no MN employment record.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>ps.attend.year <span class="ot">&lt;-</span> nsc.enrollment.original <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(EnrollmentStatus <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"H"</span>, <span class="st">"Q"</span>, <span class="st">"L"</span>, <span class="st">"NULL"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">begin.year =</span> <span class="fu">str_sub</span>(EnrollmentBeginTimeID, <span class="dv">1</span>,<span class="dv">4</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">end.year =</span> <span class="fu">str_sub</span>(EnrollmentEndTimeID, <span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, begin.year, end.year) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">"BeginOrEnd"</span>, <span class="at">value =</span> <span class="st">"year"</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">year =</span> <span class="fu">as.numeric</span>(year)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, year) <span class="sc">%&gt;%</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ps.attend.year =</span> year) <span class="sc">%&gt;%</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ps.attend =</span> <span class="st">"ps.attend"</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.attend.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: right;">ps.attend.year</th>
+<th style="text-align: left;">ps.attend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">11364693</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11127041</td>
+<td style="text-align: right;">2020</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">10554185</td>
+<td style="text-align: right;">2016</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">4577203</td>
+<td style="text-align: right;">2010</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">5456903</td>
+<td style="text-align: right;">2023</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1607818</td>
+<td style="text-align: right;">2021</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.attend.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">ps.attend.year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ps.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>After filtering and simplifying the attendance year we have 126,844 rows and 3 columns.</p>
+<p>Now we want to filter out any PersonID that are not in our primary dataset and to align the the years they attended post-secondary with the grad.year.x variable.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>ps.grad.year <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, hs.grad.year, grad.year) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(grad.year, PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">add =</span> <span class="fu">seq</span>(<span class="fu">n</span>()) <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">year =</span> hs.grad.year <span class="sc">+</span> add) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ps.attend.year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PersonID"</span>, <span class="st">"year"</span> <span class="ot">=</span> <span class="st">"ps.attend.year"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ps.attend =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ps.attend), <span class="st">"ps.not.attend"</span>, ps.attend)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, grad.year, ps.attend)</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.grad.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: left;">grad.year</th>
+<th style="text-align: left;">ps.attend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">227</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">240</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">406</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">429</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">768</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">1241</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.grad.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">grad.year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ps.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>We now have a dataset with 795,888 rows and 3 columns. We also have 49,743 unique individuals.</p>
+<p>Now we can join this together with the employment states dataset.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ps.emp.states <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ps.grad.year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PersonID"</span>, <span class="st">"grad.year"</span>))</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.emp.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 15%">
+<col style="width: 6%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: right;">hs.grad.year</th>
+<th style="text-align: left;">grad.year</th>
+<th style="text-align: left;">county.match</th>
+<th style="text-align: left;">edr.match</th>
+<th style="text-align: left;">region.match</th>
+<th style="text-align: left;">Dem_Desc.match</th>
+<th style="text-align: left;">state.match</th>
+<th style="text-align: left;">ps.attend</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.2</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.3</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.4</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.5</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.6</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">ps.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.emp.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hs.grad.year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">grad.year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">county.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">edr.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">region.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dem_Desc.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">state.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ps.attend</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>We now have a dataset that provides the employment state and a confirmation on post-secondary attendance for each PersonID and grad.year.x.</p>
+<p>Let’s analyze.</p>
+<p><br></p>
+</section>
+<section id="proportion-of-individuals-per-path-by-grad.year.x" class="level1">
+<h1>Proportion of individuals per path by grad.year.x</h1>
+<p>Next we want to figure out the different paths that these group of individuals take. The paths that we are most interested in are the following;</p>
+<ol start="0" type="1">
+<li>After 2023</li>
+<li>Has meaningful employment in same county as high school</li>
+<li>Has meaningful employment in same EDR as high school, but not same county</li>
+<li>Has meaningful employment in Southwest Minnesota, but not in same EDR as high school.</li>
+<li>Has meaningful employment in Minnesota, but not in Southwest Minnesota.</li>
+<li>Does not have meaningful employment or a MN employment record, but is attending post-secondary</li>
+<li>Does not have meaningful employment and is not attending post-secondary.</li>
+<li>Does not have a MN employment record and is not attending post-secondary.</li>
+</ol>
+<p>Let’s first build a new dataset where each PersonID has one of these seven states for each grad.year.x.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>seven.states <span class="ot">&lt;-</span> ps.emp.states <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">states =</span> <span class="fu">ifelse</span>(county.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">1</span>, <span class="dv">99</span>),</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(edr.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> county.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">2</span>, states),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(region.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> county.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> edr.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">3</span>, states),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(state.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> county.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> edr.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> region.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">4</span>, states),</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(state.match <span class="sc">==</span> <span class="st">"After 2023"</span>, <span class="dv">0</span>, states),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(ps.attend <span class="sc">==</span> <span class="st">"ps.attend"</span> <span class="sc">&amp;</span> <span class="sc">!</span>(states <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>)), <span class="dv">5</span>, states),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(ps.attend <span class="sc">==</span> <span class="st">"ps.not.attend"</span> <span class="sc">&amp;</span> state.match <span class="sc">==</span> <span class="st">"MN emp record - not meaningful"</span>, <span class="dv">6</span>, states),</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(ps.attend <span class="sc">==</span> <span class="st">"ps.not.attend"</span> <span class="sc">&amp;</span> state.match <span class="sc">==</span> <span class="st">"No MN emp record"</span>, <span class="dv">7</span>, states),</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"After 2023"</span>, states),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"1"</span>, <span class="st">"Meaningful emp County"</span>, states),</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"2"</span>, <span class="st">"Meaningful emp EDR"</span>, states),</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"3"</span>, <span class="st">"Meaningful emp NE"</span>, states),</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"4"</span>, <span class="st">"Meaningful emp MN"</span>, states),</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"5"</span>, <span class="st">"Attending ps"</span>, states),</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"6"</span>, <span class="st">"Not meaningful, not attending ps"</span>, states),</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(states <span class="sc">==</span> <span class="st">"7"</span>, <span class="st">"No MN emp record, not attending ps"</span>, states),</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">as.factor</span>(states),</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">fct_relevel</span>(states, <span class="st">"Meaningful emp County"</span>, <span class="st">"Meaningful emp EDR"</span>, <span class="st">"Meaningful emp region"</span>, <span class="st">"Meaningful emp MN"</span>, <span class="st">"Attending ps"</span>, <span class="st">"Not meaningful, not attending ps"</span>, <span class="st">"No MN emp record, not attending ps"</span>, <span class="st">"After 2023"</span>))</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(seven.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 3%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 5%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">PersonID</th>
+<th style="text-align: right;">hs.grad.year</th>
+<th style="text-align: left;">grad.year</th>
+<th style="text-align: left;">county.match</th>
+<th style="text-align: left;">edr.match</th>
+<th style="text-align: left;">region.match</th>
+<th style="text-align: left;">Dem_Desc.match</th>
+<th style="text-align: left;">state.match</th>
+<th style="text-align: left;">ps.attend</th>
+<th style="text-align: left;">states</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.2</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">ps.attend</td>
+<td style="text-align: left;">Meaningful emp EDR</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.3</td>
+<td style="text-align: left;">Meaningful emp - no match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">Meaningful emp - match</td>
+<td style="text-align: left;">ps.not.attend</td>
+<td style="text-align: left;">Meaningful emp EDR</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.4</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+<td style="text-align: left;">Not meaningful, not attending ps</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.5</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+<td style="text-align: left;">Not meaningful, not attending ps</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.6</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">MN emp record - not meaningful</td>
+<td style="text-align: left;">ps.not.attend</td>
+<td style="text-align: left;">Not meaningful, not attending ps</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">6140596</td>
+<td style="text-align: right;">2017</td>
+<td style="text-align: left;">grad.year.0</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">No MN emp record</td>
+<td style="text-align: left;">ps.attend</td>
+<td style="text-align: left;">Attending ps</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(seven.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">PersonID</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">hs.grad.year</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">grad.year</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">county.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">edr.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">region.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Dem_Desc.match</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">state.match</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">ps.attend</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">states</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(seven.states, <span class="st">"Data/SLEDS/Masters/States/annual-seven-states.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><br></p>
+<p>The new dataset has 795,888 rows and 10 with 49,743 unique individuals. The seven states are labeled as the following;</p>
+<ol type="1">
+<li>Meaningful emp County: means they have worked 1,000 hours or more for one employer located in the same county as their high school.</li>
+<li>Meaningful emp EDR: means that have worked 1,000 hours or more for one employer located in the same EDR as their high school, but not in the same county.</li>
+<li>Meaningful emp SW: means they have worked 1,000 hours or more for one employer located in Southwest Minnesota, but not in the same EDR or county as their high school.</li>
+<li>Meaningful emp MN - means they have worked 1,000 hours or more for one employer located in Minnesota, but not in Southwest Minnesota.</li>
+<li>Attending ps: Means the individuals either has a MN employment record but it isn’t meaningful OR they do not have a MN employment record, but they are attending post-secondary.</li>
+<li>Not meaningful, not attending ps: this means they do have a MN employment record, but it isn’t meaningful and they are not attending post-secondary.</li>
+<li>No MN emp record - not attending ps: this means they do not have a MN employment record nor are they attending a post-secondary institution.</li>
+</ol>
+<p>The other designation is “After 2019” which will be filtered out whenever I analyze the dataset.</p>
+<p>Let’s first take a look at the proportion of individuals that are in each state at each grad.year.x.</p>
+<p>The chart below shows the proportion of individuals in the dataset that are in each “state/path” for each grad.year.x. There are a couple of things to highlight.</p>
+<ol type="1">
+<li>The percentage of individuals that have meaningful employment is highest when looking at the county level in the early years after high school graduation. However, by 6 years after graduating, the percentage of individuals that graduated from a Southwest high school that have meaningful employment in Minnesota, but outside of the Southwest region balloons to nearly 21%, dwarfing all other meaningful employment within the Southwest region.</li>
+<li>Not surprisingly, a very large majority of individuals (62%) attend post-secondary education the year they graduate high school and that declines steadily over the following 4 to 6 years.</li>
+<li>The proportion of individuals that are employed but not meaningful, and are not attending post-secondary remains steady throughout the grad.year.x; ~15%.</li>
+<li>The proportion of individuals that do not have a MN employment record and are not attending a post-secondary institution increases significantly by 4 years after graduation. By 11 years after graduation, over 36% of the individuals are in this category.</li>
+</ol>
+<p><br></p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "PersonID"       "hs.grad.year"   "grad.year"      "county.match"  
+ [5] "edr.match"      "region.match"   "Dem_Desc.match" "state.match"   
+ [9] "ps.attend"      "states"        </code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "PersonID"                       "TimeID"                        
+ [3] "EmploymentOrganizationID"       "EmployeeQuarterlyHoursWorked"  
+ [5] "EmployeeQuarterlyWages"         "EmployeeTenure"                
+ [7] "IndustryID"                     "USIndustryCode"                
+ [9] "GroupCode"                      "OwnershipCode"                 
+[11] "EmployerLocationTotalWagesPaid" "QuarterlyAverageEmployment"    
+[13] "County"                         "CountyName"                    
+[15] "MNCounty"                       "City"                          </code></pre>
+</div>
+<div class="cell-output-display">
+<div class="girafe html-widget html-fill-item" id="htmlwidget-fb2496dd62229b5a1bf5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-fb2496dd62229b5a1bf5">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0' viewBox='0 0 720 720'>\n <defs id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_defs'>\n  <clipPath id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_c1'>\n   <rect x='0' y='0' width='720' height='720'/>\n  <\/clipPath>\n  <clipPath id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_c2'>\n   <rect x='66.65' y='30.97' width='647.87' height='580.75'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_b86104d5_3560_4959_a340_f6113cc7cdd0_c1)'>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_b86104d5_3560_4959_a340_f6113cc7cdd0_c2)'>\n   <rect x='66.65' y='30.97' width='647.87' height='580.75' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <polyline points='66.65,585.32 714.52,585.32' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='66.65,453.33 714.52,453.33' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='66.65,321.34 714.52,321.34' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='66.65,189.36 714.52,189.36' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='66.65,57.37 714.52,57.37' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='96.68,611.72 96.68,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='175.06,611.72 175.06,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='253.43,611.72 253.43,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='331.80,611.72 331.80,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='410.18,611.72 410.18,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='488.55,611.72 488.55,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='566.92,611.72 566.92,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='645.30,611.72 645.30,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e1' points='96.10,585.32 96.68,57.37 97.27,57.37 135.28,57.37 135.87,57.37 136.46,57.37 174.47,57.37 175.06,57.37 175.64,57.37 213.66,57.37 214.24,57.37 214.83,57.37 252.84,57.37 253.43,57.37 254.02,57.37 292.03,57.37 292.62,57.37 293.20,57.37 331.22,57.37 331.80,57.37 332.39,57.37 370.40,57.37 370.99,57.37 371.58,57.37 409.59,57.37 410.18,57.37 410.76,57.37 448.78,57.37 449.36,57.37 449.95,57.50 487.96,57.37 488.55,57.37 489.14,57.37 527.15,57.37 527.74,57.37 528.32,57.37 566.34,57.37 566.92,57.37 567.51,57.37 605.52,57.37 606.11,57.37 606.70,57.37 644.71,57.37 645.30,57.37 645.89,57.37 683.90,57.37 684.48,57.37 685.07,585.32 685.07,585.32 684.48,123.34 683.90,123.31 645.89,121.01 645.30,120.97 644.71,121.02 606.70,123.98 606.11,124.02 605.52,124.01 567.51,123.48 566.92,123.47 566.34,123.52 528.32,126.65 527.74,126.70 527.15,126.71 489.14,127.19 488.55,127.20 487.96,127.16 449.95,124.39 449.36,124.21 448.78,124.25 410.76,126.81 410.18,126.85 409.59,126.85 371.58,126.84 370.99,126.84 370.40,126.85 332.39,127.62 331.80,127.63 331.22,127.55 293.20,122.43 292.62,122.35 292.03,122.27 254.02,117.44 253.43,117.37 252.84,117.27 214.83,110.93 214.24,110.83 213.66,110.74 175.64,105.36 175.06,105.28 174.47,105.16 136.46,97.13 135.87,97.00 135.28,96.71 97.27,77.51 96.68,77.21 96.10,585.32' fill='#D73027' fill-opacity='1' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;3.8%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e2' points='96.10,585.32 96.68,57.37 97.27,57.37 135.28,57.37 135.87,57.37 136.46,57.37 174.47,57.37 175.06,57.37 175.64,57.37 213.66,57.37 214.24,57.37 214.83,57.37 252.84,57.37 253.43,57.37 254.02,57.37 292.03,57.37 292.62,57.37 293.20,57.37 331.22,57.37 331.80,57.37 332.39,57.37 370.40,57.37 370.99,57.37 371.58,57.37 409.59,57.37 410.18,57.37 410.76,57.37 448.78,57.37 449.36,57.37 449.95,57.50 487.96,57.37 488.55,57.37 489.14,57.37 527.15,57.37 527.74,57.37 528.32,57.37 566.34,57.37 566.92,57.37 567.51,57.37 605.52,57.37 606.11,57.37 606.70,57.37 644.71,57.37 645.30,57.37 645.89,57.37 683.90,57.37 684.48,57.37 685.07,585.32' fill='none' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;3.8%'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e3' points='96.10,585.32 96.68,77.21 97.27,77.51 135.28,96.71 135.87,97.00 136.46,97.13 174.47,105.16 175.06,105.28 175.64,105.36 213.66,110.74 214.24,110.83 214.83,110.93 252.84,117.27 253.43,117.37 254.02,117.44 292.03,122.27 292.62,122.35 293.20,122.43 331.22,127.55 331.80,127.63 332.39,127.62 370.40,126.85 370.99,126.84 371.58,126.84 409.59,126.85 410.18,126.85 410.76,126.81 448.78,124.25 449.36,124.21 449.95,124.39 487.96,127.16 488.55,127.20 489.14,127.19 527.15,126.71 527.74,126.70 528.32,126.65 566.34,123.52 566.92,123.47 567.51,123.48 605.52,124.01 606.11,124.02 606.70,123.98 644.71,121.02 645.30,120.97 645.89,121.01 683.90,123.31 684.48,123.34 685.07,585.32 685.07,585.32 684.48,141.78 683.90,141.73 645.89,138.81 645.30,138.76 644.71,138.85 606.70,144.61 606.11,144.70 605.52,144.69 567.51,144.05 566.92,144.04 566.34,144.08 528.32,146.65 527.74,146.69 527.15,146.71 489.14,148.10 488.55,148.12 487.96,148.08 449.95,145.51 449.36,145.33 448.78,145.38 410.76,148.45 410.18,148.50 409.59,148.48 371.58,147.22 370.99,147.20 370.40,147.22 332.39,148.07 331.80,148.09 331.22,147.98 293.20,141.09 292.62,140.99 292.03,140.87 254.02,133.41 253.43,133.30 252.84,133.15 214.83,123.86 214.24,123.72 213.66,123.59 175.64,115.66 175.06,115.54 174.47,115.37 136.46,104.66 135.87,104.49 135.28,104.12 97.27,80.24 96.68,79.87 96.10,585.32' fill='#FC8D59' fill-opacity='1' stroke='none' data-id='2' title='State: Meaningful emp EDR&amp;lt;br/&amp;gt;0.5%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e4' points='96.10,585.32 96.68,77.21 97.27,77.51 135.28,96.71 135.87,97.00 136.46,97.13 174.47,105.16 175.06,105.28 175.64,105.36 213.66,110.74 214.24,110.83 214.83,110.93 252.84,117.27 253.43,117.37 254.02,117.44 292.03,122.27 292.62,122.35 293.20,122.43 331.22,127.55 331.80,127.63 332.39,127.62 370.40,126.85 370.99,126.84 371.58,126.84 409.59,126.85 410.18,126.85 410.76,126.81 448.78,124.25 449.36,124.21 449.95,124.39 487.96,127.16 488.55,127.20 489.14,127.19 527.15,126.71 527.74,126.70 528.32,126.65 566.34,123.52 566.92,123.47 567.51,123.48 605.52,124.01 606.11,124.02 606.70,123.98 644.71,121.02 645.30,120.97 645.89,121.01 683.90,123.31 684.48,123.34 685.07,585.32' fill='none' stroke='none' data-id='2' title='State: Meaningful emp EDR&amp;lt;br/&amp;gt;0.5%'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e5' points='96.10,585.32 96.68,79.87 97.27,80.24 135.28,104.12 135.87,104.49 136.46,104.66 174.47,115.37 175.06,115.54 175.64,115.66 213.66,123.59 214.24,123.72 214.83,123.86 252.84,133.15 253.43,133.30 254.02,133.41 292.03,140.87 292.62,140.99 293.20,141.09 331.22,147.98 331.80,148.09 332.39,148.07 370.40,147.22 370.99,147.20 371.58,147.22 409.59,148.48 410.18,148.50 410.76,148.45 448.78,145.38 449.36,145.33 449.95,145.51 487.96,148.08 488.55,148.12 489.14,148.10 527.15,146.71 527.74,146.69 528.32,146.65 566.34,144.08 566.92,144.04 567.51,144.05 605.52,144.69 606.11,144.70 606.70,144.61 644.71,138.85 645.30,138.76 645.89,138.81 683.90,141.73 684.48,141.78 685.07,585.32 685.07,585.32 684.48,196.94 683.90,196.88 645.89,193.03 645.30,192.97 644.71,193.09 606.70,200.77 606.11,200.89 605.52,200.93 567.51,203.91 566.92,203.95 566.34,203.99 528.32,206.22 527.74,206.25 527.15,206.27 489.14,207.19 488.55,207.20 487.96,207.13 449.95,202.37 449.36,202.16 448.78,202.21 410.76,205.44 410.18,205.49 409.59,205.45 371.58,202.28 370.99,202.23 370.40,202.20 332.39,200.26 331.80,200.23 331.22,200.04 293.20,187.82 292.62,187.63 292.03,187.34 254.02,168.41 253.43,168.12 252.84,167.85 214.83,150.08 214.24,149.81 213.66,149.57 175.64,134.43 175.06,134.19 174.47,133.94 136.46,117.58 135.87,117.32 135.28,116.84 97.27,85.33 96.68,84.84 96.10,585.32' fill='#FEE090' fill-opacity='1' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;0.9%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e6' points='96.10,585.32 96.68,79.87 97.27,80.24 135.28,104.12 135.87,104.49 136.46,104.66 174.47,115.37 175.06,115.54 175.64,115.66 213.66,123.59 214.24,123.72 214.83,123.86 252.84,133.15 253.43,133.30 254.02,133.41 292.03,140.87 292.62,140.99 293.20,141.09 331.22,147.98 331.80,148.09 332.39,148.07 370.40,147.22 370.99,147.20 371.58,147.22 409.59,148.48 410.18,148.50 410.76,148.45 448.78,145.38 449.36,145.33 449.95,145.51 487.96,148.08 488.55,148.12 489.14,148.10 527.15,146.71 527.74,146.69 528.32,146.65 566.34,144.08 566.92,144.04 567.51,144.05 605.52,144.69 606.11,144.70 606.70,144.61 644.71,138.85 645.30,138.76 645.89,138.81 683.90,141.73 684.48,141.78 685.07,585.32' fill='none' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;0.9%'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e7' points='96.10,585.32 96.68,84.84 97.27,85.33 135.28,116.84 135.87,117.32 136.46,117.58 174.47,133.94 175.06,134.19 175.64,134.43 213.66,149.57 214.24,149.81 214.83,150.08 252.84,167.85 253.43,168.12 254.02,168.41 292.03,187.34 292.62,187.63 293.20,187.82 331.22,200.04 331.80,200.23 332.39,200.26 370.40,202.20 370.99,202.23 371.58,202.28 409.59,205.45 410.18,205.49 410.76,205.44 448.78,202.21 449.36,202.16 449.95,202.37 449.95,202.37 449.36,202.30 448.78,203.00 410.76,248.54 410.18,249.25 409.59,249.46 371.58,262.89 370.99,263.10 370.40,263.26 332.39,273.50 331.80,273.66 331.22,273.87 293.20,287.18 292.62,287.38 292.03,288.05 254.02,330.83 253.43,331.49 252.84,331.75 214.83,348.61 214.24,348.87 213.66,349.20 175.64,370.40 175.06,370.73 174.47,370.99 136.46,388.00 135.87,388.26 135.28,387.82 97.27,359.29 96.68,358.85 96.10,585.32' fill='#FFFFBF' fill-opacity='1' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;51.9%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e8' points='96.10,585.32 96.68,84.84 97.27,85.33 135.28,116.84 135.87,117.32 136.46,117.58 174.47,133.94 175.06,134.19 175.64,134.43 213.66,149.57 214.24,149.81 214.83,150.08 252.84,167.85 253.43,168.12 254.02,168.41 292.03,187.34 292.62,187.63 293.20,187.82 331.22,200.04 331.80,200.23 332.39,200.26 370.40,202.20 370.99,202.23 371.58,202.28 409.59,205.45 410.18,205.49 410.76,205.44 448.78,202.21 449.36,202.16 449.95,202.37' fill='none' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;51.9%'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e9' points='96.10,585.32 96.68,358.85 97.27,359.29 135.28,387.82 135.87,388.26 136.46,388.00 174.47,370.99 175.06,370.73 175.64,370.40 213.66,349.20 214.24,348.87 214.83,348.61 252.84,331.75 253.43,331.49 254.02,330.83 292.03,288.05 292.62,287.38 293.20,287.18 331.22,273.87 331.80,273.66 332.39,273.50 370.40,263.26 370.99,263.10 371.58,262.89 409.59,249.46 410.18,249.25 410.76,248.54 448.78,203.00 449.36,202.30 449.95,202.37 487.96,207.13 488.55,207.20 489.14,207.19 527.15,206.27 527.74,206.25 528.32,206.22 566.34,203.99 566.92,203.95 567.51,203.91 605.52,200.93 606.11,200.89 606.70,200.77 644.71,193.09 645.30,192.97 645.89,193.03 683.90,196.88 684.48,196.94 685.07,585.32 685.07,585.32 684.48,247.98 683.90,247.91 645.89,243.41 645.30,243.34 644.71,243.50 606.70,253.86 606.11,254.02 605.52,254.12 567.51,261.17 566.92,261.28 566.34,261.35 528.32,266.15 527.74,266.23 527.15,266.23 489.14,266.79 488.55,266.79 487.96,266.74 449.95,263.37 449.36,263.32 448.78,263.97 410.76,305.99 410.18,306.64 409.59,306.84 371.58,319.74 370.99,319.94 370.40,320.22 332.39,338.42 331.80,338.70 331.22,338.95 293.20,355.06 292.62,355.31 292.03,355.95 254.02,397.89 253.43,398.54 252.84,398.82 214.83,416.60 214.24,416.87 213.66,417.17 175.64,436.57 175.06,436.87 174.47,437.14 136.46,454.42 135.87,454.69 135.28,454.59 97.27,448.42 96.68,448.32 96.10,585.32' fill='#E0F3F8' fill-opacity='1' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;16.9%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e10' points='96.10,585.32 96.68,358.85 97.27,359.29 135.28,387.82 135.87,388.26 136.46,388.00 174.47,370.99 175.06,370.73 175.64,370.40 213.66,349.20 214.24,348.87 214.83,348.61 252.84,331.75 253.43,331.49 254.02,330.83 292.03,288.05 292.62,287.38 293.20,287.18 331.22,273.87 331.80,273.66 332.39,273.50 370.40,263.26 370.99,263.10 371.58,262.89 409.59,249.46 410.18,249.25 410.76,248.54 448.78,203.00 449.36,202.30 449.95,202.37 487.96,207.13 488.55,207.20 489.14,207.19 527.15,206.27 527.74,206.25 528.32,206.22 566.34,203.99 566.92,203.95 567.51,203.91 605.52,200.93 606.11,200.89 606.70,200.77 644.71,193.09 645.30,192.97 645.89,193.03 683.90,196.88 684.48,196.94 685.07,585.32' fill='none' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;16.9%'/>\n   <polygon id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e11' points='96.10,585.32 96.68,448.32 97.27,448.42 135.28,454.59 135.87,454.69 136.46,454.42 174.47,437.14 175.06,436.87 175.64,436.57 213.66,417.17 214.24,416.87 214.83,416.60 252.84,398.82 253.43,398.54 254.02,397.89 292.03,355.95 292.62,355.31 293.20,355.06 331.22,338.95 331.80,338.70 332.39,338.42 370.40,320.22 370.99,319.94 371.58,319.74 409.59,306.84 410.18,306.64 410.76,305.99 448.78,263.97 449.36,263.32 449.95,263.37 487.96,266.74 488.55,266.79 489.14,266.79 527.15,266.23 527.74,266.23 528.32,266.15 566.34,261.35 566.92,261.28 567.51,261.17 605.52,254.12 606.11,254.02 606.70,253.86 644.71,243.50 645.30,243.34 645.89,243.41 683.90,247.91 684.48,247.98 685.07,585.32 685.07,585.32 684.48,585.32 683.90,585.32 645.89,585.32 645.30,585.32 644.71,585.32 606.70,585.32 606.11,585.32 605.52,585.32 567.51,585.32 566.92,585.32 566.34,585.32 528.32,585.32 527.74,585.32 527.15,585.32 489.14,585.32 488.55,585.32 487.96,585.32 449.95,585.32 449.36,585.32 448.78,585.32 410.76,585.32 410.18,585.32 409.59,585.32 371.58,585.32 370.99,585.32 370.40,585.32 332.39,585.32 331.80,585.32 331.22,585.32 293.20,585.32 292.62,585.32 292.03,585.32 254.02,585.32 253.43,585.32 252.84,585.32 214.83,585.32 214.24,585.32 213.66,585.32 175.64,585.32 175.06,585.32 174.47,585.32 136.46,585.32 135.87,585.32 135.28,585.32 97.27,585.32 96.68,585.32 96.10,585.32' fill='#91BFDB' fill-opacity='1' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;25.9%'/>\n   <polyline id='svg_b86104d5_3560_4959_a340_f6113cc7cdd0_e12' points='96.10,585.32 96.68,448.32 97.27,448.42 135.28,454.59 135.87,454.69 136.46,454.42 174.47,437.14 175.06,436.87 175.64,436.57 213.66,417.17 214.24,416.87 214.83,416.60 252.84,398.82 253.43,398.54 254.02,397.89 292.03,355.95 292.62,355.31 293.20,355.06 331.22,338.95 331.80,338.70 332.39,338.42 370.40,320.22 370.99,319.94 371.58,319.74 409.59,306.84 410.18,306.64 410.76,305.99 448.78,263.97 449.36,263.32 449.95,263.37 487.96,266.74 488.55,266.79 489.14,266.79 527.15,266.23 527.74,266.23 528.32,266.15 566.34,261.35 566.92,261.28 567.51,261.17 605.52,254.12 606.11,254.02 606.70,253.86 644.71,243.50 645.30,243.34 645.89,243.41 683.90,247.91 684.48,247.98 685.07,585.32' fill='none' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;25.9%'/>\n   <line x1='523.32' y1='167.63' x2='527.24' y2='175.48' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='143.43' y1='88.03' x2='97.86' y2='78.78' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='530.16' y1='128.17' x2='528.04' y2='135.65' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polygon points='88.29,512.15 150.04,512.15 149.95,512.15 150.30,512.14 150.64,512.07 150.97,511.95 151.27,511.77 151.54,511.55 151.77,511.29 151.95,511.00 152.09,510.68 152.17,510.34 152.20,509.99 152.20,509.99 152.20,483.30 152.20,483.30 152.17,482.96 152.09,482.62 151.95,482.30 151.77,482.01 151.54,481.75 151.27,481.53 150.97,481.35 150.64,481.23 150.30,481.16 150.04,481.14 88.29,481.14 88.55,481.16 88.21,481.15 87.86,481.19 87.53,481.28 87.21,481.43 86.93,481.63 86.68,481.87 86.47,482.15 86.31,482.46 86.20,482.79 86.14,483.13 86.13,483.30 86.13,509.99 86.14,509.82 86.14,510.17 86.20,510.51 86.31,510.84 86.47,511.15 86.68,511.43 86.93,511.67 87.21,511.86 87.53,512.01 87.86,512.11 88.21,512.15' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='89.73' y='492.66' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='101.99' y='508.55' font-size='8.28pt' font-family='Helvetica'> 25.9%<\/text>\n   <polygon points='323.39,457.36 385.13,457.36 385.05,457.36 385.40,457.35 385.74,457.28 386.06,457.15 386.36,456.98 386.63,456.76 386.86,456.50 387.05,456.21 387.18,455.89 387.27,455.55 387.29,455.20 387.29,455.20 387.29,428.51 387.29,428.51 387.27,428.17 387.18,427.83 387.05,427.51 386.86,427.22 386.63,426.96 386.36,426.74 386.06,426.56 385.74,426.44 385.40,426.37 385.13,426.35 323.39,426.35 323.65,426.37 323.30,426.35 322.96,426.40 322.62,426.49 322.31,426.64 322.02,426.84 321.77,427.08 321.56,427.36 321.40,427.67 321.29,428.00 321.23,428.34 321.23,428.51 321.23,455.20 321.23,455.03 321.23,455.38 321.29,455.72 321.40,456.05 321.56,456.36 321.77,456.64 322.02,456.88 322.31,457.07 322.62,457.22 322.96,457.32 323.30,457.36' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='324.83' y='437.87' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='337.09' y='453.76' font-size='8.28pt' font-family='Helvetica'> 46.7%<\/text>\n   <polygon points='516.28,421.11 584.16,421.11 584.08,421.11 584.43,421.09 584.77,421.02 585.09,420.90 585.39,420.73 585.66,420.51 585.89,420.25 586.08,419.95 586.21,419.63 586.30,419.30 586.32,418.95 586.32,418.95 586.32,392.26 586.32,392.26 586.30,391.91 586.21,391.58 586.08,391.26 585.89,390.96 585.66,390.70 585.39,390.48 585.09,390.31 584.77,390.18 584.43,390.12 584.16,390.10 516.28,390.10 516.54,390.12 516.20,390.10 515.85,390.14 515.52,390.24 515.20,390.39 514.92,390.59 514.67,390.83 514.46,391.10 514.30,391.41 514.19,391.74 514.13,392.09 514.12,392.26 514.12,418.95 514.13,418.78 514.13,419.12 514.19,419.47 514.30,419.80 514.46,420.10 514.67,420.38 514.92,420.62 515.20,420.82 515.52,420.97 515.85,421.07 516.20,421.11' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='517.72' y='401.61' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='533.05' y='417.51' font-size='8.28pt' font-family='Helvetica'> 60.4%<\/text>\n   <polygon points='94.12,398.97 155.86,398.97 155.78,398.96 156.12,398.95 156.47,398.88 156.79,398.76 157.09,398.58 157.36,398.36 157.59,398.10 157.78,397.81 157.91,397.49 158.00,397.15 158.02,396.81 158.02,396.81 158.02,370.12 158.02,370.12 158.00,369.77 157.91,369.43 157.78,369.11 157.59,368.82 157.36,368.56 157.09,368.34 156.79,368.16 156.47,368.04 156.12,367.97 155.86,367.96 94.12,367.96 94.38,367.97 94.03,367.96 93.68,368.00 93.35,368.10 93.04,368.24 92.75,368.44 92.50,368.68 92.29,368.96 92.13,369.27 92.02,369.60 91.96,369.94 91.96,370.12 91.96,396.81 91.96,396.63 91.96,396.98 92.02,397.32 92.13,397.65 92.29,397.96 92.50,398.24 92.75,398.48 93.04,398.68 93.35,398.82 93.68,398.92 94.03,398.96' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='95.56' y='379.47' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='107.82' y='395.37' font-size='8.28pt' font-family='Helvetica'> 16.9%<\/text>\n   <polygon points='338.67,310.89 400.41,310.89 400.33,310.89 400.67,310.87 401.01,310.80 401.34,310.68 401.64,310.51 401.91,310.29 402.14,310.03 402.33,309.73 402.46,309.41 402.55,309.07 402.57,308.73 402.57,308.73 402.57,282.04 402.57,282.04 402.55,281.69 402.46,281.35 402.33,281.03 402.14,280.74 401.91,280.48 401.64,280.26 401.34,280.09 401.01,279.96 400.67,279.89 400.41,279.88 338.67,279.88 338.93,279.89 338.58,279.88 338.23,279.92 337.90,280.02 337.59,280.17 337.30,280.37 337.05,280.61 336.84,280.88 336.68,281.19 336.57,281.52 336.51,281.86 336.51,282.04 336.51,308.73 336.51,308.55 336.51,308.90 336.57,309.25 336.68,309.58 336.84,309.88 337.05,310.16 337.30,310.40 337.59,310.60 337.90,310.75 338.23,310.84 338.58,310.89' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='340.11' y='291.39' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='352.37' y='307.29' font-size='8.28pt' font-family='Helvetica'> 12.3%<\/text>\n   <polygon points='516.29,231.58 584.18,231.58 584.09,231.58 584.44,231.57 584.78,231.50 585.10,231.37 585.40,231.20 585.67,230.98 585.90,230.72 586.09,230.43 586.22,230.11 586.31,229.77 586.34,229.42 586.34,229.42 586.34,202.73 586.34,202.73 586.31,202.39 586.22,202.05 586.09,201.73 585.90,201.44 585.67,201.18 585.40,200.96 585.10,200.78 584.78,200.66 584.44,200.59 584.18,200.57 516.29,200.57 516.55,200.59 516.21,200.57 515.86,200.62 515.53,200.71 515.21,200.86 514.93,201.06 514.68,201.30 514.47,201.58 514.31,201.89 514.20,202.22 514.14,202.56 514.13,202.73 514.13,229.42 514.14,229.25 514.14,229.60 514.20,229.94 514.31,230.27 514.47,230.58 514.68,230.86 514.93,231.10 515.21,231.29 515.53,231.44 515.86,231.54 516.21,231.58' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='517.73' y='212.09' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='533.06' y='227.98' font-size='8.28pt' font-family='Helvetica'> 11.4%<\/text>\n   <polygon points='88.36,257.56 150.11,257.56 150.02,257.56 150.37,257.55 150.71,257.48 151.03,257.36 151.33,257.18 151.60,256.96 151.83,256.70 152.02,256.41 152.16,256.09 152.24,255.75 152.27,255.40 152.27,255.40 152.27,228.71 152.27,228.71 152.24,228.37 152.16,228.03 152.02,227.71 151.83,227.42 151.60,227.16 151.33,226.94 151.03,226.76 150.71,226.64 150.37,226.57 150.11,226.55 88.36,226.55 88.62,226.57 88.27,226.56 87.93,226.60 87.59,226.69 87.28,226.84 86.99,227.04 86.74,227.28 86.53,227.56 86.37,227.87 86.26,228.20 86.21,228.54 86.20,228.71 86.20,255.40 86.21,255.23 86.21,255.58 86.26,255.92 86.37,256.25 86.53,256.56 86.74,256.84 86.99,257.08 87.28,257.27 87.59,257.42 87.93,257.52 88.27,257.56' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='89.8' y='238.07' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='102.06' y='253.96' font-size='8.28pt' font-family='Helvetica'> 51.9%<\/text>\n   <polygon points='271.35,272.60 333.09,272.60 333.01,272.60 333.35,272.58 333.69,272.51 334.02,272.39 334.32,272.22 334.59,272.00 334.82,271.74 335.01,271.44 335.14,271.12 335.23,270.78 335.25,270.44 335.25,270.44 335.25,243.75 335.25,243.75 335.23,243.40 335.14,243.06 335.01,242.74 334.82,242.45 334.59,242.19 334.32,241.97 334.02,241.80 333.69,241.67 333.35,241.60 333.09,241.59 271.35,241.59 271.61,241.60 271.26,241.59 270.91,241.63 270.58,241.73 270.27,241.88 269.98,242.08 269.73,242.32 269.52,242.59 269.36,242.90 269.25,243.23 269.19,243.57 269.19,243.75 269.19,270.44 269.19,270.26 269.19,270.61 269.25,270.96 269.36,271.28 269.52,271.59 269.73,271.87 269.98,272.11 270.27,272.31 270.58,272.46 270.91,272.55 271.26,272.60' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='272.79' y='253.1' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='285.05' y='269' font-size='8.28pt' font-family='Helvetica'> 13.9%<\/text>\n   <polygon points='72.41,118.12 134.15,118.12 134.07,118.12 134.41,118.10 134.75,118.03 135.08,117.91 135.38,117.74 135.65,117.52 135.88,117.26 136.07,116.96 136.20,116.64 136.29,116.31 136.31,115.96 136.31,115.96 136.31,89.27 136.31,89.27 136.29,88.92 136.20,88.59 136.07,88.27 135.88,87.97 135.65,87.71 135.38,87.49 135.08,87.32 134.75,87.19 134.41,87.12 134.15,87.11 72.41,87.11 72.67,87.12 72.32,87.11 71.97,87.15 71.64,87.25 71.33,87.40 71.04,87.60 70.79,87.84 70.58,88.11 70.42,88.42 70.31,88.75 70.25,89.10 70.25,89.27 70.25,115.96 70.25,115.79 70.25,116.13 70.31,116.48 70.42,116.81 70.58,117.11 70.79,117.39 71.04,117.63 71.33,117.83 71.64,117.98 71.97,118.08 72.32,118.12' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='73.85' y='98.62' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='89.18' y='114.52' font-size='8.28pt' font-family='Helvetica'> 0.9%<\/text>\n   <polygon points='323.39,209.78 385.14,209.78 385.05,209.78 385.40,209.76 385.74,209.69 386.07,209.57 386.37,209.40 386.64,209.18 386.87,208.92 387.05,208.62 387.19,208.30 387.27,207.96 387.30,207.62 387.30,207.62 387.30,180.93 387.30,180.93 387.27,180.58 387.19,180.24 387.05,179.92 386.87,179.63 386.64,179.37 386.37,179.15 386.07,178.98 385.74,178.85 385.40,178.78 385.14,178.77 323.39,178.77 323.65,178.78 323.30,178.77 322.96,178.81 322.63,178.91 322.31,179.06 322.03,179.25 321.78,179.50 321.57,179.77 321.40,180.08 321.29,180.41 321.24,180.75 321.23,180.93 321.23,207.62 321.24,207.44 321.24,207.79 321.29,208.13 321.40,208.46 321.57,208.77 321.78,209.05 322.03,209.29 322.31,209.49 322.63,209.64 322.96,209.73 323.30,209.78' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='324.83' y='190.28' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='340.16' y='206.18' font-size='8.28pt' font-family='Helvetica'> 9.9%<\/text>\n   <polygon points='453.28,172.13 521.16,172.13 521.07,172.13 521.42,172.11 521.76,172.04 522.09,171.92 522.39,171.74 522.66,171.52 522.89,171.26 523.07,170.97 523.21,170.65 523.29,170.31 523.32,169.97 523.32,169.97 523.32,143.28 523.32,143.28 523.29,142.93 523.21,142.59 523.07,142.27 522.89,141.98 522.66,141.72 522.39,141.50 522.09,141.33 521.76,141.20 521.42,141.13 521.16,141.12 453.28,141.12 453.54,141.13 453.19,141.12 452.85,141.16 452.51,141.26 452.20,141.41 451.91,141.60 451.66,141.84 451.45,142.12 451.29,142.43 451.18,142.76 451.13,143.10 451.12,143.28 451.12,169.97 451.13,169.79 451.13,170.14 451.18,170.48 451.29,170.81 451.45,171.12 451.66,171.40 451.91,171.64 452.20,171.84 452.51,171.99 452.85,172.08 453.19,172.13' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='454.72' y='152.63' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='470.05' y='168.53' font-size='8.28pt' font-family='Helvetica'> 11.3%<\/text>\n   <polygon points='145.59,103.79 207.33,103.79 207.25,103.79 207.59,103.78 207.94,103.71 208.26,103.58 208.56,103.41 208.83,103.19 209.06,102.93 209.25,102.64 209.38,102.32 209.47,101.98 209.49,101.63 209.49,101.63 209.49,74.94 209.49,74.94 209.47,74.60 209.38,74.26 209.25,73.94 209.06,73.64 208.83,73.38 208.56,73.16 208.26,72.99 207.94,72.87 207.59,72.80 207.33,72.78 145.59,72.78 145.85,72.80 145.50,72.78 145.16,72.83 144.82,72.92 144.51,73.07 144.22,73.27 143.97,73.51 143.76,73.79 143.60,74.10 143.49,74.43 143.43,74.77 143.43,74.94 143.43,101.63 143.43,101.46 143.43,101.81 143.49,102.15 143.60,102.48 143.76,102.79 143.97,103.06 144.22,103.31 144.51,103.50 144.82,103.65 145.16,103.75 145.50,103.79' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='147.03' y='84.29' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='162.36' y='100.19' font-size='8.28pt' font-family='Helvetica'> 0.5%<\/text>\n   <polygon points='278.37,133.13 340.12,133.13 340.03,133.12 340.38,133.11 340.72,133.04 341.05,132.92 341.35,132.74 341.62,132.52 341.85,132.26 342.03,131.97 342.17,131.65 342.25,131.31 342.28,130.97 342.28,130.97 342.28,104.28 342.28,104.28 342.25,103.93 342.17,103.59 342.03,103.27 341.85,102.98 341.62,102.72 341.35,102.50 341.05,102.33 340.72,102.20 340.38,102.13 340.12,102.12 278.37,102.12 278.63,102.13 278.29,102.12 277.94,102.16 277.61,102.26 277.29,102.41 277.01,102.60 276.76,102.84 276.55,103.12 276.39,103.43 276.28,103.76 276.22,104.10 276.21,104.28 276.21,130.97 276.22,130.79 276.22,131.14 276.28,131.48 276.39,131.81 276.55,132.12 276.76,132.40 277.01,132.64 277.29,132.84 277.61,132.99 277.94,133.08 278.29,133.12' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='279.81' y='113.63' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='295.14' y='129.53' font-size='8.28pt' font-family='Helvetica'> 3.9%<\/text>\n   <polygon points='532.32,132.08 600.21,132.08 600.12,132.08 600.47,132.06 600.81,131.99 601.13,131.87 601.43,131.70 601.70,131.48 601.93,131.22 602.12,130.92 602.25,130.60 602.34,130.27 602.37,129.92 602.37,129.92 602.37,103.23 602.37,103.23 602.34,102.88 602.25,102.55 602.12,102.23 601.93,101.93 601.70,101.67 601.43,101.45 601.13,101.28 600.81,101.16 600.47,101.09 600.21,101.07 532.32,101.07 532.58,101.09 532.24,101.07 531.89,101.11 531.56,101.21 531.24,101.36 530.96,101.56 530.71,101.80 530.50,102.08 530.34,102.38 530.23,102.71 530.17,103.06 530.16,103.23 530.16,129.92 530.17,129.75 530.17,130.09 530.23,130.44 530.34,130.77 530.50,131.07 530.71,131.35 530.96,131.59 531.24,131.79 531.56,131.94 531.89,132.04 532.24,132.08' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='533.76' y='112.58' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='552.16' y='128.48' font-size='8.28pt' font-family='Helvetica'> 3.8%<\/text>\n   <polygon points='102.87,65.58 164.62,65.58 164.53,65.58 164.88,65.56 165.22,65.49 165.54,65.37 165.84,65.20 166.11,64.98 166.34,64.72 166.53,64.42 166.66,64.10 166.75,63.76 166.78,63.42 166.78,63.42 166.78,36.73 166.78,36.73 166.75,36.38 166.66,36.04 166.53,35.72 166.34,35.43 166.11,35.17 165.84,34.95 165.54,34.78 165.22,34.65 164.88,34.58 164.62,34.57 102.87,34.57 103.13,34.58 102.78,34.57 102.44,34.61 102.10,34.71 101.79,34.86 101.50,35.05 101.25,35.30 101.04,35.57 100.88,35.88 100.77,36.21 100.72,36.55 100.71,36.73 100.71,63.42 100.72,63.24 100.72,63.59 100.77,63.93 100.88,64.26 101.04,64.57 101.25,64.85 101.50,65.09 101.79,65.29 102.10,65.44 102.44,65.53 102.78,65.58' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='104.31' y='46.08' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='119.64' y='61.98' font-size='8.28pt' font-family='Helvetica'> 3.8%<\/text>\n   <polygon points='278.39,87.82 340.14,87.82 340.05,87.82 340.40,87.80 340.74,87.73 341.07,87.61 341.37,87.44 341.64,87.22 341.87,86.96 342.05,86.66 342.19,86.34 342.27,86.01 342.30,85.66 342.30,85.66 342.30,58.97 342.30,58.97 342.27,58.62 342.19,58.29 342.05,57.97 341.87,57.67 341.64,57.41 341.37,57.19 341.07,57.02 340.74,56.89 340.40,56.82 340.14,56.81 278.39,56.81 278.65,56.82 278.31,56.81 277.96,56.85 277.63,56.95 277.31,57.10 277.03,57.30 276.78,57.54 276.57,57.81 276.41,58.12 276.30,58.45 276.24,58.80 276.23,58.97 276.23,85.66 276.24,85.49 276.24,85.83 276.30,86.18 276.41,86.51 276.57,86.81 276.78,87.09 277.03,87.33 277.31,87.53 277.63,87.68 277.96,87.78 278.31,87.82' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='279.83' y='68.32' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='292.09' y='84.22' font-size='8.28pt' font-family='Helvetica'> 13.3%<\/text>\n   <polygon points='452.89,123.22 520.77,123.22 520.68,123.22 521.03,123.21 521.37,123.14 521.69,123.01 521.99,122.84 522.26,122.62 522.49,122.36 522.68,122.07 522.82,121.75 522.90,121.41 522.93,121.06 522.93,121.06 522.93,94.37 522.93,94.37 522.90,94.03 522.82,93.69 522.68,93.37 522.49,93.07 522.26,92.81 521.99,92.59 521.69,92.42 521.37,92.30 521.03,92.23 520.77,92.21 452.89,92.21 453.15,92.23 452.80,92.21 452.45,92.26 452.12,92.35 451.81,92.50 451.52,92.70 451.27,92.94 451.06,93.22 450.90,93.53 450.79,93.86 450.73,94.20 450.73,94.37 450.73,121.06 450.73,120.89 450.73,121.24 450.79,121.58 450.90,121.91 451.06,122.22 451.27,122.49 451.52,122.74 451.81,122.93 452.12,123.08 452.45,123.18 452.80,123.22' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='454.33' y='103.72' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='469.65' y='119.62' font-size='8.28pt' font-family='Helvetica'> 13.1%<\/text>\n  <\/g>\n  <g clip-path='url(#svg_b86104d5_3560_4959_a340_f6113cc7cdd0_c1)'>\n   <text x='40.91' y='590.48' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0%<\/text>\n   <text x='32.91' y='458.49' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>25%<\/text>\n   <text x='32.91' y='326.5' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>50%<\/text>\n   <text x='32.91' y='194.51' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>75%<\/text>\n   <text x='24.9' y='62.52' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>100%<\/text>\n   <text x='92.68' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0<\/text>\n   <text x='171.05' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>2<\/text>\n   <text x='249.43' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>4<\/text>\n   <text x='327.8' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>6<\/text>\n   <text x='406.17' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>8<\/text>\n   <text x='480.54' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>10<\/text>\n   <text x='558.92' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>12<\/text>\n   <text x='637.29' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>14<\/text>\n   <text x='350.05' y='645.61' font-size='13.5pt' font-family='Arial'>Grad Year<\/text>\n   <text transform='translate(18.37,417.39) rotate(-90.00)' font-size='13.5pt' font-family='Arial'>Proportion of individuals<\/text>\n   <rect x='179.43' y='660.36' width='422.3' height='54.16' fill='none' stroke='none'/>\n   <rect x='179.43' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='180.14' y='661.07' width='12.98' height='12.98' fill='#D73027' fill-opacity='1' stroke='none'/>\n   <rect x='179.43' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='180.14' y='680.95' width='12.98' height='12.98' fill='#FC8D59' fill-opacity='1' stroke='none'/>\n   <rect x='179.43' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='180.14' y='700.83' width='12.98' height='12.98' fill='#FEE090' fill-opacity='1' stroke='none'/>\n   <rect x='353.33' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='354.04' y='661.07' width='12.98' height='12.98' fill='#FFFFBF' fill-opacity='1' stroke='none'/>\n   <rect x='353.33' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='354.04' y='680.95' width='12.98' height='12.98' fill='#E0F3F8' fill-opacity='1' stroke='none'/>\n   <rect x='353.33' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='354.04' y='700.83' width='12.98' height='12.98' fill='#91BFDB' fill-opacity='1' stroke='none'/>\n   <text x='195.83' y='672.71' font-size='10.8pt' font-family='Arial'>Meaningful emp County<\/text>\n   <text x='195.83' y='692.59' font-size='10.8pt' font-family='Arial'>Meaningful emp EDR<\/text>\n   <text x='195.83' y='712.47' font-size='10.8pt' font-family='Arial'>Meaningful emp MN<\/text>\n   <text x='369.72' y='672.71' font-size='10.8pt' font-family='Arial'>Attending ps<\/text>\n   <text x='369.72' y='692.59' font-size='10.8pt' font-family='Arial'>Not meaningful, not attending ps<\/text>\n   <text x='369.72' y='712.47' font-size='10.8pt' font-family='Arial'>No MN emp record, not attending ps<\/text>\n   <text x='5.48' y='20.94' font-size='16.2pt' font-weight='bold' font-family='Arial'>Percent share of path by grad year X<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_b86104d5_3560_4959_a340_f6113cc7cdd0","ratio":1,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:gray; }","type":"none","only_shiny":true,"selected":[]},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":false,"width":1}}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><br></p>
+<p>From this I think there are 3 primary time.x that we should consider;</p>
+<p>grad.year.1 = one year after graduating high school grad.year.5 = six years after graduating high school grad.year.10 = eleven years after graduating</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

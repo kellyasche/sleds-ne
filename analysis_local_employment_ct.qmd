@@ -1,0 +1,325 @@
+---
+title: "Local Employment Cross-tabs"
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+library(htmlwidgets)
+library(RColorBrewer)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(systemfonts)
+reset_font_cache()
+library(ggtext)
+library(gmodels)
+library(fastDummies)
+library(car)
+library(glmnet)
+library(glmnetUtils)
+library(pscl)
+library(sjPlot)
+library(ggforce)
+```
+
+```{r themes and shapefiles, include=FALSE}
+theme_bar <- theme_bw() +
+  theme(panel.grid.major = element_line(color = "grey70", linewidth  = 0.1),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.key.size = unit(1, "lines"),
+        legend.margin = margin(0,0,0,0),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+theme_line <- theme_bw() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.text = element_text(margin = margin(l = 2)),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey70", linewidth = 0.1),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+
+theme_sf <- theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = "white"),
+        panel.border = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+    select(5,6) %>%
+    unique() %>%
+    mutate(edr = str_replace(edr, "  ", " "),
+           planning.region = str_replace(planning.region, " Minnesota", ""),
+           planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+           edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+
+counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  rename(mif = `MIF Region`) %>%
+  mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
+         Name = str_to_title(Name),
+         Name = str_replace(Name, "Q", "q"),
+         Name = str_replace(Name, "Of The", "of the"),
+         Name = str_replace(Name, "Mcleod", "McLeod"),
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc) ,
+         edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
+
+
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
+
+color.pr <- c("Northwest" = 	"#4575b4", "Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
+
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+
+color.edr.simple <- c("EDR 1" = "#b3cde3", "EDR 2" = "#8c96c6", "EDR 3" = "#fe9929", "EDR 4" = "#8856a7", "EDR 5" = "#810f7c", "EDR 6E" = "#e5f5f9", "EDR 6W" = "#bdc9e1", "EDR 7E" = "#99d8c9", "EDR 7W" = "#2ca25f", "EDR 8" = "#74a9cf", "EDR 9" = "#0570b0", "EDR 10" = "#d7301f", "EDR 11" = "#d8b365", "Minnesota" = "black")
+
+color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black", "EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
+
+mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
+  ms_simplify(keep = .01, keep_shapes = TRUE) %>%
+  rename(countyfp = FIPS_CODE)
+```
+
+```{r master dataset}
+master.original <- read_csv("Data/SLEDS/Masters/Master-updated-1.csv")
+
+master.factor.names <- read_csv("Data/SLEDS/Masters/Master-final-after-mca.csv") 
+
+master.states <- read_csv("Data/SLEDS/Masters/States/annual-seven-states.csv") %>%
+  filter(grad.year %in% c("grad.year.1", "grad.year.5", "grad.year.10")) %>%
+  select(PersonID, grad.year, states) %>%
+  pivot_wider(names_from = grad.year, values_from = states)
+
+master <- master.states %>%
+  left_join(master.factor.names, by = "PersonID")
+
+kable(head(master))
+
+kable(names(master))
+```
+
+```{r independent and dependent variables}
+updated.factor.var.names <-  master.factor.names %>%
+  select(-PersonID, -edr) %>%
+  names() %>%
+  c("ps.grad.in.same.ruca", "ps.grad.in.same.edr", "ps.grad.in.MN")
+
+numeric.var.names <- master.original %>%
+  select(n.years.attended, ACTCompositeScore, total.cte.courses.taken, `ACTE.SPED`:MCA.S, n.institutions, ps.grad.in.same.ruca, ps.grad.in.same.edr, ps.grad.in.MN, avg.unemp.rate, avg.wages.pct.state) %>%
+  names()
+
+updated.independent.var.names <- c(updated.factor.var.names, numeric.var.names)
+
+cte.cc.var.names <- master.original %>%
+  select(ACTE.SPED:Youth.Apprenticeship) %>%
+  names()
+
+dep.var.names <- master %>%
+  select(PersonID, grad.year.1, grad.year.5, grad.year.10)
+
+updated.master <- master.original %>%
+  select(PersonID, all_of(updated.independent.var.names)) %>%
+  left_join(dep.var.names, by = "PersonID") %>%
+  mutate_at(vars(Gender:ps.grad.in.MN), as.factor) %>%
+  mutate_at(vars(grad.year.1:grad.year.10), as.factor) %>%
+  mutate(ps.grad.InstitutionSector = ifelse(ps.grad.InstitutionSector %in% c("3", "6", "9"), "11", as.character(ps.grad.InstitutionSector)),
+         ps.grad.InstitutionSector = as.factor(ps.grad.InstitutionSector),
+         grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp County", "Meaningful emp EDR", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp County", "Meaningful emp EDR", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp County", "Meaningful emp EDR", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         highest.cred.level = ifelse(ps.grad.InstitutionSector == "Did not grad", "Some college", as.character(highest.cred.level)),
+         highest.cred.level = ifelse(ps.grad.InstitutionSector == "Never attended ps", "No college", as.character(highest.cred.level)),
+         highest.cred.level = as.factor(highest.cred.level)) %>%
+  droplevels()
+
+kable(head(updated.master))
+
+kable(names(updated.master))
+```
+
+<br>
+
+There are a number of "states" in which an individual in this dataset are assigned;
+
+1.  Has meaningful employment in the same county as their high school.
+2.  Has meaningful employment in the same EDR as their high school, but not county.
+3.  Has meaningful employment in Minnesota, but not in Southwest Minnesota.
+4.  Is attending post-secondary.
+5.  Has a MN employment record but it's not meaningful, and not attending post-secondary.
+6.  Does not have a MN employment record and is not attending post-secondary.
+
+There are three "times" in which we checked to see if the individual had meaningful employment within these geographies;
+
+1.  one year after graduating high school
+2.  five years after graduation, and
+3.  ten years after graduation.
+
+Meaningful employment is determined by whether an individual worked 1,000 hours for an employer during time X. In addition, if the individual is working for an employer but not meaningful at time X but worked 1,000 hours for that employer during another year it's still considered "meaningful".
+
+Due to time x potentially being passed the date of the latest data (2023) for some individuals, the analysis below will filter out all individuals where time x is after 2023.
+
+From the multiple correspondence analysis and the principle component analysis we determined that the following independent variables will be included in the analysis.
+
+```{r list of ind var}
+updated.master %>%
+  select(-PersonID, -grad.year.1, -grad.year.5, -grad.year.10) %>%
+  lapply(class) 
+
+```
+
+<br>
+
+# Methodology
+
+For this analysis we are keeping it simple. For categorical variables I’ll be using the Cramer’s v-square measure of association. The V\^2 value is from 0 to 1 with 0 meaning there’s no association and a value closer to 1 indicates a strong association.
+
+For the variables with continuous values I’ll be using the Wilcoxon two paired groups test. P-value will be used to determine whether we can reject the NULL hypothesis at a .01 level. I’ll also include boxplots to see in which direction there might be influence from the variables.
+
+We are going to split up the analysis into two different datasets. The first dataset will combine 3 of the previous states into one.
+
+-   Has meaningful employment anywhere in NE Minnesota, which combines the following states;
+    -   Meaningful emp County
+    -   Meaningful emp EDR
+
+The remaining states will stay the same.
+
+-   Has meaningful employment in Minnesota, but not in Northeast Minnesota
+-   Is attending a post-secondary institution.
+-   Has a MN employment record but it's not meaningful, and they are not attending post-secondary.
+-   Does not have a MN employment record and is not attending post-secondary.
+
+We have quite a few variables remaining, even after MCA analysis. So let's take a look at how we are going to proceed and group all of this together to see how these relationships work.
+
+-   Demographics
+    -   Gender
+    -   grad.year.covid
+    -   economic.status
+    -   SpecialEdStatus
+    -   RaceEthnicity
+    -   englisher.learner
+-   High school characteristics
+    -   Dem_Desc
+    -   avg.unemp.rate
+    -   avg.wage.pct.state
+-   High school accomplishments
+    -   pseo.participant
+    -   took.ACT
+    -   ap.exam
+    -   ACTCompositeScore
+    -   MCA scores
+        -   MCA.M
+        -   MCA.R
+        -   MCA.S
+    -   cte.achievement
+    -   total.cte.courses.taken
+-   Post-secondary
+    -   attended.ps.within.first.year.hsgrad
+    -   attended.ps
+    -   ps.grad.
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   Combine post-secondary grad location
+        -   ps.grad.in.same.ruca
+
+        -   ps.grad.in.same.edr
+
+        -   ps.grad.in.MN
+
+# Meaningful employment in Northeast Minnesota
+
+```{r prep meaningful employment in NE MN}
+meaningful.emp.ne <- updated.master %>%
+  mutate(grad.year.1 = ifelse(grad.year.1 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp NE", as.character(grad.year.1)),
+         grad.year.1 = as_factor(grad.year.1),
+         grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp NE", as.character(grad.year.5)),
+         grad.year.5 = as_factor(grad.year.5),
+         grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         grad.year.10 = ifelse(grad.year.10 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp NE", as.character(grad.year.10)),
+         grad.year.10 = as_factor(grad.year.10),
+         grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         highest.cred.level = fct_relevel(highest.cred.level, "No college", "Some college", "Less than associate degree", "Associate degree", "Bachelor degree", "Master degree or higher"))
+
+write_csv(meaningful.emp.ne, "Data/SLEDS/Masters/After analysis/Master-meaningful-emp-ne.csv")
+```
+
+Let's first take a look at proportion of states in each of the time.X. The chart below shows that a majority of individuals are attending post-secondary (51%) one year after graduating high school. The further away from high school graduation results in a bit of an increase in the percentage of individuals who have meaningful employment in the region and in Minnesota, while a huge amount have no MN employment record.
+
+<br>
+
+```{r proportion of states meaningful emp SW}
+prop.states.meaningful.emp.ne <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.5, grad.year.10) %>%
+  pivot_longer(names_to = "grad.year", values_to = "states", 1:3) %>%
+  group_by(grad.year, states) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  filter(states != "After 2023") %>%
+  group_by(grad.year) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(data_id = seq(n()),
+         grad.year = fct_relevel(grad.year, "grad.year.1", "grad.year.5", "grad.year.10"))
+
+prop.states.meaningful.emp.ne.plot <- ggplot(prop.states.meaningful.emp.ne, aes(grad.year, pct, fill = states, group = states)) +
+  geom_col_interactive(position = "dodge", aes(data_id = data_id, tooltip = paste(grad.year, "\nState of individuals: ", states, "\nNumber of people in states: ", comma(n), "\nPercent of people in state: ", percent(pct, accuracy = .1), sep = ""))) +
+   labs(x="", y = "", color="", title = "Percent of people in each state")+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu"),
+                    guide = guide_legend(ncol = 2)) +
+  theme(legend.position = "bottom",
+        text = element_text(size = 18))
+
+
+girafe(ggobj = prop.states.meaningful.emp.ne.plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE))      
+
+```
+
+<br>
+
+Let's examine the variables to see if there are any significant differences in the proportion of individuals in these states across the variable categories or values.
+
+<br>
