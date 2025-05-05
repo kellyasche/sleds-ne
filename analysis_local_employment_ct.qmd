@@ -323,3 +323,374 @@ girafe(ggobj = prop.states.meaningful.emp.ne.plot, width_svg = 10, height_svg = 
 Let's examine the variables to see if there are any significant differences in the proportion of individuals in these states across the variable categories or values.
 
 <br>
+
+# Demographics
+
+In the demographics section we will examine the relationship between that paths taken by individuals and the following variables;
+
+-   Gender
+-   grad.year.covid
+-   economic.status
+-   SpecialEdStatus
+-   RaceEthnicity
+-   english.learner
+
+**Summary**
+
+*Gender:*
+
+-   Females: they attend college at a significantly higher rate.
+-   Males: they have no MN employment record at a higher rate.
+-   All evens out over time
+
+*grad.year.covid*
+
+-   Post-covid-grads: attended post-secondary at significantly lower rates and had no MN employment record at significantly higher rates.
+
+*economic.status*
+
+-   Individuals that qualify for free or reduced lunch:
+    -   attend post-secondary at lower rates
+    -   do not have meaningful employment at higher rates
+    -   have no MN employment record at a higher rates - evens out over time
+
+*SpecialEdStatus*
+
+-   Individuals categorized as needing special education;
+    -   attend post-secondary at significantly lower rates
+    -   do not have meaningful employment at higher rates
+    -   have no MN employment record at higher rates. - evens out over time
+
+*RaceEthnicity*
+
+-   Attend post-secondary
+    -   Lower rates: American Indian, Black, Hispanic
+-   Do no have meaningful employment
+    -   
+
+<br>
+
+## Gender
+
+-   One year after graduating high school
+    -   Females attended college at a significantly higher rate than males
+    -   Males have no MN employment record and are not attending post secondary at a higher rate than males.
+-   5 years after graduating
+    -   Continued difference in attending post secondary between genders
+    -   Males have a slightly higher rate of having meaningful employment in the region
+-   10 years after graduating
+    -   Everything is pretty even
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics gender one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, Gender) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$Gender, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics gender five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, Gender) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$Gender, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r demographics gender ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, Gender) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$Gender, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## Grad.year.covid
+
+-   One year after graduating high school
+    -   Post-covid grads were attending post-secondary at a significantly lower rate than individuals who graduated before COVID
+
+    -   Post-covid grads do not have a MN employment record or attending post-secondary at a significantly higher rate.
+
+::: panel-tabset
+## One year after graduating
+
+```{r demographics grad.year.covid one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.covid) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$grad.year.covid, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## economic.status
+
+-   One year after graduating high school, individuals that qualify for free or reduced lunch;
+    -   attend post-secondary at a significantly lower rate, and
+    -   do not have meaningful employment, and
+    -   have no MN employment record.
+-   5 years after graduating, individuals that qualify for free or reduced lunch;
+    -   attend post-secondary at a significantly lower rate, and
+    -   have no MN employment record.
+-   10 years after graduating, individuals that qualify for free or reduced lunch;
+    -   have meaningful employment in the region at a slightly lower rate, and
+    -   have non-meaningful employment at a higher rate.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics economic.status one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, economic.status) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$economic.status, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics economic.status five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, economic.status) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$economic.status, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r demographics economic.status ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, economic.status) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$economic.status, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## SpecialEdStatus
+
+-   One year after graduating high school, individuals that were categorized as needing special education;
+    -   attend post-secondary at a significantly lower rate, and
+    -   do not have meaningful employment at a higher rate, and
+    -   have no MN employment record at a significantly higher rate.
+-   5 years after graduating, individuals that were categorized as needing special education
+    -   attend post-secondary at a significantly lower rate, and
+    -   do no have meaningful employment at a higher rate, and
+    -   have no MN employment record at a significantly higher rate.
+-   10 years after graduating, individuals that were categorized as needing special education;
+    -   have meaningful employment in the state at a significantly lower rate, and
+    -   do not have meaningful employment at a higher rate.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics SpecialEdStatus one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, SpecialEdStatus) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$SpecialEdStatus, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics SpecialEdStatus five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, SpecialEdStatus) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$SpecialEdStatus, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r demographics SpecialEdStatus ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, SpecialEdStatus) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$SpecialEdStatus, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## RaceEthnicity
+
+-   One year after graduating high school,
+    -   American indian, Black and Hispanic individuals attend post-secondary at a significantly lower rate.
+    -   Black individuals do not have meaningful employment at a significantly higher rate.
+    -   All races except white have a significantly higher rate of not having a MN employment record.
+-   5 years after graduating;
+    -   Asian, Black and Hispanic individuals have meaningful employment in the region at a significantly lower rate.
+    -   American Indian and Hispanic individuals have meaningful employment in MN at a lower rate.
+    -   American Indian and Black individuals attend post-secondary at a lower rate.
+    -   American Indian and Black individuals do not have meaningful employment in Minnesota at a higher rate.
+    -   Hispanic, American Indian, and Asian individuals do not have a MN employment record at a higher rate.
+-   10 years after graduating;
+    -   All races except white have meaningful employment in the region at a significantly lower rate.
+    -   American Indian individuals have meaningful employment in MN at a significantly lower rate.
+    -   American Indian, Asian and Black individuals do not have meaningful employment in Minnesota at a higher rate.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics RaceEthnicity one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, RaceEthnicity) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$RaceEthnicity, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics RaceEthnicity five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, RaceEthnicity) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$RaceEthnicity, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r demographics RaceEthnicity ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, RaceEthnicity) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$RaceEthnicity, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## english.learner
+
+-   One year after graduating high school, individuals that were categorized as needing English learner classes;
+    -   attend post-secondary at a significantly lower rate, and
+    -   do not have meaningful employment at a higher rate, and
+    -   have no MN employment record at a significantly higher rate.
+-   5 years after graduating, individuals that were categorized as needing English learner classes;
+    -   attend post-secondary at a significantly lower rate, and
+    -   do no have meaningful employment at a higher rate, and
+    -   have no MN employment record at a significantly higher rate.
+-   10 years after graduating, individuals that were categorized as needing English learner classes;
+    -   have meaningful employment in the region at a significantly lower rate, and
+    -   have meaningful employment in the state at a significantly lower rate, and
+    -   had no MN employment record at a significantly higher rate.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics english.learner one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, english.learner) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$english.learner, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics english.learner five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, english.learner) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$english.learner, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r demographics english.learner ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, english.learner) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$english.learner, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
