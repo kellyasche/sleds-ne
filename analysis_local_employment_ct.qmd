@@ -2292,6 +2292,48 @@ We will analyze the following variables;
 -   highest.cred.level
 -   ps.grad.location
 
+The analysis provides the following insights;
+
+-   Meaningful employment in the region, long-term
+    -   More likely:
+        -   Attended or graduated
+        -   Graduated from a public, 2-year
+        -   Less than associated degree or an associate degree
+        -   Graduated in region
+    -   Less likely:
+        -   Did not attend or graduated
+        -   Graduated from any 4-year or any for-profit
+        -   Bachelors degree or higher & No college
+        -   Outside region, worse if outside Minnesota
+-   Meaningful employment in MN, long-term
+    -   More likely:
+        -   Attended or graduated.
+        -   Graduated from any 4-year or any for-profit
+        -   Bachelor degree or higher
+        -   Graduated in Minnesota
+    -   Less likely
+        -   Did not attend or graduate
+        -   Graduated from a public 2-year
+        -   No college or some college, associate degree, less than associate degree
+-   Not meaningful
+    -   More likely:
+        -   Did not attend or graduate
+        -   Graduated from a for-profit
+    -   Less likely:
+        -   Graduated from post-secondary
+        -   ASsociate or higher
+-   No MN employment record
+    -   More likely:
+        -   Did not attend or graduate
+        -   Graduated from a for-profit, or public 4-year
+        -   Master degree or higher
+        -   Outside Minnesota
+    -   Less likely:
+        -   Graduated
+        -   Graduated from a 2-year
+        -   Associate degree, less than associate degree
+        -   In region
+
 <br>
 
 ## attended.ps.within.first.year.hsgrad
@@ -2470,3 +2512,351 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad,
 :::
 
 <br>
+
+## ps.grad.InstitutionSector
+
+A quick reminder on what the codes mean;
+
+-   1 - Public, 4-year or above
+-   2 - Private not-for-profit, 4-year or above
+-   4 - Public, 2-year
+-   10 - went to multiple sectors
+-   11 - Includes all of the following
+    -   3 - Private for-profit, 4-year or above
+    -   6 - Private for-profit, 2-year
+    -   9 - Private for-profit, less-than-2-year
+
+<!-- -->
+
+-   One year after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: 1, 2
+        -   More likely: 4
+    -   Meaningful emp in MN
+        -   Less likely: 2
+    -   No MN employment record
+        -   More likely: 11 (low numbers though)
+-   Five years after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: 1, 2
+        -   More likely: 4
+    -   Meaningful emp in MN
+        -   Less likely: 4
+        -   More likely: 1, 11, 2
+    -   Not meaningful
+        -   Less likely: 10
+    -   No MN employment record
+        -   Less likely: 10
+        -   More likely: 11, 2
+-   Ten years after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: 1, 2, 11,
+        -   More likely: 4
+    -   Meaningful emp in MN
+        -   Less likely: 4, 11
+        -   More likely: 1, 2
+    -   Not meaningful
+        -   More likely: 11 (low numbers)
+    -   No MN employment record
+        -   Less likely:
+        -   More likely: 11
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad.InstitutionSector one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad.InstitutionSector) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.InstitutionSector, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad.InstitutionSector five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad.InstitutionSector) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.InstitutionSector, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad.InstitutionSector ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad.InstitutionSector) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.InstitutionSector, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## highest.cred.level
+
+-   One year after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: Bachelor degree or higher
+        -   More likely: No college, Associate degree
+    -   Meaningful emp in MN
+        -   Less likely: Bachelor or higher
+        -   More likely: No college
+    -   Not meaningful
+        -   Less likely: Less than associate degree or higher
+        -   More likely: No college
+    -   No MN employment record
+        -   Less likely: Some college or higher
+        -   More likely: No college
+-   Five years after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: Bachelor degree or higher
+        -   More likely: Less than associate degree to associate degree
+    -   Meaningful emp in MN
+        -   Less likely: Bachelor degree
+        -   More likely: Master degree or higher
+    -   Not meaningful
+        -   Less likely: Master degree or higher
+        -   More likely: No college or some college
+    -   No MN employment record
+        -   Less likely: Associate degree or higher
+        -   More likely: No college
+-   Ten years after graduating;
+    -   Have meaningful employment in region
+        -   Less likely: Master degree, No college
+        -   More likely: Associate degree, Less than associate degree
+    -   Meaningful emp in MN
+        -   Less likely: No college, some college, Associate degree, Less than associate degree
+        -   More likely: Bachelor degree or higher
+    -   Not meaningful
+        -   Less likely: Associate degree or higher
+        -   More likely: Some college
+    -   No MN employment record
+        -   Less likely: Less than Associate degree
+        -   More likely:
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary highest.cred.level one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, highest.cred.level) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$highest.cred.level, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary highest.cred.level five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, highest.cred.level) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$highest.cred.level, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary highest.cred.level ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, highest.cred.level) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$highest.cred.level, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## ps.grad.location
+
+-   One year after graduating;
+
+    -   Have meaningful employment in region
+        -   Less likely: In MN, Inside and outside MN, Outside MN
+        -   More likely: In region
+    -   Meaningful emp in MN
+        -   Less likely: Outside Minnesota
+        -   More likely:
+    -   Not meaningful
+        -   Less likely: Inside and outside region, Inside and outside Minnesota
+        -   More likely: Outside Minnesota
+    -   No MN employment record
+        -   Less likely: Inside and outside region
+        -   More likely: Inside and outside Minnesota, outside Minnesota
+
+-   Five years after graduating;
+
+    -   Have meaningful employment in region
+        -   Less likely: In MN, Inside and outside MN, Outside MN
+        -   More likely: In region
+    -   Meaningful emp in MN
+        -   Less likely: In region, inside and outside region, inside and outside MN, outside MN
+        -   More likely: In Minnesota
+    -   Not meaningful
+        -   Less likely: Inside and outside region, Inside and outside Minnesota
+        -   More likely:
+    -   No MN employment record
+        -   Less likely: Inside and outside region, Inside and outside MN
+        -   More likely: outside Minnesota
+
+-   Ten years after graduating;
+
+    -   Have meaningful employment in region
+        -   Less likely: In MN, Inside and outside MN, Outside Minnesota
+        -   More likely: In region
+    -   Meaningful emp in MN
+        -   Less likely: In region
+        -   More likely: In Minnesota, Inside and outside Minnesota
+    -   Not meaningful
+        -   Less likely: Inside and outside region, Inside and outside Minnesota, outside Minnesota
+        -   More likely:
+    -   No MN employment record
+        -   Less likely: In region
+        -   More likely: Inside and outside Minnesota, Outside minnesota
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad.location one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad.in.same.edr, ps.grad.in.MN) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  mutate(ps.grad.location = ifelse(ps.grad.in.same.edr == "In same EDR", "In region",
+                                   ifelse(ps.grad.in.same.edr == "Outside EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                          ifelse(ps.grad.in.same.edr == "Inside and outside same EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                                 ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
+                                                        ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
+                                                        ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
+  droplevels() %>%
+  filter(!ps.grad.location %in% c("Did not grad", "Never attended ps")) %>%
+  mutate(ps.grad.location = fct_relevel(ps.grad.location, "In region", "Inside and outside region", "In MN", "Inside and outside MN", "Outside Minnesota"))
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.location, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad.location five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad.in.same.edr, ps.grad.in.MN) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  mutate(ps.grad.location = ifelse(ps.grad.in.same.edr == "In same EDR", "In region",
+                                   ifelse(ps.grad.in.same.edr == "Outside EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                          ifelse(ps.grad.in.same.edr == "Inside and outside same EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                                 ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
+                                                        ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
+                                                        ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
+  droplevels() %>%
+  filter(!ps.grad.location %in% c("Did not grad", "Never attended ps")) %>%
+  mutate(ps.grad.location = fct_relevel(ps.grad.location, "In region", "Inside and outside region", "In MN", "Inside and outside MN", "Outside Minnesota"))
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.location, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad.location ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad.in.same.edr, ps.grad.in.MN) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  mutate(ps.grad.location = ifelse(ps.grad.in.same.edr == "In same EDR", "In region",
+                                   ifelse(ps.grad.in.same.edr == "Outside EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                          ifelse(ps.grad.in.same.edr == "Inside and outside same EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                                 ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
+                                                        ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
+                                                        ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
+  droplevels() %>%
+  filter(!ps.grad.location %in% c("Did not grad", "Never attended ps")) %>%
+  mutate(ps.grad.location = fct_relevel(ps.grad.location, "In region", "Inside and outside region", "In MN", "Inside and outside MN", "Outside Minnesota"))
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.location, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+# Variables to keep
+
+Okay, after this analysis, here is what we will move forward with;
+
+-   Demographics
+    -   Gender
+    -   grad.year.covid
+    -   economic.status
+    -   SpecialEdStatus
+    -   RaceEthnicity
+    -   english.learner
+-   High school characteristics
+    -   Dem_Desc
+-   High school accomplishments
+    -   pseo.participant
+    -   took.ACT
+    -   ap.exam
+    -   ACTCompositeScore
+    -   MCA.M
+    -   MCA.R
+    -   MCA.S
+    -   cte.achievement
+    -   n.cte.courses.taken
+-   Post-secondary
+    -   ps.grad
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad.location
+
+```{r create new master after analysis}
+master.after.ct <- meaningful.emp.ne %>%
+  mutate(ps.grad.location = ifelse(ps.grad.in.same.edr == "In same EDR", "In region",
+                                   ifelse(ps.grad.in.same.edr == "Outside EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                          ifelse(ps.grad.in.same.edr == "Inside and outside same EDR" & ps.grad.in.MN == "In Minnesota", "In state",
+                                                 ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
+                                                        ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
+                                                        ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
+  select(PersonID, Gender, grad.year.covid, economic.status, pseo.participant, SpecialEdStatus, RaceEthnicity, Dem_Desc, took.ACT, ap.exam, cte.achievement, english.learner, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location, ACTCompositeScore, MCA.M, MCA.R, MCA.S, total.cte.courses.taken,grad.year.1, grad.year.5, grad.year.10)
+  
+
+write_csv(master.after.ct, "Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
+```
