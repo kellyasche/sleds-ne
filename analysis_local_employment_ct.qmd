@@ -1157,8 +1157,15 @@ We are going to analyze the following variables;
 
 The analysis provides the following insights;
 
--   Higher performing students with all the tests tended to have higher rates of attending post-secondary and have meaningful workforce participation in Minnesota.
--   Lower performing students tended to have
+-   Higher performing students with all the tests tended to
+    -   attend post-secondary at significantly higher rates
+    -   have meaningful workforce participation in Minnesota at higher rates.
+-   Students that attended PSEO all tended to
+    -   attend post-secondary at significantly higher rates
+    -   have meaningful workforce participation in Minnesota at higher rates
+-   Students involved in CTE tended to;
+    -   Have meaningful workforce participation in Minnesota at higher rates
+    -   Not attend post-secondary at higher rates.
 
 <br>
 
@@ -2269,6 +2276,196 @@ summary(summary)
 
 TukeyHSD(summary)
 
+```
+:::
+
+<br>
+
+# Post-secondary
+
+We will analyze the following variables;
+
+-   attended.ps.within.first.year.hsgrad
+-   attended.ps
+-   ps.grad
+-   ps.grad.InstitutionSector
+-   highest.cred.level
+-   ps.grad.location
+
+<br>
+
+## attended.ps.within.first.year.hsgrad
+
+-   One year after graduating;
+    -   Individuals that did not attend college, or attended not immediately after graduating college were significantly more likely to have meaningful employment in the region.
+    -   These individuals were significantly more likely to not have meaningful employment.
+    -   Significantly more likely to not have a MN employment record.
+-   Five years after graduating;
+    -   Significantly more likely to not have meaningful employment
+    -   Individuals who did not attend post-secondary were significantly more likely to not have a MN employment record
+-   Ten years after graduating;
+    -   individuals that never attended post-secondary were significantly less likely to have meaningful employment in the region.
+    -   Individuals that did not attend post-secondary were significantly more likely to not have a MN employment record.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## attended.ps
+
+-   One year after graduating; individuals that did not attend post-secondary were;
+    -   more likely to have meaningful employment in the region.
+    -   Significantly more likely to not have meaningful employment
+    -   Significantly more likely to not have a MN employment record
+-   Five years after graduating; individuals that did not attend post-secondary were;
+    -   More likely to not have meaningful employment
+    -   Significantly more likely to not have a MN employment record
+-   Ten years after graduating; individuals that did not attend post-secondary were;
+    -   Less likely to have meaningful employment in region or Minnesota
+    -   Significantly more likely to not have a MN employment record.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary attended.ps one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, attended.ps) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary attended.ps five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, attended.ps) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary attended.ps ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, attended.ps) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## ps.grad
+
+-   One year after graduating; individuals that graduated from post-secondary were;
+    -   less likely to have meaningful employment in the region.
+    -   Significantly more likely to attend post-secondary
+    -   Significantly less likely to not have meaningful employment
+    -   Significantly more likely to not have a MN employment record
+-   Five years after graduating; individuals that did not attend post-secondary were;
+    -   More likely to not have meaningful employment
+    -   Significantly more likely to not have a MN employment record
+-   Ten years after graduating; individuals that did not attend post-secondary were;
+    -   Less likely to have meaningful employment in region or Minnesota
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
 ```
 :::
 
