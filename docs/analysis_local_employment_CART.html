@@ -941,7 +941,7 @@ n= 15927
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grow a tree with minsplit of 40 and max depth of 10</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">1.</span>model.preprune <span class="ot">&lt;-</span> <span class="fu">rpart</span>(grad.year<span class="fl">.1</span> <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">"class"</span>, </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">5</span>, <span class="at">minsplit =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">5</span>, <span class="at">minsplit =</span> <span class="dv">30</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot tree</span></span>
@@ -959,30 +959,24 @@ n= 15927
 <pre><code>
 Classification tree:
 rpart(formula = grad.year.1 ~ ., data = train, method = "class", 
-    control = rpart.control(cp = 0, maxdepth = 5, minsplit = 10))
+    control = rpart.control(cp = 0, maxdepth = 5, minsplit = 30))
 
 Variables actually used in tree construction:
- [1] ACTCompositeScore         ap.exam                  
- [3] Gender                    highest.cred.level       
- [5] MCA.M                     ps.grad.InstitutionSector
- [7] ps.grad.location          RaceEthnicity            
- [9] SpecialEdStatus           total.cte.courses.taken  
+[1] Gender                  highest.cred.level      MCA.M                  
+[4] ps.grad.location        RaceEthnicity           total.cte.courses.taken
 
 Root node error: 2901/15927 = 0.18214
 
 n= 15927 
 
-           CP nsplit rel error  xerror     xstd
-1  0.02688728      0   1.00000 1.00000 0.016791
-2  0.02206136      1   0.97311 1.00034 0.016793
-3  0.00517063      2   0.95105 0.95105 0.016463
-4  0.00310238      3   0.94588 0.94967 0.016454
-5  0.00206825      4   0.94278 0.95691 0.016503
-6  0.00103413      6   0.93864 0.95829 0.016513
-7  0.00068942      7   0.93761 0.95622 0.016499
-8  0.00034471      9   0.93623 0.95588 0.016496
-9  0.00011490     11   0.93554 0.95829 0.016513
-10 0.00000000     14   0.93519 0.95932 0.016520</code></pre>
+          CP nsplit rel error  xerror     xstd
+1 0.02688728      0   1.00000 1.00000 0.016791
+2 0.02206136      1   0.97311 1.00034 0.016793
+3 0.00517063      2   0.95105 0.95105 0.016463
+4 0.00310238      3   0.94588 0.94967 0.016454
+5 0.00206825      4   0.94278 0.95691 0.016503
+6 0.00034471      6   0.93864 0.95484 0.016489
+7 0.00000000      8   0.93795 0.95588 0.016496</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.ne.grad.year.<span class="fl">1.</span>model.preprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1000,33 +994,57 @@ n= 15927
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>accuracy_preprun</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.826571</code></pre>
+<pre><code>[1] 0.8270104</code></pre>
 </div>
 </div>
-<p>The pre-pruning resulted in a significantly less complex tree with a .826571 accuracy. Let’s see what variables are important in this model.</p>
-<p>This model does indicate a difference in importance when pruned. A few highlights are;</p>
+<p>The pre-pruning resulted in a significantly less complex tree with a .827 accuracy. Let’s see what variables are important in this model.</p>
+<p>The primary nodes are;</p>
+<ol type="1">
+<li>ps.grad.location
 <ul>
+<li>in-region</li>
+</ul></li>
+<li>highest.cred.level
+<ul>
+<li>Associate degree | Bachelor degree</li>
+</ul></li>
+<li>RaceEthnicity
+<ul>
+<li>AI, Unknown, white</li>
+</ul></li>
+<li>total.cte.courses
+<ul>
+<li>the more the better</li>
+</ul></li>
+<li>Gender</li>
+<li>MCA.M</li>
+</ol>
+<p>Overall, these are the most important themes;</p>
+<ol type="1">
 <li>post-secondary pathway is still very important</li>
-<li>SpecialEdStatus and RaceEthnicity: a few demographic variables jump up in importance</li>
+<li>RaceEthnicity: a few demographic variables jump up in importance</li>
 <li>preparations for post-secondary pathway are still important.</li>
-<li>Missing: MCA.S, pseo.participant</li>
-</ul>
+<li>Missing:
+<ul>
+<li>MCA.S, pseo.participant</li>
+</ul></li>
+</ol>
 <p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">1.</span>model.preprune<span class="sc">$</span>variable.importance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         ps.grad.location ps.grad.InstitutionSector        highest.cred.level 
-              424.1945871               309.5954679               244.4810130 
-                  ps.grad           SpecialEdStatus             RaceEthnicity 
-              113.8582896                10.6977716                10.5424891 
-  total.cte.courses.taken                     MCA.M                    Gender 
-                7.8370518                 6.1906292                 3.7099009 
-        ACTCompositeScore                     MCA.R                   ap.exam 
-                3.5000000                 2.9701904                 2.9252036 
-          cte.achievement           english.learner                  took.ACT 
-                2.4650296                 2.3835567                 2.0118710 
-          grad.year.covid           economic.status                  Dem_Desc 
-                1.2421038                 0.6101951                 0.4481481 </code></pre>
+              361.0333293               242.1789485               176.2271626 
+                  ps.grad             RaceEthnicity   total.cte.courses.taken 
+              113.8582896                10.3266160                 5.2635062 
+                    MCA.M                    Gender                     MCA.R 
+                3.8717886                 3.7099009                 2.1972435 
+          SpecialEdStatus           cte.achievement           grad.year.covid 
+                1.5851381                 1.4814315                 1.2421038 
+          english.learner                  took.ACT                  Dem_Desc 
+                0.9828932                 0.8997016                 0.3484125 
+          economic.status 
+                0.1101951 </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -1370,7 +1388,7 @@ Node number 357: 29 observations
    probabilities: 0.379 0.621 </code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot tree</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(meaningful.emp.ne.grad.year.<span class="fl">1.</span>model.postprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">rpart.plot</span>(meaningful.emp.ne.grad.year.<span class="fl">1.</span>model.postprune, <span class="at">nn =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -1463,7 +1481,7 @@ n= 15927
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(base_accuracy, accuracy_preprun, accuracy_postprun)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  base_accuracy accuracy_preprun accuracy_postprun
-1       0.80416         0.826571         0.8270104</code></pre>
+1       0.80416        0.8270104         0.8270104</code></pre>
 </div>
 </div>
 </section>
@@ -1706,7 +1724,7 @@ n= 19682
 <div class="cell">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grow a tree with minsplit of 40 and max depth of 10</span></span>
 <span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">5.</span>model.preprune <span class="ot">&lt;-</span> <span class="fu">rpart</span>(grad.year<span class="fl">.5</span> <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">"class"</span>, </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">5</span>, <span class="at">minsplit =</span> <span class="dv">10</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">6</span>, <span class="at">minsplit =</span> <span class="dv">70</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot tree</span></span>
@@ -1724,17 +1742,21 @@ n= 19682
 <pre><code>
 Classification tree:
 rpart(formula = grad.year.5 ~ ., data = train, method = "class", 
-    control = rpart.control(cp = 0, maxdepth = 5, minsplit = 10))
+    control = rpart.control(cp = 0, maxdepth = 6, minsplit = 70))
 
 Variables actually used in tree construction:
-character(0)
+[1] ACTCompositeScore       cte.achievement         Dem_Desc               
+[4] Gender                  highest.cred.level      MCA.M                  
+[7] ps.grad.location        pseo.participant        total.cte.courses.taken
 
 Root node error: 3866/19682 = 0.19642
 
 n= 19682 
 
-  CP nsplit rel error xerror xstd
-1  0      0         1      0    0</code></pre>
+          CP nsplit rel error xerror     xstd
+1 0.00051733      0   1.00000 1.0000 0.014417
+2 0.00046560     10   0.99483 1.0070 0.014455
+3 0.00000000     15   0.99250 1.0088 0.014465</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.ne.grad.year.<span class="fl">5.</span>model.preprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1752,10 +1774,24 @@ n= 19682
 <span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>accuracy_preprun</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8073732</code></pre>
+<pre><code>[1] 0.8064248</code></pre>
 </div>
 </div>
-<p>The pre-pruning resulted in a significantly less complex tree with a .78 accuracy. Let’s see what variables are important in this model.</p>
+<p>The pre-pruning resulted in a significantly less complex tree with a .805 accuracy. Let’s see what variables are important in this model.</p>
+<p>The primary nodes are;</p>
+<ol type="1">
+<li>ps.grad.location</li>
+<li>Dem_Desc</li>
+<li>highest.cred.level</li>
+<li>ACTCompositeScore</li>
+<li>pseo.participant</li>
+<li>cte.achievement</li>
+<li>MCA.M</li>
+<li>MCA.S</li>
+<li>total.cte.courses.taken</li>
+<li>gender</li>
+</ol>
+<p>The primary variable themes are;</p>
 <ul>
 <li>Post-secondary pathway</li>
 <li>Dem_Desc makes a pretty big jump in importance here.</li>
@@ -1764,11 +1800,7 @@ n= 19682
 <li>A few demographic things - english.learner, SpecialEdStatus, Gender</li>
 <li>Missing from previous
 <ul>
-<li>tool.ACT</li>
-<li>MCA.S</li>
 <li>economic.status</li>
-<li>RaceEthnicity</li>
-<li>pseo.participant</li>
 <li>ap.exam</li>
 </ul></li>
 </ul>
@@ -1776,7 +1808,18 @@ n= 19682
 <div class="cell">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">5.</span>model.preprune<span class="sc">$</span>variable.importance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>NULL</code></pre>
+<pre><code>         ps.grad.location ps.grad.InstitutionSector        highest.cred.level 
+              180.8554475               117.5511238                85.5030037 
+                  ps.grad         ACTCompositeScore                  Dem_Desc 
+               43.7302976                16.2017147                10.1195543 
+                    MCA.M          pseo.participant           cte.achievement 
+                9.8679452                 7.3950904                 6.3223889 
+  total.cte.courses.taken                     MCA.R                    Gender 
+                5.2455524                 3.5461911                 2.1825266 
+                    MCA.S                   ap.exam           SpecialEdStatus 
+                1.3935553                 1.2490016                 0.5686366 
+                 took.ACT           english.learner             RaceEthnicity 
+                0.4403471                 0.2647469                 0.1892125 </code></pre>
 </div>
 </div>
 </section>
@@ -1873,7 +1916,7 @@ n= 19682
 <div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(base_accuracy, accuracy_preprun, accuracy_postprun)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  base_accuracy accuracy_preprun accuracy_postprun
-1     0.7769085        0.8073732         0.8073732</code></pre>
+1     0.7769085        0.8064248         0.8073732</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -2115,7 +2158,7 @@ n= 13817
 <div class="cell">
 <div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Grow a tree with minsplit of 40 and max depth of 10</span></span>
 <span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">10.</span>model.preprune <span class="ot">&lt;-</span> <span class="fu">rpart</span>(grad.year<span class="fl">.10</span> <span class="sc">~</span> ., <span class="at">data =</span> train, <span class="at">method =</span> <span class="st">"class"</span>, </span>
-<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">7</span>, <span class="at">minsplit =</span> <span class="dv">40</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>                   <span class="at">control =</span> <span class="fu">rpart.control</span>(<span class="at">cp =</span> <span class="dv">0</span>, <span class="at">maxdepth =</span> <span class="dv">5</span>, <span class="at">minsplit =</span> <span class="dv">50</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Plot tree</span></span>
@@ -2133,23 +2176,18 @@ n= 13817
 <pre><code>
 Classification tree:
 rpart(formula = grad.year.10 ~ ., data = train, method = "class", 
-    control = rpart.control(cp = 0, maxdepth = 7, minsplit = 40))
+    control = rpart.control(cp = 0, maxdepth = 5, minsplit = 50))
 
 Variables actually used in tree construction:
-[1] ACTCompositeScore         cte.achievement          
-[3] Dem_Desc                  Gender                   
-[5] ps.grad.InstitutionSector ps.grad.location         
-[7] SpecialEdStatus           total.cte.courses.taken  
+[1] Dem_Desc                ps.grad.location        total.cte.courses.taken
 
 Root node error: 2414/13817 = 0.17471
 
 n= 13817 
 
           CP nsplit rel error xerror     xstd
-1 0.00096658      0   1.00000 1.0000 0.018490
-2 0.00041425      3   0.99710 1.0037 0.018517
-3 0.00013808      8   0.99503 1.0046 0.018523
-4 0.00000000     11   0.99461 1.0104 0.018565</code></pre>
+1 0.00096658      0    1.0000 1.0000 0.018490
+2 0.00000000      3    0.9971 0.9971 0.018469</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.ne.grad.year.<span class="fl">10.</span>model.preprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2167,39 +2205,31 @@ n= 13817
 <span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb69-7"><a href="#cb69-7" aria-hidden="true" tabindex="-1"></a>accuracy_preprun</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.8308004</code></pre>
+<pre><code>[1] 0.8341776</code></pre>
 </div>
 </div>
 <p><br></p>
-<p>The pre-pruning resulted in a significantly less complex tree with a .83 accuracy. Let’s see what variables are important in this model.</p>
+<p>The pre-pruning resulted in a significantly less complex tree with a .834 accuracy. Let’s see what variables are important in this model.</p>
+<p>The primary nodes are;</p>
+<ul>
+<li>ps.grad.location</li>
+<li>Dem_Desc</li>
+<li>total.cte.courses.taken</li>
+</ul>
 <p>This model does indicate a difference in importance when pruned.</p>
 <ul>
 <li>Post-secondary pathway</li>
-<li>CTE engagement</li>
+<li>CTE engagement - the only one that leads to any sort of meaningful emp in NE</li>
 <li>High school geography</li>
-<li>A few demographics
-<ul>
-<li>Economic status</li>
-<li>SpecialEdStatus</li>
-<li>RaceEthnicty</li>
-</ul></li>
 </ul>
 <p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a>meaningful.emp.ne.grad.year.<span class="fl">10.</span>model.preprune<span class="sc">$</span>variable.importance</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         ps.grad.location ps.grad.InstitutionSector        highest.cred.level 
-               67.4330538                40.5962022                30.4386947 
-  total.cte.courses.taken                  Dem_Desc         ACTCompositeScore 
-               17.1419845                13.4021158                 5.7003160 
-          SpecialEdStatus           cte.achievement                    Gender 
-                4.4392649                 3.6232465                 2.5614962 
-                    MCA.R                     MCA.M                   ap.exam 
-                2.1670941                 1.7943894                 0.7845237 
-          english.learner             RaceEthnicity           economic.status 
-                0.4831853                 0.2095518                 0.1942373 
-                 took.ACT 
-                0.1294916 </code></pre>
+                 67.43305                  32.66055                  27.64734 
+                 Dem_Desc   total.cte.courses.taken 
+                 13.40212                  11.53003 </code></pre>
 </div>
 </div>
 <p><br></p>
@@ -2916,6 +2946,7 @@ n= 13817
 </div>
 </div>
 <p><br></p>
+<p>The accuracy is still a bit lower than pre-pruning - .8289</p>
 <p>We still end up with a highly complex tree that is difficult to interpret. Let’s check to see what variables are considered important.</p>
 <ul>
 <li>Post-secondary pathway</li>
@@ -2949,12 +2980,12 @@ n= 13817
 </div>
 </div>
 <p><br></p>
-<p>Now let’s compare the accuracy. The postpruned tree/model looks to be the best.</p>
+<p>Now let’s compare the accuracy. The prepruned tree/model looks to be the best.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb83"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data.frame</span>(base_accuracy, accuracy_preprun, accuracy_postprun)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  base_accuracy accuracy_preprun accuracy_postprun
-1     0.8112124        0.8308004         0.8284363</code></pre>
+1     0.8112124        0.8341776         0.8284363</code></pre>
 </div>
 </div>
 </section>
@@ -2965,6 +2996,7 @@ n= 13817
 <li>The post-secondary pathway</li>
 <li>CTE engagement</li>
 <li>Post-secondary prep work</li>
+<li>High school RUCA</li>
 <li>A few demographics
 <ul>
 <li>Gender</li>
@@ -2980,26 +3012,61 @@ n= 13817
 <ul>
 <li>1 year after graduation
 <ul>
-<li>Took the ACT</li>
-<li>CTE coursework</li>
-<li>Special education status</li>
-<li>MCA - reading score</li>
-<li>Average wages as a percent of state average</li>
+<li>Post-secondary pathways
+<ul>
+<li>ps.grad.location</li>
+<li>ps.grad.InstitutionSector</li>
+<li>highest.cred.level</li>
+<li>ps.grad</li>
+</ul></li>
+<li>RaceEthnicity</li>
+<li>CTE engagement</li>
+<li>Gender</li>
+<li>College Prepwork
+<ul>
+<li>MCA.M</li>
+</ul></li>
 </ul></li>
 <li>5 years after graduation
 <ul>
-<li>Post-secondary institution</li>
-<li>Highest credentials earned</li>
-<li>CTE coursework</li>
-<li>High school county economics</li>
+<li>Post-secondary pathways
+<ul>
+<li>ps.grad.location</li>
+<li>highest.cred.level</li>
+</ul></li>
+<li>Dem_Desc</li>
+<li>College prepwork
+<ul>
+<li>ACTCompositeScore</li>
+<li>pseo.participant</li>
+<li>MCA.M</li>
+<li>MCA.S</li>
+</ul></li>
+<li>CTE engagement</li>
+<li>Gender</li>
 </ul></li>
 <li>10 years after graduation
 <ul>
-<li>CTE coursework</li>
-<li>MCA - reading score</li>
-<li>Average wages as a percent of state average</li>
-<li>Highest credentials earned</li>
+<li>Post-secondary pathway
+<ul>
+<li>ps.grad.location</li>
 </ul></li>
+<li>Dem_Desc</li>
+<li>CTE engagement</li>
+<li>Post-secondary prepwork</li>
+</ul></li>
+</ul>
+<p>So what doesn’t come up as much?</p>
+<ul>
+<li><p>Demographic variables</p>
+<ul>
+<li>Gender</li>
+<li>grad.year.covid</li>
+<li>economic.status</li>
+<li>SpecialEdStatus</li>
+<li>english.learner</li>
+</ul></li>
+<li><p>ap.exam</p></li>
 </ul>
 
 

@@ -332,7 +332,7 @@ Next, we need to prune. We can either pre-prune or post-prune. We will start wit
 ```{r pre pruning  meaningful emp NE grad year 1, echo=TRUE}
 # Grow a tree with minsplit of 40 and max depth of 10
 meaningful.emp.ne.grad.year.1.model.preprune <- rpart(grad.year.1 ~ ., data = train, method = "class", 
-                   control = rpart.control(cp = 0, maxdepth = 5, minsplit = 10))
+                   control = rpart.control(cp = 0, maxdepth = 5, minsplit = 30))
 
 ```
 
@@ -360,14 +360,28 @@ accuracy_preprun <- mean(test$pred == test$grad.year.1)
 accuracy_preprun
 ```
 
-The pre-pruning resulted in a significantly less complex tree with a .826571 accuracy. Let's see what variables are important in this model.
+The pre-pruning resulted in a significantly less complex tree with a .827 accuracy. Let's see what variables are important in this model.
 
-This model does indicate a difference in importance when pruned. A few highlights are;
+The primary nodes are;
 
--   post-secondary pathway is still very important
--   SpecialEdStatus and RaceEthnicity: a few demographic variables jump up in importance
--   preparations for post-secondary pathway are still important.
--   Missing: MCA.S, pseo.participant
+1.  ps.grad.location
+    -   in-region
+2.  highest.cred.level
+    -   Associate degree \| Bachelor degree
+3.  RaceEthnicity
+    -   AI, Unknown, white
+4.  total.cte.courses
+    -   the more the better
+5.  Gender
+6.  MCA.M
+
+Overall, these are the most important themes;
+
+1.  post-secondary pathway is still very important
+2.  RaceEthnicity: a few demographic variables jump up in importance
+3.  preparations for post-secondary pathway are still important.
+4.  Missing:
+    -   MCA.S, pseo.participant
 
 <br>
 
@@ -392,7 +406,7 @@ meaningful.emp.ne.grad.year.1.model.postprune <- prune(meaningful.emp.ne.grad.ye
 summary(meaningful.emp.ne.grad.year.1.model.postprune)
 
 #Plot tree
-rpart.plot(meaningful.emp.ne.grad.year.1.model.postprune)
+rpart.plot(meaningful.emp.ne.grad.year.1.model.postprune, nn = TRUE)
 
 # Examine the complexity plot
 printcp(meaningful.emp.ne.grad.year.1.model.postprune)
@@ -554,7 +568,7 @@ Next, we need to prune. We can either pre-prune or post-prune. We will start wit
 ```{r pre pruning  meaningful emp ne grad year 5, echo=TRUE}
 # Grow a tree with minsplit of 40 and max depth of 10
 meaningful.emp.ne.grad.year.5.model.preprune <- rpart(grad.year.5 ~ ., data = train, method = "class", 
-                   control = rpart.control(cp = 0, maxdepth = 5, minsplit = 10))
+                   control = rpart.control(cp = 0, maxdepth = 6, minsplit = 70))
 
 ```
 
@@ -582,7 +596,22 @@ accuracy_preprun <- mean(test$pred == test$grad.year.5)
 accuracy_preprun
 ```
 
-The pre-pruning resulted in a significantly less complex tree with a .78 accuracy. Let's see what variables are important in this model.
+The pre-pruning resulted in a significantly less complex tree with a .805 accuracy. Let's see what variables are important in this model.
+
+The primary nodes are;
+
+1.  ps.grad.location
+2.  Dem_Desc
+3.  highest.cred.level
+4.  ACTCompositeScore
+5.  pseo.participant
+6.  cte.achievement
+7.  MCA.M
+8.  MCA.S
+9.  total.cte.courses.taken
+10. gender
+
+The primary variable themes are;
 
 -   Post-secondary pathway
 -   Dem_Desc makes a pretty big jump in importance here.
@@ -590,11 +619,7 @@ The pre-pruning resulted in a significantly less complex tree with a .78 accurac
 -   CTE engagement still important
 -   A few demographic things - english.learner, SpecialEdStatus, Gender
 -   Missing from previous
-    -   tool.ACT
-    -   MCA.S
     -   economic.status
-    -   RaceEthnicity
-    -   pseo.participant
     -   ap.exam
 
 <br>
@@ -786,7 +811,7 @@ Next, we need to prune. We can either pre-prune or post-prune. We will start wit
 ```{r pre pruning  meaningful emp ne grad year 10, echo=TRUE}
 # Grow a tree with minsplit of 40 and max depth of 10
 meaningful.emp.ne.grad.year.10.model.preprune <- rpart(grad.year.10 ~ ., data = train, method = "class", 
-                   control = rpart.control(cp = 0, maxdepth = 7, minsplit = 40))
+                   control = rpart.control(cp = 0, maxdepth = 5, minsplit = 50))
 
 ```
 
@@ -817,17 +842,19 @@ accuracy_preprun
 
 <br>
 
-The pre-pruning resulted in a significantly less complex tree with a .83 accuracy. Let's see what variables are important in this model.
+The pre-pruning resulted in a significantly less complex tree with a .834 accuracy. Let's see what variables are important in this model.
+
+The primary nodes are;
+
+-   ps.grad.location
+-   Dem_Desc
+-   total.cte.courses.taken
 
 This model does indicate a difference in importance when pruned.
 
 -   Post-secondary pathway
--   CTE engagement
+-   CTE engagement - the only one that leads to any sort of meaningful emp in NE
 -   High school geography
--   A few demographics
-    -   Economic status
-    -   SpecialEdStatus
-    -   RaceEthnicty
 
 <br>
 
@@ -871,6 +898,8 @@ accuracy_postprun
 
 <br>
 
+The accuracy is still a bit lower than pre-pruning - .8289
+
 We still end up with a highly complex tree that is difficult to interpret. Let's check to see what variables are considered important.
 
 -   Post-secondary pathway
@@ -892,7 +921,7 @@ meaningful.emp.ne.grad.year.10.model.postprune$variable.importance
 
 <br>
 
-Now let's compare the accuracy. The postpruned tree/model looks to be the best.
+Now let's compare the accuracy. The prepruned tree/model looks to be the best.
 
 ```{r compare accuracy meaningful emp ne grad year 10, echo=TRUE}
 data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
@@ -906,6 +935,7 @@ Overall, the variables that were the most consistently important throughout the 
 -   The post-secondary pathway
 -   CTE engagement
 -   Post-secondary prep work
+-   High school RUCA
 -   A few demographics
     -   Gender
     -   SpecialEdStatus
@@ -916,18 +946,43 @@ Overall, the variables that were the most consistently important throughout the 
 ## Summary across time
 
 -   1 year after graduation
-    -   Took the ACT
-    -   CTE coursework
-    -   Special education status
-    -   MCA - reading score
-    -   Average wages as a percent of state average
+    -   Post-secondary pathways
+        -   ps.grad.location
+        -   ps.grad.InstitutionSector
+        -   highest.cred.level
+        -   ps.grad
+    -   RaceEthnicity
+    -   CTE engagement
+    -   Gender
+    -   College Prepwork
+        -   MCA.M
 -   5 years after graduation
-    -   Post-secondary institution
-    -   Highest credentials earned
-    -   CTE coursework
-    -   High school county economics
+    -   Post-secondary pathways
+        -   ps.grad.location
+        -   highest.cred.level
+    -   Dem_Desc
+    -   College prepwork
+        -   ACTCompositeScore
+        -   pseo.participant
+        -   MCA.M
+        -   MCA.S
+    -   CTE engagement
+    -   Gender
 -   10 years after graduation
-    -   CTE coursework
-    -   MCA - reading score
-    -   Average wages as a percent of state average
-    -   Highest credentials earned
+    -   Post-secondary pathway
+        -   ps.grad.location
+    -   Dem_Desc
+    -   CTE engagement
+    -   Post-secondary prepwork
+
+So what doesn't come up as much?
+
+-   Demographic variables
+
+    -   Gender
+    -   grad.year.covid
+    -   economic.status
+    -   SpecialEdStatus
+    -   english.learner
+
+-   ap.exam
