@@ -1,0 +1,292 @@
+---
+title: "Categorizing Range Schools"
+editor: visual
+---
+
+```{r library, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+library(htmlwidgets)
+library(RColorBrewer)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(systemfonts)
+reset_font_cache()
+library(ggtext)
+library(gmodels)
+library(leaps)
+library(bestglm)
+library(fastDummies)
+library(car)
+library(FactoMineR)
+library(factoextra)
+library(psych)
+library(corrplot)
+```
+
+```{r themes and shapefiles, include=FALSE}
+theme_bar <- theme_bw() +
+  theme(panel.grid.major = element_line(color = "grey70", linewidth  = 0.1),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.key.size = unit(1, "lines"),
+        legend.margin = margin(0,0,0,0),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+theme_line <- theme_bw() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.text = element_text(margin = margin(l = 2)),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey70", linewidth = 0.1),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+
+theme_sf <- theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = "white"),
+        panel.border = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+    select(5,6) %>%
+    unique() %>%
+    mutate(edr = str_replace(edr, "  ", " "),
+           planning.region = str_replace(planning.region, " Minnesota", ""),
+           planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+           edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+
+counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  rename(mif = `MIF Region`) %>%
+  mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
+         Name = str_to_title(Name),
+         Name = str_replace(Name, "Q", "q"),
+         Name = str_replace(Name, "Of The", "of the"),
+         Name = str_replace(Name, "Mcleod", "McLeod"),
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc) ,
+         edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"),
+         mif = ifelse(is.na(mif), "TC", mif),
+         mif = as.factor(mif),
+         mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
+Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
+
+
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
+
+color.pr <- c("Northwest" = 	"#4575b4", "Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
+
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+
+color.edr.simple <- c("EDR 1" = "#b3cde3", "EDR 2" = "#8c96c6", "EDR 3" = "#fe9929", "EDR 4" = "#8856a7", "EDR 5" = "#810f7c", "EDR 6E" = "#e5f5f9", "EDR 6W" = "#bdc9e1", "EDR 7E" = "#99d8c9", "EDR 7W" = "#2ca25f", "EDR 8" = "#74a9cf", "EDR 9" = "#0570b0", "EDR 10" = "#d7301f", "EDR 11" = "#d8b365", "Minnesota" = "black")
+
+color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black", "EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
+
+mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
+  ms_simplify(keep = .01, keep_shapes = TRUE) %>%
+  rename(countyfp = FIPS_CODE)
+```
+
+```{r master original}
+master.original <- read.csv("Data/SLEDS/Masters/Master.csv") %>%
+  mutate(n.institutions = ifelse(is.na(n.institutions), 0, n.institutions),
+         ps.attended.in.same.ruca = ifelse(is.na(ps.attended.in.same.ruca), "Never attended ps", ps.attended.in.same.ruca),
+         ps.attended.in.same.edr = ifelse(is.na(ps.attended.in.same.edr), "Never attended ps", ps.attended.in.same.edr),
+         ps.attended.in.same.pr = ifelse(is.na(ps.attended.in.same.pr), "Never attended ps", ps.attended.in.same.pr),
+         ps.attended.in.MN = ifelse(is.na(ps.attended.in.MN), "Never attended ps", ps.attended.in.MN),
+         ps.grad = ifelse(ps.grad == "Y", 1, 0),
+         ps.grad.InstitutionSector = ifelse(attended.ps == "No", "Never attended ps", ps.grad.InstitutionSector),
+         ps.grad.InstitutionSector = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.InstitutionSector),
+         ps.grad.in.same.ruca = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.ruca),
+         ps.grad.in.same.ruca = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.ruca),
+         ps.grad.in.same.edr = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.edr),
+         ps.grad.in.same.edr = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.edr),
+         ps.grad.in.same.pr = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.pr),
+         ps.grad.in.same.pr = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.pr),
+         ps.grad.in.MN = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.MN),
+         ps.grad.in.MN = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.MN),
+         took.ACT = ifelse(is.na(ACTCompositeScore), "No", "Yes"),
+         hs.grad.year = ifelse(hs.grad.year == 2008, 1,
+                               ifelse(hs.grad.year == 2009, 2,
+                                      ifelse(hs.grad.year == 2010, 3,
+                                             ifelse(hs.grad.year == 2011, 4,
+                                                    ifelse(hs.grad.year == 2012, 5,
+                                                           ifelse(hs.grad.year == 2013, 6,
+                                                                  ifelse(hs.grad.year == 2014, 7,
+                                                                         ifelse(hs.grad.year == 2015, 8,
+                                                                                ifelse(hs.grad.year == 2016, 9,
+                                                                                       ifelse(hs.grad.year == 2017, 10,
+                                                                                              ifelse(hs.grad.year == 2018, 11, 
+                                                                                                     ifelse(hs.grad.year == 2019, 12,
+                                                                                                            ifelse(hs.grad.year == 2020, 13,
+                                                                                                                   ifelse(hs.grad.year == 2021, 14,
+                                                                                                                          ifelse(hs.grad.year == 2022, 15, 16))))))))))))))),
+         attended.ps.within.first.year.hsgrad = ifelse(is.na(attended.ps.within.first.year.hsgrad), "Never attended PS", attended.ps.within.first.year.hsgrad),
+         attended.ps.within.first.year.hsgrad = ifelse(attended.ps.within.first.year.hsgrad == "Yes", "Attended first year after HS",
+                                                       ifelse(attended.ps == "No", "Never attended PS", "Attended but not first year")),
+         hs.grad.year = as.factor(hs.grad.year),
+         hs.grad.year = fct_relevel(hs.grad.year, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16")) %>%
+  drop_na(Dem_Desc)
+
+```
+
+# Defining Iron Range School Districts
+
+My hypothesis is that schools located in the heart of the Iron Range have distinct patterns from the rest of Northeast Minnesota.
+
+In Northeast Minnesota, the term **"Iron Range"** generally refers to a group of communities that developed around iron mining in the Mesabi, Vermilion, and Cuyuna ranges. When categorizing **school districts** as being "on the Iron Range," we typically refer to those located within or closely tied to the Mesabi Iron Range, which is the most prominent and populated of the ranges.
+
+Here is a list of **school districts commonly considered to be on the Iron Range**:
+
+## Primary Iron Range School Districts (Core Iron Range)
+
+These are located directly within the Mesabi Iron Range and are almost always considered part of it:
+
+-   **Rock Ridge Public Schools (ISD 2909)** – Formed by the merger of Virginia and Eveleth-Gilbert district
+-   **Mountain Iron-Buhl (ISD 712)**
+-   **Chisholm (ISD 695)**
+-   **Hibbing (ISD 701)**
+-   **Nashwauk-Keewatin (ISD 319)**
+-   **Ely (ISD 696)**
+-   **Mesabi East (ISD 2711)** – Based in Aurora, serving Aurora, Hoyt Lakes, and Biwabik.
+
+## Borderline or Secondary Iron Range School Districts
+
+These districts are near the Iron Range and are sometimes included depending on the context:
+
+-   **Cook County (ISD 166)** – More North Shore than Iron Range, but very rural and sometimes lumped into broader regional definitions.
+-   **Northland Community Schools (ISD 118, in Remer)** – Not on the Mesabi Range, but sometimes included in broader northeastern discussions.
+-   **Floodwood (ISD 698)** – Located west of Duluth and near the southern edge of Iron Range influence.
+
+**Deer River (ISD 317)** – South and west of Grand Rapids; sometimes considered part of the western fringe.
+
+**Grand Rapids (ISD 318)** – A larger hub district west of the traditional range; sometimes included as a key service and economic center for the region.
+
+## Not Typically Considered Iron Range
+
+These are **nearby but not part of the Iron Range proper**:
+
+-   **Duluth Public Schools (ISD 709)** – Major city in NE MN, but culturally and economically separate from the Iron Range.
+-   **Two Harbors/Silver Bay (Lake Superior ISD 381)** – On the North Shore.
+-   **Carlton, Cloquet, Moose Lake** – More in the Carlton County area, not considered Iron Range.
+-   **International Falls (ISD 361)** – Farther north, part of the borderlands, not the Range.
+
+Below is a list of districts and their county location using the master dataset. As we can see, we will not be able to filter appropriately using this list.
+
+<br>
+
+```{r list of districts}
+districts.original <- master.original %>%
+  select(K12OrganizationID, OrganizationName, county.name) %>%
+  mutate(OrganizationName = str_to_title(OrganizationName)) %>%
+  distinct(OrganizationName, .keep_all = TRUE) 
+
+datatable(districts.original,
+          class = "cell-border stripe",
+          filter = "top", 
+          rownames = FALSE,
+          options = list(columnDefs = list(list(className = "dt-center", targets = 0:2)))) 
+```
+
+<br>
+
+So, in order to appropriately filter, I will need to merge the city location of each district. I think filtering by city will be easiest. Here is the list of cities that we will categorize as "Iron Range Schools";
+
+-   Rock Ridge Public Schools
+    -   Virginia
+    -   Eveleth
+    -   Gilbert
+-   Mountain Iron-Buhl
+    -   Mountain Iron
+    -   Buhl
+    -   Kinney
+-   Chisholm
+    -   Chisholm
+-   Hibbing
+    -   Hibbing
+-   Nashwauk-Keewatin
+    -   Nashwauk
+    -   Keewatin
+-   Ely
+    -   Ely
+-   Mesabi East
+    -   Aurora
+    -   Hoyt Lakes
+    -   Biwabik
+
+So, any school districts located within these communities will be categorized as "Iron Range schools". When I first did the filtering, there were a couple more I added that was on the other list;
+
+-   Tower
+-   Babbitt
+
+In addition, I can't get Iron converted to Iron Junction.
+
+<br>
+
+```{r k12 organization cities}
+k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
+
+districts <- districts.original %>%
+  left_join(k12organization[,c(1,10)]) %>%
+  distinct(OrganizationName, .keep_all = TRUE) %>%
+  mutate(range.school = ifelse(City == "Iron", "Iron Junction", City),
+         range.school = ifelse(City %in% c("Virginia", "Eveleth", "Gilbert", "Mountain Iron-Buhl", "Mountain Iron", "Buhl", "Kinney", "Chisholm", "Babbitt", "Hibbing", "Iron", "Nashwauk", "Keewatin", "Ely", "Aurora", "Hoyt Lakes", "Biwabik", "Tower"), "Range school", "Non-range school"))
+
+datatable(districts,
+          class = "cell-border stripe",
+          filter = "top", 
+          rownames = FALSE,
+          options = list(columnDefs = list(list(className = "dt-center", targets = 0:4)))) 
+```
+
+<br>
+
+Okay, now that I have all the districts categorized as range and non-range schools, I can merge it with the master.
+
+<br>
+
+```{r merge range categories to master}
+master <- master.original %>%
+  mutate(OrganizationName = str_to_title(OrganizationName)) %>%
+  left_join(districts[,c(2,5)], by = "OrganizationName") %>%
+  select(PersonID:edr, range.school, grad.year:took.ACT)
+
+write_csv(master, "Data/SLEDS/Masters/Master-updated-range.csv")
+```
