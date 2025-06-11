@@ -313,14 +313,22 @@ girafe(ggobj = ind.qual.freq.plot, width_svg = 10, height_svg = 20) %>%
 Due to these low frequencies, I'm going to do the following;
 
 -   *english.learner*: keep for now
+
 -   *LimitedEnglishProficiency*: eliminate from analysis
+
 -   *non.english.home:* eliminate from analysis
+
 -   *HomelessIndicator*: eliminate from analysis
+
 -   *SAT.taken:* eliminate from analysis
+
 -   grad.InstitutionSector: combine categories 3, 6, and 9 into one category. This means that the following institution sectors will be relabeled as "11";
+
     -   3 - Private for-profit, 4-year or above
     -   6 - Private for-profit, 2-year
     -   9 - Private for-profit, less-than 2-year
+
+-   *grad.institutionSector:* in addition, I'm going to create a category "0" that will be for individuals that attended college but never graduated.
 
 <br>
 
@@ -328,7 +336,10 @@ Due to these low frequencies, I'm going to do the following;
 master.ind.qual.var <- ind.qual.var %>%
   select(-PersonID, -LimitedEnglishProficiencyIndicator, -non.english.home, -HomelessIndicator, -sat.taken) %>%
   mutate(ps.grad.InstitutionSector = ifelse(ps.grad.InstitutionSector %in% c("3", "6", "9"), "11", as.character(ps.grad.InstitutionSector)),
+         ps.grad.InstitutionSector = ifelse(ps.grad == "No" & attended.ps == "Yes", "0", ps.grad.InstitutionSector),
+         ps.grad.InstitutionSector = ifelse(ps.grad == "Attending ps", "Attending ps", ps.grad.InstitutionSector),
          ps.grad.InstitutionSector = as.factor(ps.grad.InstitutionSector))
+
 
 master.ind.qua.var.write <- ind.qual.var %>%
   select(-HomelessIndicator, -sat.taken) %>%
@@ -441,9 +452,26 @@ eig.val
 
 ### Correlation between variables and principle dimensions
 
-Let's take a look to see which variables are going to be important. The chart below shows that the variables seem to not be related at all. We can start to see that economic status, special education status and whether an individual is an english learner are grouped together.
+Let's take a look to see which variables are going to be important. The chart and table below show a couple of variables that are important in the first two dimensions;
+
+-   Special ed status
+-   english.learner
+-   RaceEthnicity
+-   covid.grad
+-   economic.status
+
+It shows that gender might not be very important.
 
 ```{r demogrpahics mca correlation between variables}
+table <- demographics.mca$var$cos2 %>%
+  as.data.frame() %>%
+  select(`Dim 1`, `Dim 2`) %>%
+  mutate(total = `Dim 1` + `Dim 2`)
+  
+datatable(table)
+
+tags$br()
+
 fviz_mca_var(demographics.mca, 
              choice = "mca.cor",
              ggtheme = theme_minimal())
@@ -552,9 +580,18 @@ eig.val
 
 ### Correlation between variables and principle dimensions
 
-Let's take a look to see which variables are going to be important. The chart below shows that the variables seem to not be related at all. Both Dem_Desc and range.school are opposite from each other.
+Let's take a look to see which variables are going to be important. The chart and table below shows that all the variables are significant in the first two dimensions.
 
 ```{r hs characteristics mca correlation between variables}
+table <- hs.char.mca$var$cos2 %>%
+  as.data.frame() %>%
+  select(`Dim 1`, `Dim 2`) %>%
+  mutate(total = `Dim 1` + `Dim 2`)
+  
+datatable(table)
+
+tags$br()
+
 fviz_mca_var(hs.char.mca, 
              choice = "mca.cor",
              ggtheme = theme_minimal())
@@ -662,9 +699,24 @@ eig.val
 
 ### Correlation between variables and principle dimensions
 
-Let's take a look to see which variables are going to be important. The chart below shows that the variables seem to not be related at all. The exam takers might be overlapping a bit.
+Let's take a look to see which variables are going to be important. The table and chart show a couple of variables being important in the first two dimensions;
+
+-   pseo.participant
+-   took.ACT
+-   CTE engagement
+
+According to this, ap.exam might be not that great of a variable.
 
 ```{r high school accomplishments mca correlation between variables}
+table <- hs.accomplishments.mca$var$cos2 %>%
+  as.data.frame() %>%
+  select(`Dim 1`, `Dim 2`) %>%
+  mutate(total = `Dim 1` + `Dim 2`)
+  
+datatable(table)
+
+tags$br()
+
 fviz_mca_var(hs.accomplishments.mca, 
              choice = "mca.cor",
              ggtheme = theme_minimal())
@@ -715,6 +767,8 @@ Below are the variables that are categorized as "high school accomplishments".
 ps <- master.ind.qual.var %>%
   select(attended.ps.within.first.year.hsgrad, attended.ps, ps.grad, ps.grad.InstitutionSector, highest.cred.level)
 
+write_csv(ps, "Data/ps-data.csv")
+
 kable(head(ps))
 
 kable(names(ps))
@@ -734,12 +788,17 @@ The charts below show some groups.
     -   highest.cred.level
     -   attended.ps.within.first.year.hsgrad
     -   attended.ps
-    -   ps.grad
 -   2
     -   ps.grad.InstitutionSector
+    -   ps.grad
 
 A deeper dive shows the following
 
+-   Attending post-secondary
+    -   ps.grad - attending ps
+    -   ps.grad.InstitutionSector - attending ps
+-   Graduated from post-secondary
+    -   ps.grad.InstitutionSector
 -   1 (attended post secondary)
     -   Never attended post secondary - Not attended
     -   Graduated from post-secondary - Bachelor - Master degree or higher - Institution sector 1, 2, 10
@@ -758,7 +817,7 @@ ps.mca <- FactoMineR::MCA(ps)
 
 The eigenvalues measure the amount of variation retained by each principle component. This will help us determine how many principle components to be considered.
 
-The values below indicate that the first dimension explains nearly 30% of the variation. It takes 6 dimensions to explain over 75%.
+The values below indicate that the first dimension explains nearly 30% of the variation. It takes 7 dimensions to explain over 75%.
 
 ```{r ps eigenvalues}
 eig.val <- get_eigenvalue(ps.mca)
@@ -772,7 +831,23 @@ eig.val
 
 Let's take a look to see which variables are going to be important. The chart is showing that some of the variables are explaining the same thing - attended.ps.within.first.year.hsgrad, highest.cred.level. The ps.grad.InstitutionSector is the one variable that explains different elements of the dataset.
 
+The table and chart below provide the values in how much each category of each variable is contributing to each dimension. If we sort by highest contributions using the first two dimensions, these two see to be most important.
+
+-   ps.grad
+-   ps.grad.InstitutionSector
+-   attended.ps
+-   highest.credential.earned
+
 ```{r ps mca correlation between variables}
+table <- ps.mca$var$cos2 %>%
+  as.data.frame() %>%
+  select(`Dim 1`, `Dim 2`) %>%
+  mutate(total = `Dim 1` + `Dim 2`)
+  
+datatable(table)
+
+tags$br()
+
 fviz_mca_var(ps.mca, 
              choice = "mca.cor",
              ggtheme = theme_minimal())
@@ -808,12 +883,12 @@ Let's turn this into a bar plot to better visualize all of these. The variables 
 -   attended.ps.within.first.year
 
 ```{r ps visualize quality of representation}
-fviz_cos2(ps.mca, choice = "var", axes = 1:5)
+fviz_cos2(ps.mca, choice = "var", axes = 1:2)
 ```
 
 <br>
 
-For high school demographics, all variables seem to be worthy to keep.
+For post-secondary, all variables seem to be worthy to keep.
 
 -   ps.grad.InstitutionSector
 -   attended.ps
@@ -829,7 +904,6 @@ The analysis above shows that the following variables would likely provide high 
 
 *Demographics*
 
--   Gender
 -   RaceEthnicity
 -   grad.year.covid
 -   english.learner
@@ -845,7 +919,6 @@ The analysis above shows that the following variables would likely provide high 
 
 -   pseo.participant
 -   took.act
--   ap.eam
 -   cte.achievement
 
 *Post secondary*
@@ -858,10 +931,12 @@ The analysis above shows that the following variables would likely provide high 
 
 This means we will eliminate the following variables
 
+-   Gender
 -   *LimitedEnglishProficiency*
 -   *non.english.home*
 -   *HomelessIndicator*
 -   *SAT.taken*
+-   ap.exam
 -   grad.InstitutionSector: combine categories 3, 6, and 9 into one category. This means that the following institution sectors will be relabeled as "11";
     -   3 - Private for-profit, 4-year or above
     -   6 - Private for-profit, 2-year
@@ -871,7 +946,7 @@ This means we will eliminate the following variables
 
 ```{r final master}
 master.final.after.mca <- master.ind.qua.var.write %>%
-  select(-hs.grad.year, -non.english.home, -LimitedEnglishProficiencyIndicator)
+  select(-Gender, -hs.grad.year, -non.english.home, -LimitedEnglishProficiencyIndicator, -ap.exam)
 
 names(master.final.after.mca)
 

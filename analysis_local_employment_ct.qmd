@@ -148,8 +148,6 @@ numeric.var.names <- master.original %>%
   select(n.years.attended, ACTCompositeScore, avg.unemp.rate, `ACTE.SPED`:MCA.S, n.institutions, ps.grad.in.same.ruca, ps.grad.in.same.edr, ps.grad.in.MN, avg.unemp.rate, avg.wages.pct.state, total.cte.courses.taken) %>%
   names()
 
-names(master.original)
-
 updated.independent.var.names <- c(updated.factor.var.names, numeric.var.names)
 
 cte.cc.var.names <- master.original %>%
@@ -162,7 +160,7 @@ dep.var.names <- master %>%
 updated.master <- master.original %>%
   select(PersonID, all_of(updated.independent.var.names)) %>%
   left_join(dep.var.names, by = "PersonID") %>%
-  mutate_at(vars(Gender:ps.grad.in.MN), as.factor) %>%
+  mutate_at(vars(range.school:ps.grad.in.MN), as.factor) %>%
   mutate_at(vars(grad.year.1:grad.year.10), as.factor) %>%
   mutate(ps.grad.InstitutionSector = ifelse(ps.grad.InstitutionSector %in% c("3", "6", "9"), "11", as.character(ps.grad.InstitutionSector)),
          ps.grad.InstitutionSector = as.factor(ps.grad.InstitutionSector),
@@ -339,12 +337,6 @@ In the demographics section we will examine the relationship between that paths 
 
 **Summary**
 
-*Gender:*
-
--   Females: they attend college at a significantly higher rate.
--   Males: they have no MN employment record at a higher rate.
--   All evens out over time
-
 *grad.year.covid*
 
 -   Post-covid-grads: attended post-secondary at significantly lower rates and had no MN employment record at significantly higher rates.
@@ -381,63 +373,6 @@ In the demographics section we will examine the relationship between that paths 
 -   Lower rates: attend post-secondary
 -   Lower rates: do not have meaningful employment
 -   Higher rates: no MN employment record
-
-<br>
-
-## Gender
-
--   One year after graduating high school
-    -   Females attended college at a significantly higher rate than males
-    -   Males have no MN employment record and are not attending post secondary at a higher rate than males.
--   5 years after graduating
-    -   Continued difference in attending post secondary between genders
-    -   Males have a slightly higher rate of having meaningful employment in the region
--   10 years after graduating
-    -   Everything is pretty even
-
-::: panel-tabset
-### One year after graduating
-
-```{r demographics gender one year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.1, Gender) %>%
-  filter(grad.year.1 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.1, var.col = data$Gender, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-
-### Five years after graduating
-
-```{r demographics gender five year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.5, Gender) %>%
-  filter(grad.year.5 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.5, var.col = data$Gender, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-
-### Ten years after graduating
-
-```{r demographics gender ten year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.10, Gender) %>%
-  filter(grad.year.10 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.10, var.col = data$Gender, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-:::
 
 <br>
 
@@ -1356,68 +1291,6 @@ data <- meaningful.emp.ne %>%
   droplevels()
 
 tab_xtab(var.row = data$grad.year.10, var.col = data$took.ACT, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-:::
-
-<br>
-
-## ap.exam
-
--   One year after graduating, individuals that took the AP exam are;
-    -   Significantly less likely to have meaningful employment in the region or Minnesota
-    -   Significantly more likely to attend post-secondary.
-    -   Significantly less likely to not have a MN employment record.
--   Five years after graduating, individuals that took the AP exam are;
-    -   Significantly less likely to have meaningful employment in region.
-    -   Significantly more likely to have meaningful employment in Minnesota.
-    -   Significantly more likely to attend post-secondary.
-    -   Significantly less likely to not have a MN employment record.
--   Ten years after graduating, individuals that took the AP exam are;
-    -   Slightly less likely to have meaningful employment in region.
-    -   Significantly more likely to have meaningful employment in Minnesota.
-    -   Significantly less likely to not have a MN employment record.
-
-::: panel-tabset
-### One year after graduating
-
-```{r hs accomplishments ap.exam one year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.1, ap.exam) %>%
-  filter(grad.year.1 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.1, var.col = data$ap.exam, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-
-### Five years after graduating
-
-```{r hs accomplishments ap.exam five year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.5, ap.exam) %>%
-  filter(grad.year.5 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.5, var.col = data$ap.exam, 
-         title = "Test", 
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-```
-
-### Ten years after graduating
-
-```{r hs accomplishments ap.exam ten year}
-data <- meaningful.emp.ne %>%
-  select(grad.year.10, ap.exam) %>%
-  filter(grad.year.10 != "After 2023") %>%
-  droplevels()
-
-tab_xtab(var.row = data$grad.year.10, var.col = data$ap.exam, 
          title = "Test", 
          show.exp = TRUE,
          show.col.prc = TRUE)
@@ -2932,7 +2805,7 @@ master.after.ct <- meaningful.emp.ne %>%
                                                  ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
                                                         ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
                                                         ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
-  select(PersonID, Gender, grad.year.covid, economic.status, range.school, pseo.participant, SpecialEdStatus, RaceEthnicity, Dem_Desc, took.ACT, ap.exam, cte.achievement, english.learner, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location, ACTCompositeScore, MCA.M, MCA.R, MCA.S, total.cte.courses.taken,grad.year.1, grad.year.5, grad.year.10)
+  select(PersonID, grad.year.covid, economic.status, range.school, pseo.participant, SpecialEdStatus, RaceEthnicity, Dem_Desc, took.ACT, cte.achievement, english.learner, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location, ACTCompositeScore, MCA.M, MCA.R, MCA.S, total.cte.courses.taken,grad.year.1, grad.year.5, grad.year.10)
   
 write_csv(master.after.ct, "Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
 ```
