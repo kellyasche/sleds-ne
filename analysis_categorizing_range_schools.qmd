@@ -131,7 +131,6 @@ master.original <- read.csv("Data/SLEDS/Masters/Master.csv") %>%
          ps.attended.in.same.edr = ifelse(is.na(ps.attended.in.same.edr), "Never attended ps", ps.attended.in.same.edr),
          ps.attended.in.same.pr = ifelse(is.na(ps.attended.in.same.pr), "Never attended ps", ps.attended.in.same.pr),
          ps.attended.in.MN = ifelse(is.na(ps.attended.in.MN), "Never attended ps", ps.attended.in.MN),
-         ps.grad = ifelse(ps.grad == "Y", 1, 0),
          ps.grad.InstitutionSector = ifelse(attended.ps == "No", "Never attended ps", ps.grad.InstitutionSector),
          ps.grad.InstitutionSector = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.InstitutionSector),
          ps.grad.in.same.ruca = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.ruca),
@@ -165,6 +164,9 @@ master.original <- read.csv("Data/SLEDS/Masters/Master.csv") %>%
          hs.grad.year = fct_relevel(hs.grad.year, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16")) %>%
   drop_na(Dem_Desc)
 
+kable(head(master.original))
+
+kable(names(master.original))
 ```
 
 # Defining Iron Range School Districts

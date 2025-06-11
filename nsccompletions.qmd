@@ -168,11 +168,39 @@ The main characteristics from this dataset that I want to add to the master data
 -   The degrees earned
 -   Whether the institution(s) from which they graduated are in the same RUCA category, EDR, planning region, and state as their high school
 
-Okay, lets first create a dataset with a unique PersonID and a column confirming that they graduated from a post secondary institution.
+Okay, lets first create a dataset with a unique PersonID and a column confirming that they graduated from a post secondary institution. However, we don't want to include any students that never had a chance to complete their post-secondary institution. For example, if an individual has graduated by 2023 (the last year of the data), but is attending, then they shouldn't be counted against the region for not having that person not "graduated".
+
+Essentially, what we want to identify is that in 2023, has the individual;
+
+1.  Graduated from a post-secondary institution,
+2.  Is still attending post-secondary institution,
+3.  Not attending post-secondary and never graduated from one.
+
+To do this, I will need to import the NSC enrollment data, filter to 2023, and double check to see if anyone in our graduate list was attending post-secondary that year. Then ps.grad can be categorized as the following;
+
+-   ps.grad: graduated from a post-secondary institution by 2023
+-   ps.attending: attending post-secondary as of 2023
+-   not.ps.grad: never graduated from a post-secondary institution and wasn't enrolled in one as of 2023.
 
 <br>
 
 ```{r confirmed gradauted ps}
+ps.enrollment <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv") %>%
+  mutate(PersonID = as.integer(PersonID),
+         OPEID = str_pad(OPEID, width = 8, side = "left", pad = "0"),
+         OPEID.6 = str_sub(OPEID, 1, 6)) %>%
+  drop_na(PersonID) %>%
+  drop_na(OPEID) %>%
+  filter(!EnrollmentStatus %in% c("A", "W", "D")) %>%
+  mutate(enrollment.year = str_sub(EnrollmentEndTimeID, 1,4),
+         enrollment.year = as.integer(enrollment.year)) %>%
+  filter(enrollment.year == 2023) %>%
+  select(PersonID, enrollment.year) %>%
+  mutate(ps.attending.2023 = "Yes") %>%
+  select(-enrollment.year) %>%
+  distinct(PersonID, .keep_all = TRUE)
+
+
 ps.graduate <- nsccompletions.original %>%
   distinct(PersonID, .keep_all = TRUE) %>%
   select(1) %>%
@@ -396,8 +424,6 @@ Next we will check to see whether they graduated from a post-secondary instituti
 
 <br>
 
-<br>
-
 ```{r nsc completions same edr}
 nsccompletions.same.edr <- nsccompletions.location.join %>%
   mutate(ps.grad.in.same.edr = ifelse(ps.grad.edr == hs.grad.edr, "In same EDR", "Outside EDR"),
@@ -484,7 +510,12 @@ Okay, now it's time to join all of these with the master dataset.
 master.10 <- read_csv("Data/SLEDS/Masters/Master-9.csv") %>%
   mutate(PersonID = as.integer(PersonID)) %>%
   left_join(ps.graduate, by = "PersonID") %>%
-  mutate(Graduated = ifelse(is.na(Graduated), "N", Graduated)) %>%
+  left_join(ps.enrollment, by = "PersonID") %>%
+  mutate(new.Graduated = ifelse(is.na(Graduated) & ps.attending.2023 == "Yes", "Attending ps",
+                            ifelse(Graduated == "No" & ps.attending.2023 == "Yes", "Attending ps", Graduated)),
+         new.Graduated = ifelse(is.na(Graduated) & is.na(ps.attending.2023), "No", new.Graduated)) %>%
+  select(-ps.attending.2023, -Graduated) %>%
+  rename(Graduated = new.Graduated) %>%
   left_join(year.first.last.graduated, by = "PersonID") %>%
   mutate(years.between.grads = min.ps.grad.year - grad.year) %>%
   left_join(grad.institution.sector, by = "PersonID") %>%
@@ -506,6 +537,12 @@ nsccompletions.master<- read_csv("Data/SLEDS/Masters/Master-9.csv") %>%
   select(PersonID, grad.year, ps.in.same.ruca, ps.in.same.edr, ps.in.same.pr, ps.in.MN) %>%
   mutate(PersonID = as.integer(PersonID)) %>%
   left_join(ps.graduate, by = "PersonID") %>%
+    left_join(ps.enrollment, by = "PersonID") %>%
+  mutate(new.Graduated = ifelse(is.na(Graduated) & ps.attending.2023 == "Yes", "Attending ps",
+                            ifelse(Graduated == "No" & ps.attending.2023 == "Yes", "Attending ps", Graduated)),
+         new.Graduated = ifelse(is.na(Graduated) & is.na(ps.attending.2023), "No", new.Graduated)) %>%
+  select(-ps.attending.2023, -Graduated) %>%
+  rename(Graduated = new.Graduated) %>%
   mutate(Graduated = ifelse(is.na(Graduated), "N", Graduated)) %>%
   left_join(year.first.last.graduated, by = "PersonID") %>%
   mutate(years.between.grads = min.ps.grad.year - grad.year) %>%
@@ -542,7 +579,7 @@ As expected, we have `r comma(master.10 %>% nrow(), accuracy = 1)` rows and `r c
 
 We will being by summarizing the number of students in the master dataset that have graduated from a post-secondary institution. We will first look at the percentage from the total dataset and then break it up by RUCA category and regions to see if there are any significant differences.
 
-The table below shows that the number of individuals that graduated from a post-secondary institution was nearly half - 48%.
+The table below shows that the number of individuals that graduated from a post-secondary institution by 2023 was 37% while 18% were still attending a post-secondary institution.
 
 <br>
 

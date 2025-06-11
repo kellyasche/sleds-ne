@@ -66,6 +66,16 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
 
 </head>
@@ -233,44 +243,29 @@ ul.task-list li input[type="checkbox"] {
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 2%">
-<col style="width: 1%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 4%">
-<col style="width: 3%">
 <col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 9%">
 <col style="width: 2%">
-<col style="width: 2%">
+<col style="width: 8%">
 <col style="width: 7%">
-<col style="width: 4%">
-<col style="width: 2%">
-<col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 4%">
-<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
 <col style="width: 1%">
 <col style="width: 1%">
-<col style="width: 1%">
-<col style="width: 6%">
-<col style="width: 8%">
-<col style="width: 8%">
-<col style="width: 4%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 5%">
 </colgroup>
 <thead>
 <tr class="header">
 <th style="text-align: right;">PersonID</th>
-<th style="text-align: left;">Gender</th>
-<th style="text-align: left;">grad.year.covid</th>
-<th style="text-align: right;">economic.status</th>
-<th style="text-align: right;">pseo.participant</th>
-<th style="text-align: right;">SpecialEdStatus</th>
+<th style="text-align: left;">range.school</th>
 <th style="text-align: left;">RaceEthnicity</th>
 <th style="text-align: left;">Dem_Desc</th>
-<th style="text-align: left;">took.ACT</th>
-<th style="text-align: right;">ap.exam</th>
 <th style="text-align: left;">cte.achievement</th>
-<th style="text-align: right;">english.learner</th>
 <th style="text-align: right;">ps.grad</th>
 <th style="text-align: left;">ps.grad.InstitutionSector</th>
 <th style="text-align: left;">highest.cred.level</th>
@@ -278,7 +273,6 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: right;">ACTCompositeScore</th>
 <th style="text-align: right;">MCA.M</th>
 <th style="text-align: right;">MCA.R</th>
-<th style="text-align: right;">MCA.S</th>
 <th style="text-align: right;">total.cte.courses.taken</th>
 <th style="text-align: left;">grad.year.1</th>
 <th style="text-align: left;">grad.year.5</th>
@@ -288,17 +282,10 @@ ul.task-list li input[type="checkbox"] {
 <tbody>
 <tr class="odd">
 <td style="text-align: right;">6140596</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">Pre-covid grad</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Range school</td>
 <td style="text-align: left;">White</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">CTE Concentrator or Completor</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">Did not grad</td>
 <td style="text-align: left;">Some college</td>
@@ -306,7 +293,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">15</td>
 <td style="text-align: right;">2</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">6</td>
 <td style="text-align: left;">Attending ps</td>
 <td style="text-align: left;">Not meaningful, not attending ps</td>
@@ -314,17 +300,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">1986818</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">Post-covid grad</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Non-range school</td>
 <td style="text-align: left;">Unknown</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">CTE Concentrator or Completor</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">Never attended ps</td>
 <td style="text-align: left;">No college</td>
@@ -332,7 +311,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">7</td>
 <td style="text-align: left;">Not meaningful, not attending ps</td>
 <td style="text-align: left;">After 2023</td>
@@ -340,17 +318,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">11614284</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">Post-covid grad</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Non-range school</td>
 <td style="text-align: left;">Unknown</td>
 <td style="text-align: left;">Town/rural mix</td>
-<td style="text-align: left;">No</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">CTE Participant</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">Did not grad</td>
 <td style="text-align: left;">Some college</td>
@@ -358,7 +329,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">3</td>
 <td style="text-align: right;">3</td>
-<td style="text-align: right;">2</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: left;">After 2023</td>
 <td style="text-align: left;">After 2023</td>
@@ -366,23 +336,15 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">8332752</td>
-<td style="text-align: left;">M</td>
-<td style="text-align: left;">Pre-covid grad</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Non-range school</td>
 <td style="text-align: left;">White</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">CTE Participant</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">Master degree or higher</td>
 <td style="text-align: left;">In MN</td>
 <td style="text-align: right;">26</td>
-<td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">2</td>
@@ -392,17 +354,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="odd">
 <td style="text-align: right;">6569729</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">Pre-covid grad</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Non-range school</td>
 <td style="text-align: left;">White</td>
 <td style="text-align: left;">Entirely rural</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">No CTE</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: left;">Did not grad</td>
 <td style="text-align: left;">Some college</td>
@@ -410,7 +365,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">24</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">3</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">Attending ps</td>
 <td style="text-align: left;">Meaningful emp MN</td>
@@ -418,17 +372,10 @@ ul.task-list li input[type="checkbox"] {
 </tr>
 <tr class="even">
 <td style="text-align: right;">357415</td>
-<td style="text-align: left;">F</td>
-<td style="text-align: left;">Pre-covid grad</td>
-<td style="text-align: right;">0</td>
-<td style="text-align: right;">1</td>
-<td style="text-align: right;">0</td>
+<td style="text-align: left;">Non-range school</td>
 <td style="text-align: left;">White</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
-<td style="text-align: left;">Yes</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: left;">No CTE</td>
-<td style="text-align: right;">0</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Associate degree</td>
@@ -436,7 +383,6 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: right;">22</td>
 <td style="text-align: right;">4</td>
 <td style="text-align: right;">4</td>
-<td style="text-align: right;">3</td>
 <td style="text-align: right;">1</td>
 <td style="text-align: left;">Attending ps</td>
 <td style="text-align: left;">After 2023</td>
@@ -457,19 +403,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">PersonID</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Gender</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">grad.year.covid</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">economic.status</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">pseo.participant</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">SpecialEdStatus</td>
+<td style="text-align: left;">range.school</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">RaceEthnicity</td>
@@ -478,40 +412,28 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">Dem_Desc</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">took.ACT</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">ap.exam</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">cte.achievement</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">english.learner</td>
-</tr>
-<tr class="odd">
 <td style="text-align: left;">ps.grad</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">ps.grad.InstitutionSector</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">highest.cred.level</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">ps.grad.location</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">ACTCompositeScore</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">MCA.M</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;">MCA.R</td>
-</tr>
 <tr class="even">
-<td style="text-align: left;">MCA.S</td>
+<td style="text-align: left;">MCA.R</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">total.cte.courses.taken</td>
@@ -536,7 +458,6 @@ ul.task-list li input[type="checkbox"] {
 <li>ps.grad.location</li>
 <li>ps.grad.InstitutionSector</li>
 <li>highest.cred.level</li>
-<li>ps.grad</li>
 </ol>
 <p>All of these mean that the individual graduated from some sort of college institution. Here are the ways in which these paths lead to different workforce outcomes;</p>
 <ol type="1">
@@ -585,6 +506,14 @@ ul.task-list li input[type="checkbox"] {
 <section id="ps.grad" class="level1">
 <h1>ps.grad</h1>
 <p>Alright, this one is up first. Let’s take a look at what the percentage split is here from my dataset.</p>
+<p>The table below shows that 38% of the high school graduates from this region graduated from a post-secondary institution.</p>
+<p><br></p>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-af300d165c625390aa3f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-af300d165c625390aa3f">{"x":{"filter":"none","vertical":false,"data":[["No","Yes"],[31019,18724],[0.6235852280722916,0.3764147719277084]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>ps.grad<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 0, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[0,1,2]},{"name":"ps.grad","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+</div>
+</div>
 
 
 </section>

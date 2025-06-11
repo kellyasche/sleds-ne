@@ -714,6 +714,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$english.learner,
 We will take a look at the following variables;
 
 -   Dem_Desc
+-   range.school
 -   avg.unemp.rate
 -   avg.wage.pct.state
 
@@ -723,6 +724,11 @@ The analysis highlights the following;
 
 -   Graduates from more rural districts had significantly lower rates of having meaningful employment in the region, but significantly more likely to have meaningful employment in Minnesota.
 -   Town/rural mix individuals were significantly more likely to not have a MN employment record.
+
+*range.schools*
+
+-   Range graduates were significantly less likely to have meaningful employment in the region and in MN.
+-   Range graduates were significantly more likely to not have a MN employment record.
 
 *avg.unemp.rate*
 
@@ -787,6 +793,73 @@ data <- meaningful.emp.ne %>%
   droplevels()
 
 tab_xtab(var.row = data$grad.year.10, var.col = data$Dem_Desc, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+<br>
+
+## range.school
+
+One year after graduating
+
+-   Range schools were significantly more likely to have graduates attend post-secondary.
+-   Range schools were a bit less likely to not have a MN employment record.
+
+Five years after graduating
+
+-   Range schools were slightly less likely to have meaningful employment in region.
+-   Range graduates were slightly less likely to have meaningful employment in MN.
+-   Range graduates were slightly more likely to be attending post-secondary.
+-   Range graduates were significantly less likely to not have meaningful employment.
+-   Range graduates were significantly more likely to not have a MN employment record.
+
+Ten years after graduating
+
+-   Range graduates were slightly less likely to have meaningful employment in region.
+-   Range graduates were significantly less likely to not have meaninful employment in MN.
+-   Range graduates were significantly more likely to not have a MN employment record.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs characteristics range.school one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, range.school) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$range.school, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Five years after graduating
+
+```{r hs characteristics range.school five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, range.school) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$range.school, 
+         title = "Test", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+
+### Ten years after graduating
+
+```{r hs characteristics range.school ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, range.school) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$range.school, 
          title = "Test", 
          show.exp = TRUE,
          show.col.prc = TRUE)
@@ -2461,11 +2534,12 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps,
     -   Significantly more likely to attend post-secondary
     -   Significantly less likely to not have meaningful employment
     -   Significantly more likely to not have a MN employment record
--   Five years after graduating; individuals that did not attend post-secondary were;
-    -   More likely to not have meaningful employment
-    -   Significantly more likely to not have a MN employment record
+-   Five years after graduating; individuals that did not graduate from post-secondary were;
+    -   More likely to have meaningful employment in Minnesota
+    -   Significantly less likely to not have meaningful employment
+    -   Significantly less likely to not have a MN employment record
 -   Ten years after graduating; individuals that did not attend post-secondary were;
-    -   Less likely to have meaningful employment in region or Minnesota
+    -   Slightly more likely to have meaningful employment in the region or in Minnesota
 
 ::: panel-tabset
 ### One year after graduating
@@ -2474,6 +2548,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps,
 data <- meaningful.emp.ne %>%
   select(grad.year.1, ps.grad) %>%
   filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
   droplevels()
 
 tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad, 
@@ -2488,6 +2563,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad,
 data <- meaningful.emp.ne %>%
   select(grad.year.5, ps.grad) %>%
   filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
   droplevels()
 
 tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad, 
@@ -2502,6 +2578,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad,
 data <- meaningful.emp.ne %>%
   select(grad.year.10, ps.grad) %>%
   filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
   droplevels()
 
 tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad, 
@@ -2855,8 +2932,7 @@ master.after.ct <- meaningful.emp.ne %>%
                                                  ifelse(ps.grad.in.MN == "Outside MN", "Outside Minnesota",
                                                         ifelse(ps.grad.in.same.edr == "Inside and outside same EDR", "Inside and outside region",
                                                         ifelse(ps.grad.in.MN == "Inside and outside MN", "Inside and outside MN", as.character(ps.grad.in.MN)))))))) %>%
-  select(PersonID, Gender, grad.year.covid, economic.status, pseo.participant, SpecialEdStatus, RaceEthnicity, Dem_Desc, took.ACT, ap.exam, cte.achievement, english.learner, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location, ACTCompositeScore, MCA.M, MCA.R, MCA.S, total.cte.courses.taken,grad.year.1, grad.year.5, grad.year.10)
+  select(PersonID, Gender, grad.year.covid, economic.status, range.school, pseo.participant, SpecialEdStatus, RaceEthnicity, Dem_Desc, took.ACT, ap.exam, cte.achievement, english.learner, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location, ACTCompositeScore, MCA.M, MCA.R, MCA.S, total.cte.courses.taken,grad.year.1, grad.year.5, grad.year.10)
   
-
 write_csv(master.after.ct, "Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
 ```

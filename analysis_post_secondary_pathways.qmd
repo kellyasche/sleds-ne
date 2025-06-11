@@ -127,7 +127,7 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
 
 ```{r master dataset}
 
-original <- read_csv("Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
+original <- read_csv("Data/SLEDS/Masters/After analysis/Master-after-CART.csv")
 
 kable(head(original))
 
@@ -136,8 +136,8 @@ kable(names(original))
 
 ```{r joining masters}
 master <- original %>%
-  mutate_at(2:16, as.factor) %>%
-  mutate_at(22:24, as.factor) %>%
+  mutate_at(2:9, as.factor) %>%
+  mutate_at(14:16, as.factor) %>%
   mutate(grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
          grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
          grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023")) %>%
@@ -152,7 +152,6 @@ The purpose of this analysis is to explore the relationship between individual v
 1.  ps.grad.location
 2.  ps.grad.InstitutionSector
 3.  highest.cred.level
-4.  ps.grad
 
 All of these mean that the individual graduated from some sort of college institution. Here are the ways in which these paths lead to different workforce outcomes;
 
@@ -194,3 +193,24 @@ Then, we will dig into the college grads to see if there are any predictions the
 # ps.grad
 
 Alright, this one is up first. Let's take a look at what the percentage split is here from my dataset.
+
+The table below shows that 38% of the high school graduates from this region graduated from a post-secondary institution.
+
+<br>
+
+```{r ps grad proportion}
+ps.grad <- master %>%
+  select(ps.grad) %>%
+  mutate(ps.grad = ifelse(ps.grad == 1, "Yes", "No")) %>%
+  group_by(ps.grad) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n)) %>%
+  datatable(class = "cell-border stripe",
+            rownames = FALSE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = 0:2)))) %>%
+  formatCurrency(2, digits = 0, "") %>%
+  formatPercentage(3)
+
+ps.grad
+```

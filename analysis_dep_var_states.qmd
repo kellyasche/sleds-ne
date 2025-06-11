@@ -326,7 +326,7 @@ seven.states <- ps.emp.states %>%
          states = ifelse(ps.attend == "ps.attend" & !(states %in% c(0,1,2,3,4)), 5, states),
          states = ifelse(ps.attend == "ps.not.attend" & state.match == "MN emp record - not meaningful", 6, states),
          states = ifelse(ps.attend == "ps.not.attend" & state.match == "No MN emp record", 7, states),
-         states = ifelse(states == 0, "After 2023", states),
+         states = ifelse(states == "0", "After 2023", states),
          states = ifelse(states == "1", "Meaningful emp County", states),
          states = ifelse(states == "2", "Meaningful emp EDR", states),
          states = ifelse(states == "3", "Meaningful emp NE", states),

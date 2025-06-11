@@ -202,6 +202,7 @@ First, we will create a dataset with a column confirming their post-secondary at
 
 ```{r nsc attended}
 nsc.enrollment.confirm <- nsc.enrollment.ipeds %>%
+  filter(!EnrollmentStatus %in% c("A", "W", "D")) %>%
   distinct(PersonID) %>%
   mutate(attended.ps = "Yes")
 
@@ -293,7 +294,8 @@ nsc.enrollment.first.institution <- nsc.enrollment.ipeds %>%
   filter(EnrollmentBeginTimeID == min(EnrollmentBeginTimeID)) %>%
   ungroup() %>%
   distinct(PersonID, .keep_all = TRUE) %>%
-  select(PersonID, InstitutionSector)
+  select(PersonID, InstitutionSector) %>%
+  rename(first.InstitutionSector = InstitutionSector)
 
 kable(head(nsc.enrollment.first.institution))
 
@@ -509,7 +511,6 @@ master.9 <- master %>%
          attended.ps.within.first.year.hsgrad = ifelse(attended.ps.years.hsgrad < 2, "Yes", "No")) %>%
   left_join(nsc.enrollment.n.institutions, by = "PersonID") %>%
   left_join(nsc.enrollment.first.institution, by = "PersonID") %>%
-  rename(first.InstitutionSector = InstitutionSector) %>%
   left_join(nsc.enrollment.institution.types, by = "PersonID") %>%
   left_join(nsc.enrollment.same.ruca, by = "PersonID") %>%
   left_join(nsc.enrollment.same.edr, by = "PersonID") %>%
@@ -528,7 +529,6 @@ nscenrollment.master <- read_csv("Data/SLEDS/Masters/Master-1.csv") %>%
          attended.ps.within.first.year.hsgrad = ifelse(attended.ps.years.hsgrad < 2, "Yes", "No")) %>%
   left_join(nsc.enrollment.n.institutions, by = "PersonID") %>%
   left_join(nsc.enrollment.first.institution, by = "PersonID") %>%
-  rename(first.InstitutionSector = InstitutionSector) %>%
   left_join(nsc.enrollment.institution.types, by = "PersonID") %>%
   left_join(nsc.enrollment.same.ruca, by = "PersonID") %>%
   left_join(nsc.enrollment.same.edr, by = "PersonID") %>%

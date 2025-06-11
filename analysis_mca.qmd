@@ -125,48 +125,12 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
 ```
 
 ```{r master original}
-master.original <- read.csv("Data/SLEDS/Masters/Master.csv") %>%
-  mutate(n.institutions = ifelse(is.na(n.institutions), 0, n.institutions),
-         ps.attended.in.same.ruca = ifelse(is.na(ps.attended.in.same.ruca), "Never attended ps", ps.attended.in.same.ruca),
-         ps.attended.in.same.edr = ifelse(is.na(ps.attended.in.same.edr), "Never attended ps", ps.attended.in.same.edr),
-         ps.attended.in.same.pr = ifelse(is.na(ps.attended.in.same.pr), "Never attended ps", ps.attended.in.same.pr),
-         ps.attended.in.MN = ifelse(is.na(ps.attended.in.MN), "Never attended ps", ps.attended.in.MN),
-         ps.grad = ifelse(ps.grad == "Y", 1, 0),
-         ps.grad.InstitutionSector = ifelse(attended.ps == "No", "Never attended ps", ps.grad.InstitutionSector),
-         ps.grad.InstitutionSector = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.InstitutionSector),
-         ps.grad.in.same.ruca = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.ruca),
-         ps.grad.in.same.ruca = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.ruca),
-         ps.grad.in.same.edr = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.edr),
-         ps.grad.in.same.edr = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.edr),
-         ps.grad.in.same.pr = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.same.pr),
-         ps.grad.in.same.pr = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.same.pr),
-         ps.grad.in.MN = ifelse(attended.ps == "No", "Never attended ps", ps.grad.in.MN),
-         ps.grad.in.MN = ifelse(attended.ps == "Yes" & ps.grad == 0, "Did not grad", ps.grad.in.MN),
-         took.ACT = ifelse(is.na(ACTCompositeScore), "No", "Yes"),
-         hs.grad.year = ifelse(hs.grad.year == 2008, 1,
-                               ifelse(hs.grad.year == 2009, 2,
-                                      ifelse(hs.grad.year == 2010, 3,
-                                             ifelse(hs.grad.year == 2011, 4,
-                                                    ifelse(hs.grad.year == 2012, 5,
-                                                           ifelse(hs.grad.year == 2013, 6,
-                                                                  ifelse(hs.grad.year == 2014, 7,
-                                                                         ifelse(hs.grad.year == 2015, 8,
-                                                                                ifelse(hs.grad.year == 2016, 9,
-                                                                                       ifelse(hs.grad.year == 2017, 10,
-                                                                                              ifelse(hs.grad.year == 2018, 11, 
-                                                                                                     ifelse(hs.grad.year == 2019, 12,
-                                                                                                            ifelse(hs.grad.year == 2020, 13,
-                                                                                                                   ifelse(hs.grad.year == 2021, 14,
-                                                                                                                          ifelse(hs.grad.year == 2022, 15, 16))))))))))))))),
-         attended.ps.within.first.year.hsgrad = ifelse(is.na(attended.ps.within.first.year.hsgrad), "Never attended PS", attended.ps.within.first.year.hsgrad),
-         attended.ps.within.first.year.hsgrad = ifelse(attended.ps.within.first.year.hsgrad == "Yes", "Attended first year after HS",
-                                                       ifelse(attended.ps == "No", "Never attended PS", "Attended but not first year")),
-         hs.grad.year = as.factor(hs.grad.year),
+master.original <- read.csv("Data/SLEDS/Masters/Master-updated-range.csv") %>%
+  mutate(hs.grad.year = as.factor(hs.grad.year),
          hs.grad.year = fct_relevel(hs.grad.year, "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16")) %>%
   drop_na(Dem_Desc)
 
 write_csv(master.original, "Data/SLEDS/Masters/Master-updated-1.csv")
-
 ```
 
 <br>
@@ -186,11 +150,11 @@ Here is a list of all the categorical variables with a description of each.
 <br>
 
 ```{r primary independent variables}
-qual.var.names <-  c("PersonID", "hs.grad.year", "Gender", "grad.year.covid", "LimitedEnglishProficiencyIndicator", "HomelessIndicator", "economic.status", "pseo.participant", "SpecialEdStatus", "non.english.home", "RaceEthnicity", "Dem_Desc", "edr", "took.ACT", "ap.exam", "cte.achievement", "english.learner", "sat.taken", "attended.ps.within.first.year.hsgrad", "attended.ps", "ps.grad", "ps.grad.InstitutionSector", "highest.cred.level")
+qual.var.names <-  c("PersonID", "hs.grad.year", "range.school", "Gender", "grad.year.covid", "LimitedEnglishProficiencyIndicator", "HomelessIndicator", "economic.status", "pseo.participant", "SpecialEdStatus", "non.english.home", "RaceEthnicity", "Dem_Desc", "edr", "took.ACT", "ap.exam", "cte.achievement", "english.learner", "sat.taken", "attended.ps.within.first.year.hsgrad", "attended.ps", "ps.grad", "ps.grad.InstitutionSector", "highest.cred.level")
 
 quan.var.names <- c("total.cte.courses.taken", "cte.0", "cte.1", "cte.2", "cte.3", "cte.4", "cte.5", "cte.6", "cte.7", "cte.8", "cte.9", "cte.10", "cte.11", "cte.12", "cte.14", "cte.21", "cte.22", "cte.23", "cte.24", "cte.25", "cte.26", "avg.cte.intensity", "MCA.M", "MCA.R", "MCA.S", "avg.unemp.rate", "wages.3year.avg", "avg.wages.pct.state")
 
-independent.var.names <- c("hs.grad.year", "Gender", "LimitedEnglishProficiencyIndicator", "HomelessIndicator", "economic.status", "pseo.participant", "SpecialEdStatus", "non.english.home", "RaceEthnicity", "Dem_Desc", "edr", "took.ACT", "ap.exam", "total.cte.courses.taken", "cte.achievement", "avg.cte.intensity", "MCA.M", "MCA.R", "MCA.S", "sat.taken", "attended.ps", "ps.grad", "highest.cred.level", "avg.unemp.rate", "wages.3year.avg")
+independent.var.names <- c("hs.grad.year", "range.school", "Gender", "LimitedEnglishProficiencyIndicator", "HomelessIndicator", "economic.status", "pseo.participant", "SpecialEdStatus", "non.english.home", "RaceEthnicity", "Dem_Desc", "edr", "took.ACT", "ap.exam", "total.cte.courses.taken", "cte.achievement", "avg.cte.intensity", "MCA.M", "MCA.R", "MCA.S", "sat.taken", "attended.ps", "ps.grad", "highest.cred.level", "avg.unemp.rate", "wages.3year.avg")
 
 
 cte.cc.var.names <- c("cte.1", "cte.2", "cte.3", "cte.4", "cte.5", "cte.6", "cte.7", "cte.8", "cte.9", "cte.10", "cte.11", "cte.12", "cte.14", "cte.21", "cte.22", "cte.23", "cte.24", "cte.25")
@@ -224,6 +188,7 @@ ind.qual.var <- master.original %>%
 -   **High school characteristics**
     -   *Dem_Desc:* the RUCA category of the high school from which the individual graduated.
     -   *edr*: we will not be using this variable since there is only one EDR in this region.
+    -   *range.school:* whether the district is located in the core iron range.
 
 <br>
 
@@ -268,7 +233,10 @@ ind.qual.var <- master.original %>%
         -   Never attended PS
     -   *attended.ps:*
         -   Yes = the individual attended a post-secondary education institution, otherwise No.
-    -   *ps.grad:* whether the indiviual graduated from a post-secondary institution
+    -   *ps.grad:*
+        -   Yes = Graduated from a post-secondary institution by 2023
+        -   Attending ps = attending a post-secondary institution as of 2023
+        -   No = Not attending a post-secondary institution nor graduated from one as of 2023.
     -   *ps.grad.InstitutionSector:* the institution sector of the post-secondary school from which an individual has graduated.
         -   1 - Public, 4-year or above
         -   2 - Private not-for-profit, 4-year or above
@@ -515,7 +483,110 @@ For demographics, it seems that RaceEthnicity, grad.year.covid, Gender, economic
 
 <br>
 
-The only variable related to high school characteristics is the Dem_Desc categories. Due to this, we will keep it around.
+Below are the variables that are categorized as "high school characteristics".
+
+```{r hs characteristics prep, echo=TRUE}
+hs.char <- master.ind.qual.var %>%
+  select(Dem_Desc, range.school) 
+
+kable(head(hs.char))
+
+kable(names(hs.char))
+```
+
+<br>
+
+We have `r comma(nrow(demographics))` individuals in the dataset.
+
+<br>
+
+### MCA analysis
+
+The charts below show some groups.
+
+Among the larger variables, the following groups exist;
+
+-   1
+    -   RaceEthnicity
+    -   grad.year.covid
+-   2
+    -   english.learner
+    -   SpecialEdStatus
+    -   economic.status
+-   3
+    -   Gender
+
+Within these groups, there are the following;
+
+-   1 - covid grad
+
+    -   American Indian - Post-COVID grad
+    -   White, Asian/PI, Black, Hispanic - Pre-COVID grad
+
+-   2 - special ed
+
+    -   Special Ed confirmed - Black, Hispanic, Asian/PPI, english learner, Male
+    -   Non special ed - Economic status good, female white, not english learner, pre-COVID grad
+
+<br>
+
+```{r MCA hs characteristics, echo=TRUE}
+hs.char.mca <- FactoMineR::MCA(hs.char)
+```
+
+<br>
+
+### Eigenvalues
+
+The eigenvalues measure the amount of variation retained by each principle component. This will help us determine how many principle components to be considered.
+
+The values below indicate that the first dimension explains nearly 42% of the variation. It takes 2 dimensions to explain over 75%.
+
+```{r hs characteristics eigenvalues}
+eig.val <- get_eigenvalue(hs.char.mca)
+
+eig.val
+```
+
+<br>
+
+### Correlation between variables and principle dimensions
+
+Let's take a look to see which variables are going to be important. The chart below shows that the variables seem to not be related at all. Both Dem_Desc and range.school are opposite from each other.
+
+```{r hs characteristics mca correlation between variables}
+fviz_mca_var(hs.char.mca, 
+             choice = "mca.cor",
+             ggtheme = theme_minimal())
+
+```
+
+<br>
+
+### Quality of representation
+
+From the chart below, we can see that there isn't much overlap or groupings. They are all pretty much distant from each other, indicating that keeping both variables would be a good idea.
+
+```{r hs characteristics quality of representation}
+fviz_mca_var(hs.char.mca, col.var = "cos2",
+             gradient.cols = c("#00AFBB", "#E7B800", "#FC4E07"), 
+             repel = TRUE, # Avoid text overlapping
+             ggtheme = theme_minimal())
+
+```
+
+<br>
+
+Let's turn this into a bar plot to better visualize all of these. The chart below shows that all of the variables are important.
+
+```{r visualize quality of representation hs characteristics}
+fviz_cos2(hs.char.mca, choice = "var", axes = 1:2)
+
+```
+
+<br>
+
+For high school characteristics, it seems that keeping both Dem_Desc and range.schools in the dataset will be important.
 
 <br>
 
@@ -644,7 +715,6 @@ Below are the variables that are categorized as "high school accomplishments".
 ps <- master.ind.qual.var %>%
   select(attended.ps.within.first.year.hsgrad, attended.ps, ps.grad, ps.grad.InstitutionSector, highest.cred.level)
 
-
 kable(head(ps))
 
 kable(names(ps))
@@ -688,7 +758,7 @@ ps.mca <- FactoMineR::MCA(ps)
 
 The eigenvalues measure the amount of variation retained by each principle component. This will help us determine how many principle components to be considered.
 
-The values below indicate that the first dimension explains nearly 30% of the variation. It takes 5 dimensions to explain over 75%.
+The values below indicate that the first dimension explains nearly 30% of the variation. It takes 6 dimensions to explain over 75%.
 
 ```{r ps eigenvalues}
 eig.val <- get_eigenvalue(ps.mca)
@@ -700,7 +770,7 @@ eig.val
 
 ### Correlation between variables and principle dimensions
 
-Let's take a look to see which variables are going to be important. The chart is showing that some of the variables are explaining the same thing - ps.grad, ps.grad, attended.ps.within.first.year.hsgrad, highest.cred.level. The ps.grad.InstitutionSector is the one variable that explains different elements of the dataset.
+Let's take a look to see which variables are going to be important. The chart is showing that some of the variables are explaining the same thing - attended.ps.within.first.year.hsgrad, highest.cred.level. The ps.grad.InstitutionSector is the one variable that explains different elements of the dataset.
 
 ```{r ps mca correlation between variables}
 fviz_mca_var(ps.mca, 
@@ -738,7 +808,7 @@ Let's turn this into a bar plot to better visualize all of these. The variables 
 -   attended.ps.within.first.year
 
 ```{r ps visualize quality of representation}
-fviz_cos2(ps.mca, choice = "var", axes = 1:2)
+fviz_cos2(ps.mca, choice = "var", axes = 1:5)
 ```
 
 <br>
@@ -769,6 +839,7 @@ The analysis above shows that the following variables would likely provide high 
 *High school characteristics*
 
 -   Dem_Desc
+-   range.schools
 
 *High school accomplishments:*
 
