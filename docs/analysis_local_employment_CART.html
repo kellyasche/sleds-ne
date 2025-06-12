@@ -110,6 +110,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
 <link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
 <script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/nouislider-7.0.10/jquery.nouislider.min.css" rel="stylesheet">
+<script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
+<link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
+<script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
 
 
 </head>
@@ -280,6 +284,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#post-pruning-2" id="toc-post-pruning-2" class="nav-link" data-scroll-target="#post-pruning-2">Post-pruning</a></li>
   <li><a href="#summary-2" id="toc-summary-2" class="nav-link" data-scroll-target="#summary-2">Summary</a></li>
   </ul></li>
+  <li><a href="#important-variables-through-time" id="toc-important-variables-through-time" class="nav-link" data-scroll-target="#important-variables-through-time">Important variables through time</a></li>
   </ul></li>
   <li><a href="#meaningful-emp-in-ne" id="toc-meaningful-emp-in-ne" class="nav-link" data-scroll-target="#meaningful-emp-in-ne">Meaningful emp in NE</a>
   <ul class="collapse">
@@ -3406,6 +3411,81 @@ n= 3921
 </ul>
 <p><br></p>
 </section>
+</section>
+<section id="important-variables-through-time" class="level2">
+<h2 class="anchored" data-anchor-id="important-variables-through-time">Important variables through time</h2>
+<p>The following table provides the level of important for each grad.year.x in the above analysis. Here are the primary themes;</p>
+<ul>
+<li>Variables that are important one year after graduation are less so in the following years. A few to just avoid because they don’t do much after one year;
+<ul>
+<li>grad.year.covid</li>
+<li>ps.grad (interesting)</li>
+</ul></li>
+<li>There are two variables that are important five and ten years after graduating high school;
+<ul>
+<li>ps.grad.location</li>
+<li>highest.cred.earned</li>
+</ul></li>
+<li>A couple of variables that stay either important or less so throughout the years
+<ul>
+<li>MCA.M</li>
+<li>Dem_Desc</li>
+<li>RaceEthnicity</li>
+<li>cte.achievement</li>
+<li>ACTCompositeScore</li>
+<li>total.cte.courses.taken</li>
+</ul></li>
+<li>Variables that had some importance five and ten years after graduating high school
+<ul>
+<li>SpecialEdStatus</li>
+<li>took.ACT</li>
+<li>MCA.R</li>
+</ul></li>
+</ul>
+<p>The variables to keep by group are;</p>
+<ul>
+<li>Demographics
+<ul>
+<li><del>grad.year.covid</del></li>
+<li>economic.status</li>
+<li>RaceEthnicity</li>
+<li>SpecialEdStatus</li>
+<li><del>english.learner</del></li>
+</ul></li>
+<li>CTE engagement
+<ul>
+<li>cte.achievement</li>
+<li>total.cte.courses.taken</li>
+</ul></li>
+<li>HS Characteristics
+<ul>
+<li>Dem_Desc</li>
+<li><del>range.school</del></li>
+</ul></li>
+<li>Prep for PS
+<ul>
+<li><del>pseo.participant</del></li>
+<li>MCA.M</li>
+<li>MCA.R</li>
+<li><del>MCA.S</del></li>
+<li>ACTCompositeScore</li>
+<li>took.act</li>
+</ul></li>
+<li>Post-secondary path
+<ul>
+<li><del>ps.grad</del></li>
+<li>ps.grad.InstitutionSector</li>
+<li>highest.cred.level</li>
+<li>ps.grad.location</li>
+</ul></li>
+</ul>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-92b8b7bdb29578016a8e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-92b8b7bdb29578016a8e">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;grad.year.covid&quot;,&quot;economic.status&quot;,&quot;range.school&quot;,&quot;pseo.participant&quot;,&quot;SpecialEdStatus&quot;,&quot;RaceEthnicity&quot;,&quot;Dem_Desc&quot;,&quot;took.ACT&quot;,&quot;cte.achievement&quot;,&quot;english.learner&quot;,&quot;ps.grad&quot;,&quot;ps.grad.InstitutionSector&quot;,&quot;highest.cred.level&quot;,&quot;ps.grad.location&quot;,&quot;ACTCompositeScore&quot;,&quot;MCA.M&quot;,&quot;MCA.R&quot;,&quot;MCA.S&quot;,&quot;total.cte.courses.taken&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["grad.year.covid","economic.status","range.school","pseo.participant","SpecialEdStatus","RaceEthnicity","Dem_Desc","took.ACT","cte.achievement","english.learner","ps.grad","ps.grad.InstitutionSector","highest.cred.level","ps.grad.location","ACTCompositeScore","MCA.M","MCA.R","MCA.S","total.cte.courses.taken"],["Demographics","Demographics","HS Characteristics","Prep for PS","Demographics","Demographics","HS Characteristics","Prep for PS","CTE Engagement","Demographics","Post-secondary path","Post-secondary path","Post-secondary path","Post-secondary path","Prep for PS","Prep for PS","Prep for PS","Prep for PS","CTE Engagement"],["Less so","","","","","Less so","Important","","Less so","","Important","","","","Important","Less so","","Important","Important"],["","","","","Less so","Less so","Important","Less so","Less so","Less so","","Important","Important","Important","Less so","Important","Less so","Less so","Less so"],["","Less so","","","Less so","Less so","Less so","Less so","Less so","","Less so","","Important","Important","Less so","Less so","Less so","","Less so"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>ind.var<\/th>\n      <th>var.group<\/th>\n      <th>year.one<\/th>\n      <th>year.five<\/th>\n      <th>year.ten<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":[1,2]},{"name":"ind.var","targets":0},{"name":"var.group","targets":1},{"name":"year.one","targets":2},{"name":"year.five","targets":3},{"name":"year.ten","targets":4}],"pageLength":20,"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true,"lengthMenu":[10,20,25,50,100]},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><br></p>
 </section>
 </section>
 <section id="meaningful-emp-in-ne" class="level1">

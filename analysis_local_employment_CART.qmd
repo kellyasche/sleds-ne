@@ -1319,6 +1319,81 @@ The pre- and post-pruned trees provided better accuracy than the base model so l
 
 <br>
 
+## Important variables through time
+
+The following table provides the level of important for each grad.year.x in the above analysis. Here are the primary themes;
+
+-   Variables that are important one year after graduation are less so in the following years. A few to just avoid because they don't do much after one year;
+    -   grad.year.covid
+    -   ps.grad (interesting)
+-   There are two variables that are important five and ten years after graduating high school;
+    -   ps.grad.location
+    -   highest.cred.earned
+-   A couple of variables that stay either important or less so throughout the years
+    -   MCA.M
+    -   Dem_Desc
+    -   RaceEthnicity
+    -   cte.achievement
+    -   ACTCompositeScore
+    -   total.cte.courses.taken
+-   Variables that had some importance five and ten years after graduating high school
+    -   SpecialEdStatus
+    -   took.ACT
+    -   MCA.R
+
+The variables to keep by group are;
+
+-   Demographics
+    -   ~~grad.year.covid~~
+    -   economic.status
+    -   RaceEthnicity
+    -   SpecialEdStatus
+    -   ~~english.learner~~
+-   CTE engagement
+    -   cte.achievement
+    -   total.cte.courses.taken
+-   HS Characteristics
+    -   Dem_Desc
+    -   ~~range.school~~
+-   Prep for PS
+    -   ~~pseo.participant~~
+    -   MCA.M
+    -   MCA.R
+    -   ~~MCA.S~~
+    -   ACTCompositeScore
+    -   took.act
+-   Post-secondary path
+    -   ~~ps.grad~~
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad.location
+
+```{r create table for importance variables over time}
+
+ind.var.table <- names(ind.var) %>%
+  as_tibble() %>%
+  rename(ind.var = 1) %>%
+  mutate(ind.var = as_factor(ind.var),
+         var.group = ifelse(ind.var %in% c("grad.year.covid", "economic.status", "SpecialEdStatus", "RaceEthnicity", "english.learner"), "Demographics",
+                            ifelse(ind.var %in% c("range.school", "Dem_Desc"), "HS Characteristics",
+                                   ifelse(ind.var %in% c("pseo.participant", "took.ACT", "ACTCompositeScore", "MCA.M", "MCA.R", "MCA.S"), "Prep for PS",
+                                          ifelse(ind.var %in% c("cte.achievement", "total.cte.courses.taken"), "CTE Engagement", "Post-secondary path")))),
+         year.one = ifelse(ind.var %in% c("ACTCompositeScore", "Dem_Desc", "total.cte.courses.taken", "MCA.S", "ps.grad"), "Important",
+                           ifelse(ind.var %in% c("RaceEthnicity", "MCA.M", "cte.achievement", "economic status", "grad.year.covid"), "Less so", "")),
+         year.five = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstitutionSector", "highest.cred.level", "MCA.M", "Dem_Desc"), "Important",
+                            ifelse(ind.var %in% c("MCA.R", "ACTCompositeScore", "cte.achievement", "took.ACT", "total.cte.courses.taken", "SpecialEdStatus", "english.learner", "MCA.S", "RaceEthnicity"), "Less so", "")),
+         year.ten = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstituitionSector", "highest.cred.level"), "Important",
+                           ifelse(ind.var %in% c("MCA.M", "ACTCompositeScore", "MCA.R", "Dem_Desc", "economic.status", "took.ACT", "ps.grad", "SpecialEdStatus", "cte.achievement", "total.cte.courses.taken", "RaceEthnicity"), "Less so", "")))
+
+datatable(ind.var.table, class = "cell-border stripe", filter = "top", rownames = FALSE,
+          options = list(
+            columnDefs = list(list(className = "dt-center", targets = 1:2)),
+            pageLength = 20)) 
+
+```
+
+<br>
+
 # Meaningful emp in NE
 
 First, let's re-categorize the dependent variables so that they are binary.

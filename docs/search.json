@@ -558,5 +558,12 @@
     "title": "Local Employment CART Analysis",
     "section": "Five year after graduating high school",
     "text": "Five year after graduating high school\nEvery single variable related to pathways after high school were very important in whether someone had meaningful employment in the region. In addition, the rurality of an individual’s high school and whether they were located on the range moved up to being very important.\n\n\n\n\n\n\n\n\n\nVariable group\nMost important\nMaybe important\nMissing\n\n\n\n\nPost-secondary pathways\nps.grad.location,\nps.grad.InstitutionSector,\nhighest.cred.level,\nps.grad\n\n\n\n\nDemographics\n\nRaceEthnicity,\nSpecialEdStatus,\nenglish.learner\neconomic.status,\ngrad.year.covid\n\n\nPrep for post-secondary\n\ntook.ACT,\nMCA.R,\nMCA.M\npseo.participant,\nACTCompositeScore,\nMCA.S\n\n\nLocation of high school\nDem_Desc,\nrange.school\n\n\n\n\nCTE Engagement\n\n\ncte.achievement,\ntotal.cte.courses.taken"
+  },
+  {
+    "objectID": "analysis_local_employment_CART.html#important-variables-through-time",
+    "href": "analysis_local_employment_CART.html#important-variables-through-time",
+    "title": "Local Employment CART Analysis",
+    "section": "Important variables through time",
+    "text": "Important variables through time\nThe following table provides the level of important for each grad.year.x in the above analysis. Here are the primary themes;\n\nVariables that are important one year after graduation are less so in the following years. A few to just avoid because they don’t do much after one year;\n\ngrad.year.covid\nps.grad (interesting)\n\nThere are two variables that are important five and ten years after graduating high school;\n\nps.grad.location\nhighest.cred.earned\n\nA couple of variables that stay either important or less so throughout the years\n\nMCA.M\nDem_Desc\nRaceEthnicity\ncte.achievement\nACTCompositeScore\ntotal.cte.courses.taken\n\nVariables that had some importance five and ten years after graduating high school\n\nSpecialEdStatus\ntook.ACT\nMCA.R\n\n\nThe variables to keep by group are;\n\nDemographics\n\ngrad.year.covid\neconomic.status\nRaceEthnicity\nSpecialEdStatus\nenglish.learner\n\nCTE engagement\n\ncte.achievement\ntotal.cte.courses.taken\n\nHS Characteristics\n\nDem_Desc\nrange.school\n\nPrep for PS\n\npseo.participant\nMCA.M\nMCA.R\nMCA.S\nACTCompositeScore\ntook.act\n\nPost-secondary path\n\nps.grad\nps.grad.InstitutionSector\nhighest.cred.level\nps.grad.location"
   }
 ]
