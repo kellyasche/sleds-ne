@@ -273,7 +273,7 @@ This is what makes decision trees interpretable: each path is a **clear if–the
 
 <br>
 
-# Meaningful emp in NE vs. meaningful emp in MN
+# Meaningful emp in MN vs. meaningful emp in NE
 
 This section will examine which variables seem to play a role in whether an individual has meaningful employment in the region, or in Minnesota.
 
@@ -1396,7 +1396,7 @@ datatable(ind.var.table, class = "cell-border stripe", filter = "top", rownames 
 
 <br>
 
-# Meaningful emp in NE vs. not meaningful or attending post-secondary
+# Not meaningful or attending post-secondary vs meaningful emp in NE
 
 This section will examine which variables seem to play a role in whether an individual has meaningful employment in the region, or in Minnesota.
 
@@ -2125,6 +2125,1642 @@ The pre-pruned tree provided better accuracy.
 -   Missing
     -   grad.year.covid
     -   pseo.participant
+
+<br>
+
+## Ten year after graduation
+
+We are now five years away from graduating high school, so we can add the post-secondary variables back in.
+
+```{r prep not meaningful emp grad year 10}
+not.meaningful.emp.grad.year.10 <- master %>%
+  filter(grad.year.10 %in% c("Meaningful emp NE", "Not meaningful, not attending ps")) %>%
+  select(-PersonID, -grad.year.1, -grad.year.5) %>%
+  droplevels()
+
+kable(names(not.meaningful.emp.grad.year.10))
+```
+
+When filtering for individuals that had meaningful employment in NE vs MN one year after graduation we end up with `r comma(nrow(not.meaningful.emp.grad.year.10))` individuals.The table below shows that a majority of individuals have meaningful employment in the region - 60% compared to individuals with no meaningful employment and are not attending post-secondary.
+
+<br>
+
+```{r not meaningful emp grad year 10 prop}
+not.meaningful.emp.grad.year.10.prop <- not.meaningful.emp.grad.year.10 %>%
+  group_by(grad.year.10) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n),
+         pct = percent(pct, accuracy = .1)) %>%
+  datatable(rownames = FALSE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = 1:2))))
+
+not.meaningful.emp.grad.year.10.prop
+```
+
+<br>
+
+### Base model
+
+First we will split the data into two sets, Train and Test, in a 70:30 ratio. The Train set is used for training and creating the model. The Test set is considered to be a dummy production environment to test predictions and evaluate the accuracy of the model.
+
+<br>
+
+```{r split dataset into test and train not meaningful emp grad year 10, echo=TRUE}
+set.seed(1234)
+
+sample_ind <- sample(nrow(not.meaningful.emp.grad.year.10), nrow(not.meaningful.emp.grad.year.10) *.7)
+
+train <- not.meaningful.emp.grad.year.10[sample_ind,]
+
+test <- not.meaningful.emp.grad.year.10[-sample_ind,]
+
+```
+
+<br>
+
+Next, we create a decision tree model by calling the rpart function. Let's first create a base model with default parameters and value. The CP (complexity parameter) is used to control tree growth. If the cost of adding a variable is higher then the value of CP, then tree growth stops.
+
+The summary shows that the lowest cross-validated error is .0.94194 and the nsplit is 14.
+
+<br>
+
+```{r create decision tree not meaningful emp grad year 10, echo=TRUE, include = FALSE}
+#Base model
+
+not.meaningful.emp.grad.year.10.model <- rpart(grad.year.10 ~ ., data = train, method = "class", control = rpart.control(cp = 0))
+
+#Summary
+summary(not.meaningful.emp.grad.year.10.model)
+
+```
+
+```{r decision tree plot not meaningful emp grad year 10}
+#Plot tree
+rpart.plot(not.meaningful.emp.grad.year.10.model)
+
+# Examine the complexity plot
+printcp(not.meaningful.emp.grad.year.10.model)
+
+plotcp(not.meaningful.emp.grad.year.10.model)
+
+```
+
+<br>
+
+The resulting model produced a VERY complex tree with too many nodes that it isn't interpretable. However, examining the complexity parameters shows that I have an increasing cross-validated error which provides evidence of a decision tree with too much complexity.
+
+<br>
+
+```{r base model variable importance not meaningful emp grad year 10, echo=TRUE}
+
+not.meaningful.emp.grad.year.10.model$variable.importance
+
+importance <- not.meaningful.emp.grad.year.10.model$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+Next, the accuracy of the model is computed and stored in a variable base_accuracy so we can compare it to our pruned trees later.
+
+<br>
+
+```{r model accuracy not meaningful emp grad year 10, echo=TRUE}
+test$pred <- predict(not.meaningful.emp.grad.year.10.model, test, type = "class")
+
+base_accuracy <- mean(test$pred == test$grad.year.10)
+
+base_accuracy
+
+```
+
+<br>
+
+### Pre-pruning
+
+Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It's recommended that I start with the following parameters;
+
+-   maxdepth: 3 to 6
+
+-   minsplit: 5% of n which is 281
+
+-   minbucket: round(minsplit / 3) which is 94
+
+<br>
+
+```{r pre pruning not meaningful emp grad year 10, echo=TRUE}
+not.meaningful.emp.grad.year.10.model.preprune <- rpart(grad.year.10 ~ ., data = train, method = "class", 
+                   control = rpart.control(cp = 0, maxdepth = 6, minsplit = 281, minbucket = 94))
+
+test$pred <- predict(not.meaningful.emp.grad.year.10.model.preprune, test, type = "class")
+
+accuracy_preprun <- mean(test$pred == test$grad.year.10)
+
+accuracy_preprun
+```
+
+```{r pre pruning summary not meaningful emp grad year 10, include=FALSE}
+
+#Summary
+summary(not.meaningful.emp.grad.year.10.model.preprune)
+
+```
+
+The pre-pruning resulted in a significantly less complex tree with a .6014589 accuracy. Let's see what variables are important in this model.
+
+```{r pre pruning plot not meaningful emp  grad year 10, echo=TRUE}
+#Plot tree
+rpart.plot(not.meaningful.emp.grad.year.10.model.preprune)
+
+# Examine the complexity plot
+printcp(not.meaningful.emp.grad.year.10.model.preprune)
+```
+
+The nodes show;
+
+-   ps.grad.location = In region \| Inside and outside region
+    -   Yes: Meaningful emp in NE
+    -   No:
+        -   Meaningful emp NE
+            -   SpecialEdStatus = 0
+                -   RaceEthnicity = Asian/PI \| Whiute
+                    -   total.cte.courses \>= 3
+                    -   total.cte.courses \<= 3
+                        -   MCA.M \>= 2
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   SpecialEdStatus
+    -   took.ACT
+    -   total.cte.courses.taken
+    -   RaceEthnicity
+-   Not as important
+    -   range.school
+    -   cte.achievement
+    -   economic.status
+    -   english.learner
+    -   MCA.M
+    -   MCA.R
+    -   Dem_Desc
+-   Missing
+    -   grad.year.covid
+    -   pseo.participant
+    -   ACTCompositeScore
+    -   MCA.S
+
+<br>
+
+```{r pre pruning variable importance not meaningful emp grad year 10, echo=TRUE}
+not.meaningful.emp.grad.year.10.model.preprune$variable.importance
+
+importance <- not.meaningful.emp.grad.year.10.model.preprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+<br>
+
+### Post-pruning
+
+Next, let's try postpruning. The idea here is to allow the decision tree to grow fully and observe the CP value. There are two methods for identifying the CP code;
+
+1.  Use the cp value with the lowest xerror from the base model.
+2.  Use the cp value with the next lowest xerror that is within the standard error.
+
+<br>
+
+```{r postpruning not meaningful emp grad year 10, echo=TRUE}
+
+cp_table <- not.meaningful.emp.grad.year.10.model$cptable
+
+min_xerror <- min(cp_table[, "xerror"])
+min_xerror_se <- cp_table[which.min(cp_table[,"xerror"]), "xstd"]
+
+threshold <- min_xerror + min_xerror_se
+
+one_se_index <- which(cp_table[, "xerror"] <= threshold)[1] 
+
+cp_1se <- cp_table[one_se_index, "CP"]
+
+optimal_cp <- not.meaningful.emp.grad.year.10.model$cptable[which.min(not.meaningful.emp.grad.year.10.model$cptable[, "xerror"]), "CP"]
+
+
+# Prune the hr_base_model based on the optimal cp value
+not.meaningful.emp.grad.year.10.model.postprune <- prune(not.meaningful.emp.grad.year.10.model, cp = optimal_cp)
+
+#Summary
+summary(not.meaningful.emp.grad.year.10.model.postprune)
+
+#Plot tree
+rpart.plot(not.meaningful.emp.grad.year.10.model.postprune, nn = TRUE)
+
+# Examine the complexity plot
+printcp(not.meaningful.emp.grad.year.10.model.postprune)
+plotcp(not.meaningful.emp.grad.year.10.model.postprune)
+
+
+# Compute the accuracy of the pruned tree
+
+test$pred <- predict(not.meaningful.emp.grad.year.10.model.postprune, test, type = "class")
+
+accuracy_postprun <- mean(test$pred == test$grad.year.10)
+
+accuracy_postprun
+
+```
+
+<br>
+
+The nodes show;
+
+-   ps.grad.location = In region \| Inside and outside region
+    -   Yes: Meaningful emp in NE
+    -   No:
+        -   Meaningful emp NE
+            -   SpecialEdStatus = 0
+                -   RaceEthnicity = Asian/PI \| White
+                    -   total.cte.courses \>= 3
+                    -   total.cte.courses \<= 3
+                        -   ACTCompositeScore \< 30
+                            -   Economic.status = 0
+                            -   Economic.status = 1
+                                -   MCA.S \< 3
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   SpecialEdStatus
+    -   cte.achievement
+    -   took.ACT
+    -   total.cte.courses.taken
+    -   RaceEthnicity
+-   Not as important
+    -   economic.status
+    -   range.school
+    -   ACTCompositeScore
+    -   english.learner
+    -   MCa.S
+    -   MCA.M
+    -   MCA.R
+    -   Dem_Desc
+-   Missing
+    -   grad.year.covid
+    -   pseo.participant
+
+<br>
+
+```{r post pruning variable importance not meaningful emp grad year 10, echo=TRUE}
+not.meaningful.emp.grad.year.10.model.postprune$variable.importance
+
+importance <- not.meaningful.emp.grad.year.10.model.postprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+```
+
+<br>
+
+Now let's compare the accuracy. The pre-pruned tree does get a bit better accuracy.
+
+```{r compare accuracy not meaningful emp  grad year 10, echo=TRUE}
+data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
+
+```
+
+### Summary
+
+The pre-pruned tree provided better accuracy.
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   SpecialEdStatus
+    -   took.ACT
+    -   total.cte.courses.taken
+    -   RaceEthnicity
+-   Not as important
+    -   range.school
+    -   cte.achievement
+    -   economic.status
+    -   english.learner
+    -   MCA.M
+    -   MCA.R
+    -   Dem_Desc
+-   Missing
+    -   grad.year.covid
+    -   pseo.participant
+    -   ACTCompositeScore
+    -   MCA.S
+
+<br>
+
+## Important variables through time
+
+The following table provides the level of important for each grad.year.x in the above analysis. Here are the primary themes;
+
+-   Variables that are never important
+    -   grad.year.covid
+    -   pseo.participante
+-   A few that just don't make the cut either
+    -   MCA.S
+-   One variable that stays important throughout the entire analysis
+    -   SpecialEdStatus
+-   One variable that starts as important but loses importance over time
+    -   ACTCompositeScore
+-   There are a few variables that are important five and ten years after graduating high school;
+    -   ps.grad.location
+    -   highest.cred.earned
+    -   ps.grad
+    -   ps.grad.InstitutionSector
+    -   total.cte.courses.taken
+-   A few that are important once and less so once
+    -   economic.status
+    -   cte.achievement
+    -   RaceEthnicity
+    -   took.ACT
+-   A couple of variables that stay either important or less so throughout the years
+    -   economic.status
+    -   Dem_Desc
+    -   RaceEthnicity
+    -   cte.achievement
+    -   ACTCompositeScore
+    -   total.cte.courses.taken
+-   Variables that had some importance five and ten years after graduating high school
+    -   Dem_Desc
+    -   range.school
+    -   MCA.M
+    -   MCA.R
+    -   english.learner
+
+The variables to keep by group are;
+
+-   Demographics
+    -   ~~grad.year.covid~~
+    -   economic.status
+    -   RaceEthnicity
+    -   SpecialEdStatus
+    -   ~~english.learner~~
+-   CTE engagement
+    -   cte.achievement
+    -   total.cte.courses.taken
+-   HS Characteristics
+    -   Dem_Desc
+    -   range.school
+-   Prep for PS
+    -   ~~pseo.participant~~
+    -   MCA.M
+    -   MCA.R
+    -   ~~MCA.S~~
+    -   ACTCompositeScore
+    -   took.act
+-   Post-secondary path
+    -   ps.grad
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad.location
+
+```{r create table for importance variables over time not meaningful emp}
+
+ind.var.table <- names(ind.var) %>%
+  as_tibble() %>%
+  rename(ind.var = 1) %>%
+  mutate(ind.var = as_factor(ind.var),
+         var.group = ifelse(ind.var %in% c("grad.year.covid", "economic.status", "SpecialEdStatus", "RaceEthnicity", "english.learner"), "Demographics",
+                            ifelse(ind.var %in% c("range.school", "Dem_Desc"), "HS Characteristics",
+                                   ifelse(ind.var %in% c("pseo.participant", "took.ACT", "ACTCompositeScore", "MCA.M", "MCA.R", "MCA.S"), "Prep for PS",
+                                          ifelse(ind.var %in% c("cte.achievement", "total.cte.courses.taken"), "CTE Engagement", "Post-secondary path")))),
+         year.one = ifelse(ind.var %in% c("SpecialEdStatus", "ACTCompositeScore", "range.school", "english.learner"), "Important",
+                           ifelse(ind.var %in% c("MCA.R"), "Less so", "")),
+         year.five = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstitutionSector", "highest.cred.level", "ps.grad", "total.cte.courses.taken", "economic.status", "cte.achievement", "SpecialEdStatus"), "Important",
+                            ifelse(ind.var %in% c("took.ACT", "RaceEthnicity", "ACTCompositeScore", "range.school", "MCA.M", "MCA.R", "Dem_Desc", "english.learner", "MCA.S"), "Less so", "")),
+         year.ten = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstitutionSector", "highest.cred.level", "ps.grad", "SpecialEdStatus", "took.ACT", "total.cte.courses.taken", "RaceEthnicity"), "Important",
+                           ifelse(ind.var %in% c("range.school", "cte.achievement", "economic.status", "english.learner", "MCA.M", "MCA.R", "Dem_Desc"), "Less so", "")))
+
+datatable(ind.var.table, class = "cell-border stripe", filter = "top", rownames = FALSE,
+          options = list(
+            columnDefs = list(list(className = "dt-center", targets = 1:2)),
+            pageLength = 20)) 
+
+```
+
+<br>
+
+# No MN employment record vs meaningful emp in NE
+
+This section will examine which variables seem to play a role in whether an individual has meaningful employment in the region, or in Minnesota.
+
+<br>
+
+## One year after graduation
+
+It probably doesn't make sense to have a dataset with a bunch of post-secondary variables in it when exploring which variables make a difference in whether someone has meaningful workforce participation in the region one year after graduating high school. So, I'm going to delete all of them.
+
+```{r prep no MN emp grad year 1}
+no.mn.emp.grad.year.1 <- master %>%
+  filter(grad.year.1 %in% c("Meaningful emp NE", "No MN emp record, not attending ps")) %>%
+  select(-PersonID, -grad.year.5, -grad.year.10, -ps.grad.InstitutionSector, -ps.grad.location, -highest.cred.level, -ps.grad) %>%
+  droplevels()
+
+kable(names(no.mn.emp.grad.year.1))
+```
+
+When filtering for individuals that had meaningful employment in NE vs MN one year after graduation we end up with `r comma(nrow(no.mn.emp.grad.year.1))` individuals.The table below shows that a a minority of individuals have meaningful employment in the region - 27% compared to individuals with no meaningful employment and are not attending post-secondary.
+
+<br>
+
+```{r no mn emp grad year 1 prop}
+no.mn.emp.grad.year.1.prop <- no.mn.emp.grad.year.1 %>%
+  group_by(grad.year.1) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n),
+         pct = percent(pct, accuracy = .1)) %>%
+  datatable(rownames = FALSE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = 1:2))))
+
+no.mn.emp.grad.year.1.prop
+```
+
+<br>
+
+### Base model
+
+First we will split the data into two sets, Train and Test, in a 70:30 ratio. The Train set is used for training and creating the model. The Test set is considered to be a dummy production environment to test predictions and evaluate the accuracy of the model.
+
+<br>
+
+```{r split dataset into test and train no mn emp grad year 1, echo=TRUE}
+set.seed(1234)
+
+sample_ind <- sample(nrow(no.mn.emp.grad.year.1), nrow(no.mn.emp.grad.year.1) *.7)
+
+train <- no.mn.emp.grad.year.1[sample_ind,]
+
+test <- no.mn.emp.grad.year.1[-sample_ind,]
+
+```
+
+<br>
+
+Next, we create a decision tree model by calling the rpart function. Let's first create a base model with default parameters and value. The CP (complexity parameter) is used to control tree growth. If the cost of adding a variable is higher then the value of CP, then tree growth stops.
+
+The summary shows that the lowest cross-validated error is 1.0072 and the nsplit is 7.
+
+<br>
+
+```{r create decision tree no mn emp grad year 1, echo=TRUE, include = FALSE}
+#Base model
+
+no.mn.emp.grad.year.1.model <- rpart(grad.year.1 ~ ., data = train, method = "class", control = rpart.control(cp = 0))
+
+#Summary
+summary(no.mn.emp.grad.year.1.model)
+
+```
+
+```{r decision tree plot no mn emp grad year 1}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.1.model)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.1.model)
+
+plotcp(no.mn.emp.grad.year.1.model)
+
+```
+
+<br>
+
+The resulting model produced a VERY complex tree with too many nodes that it isn't interpretable. However, examining the complexity parameters shows that I have an increasing cross-validated error which provides evidence of a decision tree with too much complexity.
+
+<br>
+
+```{r base model variable importance no mn emp grad year 1, echo=TRUE}
+
+no.mn.emp.grad.year.1.model$variable.importance
+
+importance <- no.mn.emp.grad.year.1.model$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+Next, the accuracy of the model is computed and stored in a variable base_accuracy so we can compare it to our pruned trees later.
+
+<br>
+
+```{r model accuracy no mn emp grad year 1, echo=TRUE}
+test$pred <- predict(no.mn.emp.grad.year.1.model, test, type = "class")
+
+base_accuracy <- mean(test$pred == test$grad.year.1)
+
+base_accuracy
+
+```
+
+<br>
+
+### Pre-pruning
+
+Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It's recommended that I start with the following parameters;
+
+-   maxdepth: 3 to 6
+-   minsplit: 5% of n which is 787
+-   minbucket: round(minsplit / 3) which is 262
+
+Unforttunately, these parameters give me a tree with no splits. So, we are going to use the following;
+
+-   maxdepth: 6
+-   minsplit:
+-   minbucket: eliminate
+
+<br>
+
+```{r pre pruning no mn emp grad year 1, echo=TRUE}
+no.mn.emp.grad.year.1.model.preprune <- rpart(grad.year.1 ~ ., data = train, method = "class", 
+                   control = rpart.control(cp = 0, maxdepth = 6, minsplit = 300))
+
+test$pred <- predict(no.mn.emp.grad.year.1.model.preprune, test, type = "class")
+
+accuracy_preprun <- mean(test$pred == test$grad.year.1)
+
+accuracy_preprun
+```
+
+```{r pre pruning summary no mn emp grad year 1, include=FALSE}
+
+#Summary
+summary(no.mn.emp.grad.year.1.model.preprune)
+
+```
+
+The pre-pruning resulted in a significantly less complex tree with a .7363405 accuracy. Let's see what variables are important in this model.
+
+```{r pre pruning plot no MN emp  grad year 1, echo=TRUE}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.1.model.preprune)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.1.model.preprune)
+```
+
+The nodes show;
+
+-   SpecialEdStatus = 0
+    -   No: significantly more likely to not have meaningful employment or in post-secondary
+    -   Yes:
+        -   Meaningful emp in NE:
+
+            -   ACTCompositeSCore \> 27
+
+                -   took.ACT = YES
+
+                    -   grad.year.covid = No
+
+                        -   range.school = Yes
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   SpecialEdStatus
+    -   took.ACT
+    -   ACTCompositeScore
+    -   range.school
+    -   english.learner
+    -   grad.year.covid
+-   Less important
+    -   RaceEthnicity
+-   Missing
+    -   economic.status
+    -   pseo.participant
+    -   Dem_Desc
+    -   cte.achievement
+    -   MCA.M
+    -   MCA.R
+    -   MCA.S
+    -   total.cte.courses.taken
+
+<br>
+
+```{r pre pruning variable importance no mn emp grad year 1, echo=TRUE}
+no.mn.emp.grad.year.1.model.preprune$variable.importance
+
+importance <- no.mn.emp.grad.year.1.model.preprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+<br>
+
+### Post-pruning
+
+Next, let's try postpruning. The idea here is to allow the decision tree to grow fully and observe the CP value. There are two methods for identifying the CP code;
+
+1.  Use the cp value with the lowest xerror from the base model.
+2.  Use the cp value with the next lowest xerror that is within the standard error.
+
+<br>
+
+```{r postpruning no mn emp grad year 1, echo=TRUE}
+
+cp_table <- no.mn.emp.grad.year.1.model$cptable
+
+min_xerror <- min(cp_table[, "xerror"])
+min_xerror_se <- cp_table[which.min(cp_table[,"xerror"]), "xstd"]
+
+threshold <- min_xerror + min_xerror_se
+
+one_se_index <- which(cp_table[, "xerror"] <= threshold)[1] 
+
+cp_1se <- cp_table[one_se_index, "CP"]
+
+optimal_cp <- no.mn.emp.grad.year.1.model$cptable[which.min(no.mn.emp.grad.year.1.model$cptable[, "xerror"]), "CP"]
+
+
+# Prune the hr_base_model based on the optimal cp value
+no.mn.emp.grad.year.1.model.postprune <- prune(no.mn.emp.grad.year.1.model, cp = .00092764)
+
+#Summary
+summary(no.mn.emp.grad.year.1.model.postprune)
+
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.1.model.postprune, nn = TRUE)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.1.model.postprune)
+plotcp(no.mn.emp.grad.year.1.model.postprune)
+
+
+# Compute the accuracy of the pruned tree
+
+test$pred <- predict(no.mn.emp.grad.year.1.model.postprune, test, type = "class")
+
+accuracy_postprun <- mean(test$pred == test$grad.year.1)
+
+accuracy_postprun
+
+```
+
+<br>
+
+This is a very complex tree. Honestly, it's too complicated to interpret. But here's a quick summary
+
+Meaningful emp in NE
+
+-   SpecialEdStatus = 0
+-   range.school = yes
+-   MCA.M \< 3
+
+It tells me the following;
+
+-   Most important
+    -   SpecialEdStatus
+    -   ACTCompositeScore
+    -   took.ACT
+    -   range.school
+    -   english.learner
+    -   total.cte.courses.taken
+    -   grad.year.covid
+    -   RaceEthnicity
+-   Less important
+    -   MCA.R
+    -   MCA.M
+    -   MCA.S
+    -   economic.status
+    -   Dem_Desc
+    -   pseo.participant
+-   Missing
+
+<br>
+
+```{r post pruning variable importance no mn emp grad year 1, echo=TRUE}
+no.mn.emp.grad.year.1.model.postprune$variable.importance
+
+importance <- no.mn.emp.grad.year.1.model.postprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+```
+
+<br>
+
+Now let's compare the accuracy. The pre-pruned tree does get a bit better accuracy.
+
+```{r compare accuracy no MN emp  grad year 1, echo=TRUE}
+data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
+
+```
+
+### Summary
+
+The pre-pruned treesprovided better accuracy than the base model so let's use the most important variables from both.
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   SpecialEdStatus
+    -   took.ACT
+    -   ACTCompositeScore
+    -   range.school
+    -   english.learner
+    -   grad.year.covid
+-   Less important
+    -   RaceEthnicity
+-   Missing
+    -   economic.status
+    -   pseo.participant
+    -   Dem_Desc
+    -   cte.achievement
+    -   MCA.M
+    -   MCA.R
+    -   MCA.S
+    -   total.cte.courses.taken
+
+<br>
+
+## Five year after graduation
+
+It probably doesn't make sense to have a dataset with a bunch of post-secondary variables in it when exploring which variables make a difference in whether someone has meaningful workforce participation in the region one year after graduating high school. So, I'm going to delete all of them.
+
+```{r prep no mn emp grad year 5}
+no.mn.emp.grad.year.5 <- master %>%
+  filter(grad.year.5 %in% c("Meaningful emp NE", "No MN emp record, not attending ps")) %>%
+  select(-PersonID, -grad.year.1, -grad.year.10) %>%
+  droplevels()
+
+kable(names(no.mn.emp.grad.year.5))
+```
+
+When filtering for individuals that had meaningful employment in NE vs MN one year after graduation we end up with `r comma(nrow(no.mn.emp.grad.year.5))` individuals.The table below shows that a a minority of individuals have meaningful employment in the region - 27% compared to individuals with no meaningful employment and are not attending post-secondary.
+
+<br>
+
+```{r no mn emp grad year 5 prop}
+no.mn.emp.grad.year.5.prop <- no.mn.emp.grad.year.5 %>%
+  group_by(grad.year.5) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n),
+         pct = percent(pct, accuracy = .1)) %>%
+  datatable(rownames = FALSE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = 1:2))))
+
+no.mn.emp.grad.year.5.prop
+```
+
+<br>
+
+### Base model
+
+First we will split the data into two sets, Train and Test, in a 70:30 ratio. The Train set is used for training and creating the model. The Test set is considered to be a dummy production environment to test predictions and evaluate the accuracy of the model.
+
+<br>
+
+```{r split dataset into test and train no mn emp grad year 5, echo=TRUE}
+set.seed(1234)
+
+sample_ind <- sample(nrow(no.mn.emp.grad.year.5), nrow(no.mn.emp.grad.year.5) *.7)
+
+train <- no.mn.emp.grad.year.5[sample_ind,]
+
+test <- no.mn.emp.grad.year.5[-sample_ind,]
+
+```
+
+<br>
+
+Next, we create a decision tree model by calling the rpart function. Let's first create a base model with default parameters and value. The CP (complexity parameter) is used to control tree growth. If the cost of adding a variable is higher then the value of CP, then tree growth stops.
+
+The summary shows that the lowest cross-validated error is 0.95505 and the nsplit is 11.
+
+<br>
+
+```{r create decision tree no mn emp grad year 5, echo=TRUE, include = FALSE}
+#Base model
+
+no.mn.emp.grad.year.5.model <- rpart(grad.year.5 ~ ., data = train, method = "class", control = rpart.control(cp = 0))
+
+#Summary
+summary(no.mn.emp.grad.year.5.model)
+
+```
+
+```{r decision tree plot no mn emp grad year 5}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.5.model)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.5.model)
+
+plotcp(no.mn.emp.grad.year.5.model)
+
+```
+
+<br>
+
+The resulting model produced a VERY complex tree with too many nodes that it isn't interpretable. However, examining the complexity parameters shows that I have an increasing cross-validated error which provides evidence of a decision tree with too much complexity.
+
+<br>
+
+```{r base model variable importance no mn emp grad year 5, echo=TRUE}
+
+no.mn.emp.grad.year.5.model$variable.importance
+
+importance <- no.mn.emp.grad.year.5.model$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+Next, the accuracy of the model is computed and stored in a variable base_accuracy so we can compare it to our pruned trees later.
+
+<br>
+
+```{r model accuracy no mn emp grad year 5, echo=TRUE}
+test$pred <- predict(no.mn.emp.grad.year.5.model, test, type = "class")
+
+base_accuracy <- mean(test$pred == test$grad.year.5)
+
+base_accuracy
+
+```
+
+<br>
+
+### Pre-pruning
+
+Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It's recommended that I start with the following parameters;
+
+-   maxdepth: 3 to 6
+-   minsplit: 5% of n which is 1030
+-   minbucket: round(minsplit / 3) which is 343
+
+<br>
+
+```{r pre pruning no mn emp grad year 5, echo=TRUE}
+no.mn.emp.grad.year.5.model.preprune <- rpart(grad.year.5 ~ ., data = train, method = "class", 
+                   control = rpart.control(cp = 0, maxdepth = 6, minsplit = 1030, minbucket = 343))
+
+test$pred <- predict(no.mn.emp.grad.year.5.model.preprune, test, type = "class")
+
+accuracy_preprun <- mean(test$pred == test$grad.year.5)
+
+accuracy_preprun
+```
+
+```{r pre pruning summary no mn emp grad year 5, include=FALSE}
+
+#Summary
+summary(no.mn.emp.grad.year.5.model.preprune)
+
+```
+
+The pre-pruning resulted in a significantly less complex tree with a .7392782 accuracy. Let's see what variables are important in this model.
+
+```{r pre pruning plot no mn emp grad year 5, echo=TRUE}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.5.model.preprune)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.5.model.preprune)
+```
+
+The nodes show;
+
+-   ps.grad.location = In region \| Inside and outside region
+    -   No: No MN emp record
+    -   Yes
+        -   range.school = non-range school
+            -   Dem_Desc = Urban/town/rural mix
+                -   cte.achievement = CTE Concentrator or Completor
+                    -   pseo.participant = 0
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   Dem_Desc
+-   Less important
+    -   range.school
+    -   cte.achievement
+    -   pseo.participant
+    -   total.cte.courses.taken
+    -   took.ACT
+    -   MCA.M
+    -   SpecialEdStatus
+    -   RaceEthnicity
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   english.learner
+    -   ACTCompositeScore
+    -   MCA.R
+    -   MCA.S
+
+<br>
+
+```{r pre pruning variable importance no mn emp grad year 5, echo=TRUE}
+no.mn.emp.grad.year.5.model.preprune$variable.importance
+
+importance <- no.mn.emp.grad.year.5.model.preprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+<br>
+
+### Post-pruning
+
+Next, let's try postpruning. The idea here is to allow the decision tree to grow fully and observe the CP value. There are two methods for identifying the CP code;
+
+1.  Use the cp value with the lowest xerror from the base model.
+2.  Use the cp value with the next lowest xerror that is within the standard error.
+
+<br>
+
+```{r postpruning no mn emp grad year 5, echo=TRUE}
+
+cp_table <- no.mn.emp.grad.year.5.model$cptable
+
+min_xerror <- min(cp_table[, "xerror"])
+min_xerror_se <- cp_table[which.min(cp_table[,"xerror"]), "xstd"]
+
+threshold <- min_xerror + min_xerror_se
+
+one_se_index <- which(cp_table[, "xerror"] <= threshold)[1] 
+
+cp_1se <- cp_table[one_se_index, "CP"]
+
+optimal_cp <- no.mn.emp.grad.year.5.model$cptable[which.min(no.mn.emp.grad.year.5.model$cptable[, "xerror"]), "CP"]
+
+
+# Prune the hr_base_model based on the optimal cp value
+no.mn.emp.grad.year.5.model.postprune <- prune(no.mn.emp.grad.year.5.model, cp = optimal_cp)
+
+#Summary
+summary(no.mn.emp.grad.year.5.model.postprune)
+
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.5.model.postprune, nn = TRUE)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.5.model.postprune)
+plotcp(no.mn.emp.grad.year.5.model.postprune)
+
+
+# Compute the accuracy of the pruned tree
+
+test$pred <- predict(no.mn.emp.grad.year.5.model.postprune, test, type = "class")
+
+accuracy_postprun <- mean(test$pred == test$grad.year.5)
+
+accuracy_postprun
+
+```
+
+<br>
+
+This is a bit more simpler of a tree compared to the pre-pruned model.
+
+The nodes show;
+
+-   ps.grad.location = In region \| Inside and outside region
+    -   No: No MN emp record
+    -   Yes
+        -   range.school = non-range school
+            -   Dem_Desc = Urban/Town/Rural mix
+                -   cte.achievement: completor or concentrator
+                -   cte.achievement: not completetor or concentrator
+                    -   pseo.participant = 0
+                    -   total.cte.courses.taken \< 6
+                    -   RaceEthnicity = AI, Black, White
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   Dem_Desc
+-   Less important
+    -   range.school
+    -   cte.achievement
+    -   pseo.participant
+    -   total.cte.courses.taken
+    -   MCA.M
+    -   RaceEthnicity
+    -   took.ACT
+    -   ACTCompositeScore
+    -   SpecialEdStatus
+    -   MCA.R
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   english.learner
+    -   MCA.S
+
+<br>
+
+```{r post pruning variable importance no mn emp grad year 5, echo=TRUE}
+no.mn.emp.grad.year.5.model.postprune$variable.importance
+
+importance <- no.mn.emp.grad.year.5.model.postprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+```
+
+<br>
+
+Now let's compare the accuracy. The post-pruned tree does get a bit better accuracy.
+
+```{r compare accuracy no MN emp grad year 5, echo=TRUE}
+data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
+
+```
+
+### Summary
+
+The post-pruned tree provided better accuracy than the base model so let's use the most important variables from both.
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad
+    -   Dem_Desc
+-   Less important
+    -   range.school
+    -   cte.achievement
+    -   pseo.participant
+    -   total.cte.courses.taken
+    -   MCA.M
+    -   RaceEthnicity
+    -   took.ACT
+    -   ACTCompositeScore
+    -   SpecialEdStatus
+    -   MCA.R
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   english.learner
+    -   MCA.S
+
+<br>
+
+## Ten years after graduation
+
+It probably doesn't make sense to have a dataset with a bunch of post-secondary variables in it when exploring which variables make a difference in whether someone has meaningful workforce participation in the region one year after graduating high school. So, I'm going to delete all of them.
+
+```{r prep no.mn.emp.grad.year.10}
+no.mn.emp.grad.year.10 <- master %>%
+  filter(grad.year.10 %in% c("Meaningful emp NE", "No MN emp record, not attending ps")) %>%
+  select(-PersonID, -grad.year.1, -grad.year.5) %>%
+  droplevels()
+
+kable(names(no.mn.emp.grad.year.10))
+```
+
+When filtering for individuals that had meaningful employment in NE vs MN one year after graduation we end up with `r comma(nrow(no.mn.emp.grad.year.5))` individuals.The table below shows that a a minority of individuals have meaningful employment in the region - 22% compared to individuals with no meaningful employment and are not attending post-secondary.
+
+<br>
+
+```{r no.mn.emp.grad.year.10 prop}
+no.mn.emp.grad.year.10.prop <- no.mn.emp.grad.year.10 %>%
+  group_by(grad.year.10) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  mutate(pct = n / sum(n),
+         pct = percent(pct, accuracy = .1)) %>%
+  datatable(rownames = FALSE,
+            options = list(columnDefs = list(list(className = "dt-center", targets = 1:2))))
+
+no.mn.emp.grad.year.10.prop
+```
+
+<br>
+
+### Base model
+
+First we will split the data into two sets, Train and Test, in a 70:30 ratio. The Train set is used for training and creating the model. The Test set is considered to be a dummy production environment to test predictions and evaluate the accuracy of the model.
+
+<br>
+
+```{r split dataset into test and train no.mn.emp.grad.year.10, echo=TRUE}
+set.seed(1234)
+
+sample_ind <- sample(nrow(no.mn.emp.grad.year.10), nrow(no.mn.emp.grad.year.10) *.7)
+
+train <- no.mn.emp.grad.year.10[sample_ind,]
+
+test <- no.mn.emp.grad.year.10[-sample_ind,]
+
+```
+
+<br>
+
+Next, we create a decision tree model by calling the rpart function. Let's first create a base model with default parameters and value. The CP (complexity parameter) is used to control tree growth. If the cost of adding a variable is higher then the value of CP, then tree growth stops.
+
+The summary shows that the lowest cross-validated error is 0.95505 and the nsplit is 11.
+
+<br>
+
+```{r create decision tree no.mn.emp.grad.year.10, echo=TRUE, include = FALSE}
+#Base model
+
+no.mn.emp.grad.year.10.model <- rpart(grad.year.10 ~ ., data = train, method = "class", control = rpart.control(cp = 0))
+
+
+#Summary
+summary(no.mn.emp.grad.year.10.model)
+
+```
+
+```{r decision tree plot no.mn.emp.grad.year.10}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.10.model)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.10.model)
+
+plotcp(no.mn.emp.grad.year.10.model)
+
+```
+
+<br>
+
+The resulting model produced a VERY complex tree with too many nodes that it isn't interpretable. However, examining the complexity parameters shows that I have an increasing cross-validated error which provides evidence of a decision tree with too much complexity.
+
+<br>
+
+```{r base model variable importance no.mn.emp.grad.year.10, echo=TRUE}
+
+no.mn.emp.grad.year.10.model$variable.importance
+
+importance <- no.mn.emp.grad.year.10.model$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+Next, the accuracy of the model is computed and stored in a variable base_accuracy so we can compare it to our pruned trees later.
+
+<br>
+
+```{r model accuracy no.mn.emp.grad.year.10, echo=TRUE}
+test$pred <- predict(no.mn.emp.grad.year.10.model, test, type = "class")
+
+base_accuracy <- mean(test$pred == test$grad.year.10)
+
+base_accuracy
+
+```
+
+<br>
+
+### Pre-pruning
+
+Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It's recommended that I start with the following parameters;
+
+-   maxdepth: 3 to 6
+-   minsplit: 5% of n which is 765
+-   minbucket: round(minsplit / 3) which is 255
+
+<br>
+
+```{r pre pruning no.mn.emp.grad.year.10, echo=TRUE}
+no.mn.emp.grad.year.10.model.preprune <- rpart(grad.year.10 ~ ., data = train, method = "class", 
+                   control = rpart.control(cp = 0, maxdepth = 6, minsplit = 765, minbucket = 255))
+
+test$pred <- predict(no.mn.emp.grad.year.10.model.preprune, test, type = "class")
+
+accuracy_preprun <- mean(test$pred == test$grad.year.10)
+
+accuracy_preprun
+```
+
+```{r pre pruning summary no.mn.emp.grad.year.10, include=FALSE}
+
+#Summary
+summary(no.mn.emp.grad.year.10.model.preprune)
+
+```
+
+The pre-pruning resulted in a significantly less complex tree with a .7782618 accuracy. Let's see what variables are important in this model.
+
+```{r pre pruning plot no MN emp  grad year 10, echo=TRUE}
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.10.model.preprune)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.10.model.preprune)
+```
+
+The nodes show;
+
+-   ps.grad.location = In region
+    -   No: No MN emp record
+    -   Yes
+        -   Dem_Desc = Urban/town/rural mix
+            -   range.school = non-range school
+                -   cte.achievement = CTE Concentrator or Completor
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   range.school
+    -   Dem_Desc
+    -   cte.achievement
+-   Less important
+    -   total.cte.courses.taken
+    -   took.ACT
+    -   RaceEthnicity
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   english.learner
+    -   ACTCompositeScore
+    -   MCA.R
+    -   MCA.S
+    -   MCA.M
+    -   pseo.participant
+    -   SpecialEdStatus
+
+<br>
+
+```{r pre pruning variable importance no.mn.emp.grad.year.10, echo=TRUE}
+no.mn.emp.grad.year.10.model.preprune$variable.importance
+
+importance <- no.mn.emp.grad.year.10.model.preprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+
+```
+
+<br>
+
+### Post-pruning
+
+Next, let's try postpruning. The idea here is to allow the decision tree to grow fully and observe the CP value. There are two methods for identifying the CP code;
+
+1.  Use the cp value with the lowest xerror from the base model.
+2.  Use the cp value with the next lowest xerror that is within the standard error.
+
+<br>
+
+```{r postpruning no.mn.emp.grad.year.10, echo=TRUE}
+
+cp_table <- no.mn.emp.grad.year.10.model$cptable
+
+min_xerror <- min(cp_table[, "xerror"])
+min_xerror_se <- cp_table[which.min(cp_table[,"xerror"]), "xstd"]
+
+threshold <- min_xerror + min_xerror_se
+
+one_se_index <- which(cp_table[, "xerror"] <= threshold)[1] 
+
+cp_1se <- cp_table[one_se_index, "CP"]
+
+optimal_cp <- no.mn.emp.grad.year.10.model$cptable[which.min(no.mn.emp.grad.year.10.model$cptable[, "xerror"]), "CP"]
+
+
+# Prune the hr_base_model based on the optimal cp value
+no.mn.emp.grad.year.10.model.postprune <- prune(no.mn.emp.grad.year.10.model, cp = optimal_cp)
+
+#Summary
+summary(no.mn.emp.grad.year.10.model.postprune)
+
+#Plot tree
+rpart.plot(no.mn.emp.grad.year.10.model.postprune, nn = TRUE)
+
+# Examine the complexity plot
+printcp(no.mn.emp.grad.year.10.model.postprune)
+plotcp(no.mn.emp.grad.year.10.model.postprune)
+
+
+# Compute the accuracy of the pruned tree
+
+test$pred <- predict(no.mn.emp.grad.year.10.model.postprune, test, type = "class")
+
+accuracy_postprun <- mean(test$pred == test$grad.year.10)
+
+accuracy_postprun
+
+```
+
+<br>
+
+This is a bit more complex of a tree compared to the pre-pruned model. Honestly, it's too complex to interpret.
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   range.school
+    -   total.cte.courses.taken
+    -   Dem_Desc
+    -   cte.achievement
+-   Less important
+    -   MCA.R
+    -   MCA.M
+    -   took.ACT
+    -   SpecialEdStatus
+    -   english.learner
+    -   RaceEthnicity
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   pseo.participant
+    -   SpecialEdStatus
+    -   ps.grad
+
+<br>
+
+```{r post pruning variable importance no.mn.emp.grad.year.10, echo=TRUE}
+no.mn.emp.grad.year.10.model.postprune$variable.importance
+
+importance <- no.mn.emp.grad.year.10.model.postprune$variable.importance
+
+importance <- sort(importance, decreasing = TRUE)
+
+barplot(importance,
+        main = "Variable Importance",
+        xlab = "Variables",
+        ylab = "Importance",
+        col = "steelblue",
+        las = 2,        # make axis labels vertical
+        cex.names = 0.8 # smaller font if needed
+)
+```
+
+<br>
+
+Now let's compare the accuracy. The pre-pruned tree does get a bit better accuracy.
+
+```{r compare accuracy no.mn.emp.grad.year.10, echo=TRUE}
+data.frame(base_accuracy, accuracy_preprun, accuracy_postprun)
+
+```
+
+### Summary
+
+The pre-pruned tree provided better accuracy than the base model so let's use the most important variables from both.
+
+Overall, these are the most important themes;
+
+-   Most important
+    -   ps.grad.location
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   range.school
+    -   Dem_Desc
+    -   cte.achievement
+-   Less important
+    -   total.cte.courses.taken
+    -   took.ACT
+    -   RaceEthnicity
+-   Missing
+    -   grad.year.covid
+    -   economic.status
+    -   english.learner
+    -   ACTCompositeScore
+    -   MCA.R
+    -   MCA.S
+    -   MCA.M
+    -   pseo.participant
+    -   SpecialEdStatus
+
+<br>
+
+## Important variables through time
+
+The following table provides the level of important for each grad.year.x in the above analysis. Here are the primary themes;
+
+-   Variables that are never important
+    -   economic.status
+-   A few that just don't make the cut either
+    -   pseo.participante
+    -   MCA.S
+    -   ps.grad
+    -   MCA.M
+    -   MCA.R
+    -   grad.year.covid
+-   Varaibles that are very important 5 and 10 years after graduating high school
+    -   Dem_Desc
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad.location
+-   Others that seem important
+    -   range.school
+    -   cte.achievement
+    -   total.cte.courses.taken
+    -   SpecialEdStatus
+    -   took.ACT
+    -   RaceEthnicity
+-   One variable that stays important throughout the entire analysis
+    -   SpecialEdStatus
+-   One variable that starts as important but loses importance over time
+    -   ACTCompositeScore
+-   There are a few variables that are important five and ten years after graduating high school;
+    -   ps.grad.location
+    -   highest.cred.earned
+    -   ps.grad
+    -   ps.grad.InstitutionSector
+    -   total.cte.courses.taken
+-   A few that are important once and less so once
+    -   economic.status
+    -   cte.achievement
+    -   RaceEthnicity
+    -   took.ACT
+-   A couple of variables that stay either important or less so throughout the years
+    -   economic.status
+    -   Dem_Desc
+    -   RaceEthnicity
+    -   cte.achievement
+    -   ACTCompositeScore
+    -   total.cte.courses.taken
+-   Variables that had some importance five and ten years after graduating high school
+    -   Dem_Desc
+    -   range.school
+    -   MCA.M
+    -   MCA.R
+    -   english.learner
+    -   english.learner
+
+The variables to keep by group are;
+
+-   Demographics
+    -   ~~grad.year.covid~~
+    -   ~~economic.status~~
+    -   RaceEthnicity
+    -   SpecialEdStatus
+    -   english.learner
+-   CTE engagement
+    -   cte.achievement
+    -   total.cte.courses.taken
+-   HS Characteristics
+    -   Dem_Desc
+    -   range.school
+-   Prep for PS
+    -   ~~pseo.participant~~
+    -   ~~MCA.M~~
+    -   ~~MCA.R~~
+    -   ~~MCA.S~~
+    -   ACTCompositeScore
+    -   took.act
+-   Post-secondary path
+    -   ~~ps.grad~~
+    -   ps.grad.InstitutionSector
+    -   highest.cred.level
+    -   ps.grad.location
+
+```{r create table for importance variables over time no MN emp}
+
+ind.var.table <- names(ind.var) %>%
+  as_tibble() %>%
+  rename(ind.var = 1) %>%
+  mutate(ind.var = as_factor(ind.var),
+         var.group = ifelse(ind.var %in% c("grad.year.covid", "economic.status", "SpecialEdStatus", "RaceEthnicity", "english.learner"), "Demographics",
+                            ifelse(ind.var %in% c("range.school", "Dem_Desc"), "HS Characteristics",
+                                   ifelse(ind.var %in% c("pseo.participant", "took.ACT", "ACTCompositeScore", "MCA.M", "MCA.R", "MCA.S"), "Prep for PS",
+                                          ifelse(ind.var %in% c("cte.achievement", "total.cte.courses.taken"), "CTE Engagement", "Post-secondary path")))),
+         year.one = ifelse(ind.var %in% c("SpecialEdStatus", "took.ACT", "ACTCompositeScore", "range.school", "english.learner", "grad.year.covid"), "Important",
+                           ifelse(ind.var %in% c("RaceEthnicity"), "Less so", "")),
+         year.five = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstitutionSector", "highest.cred.level", "ps.grad", "Dem_Desc"), "Important",
+                            ifelse(ind.var %in% c("range.school", "cte.achievement", "pseo.participant", "total.cte.courses.taken", "MCA.M", "RaceEthnicity", "took.ACT", "ACTCompositeScore", "SpecialEdStatus", "MCA.R"), "Less so", "")),
+         year.ten = ifelse(ind.var %in% c("ps.grad.location", "ps.grad.InstitutionSector", "highest.cred.level", "range.school", "Dem_Desc", "cte.achievement"), "Important",
+                           ifelse(ind.var %in% c("total.cte.courses.taken", "took.ACT", "RaceEthnicity"), "Less so", "")))
+
+datatable(ind.var.table, class = "cell-border stripe", filter = "top", rownames = FALSE,
+          options = list(
+            columnDefs = list(list(className = "dt-center", targets = 1:2)),
+            pageLength = 20)) 
+
+```
 
 <br>
 
