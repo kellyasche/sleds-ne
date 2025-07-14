@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,15 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -124,7 +133,7 @@ The next dataset to merge with the master is the enrollment in AP courses. I'm f
 <br>
 
 ```{r ap original data}
-ap.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/AP/AdvancedPlacementSATPSAT_AP.csv') %>%
+ap.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/AP/AdvancedPlacementSATPSAT_AP.csv') %>%
   mutate(PersonID = as.integer(PersonID)) %>%
   drop_na(PersonID)
 
@@ -193,11 +202,11 @@ The updated master spreadsheet continues to have `r comma(nrow(master.3), accura
 
 Similar to ACT, lets check on whether the rates of students taking an AP exam differ across regions, RUCA groups or counties.
 
-From the table below we can see that out of the total observations in our dataset, 10% have taken an AP exam.
+From the table below we can see that out of the total observations in our dataset, 8.7% have taken an AP exam.
 
 <br>
 
-```{r table ap summary total, echo=FALSE}
+```{r table ap summary total, echo=TRUE}
 ap.summary.total <- master.3 %>%
   select(PersonID, ap.exam) %>%
   mutate(ap.exam = ifelse(ap.exam == 0, "Did not take AP exam", "Took AP exam")) %>%
@@ -211,14 +220,14 @@ datatable(ap.summary.total, class = "cell-border stripe", filter = "top", rownam
 
 Now lets check to see if there are any statistically significant differences by RUCA category.
 
-Interestingly, there was significant difference between the percentage of students who took an AP exam by their RUCA categories. Although, nearly 10% of all students took the AP exam, only 2.1% from town/rural mix districts took the exam compared to 9.3% from our entirely rural districts and 11.7% from our urban/town/rural mix districts.
+Interestingly, there was significant difference between the percentage of students who took an AP exam by their RUCA categories. Although, nearly 10% of all students took the AP exam, only 3.1% from town/rural mix districts took the exam compared to 6.7% from our entirely rural districts and 10.8% from our urban/town/rural mix districts.
 
 <br>
 
 ::: panel-tabset
 ## RUCA Table
 
-```{r table ap exam ruca, echo=FALSE}
+```{r table ap exam ruca, echo=TRUE}
 ap.summary.ruca <- master.3 %>%
   select(Dem_Desc, ap.exam) %>%
   mutate(ap.exam = ifelse(ap.exam == 0, "Did not take AP exam", "Took AP exam")) %>%
@@ -244,14 +253,14 @@ CrossTable(ap.crosstabs.ruca$Dem_Desc, ap.crosstabs.ruca$ap.exam, expected = TRU
 
 <br>
 
-There is significant variation in the percent of students who've taken an AP exam across counties. It ranges from 0.2% in Aitkin to 30.7% in Cook County.
+There is significant variation in the percent of students who've taken an AP exam across counties. It ranges from 0.1% in Aitkin to 28.1% in Cook County.
 
 <br>
 
 ::: panel-tabset
 ## County map
 
-```{r map ap exam county, echo=FALSE}
+```{r map ap exam county, echo=TRUE}
 ap.summary.county <- master.3 %>%
   select(county.name, ap.exam) %>%
   mutate(ap.exam = ifelse(ap.exam == 0, "Did not take AP exam", "Took AP exam")) %>%
