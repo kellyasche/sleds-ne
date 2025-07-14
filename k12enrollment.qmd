@@ -182,7 +182,6 @@ k12.org.master <- k12.org.original %>%
   rename(county.name = 2) %>%
   mutate(county.name = str_replace(county.name, " County", "")) %>%
   select(K12OrganizationID, OrganizationName, county.name) %>%
-  mutate(county.name = str_replace(county.name, "Saint Louis", "St. Louis")) %>%
   left_join(counties.regions.1, by = c("county.name" = "Name")) %>%
   select(-Dem_RUCA, -mif, -edr.simple)
 

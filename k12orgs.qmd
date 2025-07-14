@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -125,7 +125,7 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
   rename(countyfp = FIPS_CODE)
 
-k12.county.codes <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12-county-codes.csv")
+
 ```
 
 # Data prep
@@ -151,29 +151,27 @@ The one metric that wasn't included when I joined the enrollment data with the o
 <br>
 
 ```{r enrollment joined with n years attended}
-enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
+enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
   mutate(PersonID = as.integer(PersonID),
          K12OrganizationID = as.integer(K12OrganizationID)) %>%
   drop_na(PersonID)
 
-k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") %>%
+k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization-updated.csv") %>%
   distinct(K12OrganizationID, .keep_all = TRUE) %>%
   drop_na(K12OrganizationID) %>%
   mutate(K12OrganizationID = as.integer(K12OrganizationID))
 
 k12.org.master <- k12.org.original %>%
-  select(K12OrganizationID, SiteCountyCode, OrganizationName, DistrictID, SchoolNumber) 
-  left_join(k12.county.codes[,c(1,2)], by = c("SiteCountyCode" = "county.code")) 
-  rename(county.name = 4) %>%
+  select(K12OrganizationID, County, OrganizationName, DistrictID, SchoolNumber) %>%
+  rename(county.name = 2) %>%
   mutate(county.name = str_replace(county.name, " County", "")) %>%
   select(K12OrganizationID, OrganizationName, county.name) %>%
-  mutate(county.name = str_replace(county.name, "Saint Louis", "St. Louis")) %>%
   left_join(counties.regions.1, by = c("county.name" = "Name")) %>%
-  select(-Dem_RUCA, -mif, -edr.simple)
+  select(-Dem_RUCA, -mif, -edr.simple, -planning.region) 
 
 enrollment.org.ne <- enrollment.original %>%
   left_join(k12.org.master, by = "K12OrganizationID") %>%
-  filter(edr == "EDR 3 - Arrowhead")
+  filter(project.pr == "Northeast")
 
 n.years <- original %>%
   select(PersonID, grad.year, K12OrganizationID) %>%
@@ -202,9 +200,9 @@ Lets summarize the graduates to see their high schools rural-ness and location. 
 
 ## Summary of high school location
 
-Lets breakdown the graduates by which regions they graduated from.
+Lets breakdown the graduates by which RUCA category their high school was located.
 
-Nearly three-quarters of the observations graduated from a county categorized as "urban/town/rural mix". followed by 20.3% that graduated from a high school in town/rural mix counties and 6.0% from entirely rural counties.
+Nearly 70% of the observations graduated from a county categorized as "urban/town/rural mix", followed by 24.4% that graduated from a high school in town/rural mix counties and 5.9% from entirely rural counties.
 
 <br>
 
@@ -228,7 +226,15 @@ datatable(k12.org.summary.ruca, class = "cell-border stripe", filter = "top")
 
 <br>
 
-Below is a map with the percentages of graduates graduating from high schools located within each county. The schools with the highest percent of graduates/observations are located in Kandiyohi, Lyon and McLeod counties. Each of those have between 11% and 12% of high school graduates since 2008.
+Below is a map with the percentages of graduates graduating from high schools located within each county. This is the breakdown;
+
+-   St. Louis: 55%
+-   Itasca: 16%
+-   Carlton: 15%
+-   Aitkin: 5%
+-   Koochiching: 4%
+-   Lake: 4%
+-   Cook: 1%
 
 <br>
 
@@ -266,18 +272,18 @@ The following analysis looks to see if there are any statistical differences due
 -   Had non english speakders in home at some point in the dataset
 -   Participated in a PSEO course at some point in the dataset.
 
-Lets start with the cross-tabs based on RUCA categories.
-
 The cross-tabs below indicate that there are 4 demographic variables that have proportions statistically different across RUCA categories. Each of the variables are indicated with an asterisk.
 
--   Free or reduced lunch: a statistically significant higher percentage of graduates from high schools in entirely rural mix counties receive free or reduced lunch.
--   Homeless: as a school district becomes more urban, the percentage of it's graduates indicating they experienced homeslessness at some point increases significantly.
--   PSEO: a siginficantly lower percentage of graduates from entirely rural districts participated in a PSEO program.
+-   Free or reduced lunch: the more rural a district is, the higher the percentage of graduates that qualified for free or reduced lunch.
+-   Homeless: as a school district becomes more urban, the percentage of it's graduates indicating they experienced homelessness at some point increases significantly.
+-   Limited English: the entirely rural districts had a slightly higher percentage of graduates with limited English.
+-   Non-English in home: town/rural mix districts had a significantly higher percentage of graduates with non-English speakers in the home.
+-   PSEO: a significantly lower percentage of graduates from entirely rural districts participated in a PSEO program.
 
 ::: panel-tabset
 ### RUCA Free or Reduced Lunch
 
-Although 34.0% of the total number of graduates in the dataset receive free or reduced lunch, graduates from entirely rural schools had significantly higher percentage with 41.4%.
+Although 36.8% of the total number of graduates in the dataset receive free or reduced lunch, the more rural school districts had a higher percentage - 45.1% for entirely rural and 40.1% for town/rural mix schools.
 
 <br>
 
@@ -303,7 +309,7 @@ k12.dem.free.lunch.ruca.plot <- ggplot(k12.dem.free.lunch.ruca, aes(Dem_Desc, pc
   annotate(geom = "text",
            x = 3,
            y = .4,
-           label = "All graduates\npercent, 34.0%",
+           label = "All graduates\npercent, 36.8%",
            size = 5) +
   labs(x="", y = "", color="", fill = "", title = "Percent of graduates receiving free or reduced lunch")+
   geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, size = 5) +
@@ -346,11 +352,50 @@ As a district becomes more urban, the percentage of it's graduates indicating it
 CrossTable(master$Dem_Desc, master$HomelessIndicator, expected = TRUE, prop.t = FALSE, prop.c = FALSE, prop.chisq = FALSE)
 ```
 
+```{r chart homeless ruca}
+k12.dem.homeless.ruca <- master %>%
+  group_by(Dem_Desc, HomelessIndicator) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  group_by(Dem_Desc) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(total.pct = sum(n[HomelessIndicator == "Y"]) / sum(n),
+         graduates = sum(n)) %>%
+  filter(HomelessIndicator == "Y") %>%
+  mutate(total.homeless = sum(n),
+         data_id = seq(n()))
+
+  
+k12.dem.homeless.ruca.plot <- ggplot(k12.dem.homeless.ruca, aes(Dem_Desc, pct, fill = Dem_Desc)) +
+  geom_hline(yintercept = k12.dem.homeless.ruca$total.pct, color = "black") +
+  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(graduates, accuracy = 1), "\nGraduates homeless at some point: ", comma(total.homeless, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
+  annotate(geom = "text",
+           x = 1,
+           y = k12.dem.homeless.ruca$total.pct - .001,
+           label = paste("All graduates\npercent, ", percent(k12.dem.homeless.ruca$total.pct, accuracy = .1), sep = ""),
+           size = 5) +
+  labs(x="", y = "", color="", fill = "", title = "Percent of graduates homeless")+
+  geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, size = 5) +
+  scale_y_continuous(labels=scales::percent)+
+  theme_line+
+  scale_fill_manual(values= color.ruca,
+                     guide = guide_legend(ncol = 3)) +
+  theme(legend.position = "bottom",
+        text = element_text(size = 16))
+
+  girafe(ggobj = k12.dem.homeless.ruca.plot) %>%
+    girafe_options(opts_selection(type = "none"),
+                   opts_toolbar(saveaspng = FALSE),
+                   opts_sizing(rescale = FALSE))
+
+```
+
 <br>
 
 ### RUCA Limited English
 
-No significance
+The cross-tabs indicate a relationship. The chart shows that our .3% of entirely rural graduates were tagged as having Limited English which is significantly higher than town/rural mix (.1%).
 
 <br>
 
@@ -358,11 +403,49 @@ No significance
 CrossTable(master$Dem_Desc, master$LimitedEnglishProficiencyIndicator, expected = TRUE, prop.t = FALSE, prop.c = FALSE, prop.chisq = FALSE)
 ```
 
+```{r chart kimited english ruca}
+k12.dem.limited.english.ruca <- master %>%
+  group_by(Dem_Desc, LimitedEnglishProficiencyIndicator) %>%
+  summarise(n = n()) %>%
+  ungroup() %>%
+  group_by(Dem_Desc) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(total.pct = sum(n[LimitedEnglishProficiencyIndicator == "Y"]) / sum(n),
+         graduates = sum(n)) %>%
+  filter(LimitedEnglishProficiencyIndicator == "Y") %>%
+  mutate(LimitedEnglishProficiencyIndicator.total = sum(n),
+         data_id = seq(n()))
+
+  
+k12.dem.limited.english.ruca.plot <- ggplot(k12.dem.limited.english.ruca, aes(Dem_Desc, pct, fill = Dem_Desc)) +
+  geom_hline(yintercept = k12.dem.limited.english.ruca$total.pct, color = "black") +
+  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(graduates, accuracy = 1), "\nGraduates homeless at some point: ", comma(LimitedEnglishProficiencyIndicator.total, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
+  annotate(geom = "text",
+           x = 2,
+           y = k12.dem.limited.english.ruca$total.pct + .0005,
+           label = paste("All graduates\npercent, ", percent(k12.dem.limited.english.ruca$total.pct, accuracy = .1), sep = ""),
+           size = 5) +
+  labs(x="", y = "", color="", fill = "", title = "Percent of graduates with Limited English")+
+  geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, size = 5) +
+  scale_y_continuous(labels=scales::percent)+
+  theme_line+
+  scale_fill_manual(values= color.ruca,
+                     guide = guide_legend(ncol = 3)) +
+  theme(legend.position = "bottom",
+        text = element_text(size = 16))
+
+  girafe(ggobj = k12.dem.limited.english.ruca.plot) %>%
+    girafe_options(opts_selection(type = "none"),
+                   opts_toolbar(saveaspng = FALSE),
+                   opts_sizing(rescale = FALSE))
+```
+
 <br>
 
 ### RUCA non-english in home
 
-A significantly higher percentage of graduates from town/rural mix schools indicated having an non-english speaker at home. (1.3%)
+Okay, well this doesn't make a ton of sense. In the previous chart it showed that town/rural mix graduates were significantly less likely to have limited english, while this shows that town/rural mix graduates have the highest percentage of people that had non-english speakers at home.
 
 <br>
 
@@ -384,13 +467,13 @@ k12.non.english.home.ruca <- master %>%
   
 k12.non.english.home.ruca.plot <- ggplot(k12.non.english.home.ruca, aes(Dem_Desc, pct, fill = Dem_Desc)) +
   geom_hline(yintercept = k12.non.english.home.ruca$total.pct, color = "black") +
-  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(n, accuracy = 1), "\nGraduates with non-english speaker at home: ", comma(non.english, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
+  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(n, accuracy = 1), "\nGraduates with non-english speaker\nat home: ", comma(non.english, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
   annotate(geom = "text",
-           x = 3,
-           y = .016,
-           label = "All graduates\npercent, 8.7%",
+           x = 1,
+           y = k12.non.english.home.ruca$total.pct + .001,
+           label = paste("All graduates\npercent, ", percent(k12.non.english.home.ruca$total.pct, accuracy = .1), sep = ""),
            size = 5) +
-  labs(x="", y = "", fill = "", color="", title = "Percent of graduates with non-english speaker at home")+
+  labs(x="", y = "", fill = "", color="", title = "Percent of graduates with non-english\n speaker at home")+
   geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, size = 5) +
   scale_y_continuous(labels=scales::percent)+
   theme_line+
@@ -411,7 +494,7 @@ k12.non.english.home.ruca.plot <- ggplot(k12.non.english.home.ruca, aes(Dem_Desc
 
 ### RUCA PSEO
 
-Although 36.4% of all graduates participating in PSEO, there was a significantly lower percentage in entirely rural schools (31%) and a higher percentage in town/rural mix schools (41%).
+Although 38.4% of all graduates participating in PSEO, there was a significantly lower percentage in entirely rural schools (30%).
 
 <br>
 
@@ -423,21 +506,26 @@ CrossTable(master$Dem_Desc, master$pseo.participant, expected = TRUE, prop.t = F
 
 ```{r chart pseo ruca}
 k12.pseo.ruca<- master %>%
-  group_by(Dem_Desc) %>%
-  summarise(n = n(),
-            pseo.participant = sum(pseo.participant, na.rm = TRUE)) %>%
+  group_by(Dem_Desc, pseo.participant) %>%
+  summarise(n = n()) %>%
   ungroup() %>%
-  mutate(pct = pseo.participant / n,
-         total.pct = sum(pseo.participant) / sum(n),
-         data_id = seq(n()))
-  
+  mutate(total.graduates = sum(n)) %>%
+  group_by(Dem_Desc) %>%
+  mutate(pct = n / sum(n),
+         total.graduates = sum(n)) %>%
+  ungroup() %>%
+  mutate(pseo.participant = ifelse(is.na(pseo.participant), -1, pseo.participant),
+         total.pct = sum(n[pseo.participant == 1]) / sum(n)) %>%
+  filter(pseo.participant == 1) %>%
+  mutate(data_id = seq(n()))
+
 k12.pseo.ruca.plot <- ggplot(k12.pseo.ruca, aes(Dem_Desc, pct, fill = Dem_Desc)) +
   geom_hline(yintercept = k12.pseo.ruca$total.pct, color = "black") +
-  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(n, accuracy = 1), "\nGraduates participated in PSEO: ", comma(pseo.participant, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
+  geom_col_interactive(size = 5, aes(data_id = data_id, tooltip = paste(Dem_Desc, "\nTotal graduates: ", comma(total.graduates, accuracy = 1), "\nGraduates participated in PSEO: ", comma(n, accuracy = 1), "\nPercent of total graduates: ", percent(pct, accuracy = .1), sep = ""))) +
   annotate(geom = "text",
            x = 1,
-           y = .37,
-           label = "All graduates\npercent, 36.4%",
+           y = k12.pseo.ruca$total.pct,
+           label = paste("All graduates\npercent, ", percent(k12.pseo.ruca$total.pct, accuracy = .1), sep = ""),
            size = 5) +
   labs(x="", y = "", color="", fill = "", title = "Percent of graduates participated in PSEO")+
   geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, size = 5) +
@@ -463,7 +551,7 @@ k12.pseo.ruca.plot <- ggplot(k12.pseo.ruca, aes(Dem_Desc, pct, fill = Dem_Desc))
 
 First, lets see the distribution of the number of years attending a Northeast High School within this dataset.
 
-A large majority of students (\~30,000 students) attended a Northeast MN High School for 3 years. A few attended for longer than that, which is largely due to students who attended a CTE course after they graduated for special training.
+A large majority of students (\~45,000 students) attended a Northeast MN High School for 3 years. A few attended for longer than that, which is largely due to students who attended a CTE course after they graduated for special training.
 
 <br>
 
@@ -487,7 +575,7 @@ girafe(ggobj = n.years.distribution.map) %>%
 
 Next, we will look at the summary statistics for the entire dataset.
 
-As expected, the median is 3 years while the average was just a bit lower with 3.78 years.
+As expected, the median is 3 years while the average was just a bit higher with 3.02 years.
 
 <br>
 
