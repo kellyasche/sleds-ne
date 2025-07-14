@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -102,6 +102,16 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
 color.pr <- c("Northwest" = 	"#4575b4", "Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
@@ -124,7 +134,7 @@ Now I'm going to prep the CTE demographics dataset to join with the master. I wi
 <br>
 
 ```{r cte demographics original}
-cte.demographics.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/CTEDemographics/CTEDemographic.csv')  %>%
+cte.demographics.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/CTEDemographics/CTEDemographic.csv')  %>%
   mutate(PersonID = as.integer(PersonID)) 
 
 kable(head(cte.demographics.original))
@@ -182,9 +192,9 @@ kable(names(cte.concentrator.cat))
 
 <br>
 
-When joined with the master file, there were `r comma(cte.concentrator.cat %>% filter(cte.achievement != "No CTE") %>% nrow(), accuracy = 1)` that were either a CTE participant or concentrator. This is below the \~34,000 that took at least one CTE course according to the CTE enrollment dataset. This could mean that there roughly 5,000 students that took a CTE course but did not graduate.
+When joined with the master file, there were `r comma(cte.concentrator.cat %>% filter(cte.achievement != "No CTE") %>% nrow(), accuracy = 1)` that were either a CTE participant or concentrator.
 
-Lets join this dataset with the master to confirm this thought.
+Next, let's join it all up.
 
 <br>
 
@@ -216,7 +226,7 @@ We will summarize the CTE demographics data by rural-ness and region to see if t
 
 First, lets see what percentage of the graduates by cte demographics categories.
 
-The table below shows that of the total graduates from Northeast high schools, nearly a third (30%) were a CTE concentrator or completor, while 27% were just a participant and 43% took no CTE courses at all.
+The table below shows that of the total graduates from Northeast high schools, nearly a third (31%) were a CTE concentrator or completor, while 28% were just a participant and 42% took no CTE courses at all.
 
 <br>
 
@@ -233,7 +243,7 @@ datatable(cte.dem.summary.total, class = "cell-border stripe", filter = "top", r
 
 <br>
 
-The cross-tabs show a significant difference between the percentage of students by categorization and RUCA categories. Our The more rural the district, the higher the percentages of the graduates that are either concentrators or completors, or took at least one CTE course.
+The cross-tabs show a significant difference between the percentage of students by categorization and RUCA categories. The more rural the district, the higher the percentages of the graduates that are either concentrators or completors, or took at least one CTE course.
 
 <br>
 
@@ -263,7 +273,7 @@ CrossTable(master.5$Dem_Desc, master.5$cte.achievement, expected = TRUE, prop.t 
 
 Lets take a look at the county map.
 
-The cross tabulations show that there is a statistically significant difference in the percent of graduates in each CTE category by county.
+The cross tabulations show that there is a statistically significant difference in the percent of graduates in each CTE category by county. The map confirms that the more rural counties typically have a higher percentage of graduates that either concentrated or participated in CTE. The higher percentage of graduates that had no CTE were St. Louis County districts.
 
 <br>
 
@@ -322,11 +332,7 @@ CrossTable(master.5$county.name, master.5$cte.achievement, expected = TRUE, prop
 
 The next thing to check is to determine whether there is a significant difference by year.
 
-Interestingly, these are going in opposite directions. CTE concentrators or completors has been setadily decreasing since 2008 - from 50% to 21%.
-
-CTE participants has increased a bit going from 19% to 32%.
-
-The percentage of graduating taking no CTE courses has increased, going from 31% to 47%.
+Interestingly, the percentage of graduates that had no CTE were hovering around 50% until 2020 when it completely flipped. This may indicate a change in CTE offerings at some of these schools during that time.
 
 <br>
 
