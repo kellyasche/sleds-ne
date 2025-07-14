@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo=TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,15 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -124,7 +133,7 @@ The next dataset is individuals that were enrolled in CTE courses. I'm first goi
 <br>
 
 ```{r cte enrollment original}
-cte.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/CTEEnrollment.csv') %>%
+cte.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/CTEEnrollment.csv') %>%
   mutate(PersonID = as.integer(PersonID)) %>%
   filter(FiscalYearTimeID != "NULL") %>%
   mutate(CareerCluster = ifelse(CareerCluster == "26" & CareerClusterName == "Diversified Youth Apprenticeship", "25", CareerCluster),
@@ -133,7 +142,7 @@ cte.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/Goog
          CareerCluster = as.integer(CareerCluster))
 
 
-career.cluster.codes.names.original <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/career-cluster-codes-names_from SLEDS_March2025.xlsx') %>%
+career.cluster.codes.names.original <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/CTEEnrollment/career-cluster-codes-names_from SLEDS_March2025.xlsx') %>%
   mutate(cte.year = ifelse(Introduced > 2020, 2021, Discontinued),
          cte.year = ifelse(is.na(Introduced) & is.na(Discontinued), 2021, cte.year),
          cte.year = ifelse(is.na(cte.year), 2020, cte.year),
@@ -269,13 +278,13 @@ After joining the CTE enrollment data with the master dataset we continue to hav
 
 We'll start with summarising the number of cte courses the observations have taken.
 
-The tables below show that the average number of CTE courses taken by all PersonID in the master dataset is 2.22 with a standard deviation of +/-2.33. This is a high standard deviation meaning there are values quite far from the mean.
+The tables below show that the average number of CTE courses taken by all PersonID in the master dataset is 2.29 with a standard deviation of +/-2.39. This is a high standard deviation meaning there are values quite far from the mean.
 
-The second row of the table shows the average number of CTE courses taken by individuals who took at least one CTE course. The average jumps up a bit to 3.15 with a standard deviation of 2.19.
+The second row of the table shows the average number of CTE courses taken by individuals who took at least one CTE course. The average jumps up a bit to 3.20 with a standard deviation of 2.25.
 
 <br>
 
-```{r summarise n CTE courses taken, echo=FALSE}
+```{r summarise n CTE courses taken, echo=TRUE}
 cte.n.courses.summary.total <- master.4 %>%
   summarise(mean = mean(total.cte.courses.taken),
             median = median(total.cte.courses.taken),
@@ -309,11 +318,11 @@ datatable(cte.n.courses.summary.total.ctestudents, class = "cell-border stripe",
 
 <br>
 
-Below is a chart showing the distribution of CTE courses taken by individuals. This shows that a a large majority of students take 10 courses or less.
+Below is a chart showing the distribution of CTE courses taken by individuals. This shows that a a large majority of students take 5 courses or less.
 
 <br>
 
-```{r summarise n CTE courses taken distribution, echo=FALSE}
+```{r summarise n CTE courses taken distribution, echo=TRUE}
 master.4.hist <- master.4 %>%
   mutate(key = seq(n())) %>%
   select(key, total.cte.courses.taken)
@@ -336,18 +345,40 @@ cte.n.courses.taken.dist.plot <- ggplot(master.4.hist, aes(total.cte.courses.tak
 
 <br>
 
+The following table shows that nearly three-quarters of the students took at least one CTE course.
+
+<br>
+
+```{r pct took CTE}
+cte.pct <- master.4 %>%
+  mutate(took.CTE = ifelse(total.cte.courses.taken > 0, "Yes", "No")) %>%
+  group_by(took.CTE) %>%
+  summarize(n = n()) %>%
+  ungroup()  %>%
+  mutate(pct = n / sum(n))
+
+datatable(cte.pct, class = "cell-border stripe", filter = "top", rownames = FALSE,
+          options = list(columnDefs = list(list(className = "dt-center", targets = 1)))) %>%
+  formatCurrency(2, "", digits = 0) %>%
+  formatPercentage(3, digits = 1)
+
+
+```
+
+<br>
+
 Up next is to see if the percentage of students taking a CTE course varies significantly by RUCA group.
 
-There is a significant difference in whether a student has taken at least one CTE course and their high school county RUCA category. Although 71% of all graduates took at least one CTE course, that percentage is highest in more rural districts. 86.4% took at least one CTE course in entirely rural districts while 82.0% took at least one in town/rural mix districts. 66.1% took at least one in our urban/town/rural mix districts.
+There is a significant difference in whether a student has taken at least one CTE course and their high school county RUCA category. Although 72% of all graduates took at least one CTE course, that percentage is highest in more rural districts. 85.7% took at least one CTE course in entirely rural districts while 80.2% took at least one in town/rural mix districts. 67.5% took at least one in our urban/town/rural mix districts.
 
-Of those students that took at least 1 CTE course, the average number of CTE courses taken ranged from 3.9 in our entirely rural districts to 3.0 in urban/town/rural mix districts.
+Of those students that took at least 1 CTE course, the average number of CTE courses taken ranged from 3.7 in our entirely rural districts to 3.1 in urban/town/rural mix districts.
 
 <br>
 
 ::: panel-tabset
 ## RUCA Table
 
-```{r taken at least one cte course table ruca, echo=FALSE}
+```{r taken at least one cte course table ruca, echo=TRUE}
 cte.yes.ruca <- master.4 %>%
   mutate(cte.yes = ifelse(total.cte.courses.taken > 0, "Yes", "No")) %>%
   tabyl(Dem_Desc, cte.yes) %>%
@@ -390,7 +421,7 @@ CrossTable(cte.yes.no.ruca$Dem_Desc, cte.yes.no.ruca$cte.yes, expected = TRUE, p
 
 Let's dig into the breadth of CTE course concentrations a graduate would take by looking at the proportion of graduates that took at least one course within a concentration.
 
-The table below shows that a third of all graduates took a CTE course in Transportation, Distribution & Logistics, followed by 19% in Manufacturing, and 15% in each Architecture & Construction and Human Services.
+The table below shows that nearly a third of all graduates took a CTE course in Transportation, Distribution & Logistics, followed by 20% in Manufacturing, and 16% in each Architecture & Construction and Human Services.
 
 <br>
 
@@ -415,11 +446,11 @@ Now we will take a look at the breakdown of the number of times a CTE courses ha
 
 First, lets look at the concentrations of courses taken across CareerClusters.
 
-Not surprisingly, Transportation, Distribution & Logistics was the careercluster with the highest percentage of courses taken with 20.6%. This was followed by manfacturing with 12.4% and architecture and construction with 11.2% of CTE courses taken in that CareerCluster.
+Not surprisingly, Transportation, Distribution & Logistics was the careercluster with the highest percentage of courses taken with 19.6%. This was followed by manufacturing with 12.4% and architecture and construction with 11.0% of CTE courses taken in that CareerCluster.
 
 <br>
 
-```{r cte CareerClusters concentration, echo=FALSE}
+```{r cte CareerClusters concentration, echo=TRUE}
 cte.cf.concentration.total <- master.4 %>%
   select(PersonID,  `ACTE-SPED`:`Youth Apprenticeship`) %>%
   gather(key = "CareerCluster", value = "n.courses", 2:ncol(.)) %>%
@@ -443,7 +474,7 @@ Koochiching has a high percentage of students that take health science & health 
 
 <br>
 
-```{r cte CareerClusters concentration  by county, echo=FALSE}
+```{r cte CareerClusters concentration  by county, echo=TRUE}
 cte.cf.concentration.county <- master.4 %>%
   select(PersonID, county.name, countyfp,  `ACTE-SPED`:`Youth Apprenticeship`) %>%
   gather(key = "CareerCluster", value = "n.courses",  `ACTE-SPED`:`Youth Apprenticeship`) %>%
@@ -483,7 +514,7 @@ There was a big increase in the transportation, distribution and logistics caree
 
 <br>
 
-```{r cte CareerClusters concentration  by year, echo=FALSE}
+```{r cte CareerClusters concentration  by year, echo=TRUE}
 cte.cf.concentration.year <- master.4 %>%
   select(PersonID, grad.year, `ACTE-SPED`:`Youth Apprenticeship`) %>%
   gather(key = "CareerCluster", value = "n.courses", `ACTE-SPED`:`Youth Apprenticeship`) %>%
