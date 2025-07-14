@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,16 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -124,7 +134,7 @@ Next up is to join the ACT data. I'll first load the entire ACT dataset, clean i
 <br>
 
 ```{r act original data}
-act.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/ACT/ACT.csv') %>%
+act.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/ACT/ACT.csv') %>%
   mutate(PersonID = as.integer(PersonID))
 
 kable(head(act.original))
@@ -134,7 +144,7 @@ kable(names(act.original))
 
 <br>
 
-There are `r comma(nrow(act.original), accuracy = 1)` observations in the dataset. Each observation is an ACT test taken by a student in Southwest Minnesota. The unique feature here is the time it was taken. This means that a student could have taken the ACT twice and their PersonID would show up as two observations.
+There are `r comma(nrow(act.original), accuracy = 1)` observations in the dataset. Each observation is an ACT test taken by a student in Northeast Minnesota. The unique feature here is the time it was taken. This means that a student could have taken the ACT twice and their PersonID would show up as two observations.
 
 Out of the scores provided, I'm just going to use the composite score. Since an individual may have taken the test multiple times I will only use the highest composite score for each individual. This is how colleges do it as well.
 
@@ -186,11 +196,11 @@ The updated master dataset contains `r comma(nrow(master.2), accuracy = 1)` obse
 
 First, lets see what percentage of observations took the ACT and what the average composite score was.
 
-The table below shows that nearly two-thirds of graduates from Southwest Minnesota have taken the ACT at some point in the dataset.
+The table below shows that 43% of graduates from Northeast Minnesota have taken the ACT at some point in the dataset.
 
 <br>
 
-```{r table act summary pct total, echo=FALSE}
+```{r table act summary pct total}
 act.pct.taken <- master.2 %>%
   mutate(act.taken = ifelse(is.na(ACTCompositeScore), "ACT not taken", "ACT taken")) %>%
   tabyl(act.taken) %>%
@@ -204,16 +214,16 @@ datatable(act.pct.taken, class = "cell-border stripe", filter = "top", rownames 
 
 <br>
 
-Next lets see if the ACT taken rate differs across RUCA, regions and counties.
+Next lets see if the ACT taken rate differs across RUCA categories.
 
-The cross-tabs for the percentage of students who have taken the ACT by RUCA category has a p-value of less than .01, indicating that RUCA category is related. Graduates from town/rural mix districts had the lowest percentage of individuals who didn't take the ACT with 55.1%, followed by urban/town/rural mix with 58.1% and entirely rural with 63.8%.
+The cross-tabs for the percentage of students who have taken the ACT by RUCA category has a p-value of less than .01, indicating that RUCA category is related. Graduates from town/rural mix districts had the lowest percentage of individuals who didn't take the ACT with 54%, followed by urban/town/rural mix with 58.1% and entirely rural with 60.2%.
 
 <br>
 
 ::: panel-tabset
 ## RUCA Table
 
-```{r prep act taken summary by ruca, echo=FALSE}
+```{r prep act taken summary by ruca}
 act.taken.ruca <- master.2 %>%
   mutate(act.taken = ifelse(is.na(ACTCompositeScore), "ACT not taken", "ACT taken")) %>%
   tabyl(Dem_Desc, act.taken) %>%
@@ -236,11 +246,11 @@ CrossTable(act.taken.ruca.cross.tabs$Dem_Desc, act.taken.ruca.cross.tabs$act.tak
 
 <br>
 
-Finally, here's a look at the percentages by county. The largest percentage comes from Itasca County with only 52.9% of graduates taking the ACT. The highest was in Cook County with 67.6%.
+Finally, here's a look at the percentages by county. The largest percentage comes from Cook County with only 66.4% of graduates taking the ACT. The lowest was in Itaska County with 52.0%.
 
 <br>
 
-```{r prep act taken summary by county, echo=FALSE}
+```{r prep act taken summary by county}
 act.taken.county <- master.2 %>%
   mutate(act.taken = ifelse(is.na(ACTCompositeScore), "ACT not taken", "ACT taken")) %>%
   tabyl(county.name, act.taken) %>%
