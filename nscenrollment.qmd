@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,16 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -119,12 +129,12 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
 
 # Data Prep
 
-Okay, lets check out the National Student Clearinghouse enrollment data. I will first import the entire dataset, clean it up, and then merge it with the master / NE graduate dataset.
+Okay, lets check out the National Student Clearinghouse enrollment data. I will first import the entire dataset, clean it up, and then merge it with the master / Northeast graduate dataset.
 
 <br>
 
 ```{r nsc enrollment originals}
-nsc.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv') %>%
+nsc.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv') %>%
   mutate(PersonID = as.integer(PersonID),
          OPEID = str_pad(OPEID, width = 8, side = "left", pad = "0"),
          OPEID.6 = str_sub(OPEID, 1, 6)) %>%
@@ -162,7 +172,7 @@ There are a few pieces of information that I want to consolidate from this datas
 3.  Did the PersonID attend multiple colleges - yes or no?
 4.  What type of college did the PersonID attend first?
 5.  Did the PersonID attend a public, private not-for-profit, or private or, for-profit college(s)?
-6.  At any point during their college career, did the PersonID attend a college(s) inside or outside of the Southwest Region or outside the EDR of their high school?
+6.  At any point during their college career, did the PersonID attend a college(s) inside or outside of the Northeast Region or outside the County of their high school?
 
 I was going to include the length of time that a PersonID attended college, but due to differences in how institutions report enrollment periods, it didn't seem like it would be a great indicator.
 
@@ -173,7 +183,7 @@ The IPEDS data and the NSC data will only match using the first 6 digits of the 
 <br>
 
 ```{r prep ipeds}
-ipeds.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/IPEDS/IPEDS.csv') 
+ipeds.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/IPEDS/IPEDS.csv') 
 
 ipeds.sector <- ipeds.original %>%
   filter(!is.na(OPEID)) %>%
@@ -306,7 +316,7 @@ kable(names(nsc.enrollment.first.institution))
 
 As expected, we have `r comma(nsc.enrollment.first.institution %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.first.institution %>% ncol(), accrucay = 1)` columns. This dataset now provides the sector of the first post-secondary institution they attended immediately after college.
 
-Next we will determine thy type(s) of college(s) they attended during their post-secondary career. To do this we will first create a dataset with columns for each institution sector and a confirmation indicator on whether the PersonID attended that particular sector at some point in their career. I will then create a new category indicating that attended more than one type of institution sector. Once completed, I will be left with a dataset that has a column for each unique PersonID and what sector they attended, as well as a newly created code for "attended more than 1 type of sector".
+Next we will determine the type(s) of college(s) they attended during their post-secondary career. To do this we will first create a dataset with columns for each institution sector and a confirmation indicator on whether the PersonID attended that particular sector at some point in their career. I will then create a new category indicating that attended more than one type of institution sector. Once completed, I will be left with a dataset that has a column for each unique PersonID and what sector they attended, as well as a newly created code for "attended more than 1 type of sector".
 
 <br>
 
@@ -337,25 +347,22 @@ As expected, we have `r comma(nsc.enrollment.institution.types %>% nrow(), accur
 
 Next we will determine whether they attended a post-secondary institution inside or outside of the planning region, outside their EDR, or outside of Minnesota. Since many of the PersonID in the dataset have attended multiple institutions, we will categorize it in the following way in order to capture the combinations of attendance;
 
--   Attended inside region only (planning region, EDR, RUCA, State)
--   Attended inside and outside region (planning region, EDR, RUCA, state)
--   Attended outside region only (planning region, EDR, RUCA, state)
+-   Attended inside region only (planning region, RUCA, State)
+-   Attended inside and outside region (planning region, RUCA, state)
+-   Attended outside region only (planning region, RUCA, state)
 
-In order to do this we will need to combine our planning region and EDR joining documents with the nsc.enrollment.ipeds dataset. We will also need to join the master dataset with it to determine the location of the PersonID's high school graduation location. Lastly, we will need to join up the RUCA categories for counties outside of Minnesota. Then we can start the categorization process.
+In order to do this we will need to combine our planning region joining documents with the nsc.enrollment.ipeds dataset. We will also need to join the master dataset with it to determine the location of the PersonID's high school graduation location. Lastly, we will need to join up the RUCA categories for counties outside of Minnesota. Then we can start the categorization process.
 
 <br>
 
 ```{r nsc enrollment location}
 dem.desc.county <- read_csv("Data/Join docs/Master-ruca-county.csv")
 
-counties.regions.1 <- counties.regions %>%
-  mutate(statefp = "27")
-
 grad.location <- read_csv("Data/SLEDS/Masters/Master-8.csv") %>%
-  select(PersonID, edr, Dem_Desc) %>%
+  select(PersonID, edr, Dem_Desc, planning.region) %>%
   rename(grad.edr = 2,
-         grad.ruca = 3) %>%
-  mutate(grad.pr = "Northeast")
+         grad.ruca = 3,
+         grad.pr = 4)
 
 nsc.enrollment.location.join <- nsc.enrollment.ipeds %>%
   select(PersonID, InstitutionName, CountyCode) %>%
@@ -378,11 +385,11 @@ kable(names(nsc.enrollment.location.join))
 
 <br>
 
-This joined dataset gives us `r comma(nsc.enrollment.location.join %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.location.join %>% ncol, accuracy = 1)` columns. The columns beginning with "ps" are the ruca category and regions of the post-secondary institution attended. The columns beginning with "grad" are the ruca category and regions of the highschool from which the PersonID graduated.
+This joined dataset gives us `r comma(nsc.enrollment.location.join %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.location.join %>% ncol, accuracy = 1)` columns. The columns beginning with "ps" are the ruca category and regions of the post-secondary institution attended. The columns beginning with "grad" are the ruca category and regions of the high school from which the PersonID graduated.
 
-One thing that's important is to realize that joining the nsc.enrollment dataset with the SW graduates dataset means we will have some NAs. Some of the students listed in the nsc.enrollment dataset aren't in the SW graduates dataset since they may have graduated before 2008 or didn't actually meet the criteria in the SW graduates dataset. Therefore, as we move forward, I will need to make sure to remove those NAs.
+One thing that's important is to realize that joining the nsc.enrollment dataset with the Northeast graduates dataset means we will have some NAs. Some of the students listed in the nsc.enrollment dataset aren't in the Northeast graduates dataset since they may have graduated before 2008 or didn't actually meet the criteria in the Northeast graduates dataset. Therefore, as we move forward, I will need to make sure to remove those NAs.
 
-From here we can start creating new columns beginning with the RUCA category. to create this column we will gather each PersonID to examine whether or they attended a post-secondary institution in the same RUCA category, or if they attended multiple post-secondary insitutions with one institution in the same category and another not the same.
+From here we can start creating new columns beginning with the RUCA category. To create this column we will gather each PersonID to examine whether or not they attended a post-secondary institution in the same RUCA category, or if they attended multiple post-secondary institutions with one institution in the same category and another not the same.
 
 <br>
 
@@ -408,11 +415,11 @@ kable(names(nsc.enrollment.same.ruca))
 
 <br>
 
-So there are fewer observations in this dataset than previous subsets. Why? This is due to dropping and PersonID that wasn't in the Southwest graduate dataset. I did not do that for the previous subsets. However, those previous subsets will be filtered down once we join it with the master dataset.
+So there are fewer observations in this dataset than previous subsets. Why? This is due to dropping and PersonID that wasn't in the Northeast graduate dataset. I did not do that for the previous subsets. However, those previous subsets will be filtered down once we join it with the master dataset.
 
 This dataset provides the PersonID and whether they attended a post secondary institution in a location with the same, outside, or both outside and inside (if attended multiple post-secondary institutions) RUCA categories of their high school from which they graduated. There are `r comma(nsc.enrollment.same.ruca %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.same.ruca %>% ncol(), accuracy = 1)` columns.
 
-Up next we will create a dataset indicating whether a PersonID that graduated from a Southwest MN high school attended a post-secondary insitution in their high school's EDR.
+Up next we will create a dataset indicating whether a PersonID that graduated from a Northeast MN high school attended a post-secondary institution in their high school's EDR.
 
 <br>
 
@@ -440,7 +447,7 @@ kable(names(nsc.enrollment.same.edr))
 
 As expected there are `r comma(nsc.enrollment.same.edr %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.same.edr %>% ncol(), accuracy = 1)` columns.
 
-Next we will determine which Southwest MN graduates attended a post-secondary institution in the same planning region (Southwest planning region).
+Next we will determine which Northeast MN graduates attended a post-secondary institution in the same planning region (Northeast planning region).
 
 <br>
 
@@ -466,7 +473,7 @@ kable(names(nsc.enrollment.same.pr))
 
 <br>
 
-As expected, there are `r comma(nsc.enrollment.same.pr %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.same.pr %>% ncol(), accuracy = 1)` columns. This dataset provides whether the post-secondary institution(s) attended were in the same planning region as the high school from whichh they graduates, outside of the planning region, or both (attended multiple institutions).
+As expected, there are `r comma(nsc.enrollment.same.pr %>% nrow(), accuracy = 1)` rows and `r comma(nsc.enrollment.same.pr %>% ncol(), accuracy = 1)` columns. This dataset provides whether the post-secondary institution(s) attended were in the same planning region as the high school from which they graduate, outside of the planning region, or both (attended multiple institutions).
 
 Next we want to see how many of the students leave the state to attend post-secondary education.
 
@@ -565,7 +572,7 @@ As expected, we have the same number of rows as the original master dataset - `r
 
 Lets summarize the percentage of students that attended a post-secondary institution and compare across RUCA categories.
 
-Below is the percentage of students that attended a post-secondary institution from the entire dataset. 69% of the PersonIDs in the dataset attended a post-secondary institution at some point between 2007 and 2024.
+Below is the percentage of students that attended a post-secondary institution from the entire dataset. 68% of the PersonIDs in the dataset attended a post-secondary institution at some point between 2008 and 2024.
 
 <br>
 
@@ -586,7 +593,7 @@ datatable(attending.ps.pct.total, class = "cell-border stripe", filter = "top", 
 
 Now lets check to see if this percentage is statistically significantly different by RUCA group.
 
-The crosstabs do inidcate that there is a statistically significant difference in the percentage of graduates that attend a post-secondary institution by high school RUCA category. However, the percentages aren't that different. The biggest difference is that graduates from a town/rural mix district attend at a lower rate - 67.1% compared to 69.5% and 69.8%.
+The cross tabs do indicate that there is a statistically significant difference in the percentage of graduates that attend a post-secondary institution by high school RUCA category. However, the percentages aren't that different. The biggest difference is that graduates from a town/rural mix district attend at a lower rate - 65.5% compared to 672% for entirely rural districts and 68.7% from urban/town/rural mix districts.
 
 <br>
 
@@ -635,7 +642,7 @@ CrossTable(master.9$Dem_Desc, master.9$attended.ps, expected = TRUE, prop.t = FA
 
 Now lets take a look at the number of years between high school graduation and attending post-secondary. We will begin with the total number of students before diving into differences across RUCA categories and regions.
 
-A huge majority of students that attended a post secondary institution waited less than 1 year after graduating high school (83%)
+A huge majority of students that attended a post secondary institution waited less than 1 year after graduating high school (85%)
 
 <br>
 
@@ -700,9 +707,7 @@ girafe(ggobj = years.between.grad.ps.dist.total.plot) %>%
 
 Next lets check to see if there are any differences in the numbers of years between high school and attending post secondary by RUCA category.
 
-The ANOVA table indicates there are significant differences between the means across RUCA categories with a pvalue = .0164. However, in the TukeyHSD test, it only shows that the statistically significant difference exists between urban/town/rural mix and town/rural mix districts.
-
-It says that graduates from urban/town/rural districts wait to attent post-secondary institution .05 years longer than town/rural mix districts.
+The ANOVA table doesn't indicate a relationship.
 
 <br>
 
@@ -749,7 +754,7 @@ TukeyHSD(years.between.grad.ps.anova.ruca.summary)
 
 Next we will summarize the number of colleges attended by producing the summary statistics and distribution.
 
-The table and distribution chart below show that a large majority (57.1%) of individuals attended only one post secondary institutions followed by 28% attending two.
+The table and distribution chart below show that a large majority (56.3%) of individuals attended only one post secondary institutions followed by 28% attending two.
 
 <br>
 
@@ -817,12 +822,12 @@ I'm not sure it's all that important knowing whether there are differences in th
 
 I think this will be very interesting - we want to see what they breakdown is of students attending different types of colleges. We will start by summarizing the total dataset before looking at differences across RUCA categories and regions.
 
-The chart below provides the percentage of students in the entire dataset that attended each institution sector. By far, a huge majority attend either a public 4-year (31%) or public 2-year (53%).
+The chart below provides the percentage of students in the entire dataset that attended each institution sector. By far, a huge majority attend either a public 4-year (32%) or public 2-year (53%). 15% attend a private, 4-year institution.
 
 <br>
 
 ```{r total college types}
-sectors <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSC/IPEDS/institution-sectors.xlsx')
+sectors <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSC/IPEDS/institution-sectors.xlsx')
 
 college.type.summary.total <- master.9 %>%
   filter(attended.ps == "Yes") %>%
@@ -893,7 +898,7 @@ first.college.sector.ruca.plot <- ggplot(first.college.sector.ruca, aes(fct_rev(
           axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-girafe(ggobj = first.college.sector.ruca.plot) %>%
+girafe(ggobj = first.college.sector.ruca.plot, height_svg = 10) %>%
   girafe_options(opts_selection(type = "none"),
                  opts_sizing(rescale = FALSE))
 
@@ -919,7 +924,7 @@ CrossTable(first.college.sector.ct.1.ruca$Dem_Desc, first.college.sector.ct.1.ru
 
 Up next is determining how many students attended a post-secondary institution located in a county with the same RUCA category as their high school. First we will look at the percentages of the total dataset and then we will break it up.
 
-The chart below shows that nearly half (56.3%) of students graduating from a NE MN high school attended a post secondary institution that was located in a county with the same RUCA category as their high school.
+The chart below shows that nearly half (53.4%) of students graduating from a NE MN high school attended a post secondary institution that was located in a county with the same RUCA category as their high school.
 
 <br>
 
@@ -955,7 +960,7 @@ Next, lets check to see if the type of RUCA category they graduated from is rela
 
 The crosstabs indicate that there is a relationship in the location of the individuals high school graduation and the RUCA category of their post-secondary institution(s). The p-valu was 0.
 
-As expected, individuals who graduate from a high school in an entirely rural county category were significantly more likely to attend a post secondary institution that wasn't entirely rural (100% actually). Individuals that graduated from a school districte located in a Urban/town/rural mix county were significantly more likely to attend a college in the same RUCA category.
+As expected, individuals who graduate from a high school in an entirely rural county category were significantly more likely to attend a post secondary institution that wasn't entirely rural (100% actually). Individuals that graduated from a school district located in a Urban/town/rural mix county were significantly more likely to attend a college in the same RUCA category.
 
 <br>
 
@@ -1012,7 +1017,7 @@ CrossTable(ps.same.ruca.ct.ruca$Dem_Desc, ps.same.ruca.ct.ruca$ps.in.same.ruca, 
 
 Now we want to see how many students attend a college that is located in the same planning region as their high school.
 
-The chart below shows that nearly 44% of students graduating from NE MN High schools leave the region to attend post secondary education.
+The chart below shows that nearly 43% of students graduating from NE MN High schools end up attending a post-secondary institution in the same region.
 
 <br>
 
@@ -1049,7 +1054,7 @@ girafe(ggobj = ps.same.pr.total.plot) %>%
 
 Now we want to see how many students stay or leave Minnesota to attend college.
 
-The chart below shows that 59% of students graduating from SW MN high schools attend a post secondary institution in Minnesota.
+The chart below shows that 70% of students graduating from Northeast MN high schools attend a post secondary institution in Minnesota.
 
 <br>
 
@@ -1087,7 +1092,7 @@ Next, lets check to see if the RUCA category of their high school is related to 
 
 The crosstabs below indicate that there is a relationship between the RUCA category of a student's high school and whether they attend a college inside or outside of Minnesota. The p-value was .0002.
 
-The primary difference is that as districts become more urban, the percentage of graduates that attend a college in Minnesota declines - 69% in urban/town/rural mix districts compared to 73% in entirely rural districts.
+The primary difference is that as districts become more urban, the percentage of graduates that attend a college in Minnesota declines - 70% in urban/town/rural mix districts compared to 74% in entirely rural districts.
 
 <br>
 
@@ -1141,7 +1146,7 @@ CrossTable(ps.in.MN.ct.ruca$Dem_Desc, ps.in.MN.ct.ruca$ps.in.MN, expected = TRUE
 
 The last piece here is to provide a map of the United States to see where students are going for college.
 
-Outside of Minnesota, SW MN graduates attend colleges in South Dakota at the highest rate - 18.1%. This is followed by North Dakota at 6.2%.
+Outside of Minnesota, Northeast MN graduates attend colleges in Wisconsin (9.2%), and North Dakota (5.4%) at the highest rate.
 
 <br>
 
