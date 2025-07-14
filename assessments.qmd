@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,16 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -124,7 +134,7 @@ Okay, lets check out assessments. This is the entire assessment dataset, which I
 <br>
 
 ```{r ipeds original}
-assessments.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/Assessments/K12Assessment.csv')  %>%
+assessments.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/Assessments/K12Assessment.csv')  %>%
   mutate(PersonID = as.integer(PersonID),
          TestName = as.factor(TestName),
          Subject = as.factor(Subject),
@@ -266,7 +276,7 @@ write_csv(assessments.master, "Data/SLEDS/Masters/assessments_master.csv")
 
 Let's start by summarizing the english learners in the total dataset.
 
-In the master dataset 4.4% of the individuals were identified as English Learners at some point in the original data.
+In the master dataset 4.34% of the individuals were identified as English Learners at some point in the original data.
 
 <br>
 
@@ -292,7 +302,7 @@ Let's now see if there are any significant differences by RUCA category.
 
 The cross-tabs provides a very low p-value indicating that there are significant differences in the percentage of individuals in the dataset categorized as English learners.
 
-The percentage of English learners graduating from an entirely rural high schools and urban/town/rural high schools ar very similar - around 4.7% - and are higher than town/rural mix of 3.3%.
+The percentage of English learners graduating from an entirely rural high schools and urban/town/rural high schools ar very similar - around 4.5% - and are higher than town/rural mix of 3.4%.
 
 <br>
 
@@ -330,13 +340,11 @@ CrossTable(master.7$Dem_Desc, master.7$english.learner, expected = TRUE, prop.t 
 
 Let's see what the MCA breakdown is by subject.
 
-Well, kids are not very good at math. Yikes. Nearly 30% of students did not meet or only partially meet math standards. However, over 65% met or exceed standards.
+Math: 67% met or exceeded standards
 
-With reading, nearly 80% of students met standards.
+Reading: 81% met or exceeded standards
 
-Reading is much better with well over 50% meet or exceeding standards.
-
-Science was not taken as much by students with nearly 20% of the students have NA as their achievement. Outside of that, only 57% of student met or exceeded standards while 33% did not meet standards or only partially met them.
+Science: 49% met or exceeded standards
 
 <br>
 
@@ -379,7 +387,7 @@ girafe(ggobj = mca.highest.total.plot) %>%
 
 <br>
 
-From here we will break down the data and see if there are significant differences between RUCA categories and EDRs. We will start with RUCA categories.
+From here we will break down the data and see if there are significant differences between RUCA categories.
 
 <br>
 
@@ -389,7 +397,7 @@ We will start with analyzing math and RUCA categories.
 
 The p-value from the cross-tabs indicate that there is a relationship between RUCA categories and the grades received in the MCA-Math test.
 
-The town/rural mix districts performed the best with nearly 70% of graduates either meeting or exceeding math standards. The other county groups were around 65%.
+I'm honestly not seeing a whole lot worth mentioning though.
 
 <br>
 
@@ -444,7 +452,7 @@ CrossTable(master.7$Dem_Desc, master.7$MCA.M, expected = TRUE, prop.t = FALSE, p
 
 Next lets analyze reading and RUCA categories.
 
-The p-value from the cross-tabs indicate that there is a relationship between RUCA categories and the grades received in the MCA-Reading test. Hoewever, I'm seeing every little difference here.
+The p-value from the cross-tabs indicate that there is a relationship between RUCA categories and the grades received in the MCA-Reading test. However, I'm seeing every little difference here.
 
 <br>
 
@@ -498,9 +506,7 @@ CrossTable(master.7$Dem_Desc, master.7$MCA.R, expected = TRUE, prop.t = FALSE, p
 
 Next lets analyze science and RUCA categories.
 
-The p-value from the cross-tabs indicate that there is a relationship between RUCA categories and the grades received in the MCA-Science test.
-
-The largest different is the town/rural mix districts where 65% of graduates have exceeded or met standards for science compared to 60% for entirely rural and 58% for urban/town/rural mix.
+The p-value from the cross-tabs indicate that there is a relationship between RUCA categories and the grades received in the MCA-Science test. But again, I'm not seeing anything worth mentioning.
 
 <br>
 
