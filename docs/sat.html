@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -244,9 +278,13 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="data-prep" class="level1">
 <h1>Data Prep</h1>
-<p>Alright, lets see what this dataset looks like. I will first import the entire dataset, then clean it up, and then merge it with the master / ne graduate dataset.</p>
+<p>Alright, lets see what this dataset looks like. I will first import the entire dataset, then clean it up, and then merge it with the master / Northeast graduate dataset.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>sat.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/SAT/AdvancedPlacementSATPSAT_SAT.csv'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PersonID =</span> <span class="fu">as.integer</span>(PersonID))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(sat.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -311,6 +349,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(sat.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -349,6 +388,12 @@ ul.task-list li input[type="checkbox"] {
 <p>Okay, since I don’t have any information related to how the grading system works, I will just utilize this dataset to code wither a PersonID has taken an SAT test.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>sat.taken <span class="ot">&lt;-</span> sat.original <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sat.taken =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, sat.taken) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(sat.taken))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -385,6 +430,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(sat.taken))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -407,6 +453,19 @@ ul.task-list li input[type="checkbox"] {
 <p>Now we will join it with the master dataset.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>master<span class="fl">.8</span> <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/Master-7.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sat.taken, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sat.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(sat.taken), <span class="dv">0</span>, sat.taken))</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>sat.master <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/Master-1.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(sat.taken, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">sat.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(sat.taken), <span class="dv">0</span>, sat.taken))</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(sat.master, <span class="st">"Data/SLEDS/Masters/sat_master.csv"</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(master<span class="fl">.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -415,6 +474,7 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 2%">
 <col style="width: 1%">
 <col style="width: 0%">
+<col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 1%">
 <col style="width: 0%">
@@ -472,6 +532,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">countyfp</th>
 <th style="text-align: left;">Dem_Desc</th>
 <th style="text-align: left;">edr</th>
+<th style="text-align: left;">planning.region</th>
 <th style="text-align: right;">grad.year</th>
 <th style="text-align: left;">grad.year.covid</th>
 <th style="text-align: left;">Gender</th>
@@ -528,6 +589,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2017</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -582,6 +644,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2022</td>
 <td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">M</td>
@@ -636,6 +699,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">061</td>
 <td style="text-align: left;">Town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2023</td>
 <td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -690,6 +754,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2016</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">M</td>
@@ -744,6 +809,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">001</td>
 <td style="text-align: left;">Entirely rural</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2012</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -798,6 +864,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">017</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2019</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -847,6 +914,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(master<span class="fl">.8</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -877,138 +945,141 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">edr</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">planning.region</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">grad.year</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">grad.year.covid</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Gender</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">LimitedEnglishProficiencyIndicator</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">HomelessIndicator</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">economic.status</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">pseo.participant</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">SpecialEdStatus</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">non.english.home</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">RaceEthnicity</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">n.years.attended</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">ACTCompositeScore</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">ap.exam</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">total.cte.courses.taken</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">ACTE-SPED</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Agriculture, Food, and Natural Resources</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Architecture &amp; Construction</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Arts, A/V Technology &amp; Communication</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Business, Management &amp; Administrative</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Diversified</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Education &amp; Training</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Finance</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Government &amp; Public Administration</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Health Science</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Hospitality &amp; Tourism</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Human Services</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Information Technology</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Law, Public Safety &amp; Security</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Manufacturing</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Marketing</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Program Area (Diversified)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Science, Technology, Engineering, &amp; Mathematics</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">STEM</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Transportation, Distribution &amp; Logistics</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Work Experience-Handicapped</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Work&nbsp;Experience-Handicapped&nbsp;(16-20+&nbsp;on&nbsp;IEP)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Work&nbsp;Experience/Career&nbsp;Exploration&nbsp;(age&nbsp;14-15&nbsp;on&nbsp;I</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">Work-Experience-Disadvantaged</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Youth Apprenticeship</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">cte.achievement</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">english.learner</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">MCA.M</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">MCA.R</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">MCA.S</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">sat.taken</td>
 </tr>
 </tbody>
@@ -1016,18 +1087,31 @@ ul.task-list li input[type="checkbox"] {
 </div>
 </div>
 <p><br></p>
-<p>As expected there are 49,743 rows and 52 columns.</p>
+<p>As expected there are 49,816 rows and 53 columns.</p>
 </section>
 <section id="summary-of-sat-data" class="level1">
 <h1>Summary of SAT data</h1>
 <p>Lets check to see what percentage of the master dataset has taken the SAT.</p>
-<p>There is a tiny percentage of the dataset that has taken the SAT, 1.6%. With this information I don’t see a need to check whether there is a significant difference in students taking the SAT based on RUCA categoriy or EDR. Even if there is a significant difference, there just isn’t enough observations to make a difference.</p>
+<p>There is a tiny percentage of the dataset that has taken the SAT, 1.7%. With this information I don’t see a need to check whether there is a significant difference in students taking the SAT based on RUCA category or County. Even if there is a significant difference, there just isn’t enough observations to make a difference.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sat.total <span class="ot">&lt;-</span> master<span class="fl">.8</span> <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sat.taken) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pct =</span> n <span class="sc">/</span> <span class="fu">sum</span>(n))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(sat.total, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">filter =</span> <span class="st">"top"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>          <span class="at">options =</span> <span class="fu">list</span>(<span class="at">columnDefs =</span> <span class="fu">list</span>(<span class="fu">list</span>(<span class="at">className =</span> <span class="st">"dt-center"</span>, <span class="at">targets =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>))))  <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="at">digits =</span> <span class="dv">0</span>, <span class="st">""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-f7158efca928d2f0661f" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-f7158efca928d2f0661f">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"823\" data-max=\"48920\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.016545041513378\" data-max=\"0.983454958486622\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[[0,1],[48920,823],[0.9834549584866212,0.01654504151337877]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>sat.taken<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"className":"dt-center","targets":[0,1]},{"className":"dt-right","targets":2},{"name":"sat.taken","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-14aecbaaa5da9d6e1d2a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-14aecbaaa5da9d6e1d2a">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"822\" data-max=\"48994\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.016500722659386\" data-max=\"0.983499277340614\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[[0,1],[48994,822],[0.9834992773406135,0.01650072265938654]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>sat.taken<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"className":"dt-center","targets":[0,1]},{"className":"dt-right","targets":2},{"name":"sat.taken","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(master<span class="fl">.8</span>, <span class="st">"Data/SLEDS/Masters/Master-8.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
