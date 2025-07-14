@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r library, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,15 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         planning.region = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -116,20 +125,16 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
   rename(countyfp = FIPS_CODE)
 
-k12.county.codes <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12-county-codes.csv")
-
-
-
 ```
 
 # Data prep
 
-This dataset is of all the individuals that have graduated from a high school in Southwest Minnesota.
+This dataset is of all the individuals that have graduated from a high school in Northeast Minnesota.
 
 <br>
 
 ```{r import original dataset}
-enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
+enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
   mutate(PersonID = as.integer(PersonID),
          K12OrganizationID = as.integer(K12OrganizationID)) %>%
   drop_na(PersonID)
@@ -143,12 +148,12 @@ kable(names(enrollment.original))
 
 In the dataset there are `r comma(nrow(enrollment.original), accuracy = 1)` observations along with `r comma(ncol(enrollment.original), accuracy = 1)` columns. Each observation does not represent a unique, unduplicated individual, but rather a unique status for the individual. For example, one individual can have multiple observations if they changed schools, for each school year, or if their economic status changed in the middle of a school year.
 
-Next we need to create a dataset that only has students who graduated from a high school located in EDR 3. To do that, we will need to join up with other .
+Next we need to create a dataset that only has students who graduated from a high school located in EDR 3. To do that, we will need to join up with the organization spreadsheet.
 
 <br>
 
 ```{r k12org original data}
-k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") %>%
+k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization-updated.csv") %>%
   distinct(K12OrganizationID, .keep_all = TRUE) %>%
   drop_na(K12OrganizationID) %>%
   mutate(K12OrganizationID = as.integer(K12OrganizationID)) %>%
@@ -165,20 +170,21 @@ kable(names(k12.org.original))
 
 This dataset provides each school institution as of June 29, 2024. This isn't a list of each school but rather a list of each K12OrganizationID. Each school will have multiple K12OrganizationID. I'm not sure why and this would be something to ask Meredith.
 
-My goal is to join my standardized region and county code data with this document which will then be joined to the master enrollment document. Unfortunatley the main data does not include county name but rather their own code for county. So I will join their codes with the county names and then use my counties.regions data to bring together the remaining regions.
+In addition, there are a lot of county codes missing. So I'm going to use the listed city to try and clean that up.
+
+My goal is to join my standardized region and county code data with this document which will then be joined to the master enrollment document. Unfortunately the main data does not include county name but rather their own code for county. So I will join their codes with the county names and then use my counties.regions data to bring together the remaining regions.
 
 <br>
 
 ```{r k12org joining county and regional data}
 k12.org.master <- k12.org.original %>%
-  select(K12OrganizationID, SiteCountyCode, OrganizationName) %>%
-  left_join(k12.county.codes[,c(1,2)], by = c("SiteCountyCode" = "county.code")) %>%
-  rename(county.name = 4) %>%
+  select(K12OrganizationID, County, OrganizationName) %>%
+  rename(county.name = 2) %>%
   mutate(county.name = str_replace(county.name, " County", "")) %>%
   select(K12OrganizationID, OrganizationName, county.name) %>%
   mutate(county.name = str_replace(county.name, "Saint Louis", "St. Louis")) %>%
-  left_join(counties.regions, by = c("county.name" = "Name")) %>%
-  select(-Dem_RUCA, -planning.region, -mif)
+  left_join(counties.regions.1, by = c("county.name" = "Name")) %>%
+  select(-Dem_RUCA, -mif, -edr.simple)
 
 kable(head(k12.org.master))
 
@@ -194,6 +200,7 @@ Now I should be able to join this dataset with the enrollment data to figure out
 ```{r join enrollment data with org data}
 enrollment.org.ne <- enrollment.original %>%
   left_join(k12.org.master, by = "K12OrganizationID") %>%
+  select(-statefp) %>%
   filter(edr == "EDR 3 - Arrowhead")
 
 kable(head(enrollment.org.ne))
@@ -236,7 +243,7 @@ graduates <- enrollment.org.ne %>%
   mutate(grad.year = str_sub(TimeID, 1, 4),
          grad.year = as.integer(grad.year),
          grad.year.covid = ifelse(grad.year > 2019, "Post-covid grad", "Pre-covid grad")) %>%
-  select(PersonID, K12OrganizationID, OrganizationName, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, county.name, countyfp, Dem_Desc, edr) %>%
+  select(PersonID, K12OrganizationID, OrganizationName, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, county.name, countyfp, Dem_Desc, edr, planning.region) %>%
   distinct(PersonID, .keep_all = TRUE) %>%
   filter(grad.year > 2007) 
 
@@ -335,7 +342,7 @@ k12.enrollment.master <- graduates %>%
   left_join(k12.enr.spced.indicator, by = "PersonID") %>%
   left_join(k12.enr.homeprimlang.indicator, by = "PersonID") %>%
   left_join(k12.enr.race, by = "PersonID") %>%
-  select(PersonID, K12OrganizationID, OrganizationName, county.name, countyfp, Dem_Desc, edr, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, economic.status, pseo.participant, SpecialEdStatus, non.english.home, RaceEthnicity)
+  select(PersonID, K12OrganizationID, OrganizationName, county.name, countyfp, Dem_Desc, edr, planning.region, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, economic.status, pseo.participant, SpecialEdStatus, non.english.home, RaceEthnicity)
 
 kable(head(k12.enrollment.master))
 
@@ -363,7 +370,7 @@ Below is the percentage of total observations that;
 -   Participated in a PSEO course at some point in the dataset.
 -   Pct non white
 
-As expected, nearly half (49.1%) of the observations are female. Over a third (34.0%) of the observations have been eligible for free or reduced lunch at some point in the dataset. Also, over a third (36.4%) of observations participated in a PSEO course. 0.8% of observations indicated that there was a non-english speaker at home, 0.2% had limited english proficiency and 1.3% indicated that were homeless at some point. Finally, 28% identified as being non-white.
+As expected, nearly half (49.3%) of the observations are female. Over a third (36.8%) of the observations have been eligible for free or reduced lunch at some point in the dataset. Also, over a third (38.6%) of observations participated in a PSEO course. There is a large percentage identifying as non-white with 26.9%, while 15.3% were categorized as needing special education, 1.2% homelss and 0.8% said they has a non-english speaker at home.
 
 <br>
 
@@ -373,14 +380,14 @@ k12.enr.pct.total <- k12.enrollment.master %>%
          LimitedEnglishProficiencyIndicator = ifelse(LimitedEnglishProficiencyIndicator == "Y", 1, 0),
          HomelessIndicator = ifelse(HomelessIndicator == "Y", 1, 0),
          RaceEthnicity = ifelse(RaceEthnicity == "White", 0, 1)) %>%
-  rename(Female = 10,
-         `Limited English Proficiency` = 11,
-         Homeless = 12,
-         `Free or reduced lunch` = 13,
-         `PSEO participant` = 14,
-         `Special Ed` = 15,
-         `Non-english in home` = 16,
-         `Non-white` = 17) %>%
+  rename(Female = Gender,
+         `Limited English Proficiency` = LimitedEnglishProficiencyIndicator,
+         Homeless = HomelessIndicator,
+         `Free or reduced lunch` = economic.status,
+         `PSEO participant` = pseo.participant,
+         `Special Ed` = SpecialEdStatus,
+         `Non-english in home` = non.english.home,
+         `Non-white` = RaceEthnicity) %>%
   gather(key = "indicator", value = "value", Female:`Non-white`) %>%
   group_by(indicator) %>%
   summarise(confirmed.indicator = sum(value, na.rm = TRUE),

@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -244,9 +278,15 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="data-prep" class="level1">
 <h1>Data prep</h1>
-<p>This dataset is of all the individuals that have graduated from a high school in Southwest Minnesota.</p>
+<p>This dataset is of all the individuals that have graduated from a high school in Northeast Minnesota.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>enrollment.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv"</span>)  <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PersonID =</span> <span class="fu">as.integer</span>(PersonID),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">K12OrganizationID =</span> <span class="fu">as.integer</span>(K12OrganizationID)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(PersonID)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -391,6 +431,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -450,9 +491,18 @@ ul.task-list li input[type="checkbox"] {
 </div>
 <p><br></p>
 <p>In the dataset there are 1,997,366 observations along with 15 columns. Each observation does not represent a unique, unduplicated individual, but rather a unique status for the individual. For example, one individual can have multiple observations if they changed schools, for each school year, or if their economic status changed in the middle of a school year.</p>
-<p>Next we need to create a dataset that only has students who graduated from a high school located in EDR 3. To do that, we will need to join up with other .</p>
+<p>Next we need to create a dataset that only has students who graduated from a high school located in EDR 3. To do that, we will need to join up with the organization spreadsheet.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>k12.org.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization-updated.csv"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(K12OrganizationID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(K12OrganizationID) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">K12OrganizationID =</span> <span class="fu">as.integer</span>(K12OrganizationID)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(NCESID) <span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(SiteCountyCode, <span class="at">.direction =</span> <span class="st">"downup"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(k12.org.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -462,11 +512,12 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 10%">
 <col style="width: 8%">
 <col style="width: 6%">
-<col style="width: 17%">
+<col style="width: 16%">
 <col style="width: 9%">
 <col style="width: 9%">
+<col style="width: 6%">
 <col style="width: 7%">
-<col style="width: 7%">
+<col style="width: 4%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -481,23 +532,11 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">AddressType</th>
 <th style="text-align: left;">City</th>
 <th style="text-align: right;">SiteCountyCode</th>
+<th style="text-align: left;">County</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">122745</td>
-<td style="text-align: right;">1310</td>
-<td style="text-align: right;">10</td>
-<td style="text-align: right;">701000010000</td>
-<td style="text-align: right;">2013</td>
-<td style="text-align: right;">279145602410</td>
-<td style="text-align: left;">PERPICH CENTER FOR ARTS EDUCATION</td>
-<td style="text-align: right;">32</td>
-<td style="text-align: left;">MAILING</td>
-<td style="text-align: left;">Golden Valley</td>
-<td style="text-align: right;">27</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">172384</td>
 <td style="text-align: right;">244</td>
 <td style="text-align: right;">200</td>
@@ -509,8 +548,9 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">PHYSICAL_LOCATION</td>
 <td style="text-align: left;">Austin</td>
 <td style="text-align: right;">50</td>
+<td style="text-align: left;">Mower</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">89982</td>
 <td style="text-align: right;">1255</td>
 <td style="text-align: right;">20</td>
@@ -522,8 +562,9 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">PHYSICAL_LOCATION</td>
 <td style="text-align: left;">Staples</td>
 <td style="text-align: right;">77</td>
+<td style="text-align: left;">Todd</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">111573</td>
 <td style="text-align: right;">58</td>
 <td style="text-align: right;">70</td>
@@ -535,8 +576,9 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">PHYSICAL_LOCATION</td>
 <td style="text-align: left;">North Branch</td>
 <td style="text-align: right;">13</td>
+<td style="text-align: left;">Chisago</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">52166</td>
 <td style="text-align: right;">334</td>
 <td style="text-align: right;">20</td>
@@ -548,23 +590,40 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">PHYSICAL_LOCATION</td>
 <td style="text-align: left;">Badger</td>
 <td style="text-align: right;">68</td>
+<td style="text-align: left;">Roseau</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2519</td>
+<td style="text-align: right;">124</td>
+<td style="text-align: right;">20</td>
+<td style="text-align: right;">10255020000</td>
+<td style="text-align: right;">2006</td>
+<td style="text-align: right;">272895001258</td>
+<td style="text-align: left;">PINE ISLAND SECONDARY</td>
+<td style="text-align: right;">32</td>
+<td style="text-align: left;">PHYSICAL_LOCATION</td>
+<td style="text-align: left;">Pine Island</td>
+<td style="text-align: right;">25</td>
+<td style="text-align: left;">Goodhue</td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">29693</td>
-<td style="text-align: right;">470</td>
-<td style="text-align: right;">301</td>
-<td style="text-align: right;">12198301000</td>
-<td style="text-align: right;">2016</td>
-<td style="text-align: right;">270010004226</td>
-<td style="text-align: left;">ROOT RIVER PROGRAM</td>
-<td style="text-align: right;">79</td>
-<td style="text-align: left;">MAILING</td>
-<td style="text-align: left;">Harmony</td>
-<td style="text-align: right;">23</td>
+<td style="text-align: right;">199606</td>
+<td style="text-align: right;">49</td>
+<td style="text-align: right;">31</td>
+<td style="text-align: right;">10115031000</td>
+<td style="text-align: right;">2021</td>
+<td style="text-align: right;">270807002234</td>
+<td style="text-align: left;">CASS LAKE-BENA AREA LRNG. CNTR.</td>
+<td style="text-align: right;">41</td>
+<td style="text-align: left;">PHYSICAL_LOCATION</td>
+<td style="text-align: left;">Cass Lake</td>
+<td style="text-align: right;">11</td>
+<td style="text-align: left;">Cass</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(k12.org.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -606,25 +665,40 @@ ul.task-list li input[type="checkbox"] {
 <tr class="odd">
 <td style="text-align: left;">SiteCountyCode</td>
 </tr>
+<tr class="even">
+<td style="text-align: left;">County</td>
+</tr>
 </tbody>
 </table>
 </div>
 </div>
 <p><br></p>
 <p>This dataset provides each school institution as of June 29, 2024. This isn’t a list of each school but rather a list of each K12OrganizationID. Each school will have multiple K12OrganizationID. I’m not sure why and this would be something to ask Meredith.</p>
-<p>My goal is to join my standardized region and county code data with this document which will then be joined to the master enrollment document. Unfortunatley the main data does not include county name but rather their own code for county. So I will join their codes with the county names and then use my counties.regions data to bring together the remaining regions.</p>
+<p>In addition, there are a lot of county codes missing. So I’m going to use the listed city to try and clean that up.</p>
+<p>My goal is to join my standardized region and county code data with this document which will then be joined to the master enrollment document. Unfortunately the main data does not include county name but rather their own code for county. So I will join their codes with the county names and then use my counties.regions data to bring together the remaining regions.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>k12.org.master <span class="ot">&lt;-</span> k12.org.original <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(K12OrganizationID, County, OrganizationName) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">county.name =</span> <span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county.name =</span> <span class="fu">str_replace</span>(county.name, <span class="st">" County"</span>, <span class="st">""</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(K12OrganizationID, OrganizationName, county.name) <span class="sc">%&gt;%</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">county.name =</span> <span class="fu">str_replace</span>(county.name, <span class="st">"Saint Louis"</span>, <span class="st">"St. Louis"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(counties.regions<span class="fl">.1</span>, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"county.name"</span> <span class="ot">=</span> <span class="st">"Name"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>Dem_RUCA, <span class="sc">-</span>mif, <span class="sc">-</span>edr.simple)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(k12.org.master))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
 <col style="width: 13%">
-<col style="width: 25%">
+<col style="width: 23%">
 <col style="width: 8%">
 <col style="width: 6%">
 <col style="width: 15%">
-<col style="width: 22%">
-<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 5%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -634,67 +708,75 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">countyfp</th>
 <th style="text-align: left;">Dem_Desc</th>
 <th style="text-align: left;">edr</th>
-<th style="text-align: left;">edr.simple</th>
+<th style="text-align: left;">planning.region</th>
+<th style="text-align: left;">statefp</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: right;">122745</td>
-<td style="text-align: left;">PERPICH CENTER FOR ARTS EDUCATION</td>
-<td style="text-align: left;">Hennepin</td>
-<td style="text-align: left;">053</td>
-<td style="text-align: left;">Entirely urban</td>
-<td style="text-align: left;">EDR 11 - 7 County Twin Cities</td>
-<td style="text-align: left;">EDR 11</td>
-</tr>
-<tr class="even">
 <td style="text-align: right;">172384</td>
 <td style="text-align: left;">AUSTIN SENIOR HIGH</td>
 <td style="text-align: left;">Mower</td>
 <td style="text-align: left;">099</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 10 - Southeast</td>
-<td style="text-align: left;">EDR 10</td>
+<td style="text-align: left;">Southern</td>
+<td style="text-align: left;">27</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">89982</td>
 <td style="text-align: left;">FRESHWATER ED. DIST. ALC</td>
 <td style="text-align: left;">Todd</td>
 <td style="text-align: left;">153</td>
 <td style="text-align: left;">Town/rural mix</td>
 <td style="text-align: left;">EDR 5 - North Central</td>
-<td style="text-align: left;">EDR 5</td>
+<td style="text-align: left;">Central</td>
+<td style="text-align: left;">27</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">111573</td>
 <td style="text-align: left;">DISTANCE LEARNING PROGRAM</td>
 <td style="text-align: left;">Chisago</td>
 <td style="text-align: left;">025</td>
 <td style="text-align: left;">Entirely urban</td>
 <td style="text-align: left;">EDR 7E- East Central</td>
-<td style="text-align: left;">EDR 7E</td>
+<td style="text-align: left;">Central</td>
+<td style="text-align: left;">27</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">52166</td>
 <td style="text-align: left;">BADGER SECONDARY</td>
 <td style="text-align: left;">Roseau</td>
 <td style="text-align: left;">135</td>
 <td style="text-align: left;">Town/rural mix</td>
 <td style="text-align: left;">EDR 1 - Northwest</td>
-<td style="text-align: left;">EDR 1</td>
+<td style="text-align: left;">Northwest</td>
+<td style="text-align: left;">27</td>
 </tr>
-<tr class="even">
-<td style="text-align: right;">29693</td>
-<td style="text-align: left;">ROOT RIVER PROGRAM</td>
-<td style="text-align: left;">Fillmore</td>
-<td style="text-align: left;">045</td>
+<tr class="odd">
+<td style="text-align: right;">2519</td>
+<td style="text-align: left;">PINE ISLAND SECONDARY</td>
+<td style="text-align: left;">Goodhue</td>
+<td style="text-align: left;">049</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 10 - Southeast</td>
-<td style="text-align: left;">EDR 10</td>
+<td style="text-align: left;">Southern</td>
+<td style="text-align: left;">27</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">199606</td>
+<td style="text-align: left;">CASS LAKE-BENA AREA LRNG. CNTR.</td>
+<td style="text-align: left;">Cass</td>
+<td style="text-align: left;">021</td>
+<td style="text-align: left;">Town/rural mix</td>
+<td style="text-align: left;">EDR 5 - North Central</td>
+<td style="text-align: left;">Central</td>
+<td style="text-align: left;">27</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(k12.org.master))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -722,7 +804,10 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">edr</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">edr.simple</td>
+<td style="text-align: left;">planning.region</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">statefp</td>
 </tr>
 </tbody>
 </table>
@@ -732,6 +817,12 @@ ul.task-list li input[type="checkbox"] {
 <p>Now I should be able to join this dataset with the enrollment data to figure out what EDR they are from and then filter any rows that are not associated with a school district located in EDR 3.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>enrollment.org.ne <span class="ot">&lt;-</span> enrollment.original <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.org.master, <span class="at">by =</span> <span class="st">"K12OrganizationID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>statefp) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(edr <span class="sc">==</span> <span class="st">"EDR 3 - Arrowhead"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(enrollment.org.ne))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -742,7 +833,7 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 6%">
 <col style="width: 5%">
 <col style="width: 10%">
-<col style="width: 9%">
+<col style="width: 8%">
 <col style="width: 3%">
 <col style="width: 2%">
 <col style="width: 1%">
@@ -755,7 +846,7 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 2%">
 <col style="width: 5%">
 <col style="width: 4%">
-<col style="width: 2%">
+<col style="width: 4%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -779,7 +870,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">countyfp</th>
 <th style="text-align: left;">Dem_Desc</th>
 <th style="text-align: left;">edr</th>
-<th style="text-align: left;">edr.simple</th>
+<th style="text-align: left;">planning.region</th>
 </tr>
 </thead>
 <tbody>
@@ -804,7 +895,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">146511</td>
@@ -827,7 +918,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4068455</td>
@@ -850,7 +941,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">3578988</td>
@@ -873,7 +964,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">061</td>
 <td style="text-align: left;">Town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">4582839</td>
@@ -896,7 +987,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">6140596</td>
@@ -919,11 +1010,12 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
-<td style="text-align: left;">EDR 3</td>
+<td style="text-align: left;">Northeast</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(enrollment.org.ne))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -993,14 +1085,14 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">edr</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">edr.simple</td>
+<td style="text-align: left;">planning.region</td>
 </tr>
 </tbody>
 </table>
 </div>
 </div>
 <p><br></p>
-<p>The dataset now has 210,708 instances that provide a number of characteristics about an individuals enrollment.</p>
+<p>The dataset now has 211,008 instances that provide a number of characteristics about an individuals enrollment.</p>
 <p>My goal is to end up with a dataset where each observation (row) represents a unique (unduplicated) individual that’s tied to the school from which they graduated. Here’s how I will do that.</p>
 <ul>
 <li>PersonID: change to integer</li>
@@ -1021,6 +1113,16 @@ ul.task-list li input[type="checkbox"] {
 <p>The other element I want to add is a pre-covid and post-covid variable. All individuals whose grad year is before 2020 will be labeled pre-covid and all others wil lbe post-covid.</p>
 <p>This “graduates list” will be the list on which we will bind all the other variables.</p>
 <p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>graduates <span class="ot">&lt;-</span> enrollment.org.ne <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(StatusEnd <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">8</span>,<span class="dv">9</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grad.year =</span> <span class="fu">str_sub</span>(TimeID, <span class="dv">1</span>, <span class="dv">4</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad.year =</span> <span class="fu">as.integer</span>(grad.year),</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">grad.year.covid =</span> <span class="fu">ifelse</span>(grad.year <span class="sc">&gt;</span> <span class="dv">2019</span>, <span class="st">"Post-covid grad"</span>, <span class="st">"Pre-covid grad"</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, K12OrganizationID, OrganizationName, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, county.name, countyfp, Dem_Desc, edr, planning.region) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(grad.year <span class="sc">&gt;</span> <span class="dv">2007</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><br></p>
 <p>Next we need to create new columns for the variables that will indicate a certain status has been met at any point in the dataset for each PersonID. For example, we want a column that indicates a PersonID was enrolled in PSEO at some point in the dataset. The variables that need a new column created are;</p>
 <ul>
@@ -1030,10 +1132,84 @@ ul.task-list li input[type="checkbox"] {
 <li>HomeprimaryLanguage</li>
 </ul>
 <p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Lets start with economic status indicator</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>k12.enr.esi.indicator <span class="ot">&lt;-</span> enrollment.org.ne <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, EconomicStatusIndicator) <span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">economic.status.code =</span> <span class="fu">ifelse</span>(EconomicStatusIndicator <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">5</span>), <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">economic.status.code.sum =</span> <span class="fu">sum</span>(economic.status.code)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">economic.status =</span> <span class="fu">ifelse</span>(economic.status.code.sum <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, economic.status)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="co"># PSEO</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>k12.enr.pseo.indicator <span class="ot">&lt;-</span> enrollment.org.ne<span class="sc">%&gt;%</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, PostSecondaryEnrollmentOptionsIndicator, PSEOConcurrentEnrollmentIndicator) <span class="sc">%&gt;%</span></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PostSecondaryEnrollmentOptionsIndicator =</span> <span class="fu">ifelse</span>(PostSecondaryEnrollmentOptionsIndicator <span class="sc">==</span> <span class="st">"Y"</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">PSEOConcurrentEnrollmentIndicator =</span> <span class="fu">ifelse</span>(PSEOConcurrentEnrollmentIndicator <span class="sc">==</span> <span class="st">"Y"</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gather</span>(<span class="at">key =</span> <span class="st">"pseo.type"</span>, <span class="at">value =</span> <span class="st">"indicator"</span>, <span class="dv">2</span><span class="sc">:</span><span class="dv">3</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pseo =</span> <span class="fu">sum</span>(indicator)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">pseo.participant =</span> <span class="fu">ifelse</span>(pseo <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, pseo.participant)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Special Ed status</span></span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>k12.enr.spced.indicator <span class="ot">&lt;-</span> enrollment.org.ne <span class="sc">%&gt;%</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, SpecialEdStatus) <span class="sc">%&gt;%</span></span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SpecialEdStatus.code =</span> <span class="fu">ifelse</span>(SpecialEdStatus <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>), <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">SpecialEdStatus.sum =</span> <span class="fu">sum</span>(SpecialEdStatus.code)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">SpecialEdStatus =</span> <span class="fu">ifelse</span>(SpecialEdStatus.sum <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, SpecialEdStatus)</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="co"># Home Primary Language</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>k12.enr.homeprimlang.indicator <span class="ot">&lt;-</span> enrollment.org.ne <span class="sc">%&gt;%</span></span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, HomePrimaryLanguage) <span class="sc">%&gt;%</span></span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">HomePrimaryLanguage.code =</span> <span class="fu">ifelse</span>(HomePrimaryLanguage <span class="sc">==</span> <span class="dv">11</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">HomePrimaryLanguage.sum =</span> <span class="fu">sum</span>(HomePrimaryLanguage.code)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">non.english.home =</span> <span class="fu">ifelse</span>(HomePrimaryLanguage.sum <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">0</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, non.english.home)</span>
+<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Race</span></span>
+<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>k12.enr.race <span class="ot">&lt;-</span> enrollment.org.ne <span class="sc">%&gt;%</span></span>
+<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, RaceEthnicity) <span class="sc">%&gt;%</span></span>
+<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">RaceEthnicity =</span> <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="dv">0</span>, <span class="st">"Unknown"</span>,</span>
+<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>                                <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="dv">1</span>, <span class="st">"AI"</span>,</span>
+<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a>                                       <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"Asian/PI"</span>,</span>
+<span id="cb10-54"><a href="#cb10-54" aria-hidden="true" tabindex="-1"></a>                                              <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="dv">3</span>, <span class="st">"Hispanic"</span>,</span>
+<span id="cb10-55"><a href="#cb10-55" aria-hidden="true" tabindex="-1"></a>                                                     <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="dv">4</span>, <span class="st">"Black"</span>, <span class="st">"White"</span>))))),</span>
+<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a>         <span class="at">RaceEthnicity =</span> <span class="fu">as.factor</span>(RaceEthnicity)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, RaceEthnicity) <span class="sc">%&gt;%</span></span>
+<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">code =</span> <span class="fu">ifelse</span>(RaceEthnicity <span class="sc">==</span> <span class="st">"Unknown"</span>, <span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
+<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(code <span class="sc">==</span> <span class="fu">max</span>(code)) <span class="sc">%&gt;%</span></span>
+<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>  ungroup <span class="sc">%&gt;%</span></span>
+<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, RaceEthnicity)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 <p><br></p>
 <p>Now we can combine the list of graduates with the status indicators.</p>
 <p><br></p>
 <div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>k12.enrollment.master <span class="ot">&lt;-</span> graduates <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.enr.esi.indicator, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.enr.pseo.indicator, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.enr.spced.indicator, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.enr.homeprimlang.indicator, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(k12.enr.race, <span class="at">by =</span> <span class="st">"PersonID"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, K12OrganizationID, OrganizationName, county.name, countyfp, Dem_Desc, edr, planning.region, grad.year, grad.year.covid, Gender, LimitedEnglishProficiencyIndicator, HomelessIndicator, economic.status, pseo.participant, SpecialEdStatus, non.english.home, RaceEthnicity)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(k12.enrollment.master))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -1044,16 +1220,17 @@ ul.task-list li input[type="checkbox"] {
 <col style="width: 3%">
 <col style="width: 7%">
 <col style="width: 6%">
+<col style="width: 5%">
 <col style="width: 3%">
 <col style="width: 5%">
 <col style="width: 2%">
-<col style="width: 12%">
+<col style="width: 11%">
 <col style="width: 6%">
 <col style="width: 5%">
-<col style="width: 6%">
 <col style="width: 5%">
-<col style="width: 6%">
 <col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -1064,6 +1241,7 @@ ul.task-list li input[type="checkbox"] {
 <th style="text-align: left;">countyfp</th>
 <th style="text-align: left;">Dem_Desc</th>
 <th style="text-align: left;">edr</th>
+<th style="text-align: left;">planning.region</th>
 <th style="text-align: right;">grad.year</th>
 <th style="text-align: left;">grad.year.covid</th>
 <th style="text-align: left;">Gender</th>
@@ -1085,6 +1263,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2017</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -1104,6 +1283,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2022</td>
 <td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">M</td>
@@ -1123,6 +1303,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">061</td>
 <td style="text-align: left;">Town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2023</td>
 <td style="text-align: left;">Post-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -1142,6 +1323,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">137</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2016</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">M</td>
@@ -1161,6 +1343,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">001</td>
 <td style="text-align: left;">Entirely rural</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2012</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -1180,6 +1363,7 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">017</td>
 <td style="text-align: left;">Urban/town/rural mix</td>
 <td style="text-align: left;">EDR 3 - Arrowhead</td>
+<td style="text-align: left;">Northeast</td>
 <td style="text-align: right;">2019</td>
 <td style="text-align: left;">Pre-covid grad</td>
 <td style="text-align: left;">F</td>
@@ -1194,6 +1378,7 @@ ul.task-list li input[type="checkbox"] {
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(k12.enrollment.master)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -1224,41 +1409,45 @@ ul.task-list li input[type="checkbox"] {
 <td style="text-align: left;">edr</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;">planning.region</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;">grad.year</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">grad.year.covid</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">Gender</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">LimitedEnglishProficiencyIndicator</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">HomelessIndicator</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">economic.status</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">pseo.participant</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">SpecialEdStatus</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;">non.english.home</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;">RaceEthnicity</td>
 </tr>
 </tbody>
 </table>
 </div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(k12.enrollment.master, <span class="st">"Data/SLEDS/K12 Enrollment/K12Enrollment-master.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
-<p>The prepped enrollment data has 49,743 observations and 17 columns.</p>
+<p>The prepped enrollment data has 49,816 observations and 18 columns.</p>
 <p><br></p>
 </section>
 <section id="summary-of-k12enrollment-data" class="level1">
@@ -1273,15 +1462,18 @@ ul.task-list li input[type="checkbox"] {
 <li>Participated in a PSEO course at some point in the dataset.</li>
 <li>Pct non white</li>
 </ul>
-<p>As expected, nearly half (49.1%) of the observations are female. Over a third (34.0%) of the observations have been eligible for free or reduced lunch at some point in the dataset. Also, over a third (36.4%) of observations participated in a PSEO course. 0.8% of observations indicated that there was a non-english speaker at home, 0.2% had limited english proficiency and 1.3% indicated that were homeless at some point. Finally, 28% identified as being non-white.</p>
+<p>As expected, nearly half (49.3%) of the observations are female. Over a third (36.8%) of the observations have been eligible for free or reduced lunch at some point in the dataset. Also, over a third (38.6%) of observations participated in a PSEO course. There is a large percentage identifying as non-white with 26.9%, while 15.3% were categorized as needing special education, 1.2% homelss and 0.8% said they has a non-english speaker at home.</p>
 <p><br></p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-eefc3dfae1aea067ac49" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-eefc3dfae1aea067ac49">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"78\" data-max=\"24547\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[24547,18302,573,78,379,13361,19180,7605],[49743,49743,49743,49743,49743,49743,49743,49743],["49.3%","36.8%","1.2%","0.2%","0.8%","26.9%","38.6%","15.3%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e72c310913190b56fba5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e72c310913190b56fba5">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"78\" data-max=\"24584\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\" disabled=\"\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0\" data-max=\"1\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Female","Free or reduced lunch","Homeless","Limited English Proficiency","Non-english in home","Non-white","PSEO participant","Special Ed"],[24584,18309,581,78,378,13485,19152,7609],[49816,49816,49816,49816,49816,49816,49816,49816],["49.3%","36.8%","1.2%","0.2%","0.8%","27.1%","38.4%","15.3%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>indicator<\/th>\n      <th>confirmed.indicator<\/th>\n      <th>total.observations<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"indicator","targets":0},{"name":"confirmed.indicator","targets":1},{"name":"total.observations","targets":2},{"name":"pct","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(k12.enrollment.master, <span class="st">"Data/SLEDS/Masters/k12_enrollment.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>
