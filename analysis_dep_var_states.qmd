@@ -187,7 +187,7 @@ Okay, lets check out the National Student Clearinghouse enrollment data.
 grads <- read_csv("Data/SLEDS/Masters/Master.csv") %>%
   select(PersonID)
 
-nsc.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv') %>%
+nsc.enrollment.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv') %>%
   mutate(PersonID = as.integer(PersonID),
          OPEID = str_pad(OPEID, width = 8, side = "left", pad = "0"),
          OPEID.6 = str_sub(OPEID, 1, 6)) %>%
@@ -393,7 +393,7 @@ test <- seven.states %>%
 
 names(test)
 
-employment <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/Employment/Employment.csv') 
+employment <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/Employment/Employment.csv') 
 
 
 employment.test <- employment %>%

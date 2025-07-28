@@ -263,7 +263,7 @@ In addition, I can't get Iron converted to Iron Junction.
 <br>
 
 ```{r k12 organization cities}
-k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
+k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
 
 districts <- districts.original %>%
   left_join(k12organization[,c(1,10)]) %>%
