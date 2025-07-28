@@ -4,7 +4,7 @@ editor: visual
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
 library(ggrepel)
@@ -101,6 +101,16 @@ counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive
          mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"),
 Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
 
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
 
 color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
 
@@ -130,7 +140,7 @@ Alright, now we are going to determine who graduated. Let's see what this data l
 graduates <- read_csv("Data/SLEDS/Masters/Master-9.csv") %>%
   select(PersonID)
 
-nsccompletions.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCCompletions/NCS_Completions.csv') %>%
+nsccompletions.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSCCompletions/NCS_Completions.csv') %>%
   rename(PersonID = 1) %>%
   mutate(PersonID = as.integer(PersonID),
          OPEID = str_pad(OPEID, width = 8, side = "left", pad = "0"),
@@ -185,7 +195,7 @@ To do this, I will need to import the NSC enrollment data, filter to 2023, and d
 <br>
 
 ```{r confirmed gradauted ps}
-ps.enrollment <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv") %>%
+ps.enrollment <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv") %>%
   mutate(PersonID = as.integer(PersonID),
          OPEID = str_pad(OPEID, width = 8, side = "left", pad = "0"),
          OPEID.6 = str_sub(OPEID, 1, 6)) %>%
@@ -258,7 +268,7 @@ Next we will determine the sector(s) of the institution(s) from which they gradu
 <br>
 
 ```{r grad institution sector}
-ipeds.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/IPEDS/IPEDS.csv') 
+ipeds.original <- read_csv('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/IPEDS/IPEDS.csv') 
 
 ipeds.sector <- ipeds.original %>%
   filter(!is.na(OPEID)) %>%
@@ -314,7 +324,7 @@ I'm going to combine these into just a few categories.
 <br>
 
 ```{r highest credential earned}
-clean.degree <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSC/NSC_Degree_Title_Cleaned.xlsx', sheet = 1) %>%
+clean.degree <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSC/NSC_Degree_Title_Cleaned.xlsx', sheet = 1) %>%
   drop_na(`CREDENTIAL_TITLE_REPORTED_TO_NSC`)
 
 highest.credential.code <- nsccompletions.original %>%
@@ -357,14 +367,11 @@ In order to do this we will need to combine our planning region and EDR joining 
 ```{r nsc enrollment location}
 dem.desc.county <- read_csv("Data/Join docs/Master-ruca-county.csv")
 
-counties.regions.1 <- counties.regions %>%
-  mutate(statefp = "27")
-
 grad.location <- read_csv("Data/SLEDS/Masters/Master-9.csv") %>%
-  select(PersonID, edr, Dem_Desc) %>%
+  select(PersonID, edr, Dem_Desc, planning.region) %>%
   rename(grad.edr = 2,
-         grad.ruca = 3) %>%
-  mutate(grad.pr = "Northeast")
+         grad.ruca = 3,
+         grad.pr = 4)
 
 nsccompletions.location.join <- nsccompletions.ipeds %>%
   select(PersonID, InstitutionName, CountyCode) %>%
@@ -390,7 +397,7 @@ kable(names(nsccompletions.location.join))
 
 <br>
 
-This joined dataset gives us `r comma(nsccompletions.location.join %>% nrow(), accuracy = 1)` rows and `r comma(nsccompletions.location.join %>% ncol, accuracy = 1)` columns. The columns beginning with "ps" are the ruca category and regions of the post-secondary institution from which they graduated The columns beginning with "hs" are the ruca category and regions of the highschool from which the PersonID graduated.
+This joined dataset gives us `r comma(nsccompletions.location.join %>% nrow(), accuracy = 1)` rows and `r comma(nsccompletions.location.join %>% ncol, accuracy = 1)` columns. The columns beginning with "ps" are the ruca category and regions of the post-secondary institution from which they graduated The columns beginning with "hs" are the RUCA category and regions of the high school from which the PersonID graduated.
 
 From here we can start creating new columns beginning with the RUCA category. to create this column we will gather each PersonID to examine whether or they graduated from a post-secondary institution in the same RUCA category, or if they graduated from multiple post-secondary institutions with one institution in the same category and another not the same.
 
@@ -579,7 +586,7 @@ As expected, we have `r comma(master.10 %>% nrow(), accuracy = 1)` rows and `r c
 
 We will being by summarizing the number of students in the master dataset that have graduated from a post-secondary institution. We will first look at the percentage from the total dataset and then break it up by RUCA category and regions to see if there are any significant differences.
 
-The table below shows that the number of individuals that graduated from a post-secondary institution by 2023 was 37% while 18% were still attending a post-secondary institution.
+The table below shows that the number of individuals that graduated from a post-secondary institution by 2023 was 38% while 12% were still attending a post-secondary institution.
 
 <br>
 
@@ -601,7 +608,7 @@ datatable(ps.grad.table.total, class = "cell-border stripe", filter = "top", row
 
 Next, lets check to see if there are differences by RUCA category.
 
-The crosstabs below do not indicate a relationship as the p-value is .171.
+The cross tabs below indicate a relationship with a very low p-value. The chart shows that as a district becomes more urban, there is a slight increase in the percentage of individuals that graduated from a post-secondary institution.
 
 <br>
 
@@ -651,7 +658,7 @@ Next we will summarize the number of years between high school graduation and th
 
 We will start out with the total dataset before moving on to see if there are any statistically significant differences by RUCA category and region.
 
-The table below provides summary statistics of the number of years between high school graduation and earning of their first credential after high school. The average was 3 years with a median of 4.
+The table below provides summary statistics of the number of years between high school graduation and earning of their first credential after high school. The average was 3 years with a median of 3.
 
 <br>
 
@@ -678,7 +685,7 @@ Next lets see if these averages are significantly different across RUCA categori
 
 The ANOVA table indicates a relationship between the average number of years between high school graduation and earning first credential by RUCA category.
 
-The primary trend is that the average number of years between high school graduation and earning first credential increases as a high school becomes more urban - 3.10 years for town/rural mix students and 3.41 for urban/town/rural mix students.
+Districts in town/rural mix counties have a slightly lower average number of years it takes to graduate post-secondary after high school - 3.12 compared to 3.22 for entirely rural and 3.36 for urban/town/rural mix districts.
 
 <br>
 
@@ -726,12 +733,12 @@ TukeyHSD(years.between.grads.anova.ruca)
 
 Next we will take a look at the percentage of students that graduated by institution sector. We will start with the total dataset and then look to see if there are any statistical differences on the RUCA category and EDR of their high school from which they graduated.
 
-First, let's look at it from a total dataset. Of the over 10,000 individuals that attended post-secondary in the dataset, nearly 40% went to a public, 2-year college, 31% went to a 4-year public college, 16% went to a private 4-year, and 14% graduated from a mixture of institution types.
+First, let's look at it from a total dataset. Of the over 18,000 individuals that graduated from a post-secondary institution in the dataset, nearly 40% graduated from a public, 2-year college, 30% graduated from a 4-year public college, 15% went to a private 4-year, and 15% graduated from a mixture of institution types.
 
 <br>
 
 ```{r table grad sector total}
-sectors <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY25/OHE Journey to meaningful employment/Data/SLEDS/NSC/IPEDS/institution-sectors.xlsx')
+sectors <- read_xlsx('/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSC/IPEDS/institution-sectors.xlsx')
 
 grad.sector.total <- master.10 %>%
   group_by(ps.grad.InstitutionSector) %>%
@@ -759,13 +766,21 @@ The crosstabs indicates a relationship between the RUCA location of their high s
 The table shows 3 significant differences.
 
 1.  Entirely rural:
-    1.  Significantly less likely to attend a 4-year public university
-    2.  Significantly more likely to attend a 4-year, for-profit
-    3.  Significantly more likely to attend a 2-year, for-profit
+    1.  Significantly more likely to graduate from a
+        1.  public, 2-year institution,
+        2.  pirvate, non-profit 4-year
+    2.  Significantly less likely to graduate from a
+        1.  public, 4-year college
 2.  Town/rural mix
-    1.  Significantly less likely to attend a not-for-profit 4-year
-    2.  Significantly more likely to attend colleges in multiple sectors
-    3.  Significantly less likely to attend 2-year for-profits
+    1.  Significantly more likely to graduate from a;
+        1.  public, 2-year institution,
+        2.  public, 4-year institution
+    2.  Significantly less likely to graduate from a;
+        1.  non-profit, 4-year institution
+3.  Urban/town/rural mix
+    1.  Significantly more likely to graduate from a;
+        1.  public, 4-year institution
+        2.  non-profit, 4-year
 
 <br>
 
