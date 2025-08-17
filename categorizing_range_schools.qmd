@@ -1,9 +1,9 @@
 ---
-title: "Post-Secondary Pathways"
+title: "Categorizing Range Schools"
 editor: visual
 ---
 
-```{r setup, include=FALSE}
+```{r library, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(sf)
@@ -25,14 +25,14 @@ library(systemfonts)
 reset_font_cache()
 library(ggtext)
 library(gmodels)
+library(leaps)
+library(bestglm)
 library(fastDummies)
 library(car)
-library(glmnet)
-library(glmnetUtils)
-library(pscl)
-library(sjPlot)
-library(rpart)
-library(rpart.plot)
+library(FactoMineR)
+library(factoextra)
+library(psych)
+library(corrplot)
 ```
 
 ```{r themes and shapefiles, include=FALSE}
@@ -122,95 +122,139 @@ color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Central" = 
 mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
   rename(countyfp = FIPS_CODE)
-
 ```
 
-```{r master dataset}
+```{r master original}
+master.original <- read.csv("Data/SLEDS/Masters/Master-13.csv") 
 
-original <- read_csv("Data/SLEDS/Masters/After analysis/Master-after-CART.csv")
+kable(head(master.original))
 
-kable(head(original))
-
-kable(names(original))
+kable(names(master.original))
 ```
 
-```{r joining masters}
-master <- original %>%
-  mutate_at(2:9, as.factor) %>%
-  mutate_at(14:16, as.factor) %>%
-  mutate(grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
-         grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
-         grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp NE", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023")) %>%
-  droplevels()
+# Defining Iron Range School Districts
 
-```
+My hypothesis is that schools located in the heart of the Iron Range have distinct patterns from the rest of Northeast Minnesota.
 
-# Data prep
+In Northeast Minnesota, the term **"Iron Range"** generally refers to a group of communities that developed around iron mining in the Mesabi, Vermilion, and Cuyuna ranges. When categorizing **school districts** as being "on the Iron Range," we typically refer to those located within or closely tied to the Mesabi Iron Range, which is the most prominent and populated of the ranges.
 
-The purpose of this analysis is to explore the relationship between individual variables and the post-secondary pathway they take. The post-secondary pathways that consistently appeared were the following; ranked in order of importance;
+Here is a list of **school districts commonly considered to be on the Iron Range**:
 
-1.  ps.grad.location
-2.  ps.grad.InstitutionSector
-3.  highest.cred.level
+## Primary Iron Range School Districts (Core Iron Range)
 
-All of these mean that the individual graduated from some sort of college institution. Here are the ways in which these paths lead to different workforce outcomes;
+These are located directly within the Mesabi Iron Range and are almost always considered part of it:
 
-1.  ps.grad.location
-    -   Meaningful employment in NE: graduated from a college in region or inside and outside region.
-    -   Meaningful emp in MN: In Minnesota
-    -   Not meaningful emp: Inside and outside region, inside and outside Minnesota
-    -   No MN employment record: Outside Minnesota
-2.  ps.grad.InstitutionSector
-    -   Meaningful employment in NE: graduated from a public, 2-year institution
-    -   Meaningful employment in MN: Public and private 4-year, for-profit
-    -   Not meaningful employment: Multiple sectors
-    -   No MN employment record: for-profit, private 4-year
-3.  highest.cred.level
-    -   Meaningful employment in NE: Less than associate degree or lesser credential
-    -   Meaningful employment in MN: Master degree or higher
-    -   Not meaningful employment: No or some college
-    -   No MN employment record: No college
-4.  ps.grad
-    -   Meaningful employment in NE: Either, with graduating becoming more prominent later
-    -   Meaningful employment in MN: Graduate
-    -   Not meaningful employment: Did not graduate
-    -   No MN employment record: Did not graduate, but not as prominent by 10 years
+-   **Rock Ridge Public Schools (ISD 2909)** – Formed by the merger of Virginia and Eveleth-Gilbert district
+-   **Mountain Iron-Buhl (ISD 712)**
+-   **Chisholm (ISD 695)**
+-   **Hibbing (ISD 701)**
+-   **Nashwauk-Keewatin (ISD 319)**
+-   **Ely (ISD 696)**
+-   **Mesabi East (ISD 2711)** – Based in Aurora, serving Aurora, Hoyt Lakes, and Biwabik.
 
-Okay, so we will analyze these in this order;
+## Borderline or Secondary Iron Range School Districts
 
-First we will look at whether there are any variables that predict if someone is a college grad.
+These districts are near the Iron Range and are sometimes included depending on the context:
 
-1.  ps.grad
+-   **Cook County (ISD 166)** – More North Shore than Iron Range, but very rural and sometimes lumped into broader regional definitions.
+-   **Northland Community Schools (ISD 118, in Remer)** – Not on the Mesabi Range, but sometimes included in broader northeastern discussions.
+-   **Floodwood (ISD 698)** – Located west of Duluth and near the southern edge of Iron Range influence.
 
-Then, we will dig into the college grads to see if there are any predictions there;
+**Deer River (ISD 317)** – South and west of Grand Rapids; sometimes considered part of the western fringe.
 
-1.  ps.grad.location
-2.  highest.cred.earned
-3.  ps.grad.InstitutionSector
+**Grand Rapids (ISD 318)** – A larger hub district west of the traditional range; sometimes included as a key service and economic center for the region.
+
+## Not Typically Considered Iron Range
+
+These are **nearby but not part of the Iron Range proper**:
+
+-   **Duluth Public Schools (ISD 709)** – Major city in NE MN, but culturally and economically separate from the Iron Range.
+-   **Two Harbors/Silver Bay (Lake Superior ISD 381)** – On the North Shore.
+-   **Carlton, Cloquet, Moose Lake** – More in the Carlton County area, not considered Iron Range.
+-   **International Falls (ISD 361)** – Farther north, part of the borderlands, not the Range.
+
+Below is a list of districts and their county location using the master dataset. As we can see, we will not be able to filter appropriately using this list.
 
 <br>
 
-# ps.grad
+```{r list of districts}
+districts.original <- master.original %>%
+  select(K12OrganizationID, OrganizationName, county.name) %>%
+  mutate(OrganizationName = str_to_title(OrganizationName)) %>%
+  distinct(OrganizationName, .keep_all = TRUE) 
 
-Alright, this one is up first. Let's take a look at what the percentage split is here from my dataset.
-
-The table below shows that 38% of the high school graduates from this region graduated from a post-secondary institution.
+datatable(districts.original,
+          class = "cell-border stripe",
+          filter = "top", 
+          rownames = FALSE,
+          options = list(columnDefs = list(list(className = "dt-center", targets = 0:2)))) 
+```
 
 <br>
 
-```{r ps grad proportion}
-ps.grad <- master %>%
-  select(ps.grad) %>%
-  mutate(ps.grad = ifelse(ps.grad == 1, "Yes", "No")) %>%
-  group_by(ps.grad) %>%
-  summarize(n = n()) %>%
-  ungroup() %>%
-  mutate(pct = n / sum(n)) %>%
-  datatable(class = "cell-border stripe",
-            rownames = FALSE,
-            options = list(columnDefs = list(list(className = "dt-center", targets = 0:2)))) %>%
-  formatCurrency(2, digits = 0, "") %>%
-  formatPercentage(3)
+So, in order to appropriately filter, I will need to merge the city location of each district. I think filtering by city will be easiest. Here is the list of cities that we will categorize as "Iron Range Schools";
 
-ps.grad
+-   Rock Ridge Public Schools
+    -   Virginia
+    -   Eveleth
+    -   Gilbert
+-   Mountain Iron-Buhl
+    -   Mountain Iron
+    -   Buhl
+    -   Kinney
+-   Chisholm
+    -   Chisholm
+-   Hibbing
+    -   Hibbing
+-   Nashwauk-Keewatin
+    -   Nashwauk
+    -   Keewatin
+-   Ely
+    -   Ely
+-   Mesabi East
+    -   Aurora
+    -   Hoyt Lakes
+    -   Biwabik
+
+So, any school districts located within these communities will be categorized as "Iron Range schools". When I first did the filtering, there were a couple more I added that was on the other list;
+
+-   Tower
+-   Babbitt
+
+In addition, I can't get Iron converted to Iron Junction.
+
+<br>
+
+```{r k12 organization cities}
+k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
+
+districts <- districts.original %>%
+  left_join(k12organization[,c(1,10)]) %>%
+  distinct(OrganizationName, .keep_all = TRUE) %>%
+  mutate(range.school = ifelse(City == "Iron", "Iron Junction", City),
+         range.school = ifelse(City %in% c("Virginia", "Eveleth", "Gilbert", "Mountain Iron-Buhl", "Mountain Iron", "Buhl", "Kinney", "Chisholm", "Babbitt", "Hibbing", "Iron", "Nashwauk", "Keewatin", "Ely", "Aurora", "Hoyt Lakes", "Biwabik", "Tower"), "Range school", "Non-range school"))
+
+datatable(districts,
+          class = "cell-border stripe",
+          filter = "top", 
+          rownames = FALSE,
+          options = list(columnDefs = list(list(className = "dt-center", targets = 0:4)))) 
+```
+
+<br>
+
+Okay, now that I have all the districts categorized as range and non-range schools, I can merge it with the master.
+
+<br>
+
+```{r merge range categories to master}
+master <- master.original %>%
+  mutate(OrganizationName = str_to_title(OrganizationName)) %>%
+  left_join(districts[,c(2,5)], by = "OrganizationName") %>%
+  select(PersonID:planning.region, range.school, hs.grad.year:wages.3year.avg)
+
+range.schools <- master %>%
+  select(PersonID, range.school)
+
+write_csv(range.schools, "Data/SLEDS/Masters/range-schools_master.csv")
 ```

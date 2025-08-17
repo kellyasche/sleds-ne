@@ -40,11 +40,11 @@ website:
             href: unemployment.qmd
           - text: Average wages
             href: avgwages.qmd
+          - text: Categorizing Range Schools
+            href: categorizing_range_schools.qmd
       - text: Analysis
         icon: fa-gear
         menu:
-          - text: Categorizing range schools
-            href: analysis_categorizing_range_schools.qmd
           - text: Multiple Correspondence Analysis
             href: analysis_mca.qmd
           - text: Dependent Variable States
