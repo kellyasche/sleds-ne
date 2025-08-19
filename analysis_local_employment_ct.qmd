@@ -1,0 +1,3669 @@
+---
+title: "Local Employment Cross-tabs"
+editor: visual
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+library(htmlwidgets)
+library(RColorBrewer)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(systemfonts)
+reset_font_cache()
+library(ggtext)
+library(gmodels)
+library(fastDummies)
+library(car)
+library(glmnet)
+library(glmnetUtils)
+library(pscl)
+library(sjPlot)
+library(ggforce)
+library(openxlsx)
+```
+
+```{r themes and shapefiles, include=FALSE}
+theme_bar <- theme_bw() +
+  theme(panel.grid.major = element_line(color = "grey70", linewidth  = 0.1),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.key.size = unit(1, "lines"),
+        legend.margin = margin(0,0,0,0),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+theme_line <- theme_bw() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.text = element_text(margin = margin(l = 2)),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey70", linewidth = 0.1),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+
+theme_sf <- theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = "white"),
+        panel.border = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+    select(5,6) %>%
+    unique() %>%
+    mutate(edr = str_replace(edr, "  ", " "),
+           planning.region = str_replace(planning.region, " Minnesota", ""),
+           planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+           edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+
+counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  rename(mif = `MIF Region`) %>%
+  mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
+         Name = str_to_title(Name),
+         Name = str_replace(Name, "Q", "q"),
+         Name = str_replace(Name, "Of The", "of the"),
+         Name = str_replace(Name, "Mcleod", "McLeod"),
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc) ,
+         edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
+
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
+
+color.pr <- c("Northwest" = 	"#4575b4", "Northeast" = "grey", "Northeast" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
+
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Northeast" = "#8856a7", "EDR 5 - North Northeast" = "#810f7c", "EDR 6E- Southwest Northeast" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Northeast" = "#99d8c9", "EDR 7W- Northeast" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Northeast" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+
+color.edr.simple <- c("EDR 1" = "#b3cde3", "EDR 2" = "#8c96c6", "EDR 3" = "#fe9929", "EDR 4" = "#8856a7", "EDR 5" = "#810f7c", "EDR 6E" = "#e5f5f9", "EDR 6W" = "#bdc9e1", "EDR 7E" = "#99d8c9", "EDR 7W" = "#2ca25f", "EDR 8" = "#74a9cf", "EDR 9" = "#0570b0", "EDR 10" = "#d7301f", "EDR 11" = "#d8b365", "Minnesota" = "black")
+
+color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Northeast" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black", "EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Northeast" = "#8856a7", "EDR 5 - North Northeast" = "#810f7c", "EDR 6E- Southwest Northeast" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Northeast" = "#99d8c9", "EDR 7W- Northeast" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Northeast" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
+
+mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
+  ms_simplify(keep = .01, keep_shapes = TRUE) %>%
+  rename(countyfp = FIPS_CODE)
+```
+
+```{r master dataset}
+master.original <- read_csv("Data/SLEDS/Masters/After analysis/Master-final-after-mca.csv")
+
+master.factor.names <- master.original %>%
+  select(PersonID, Dem_Desc, range.school, grad.year.covid, Gender, economic.status, pseo.participant, SpecialEdStatus, RaceEthnicity, took.ACT, ap.exam, cte.achievement, english.learner, sat.taken, attended.ps, attended.ps.first.year, attended.ps.years.hsgrad, attended.ps.within.first.year.hsgrad, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location) 
+
+master.states <- read_csv("Data/SLEDS/Masters/States/annual-seven-states.csv") %>%
+  filter(grad.year %in% c("grad.year.1", "grad.year.5", "grad.year.10")) %>%
+  select(PersonID, grad.year, states) %>%
+  pivot_wider(names_from = grad.year, values_from = states)
+
+master <- master.states %>%
+  left_join(master.factor.names, by = "PersonID")
+
+kable(head(master))
+
+kable(names(master))
+```
+
+```{r independent and dependent variables}
+updated.factor.var.names <-  master.factor.names %>%
+  select(-PersonID) %>%
+  names() %>%
+  c("ps.grad.in.same.ruca", "ps.grad.in.same.edr", "ps.grad.in.same.pr", "ps.grad.in.MN")
+
+numeric.var.names <- master.original %>%
+  select(ACTCompositeScore, total.cte.courses.taken, `ACTE.SPED`:Youth.Apprenticeship,  MCA.M:MCA.S, n.institutions, avg.unemp.rate, wages.3year.avg, avg.wages.pct.state) %>%
+  names()
+  
+updated.independent.var.names <- c(updated.factor.var.names, numeric.var.names)
+
+cte.cc.var.names <- master.original %>%
+  select(ACTE.SPED:Youth.Apprenticeship) %>%
+  names()
+
+dep.var.names <- master %>%
+  select(PersonID, grad.year.1, grad.year.5, grad.year.10)
+
+
+updated.master <- master.original %>%
+  select(PersonID, all_of(updated.independent.var.names)) %>%
+  left_join(dep.var.names, by = "PersonID") %>%
+  mutate(grad.year.1 = ifelse(grad.year.1 == "Meaningful emp EDR", "Meaningful emp region", grad.year.1),
+         grad.year.5 = ifelse(grad.year.5 == "Meaningful emp EDR", "Meaningful emp region", grad.year.5),
+         grad.year.10 = ifelse(grad.year.10 == "Meaningful emp EDR", "Meaningful emp region", grad.year.10)) %>%
+  mutate_at(vars(Dem_Desc:ps.grad.in.MN), as.factor) %>%
+  mutate_at(vars(grad.year.1:grad.year.10), as.factor) %>%
+  mutate(grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp County", "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp County", "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp County", "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps"),
+         highest.cred.level = ifelse(ps.grad.InstitutionSector == "Did not grad", "Some college", as.character(highest.cred.level)),
+         highest.cred.level = ifelse(ps.grad.InstitutionSector == "Never attended ps", "No college", as.character(highest.cred.level)),
+         highest.cred.level = as.factor(highest.cred.level),
+         Dem_Desc = fct_relevel(Dem_Desc, "Town/rural mix", "Urban/town/rural mix", "Entirely urban")) %>%
+  droplevels()
+
+kable(head(updated.master))
+
+kable(names(updated.master))
+```
+
+<br>
+
+There are a number of "states" in which an individual in this dataset are assigned;
+
+1.  Has meaningful employment
+    1.  In the same county as their high school.
+    2.  In the same region as their high school, but not county.
+    3.  In Minnesota, but not in Northeast Minnesota.
+2.  Is attending post-secondary.
+3.  Has a MN employment record but it's not meaningful, and not attending post-secondary.
+4.  Does not have a MN employment record and is not attending post-secondary.
+
+There are three "times" in which we checked to see if the individual had meaningful employment within these geographies;
+
+1.  one year after graduating high school
+2.  five years after graduation, and
+3.  ten years after graduation.
+
+Meaningful employment is determined by whether an individual worked 1,000 hours for an employer during time X. In addition, if the individual is working for an employer but not meaningful at time X but worked 1,000 hours for that employer during another year it's still considered "meaningful".
+
+Due to time x potentially being passed the date of the latest data (2023) for some individuals, the analysis below will filter out all individuals where time x is after 2023.
+
+From the multiple correspondence analysis and the principle component analysis we determined that the following independent variables will be included in the analysis.
+
+```{r list of ind var}
+updated.master %>%
+  select(-PersonID, -grad.year.1, -grad.year.5, -grad.year.10) %>%
+  lapply(class) 
+
+```
+
+# Methodology
+
+For this analysis we are keeping it simple. For categorical variables I’ll be using the Cramer’s v-square measure of association. The V\^2 value is from 0 to 1 with 0 meaning there’s no association and a value closer to 1 indicates a strong association.
+
+| **Cramér’s V Value** | **Interpretation**               |
+|----------------------|----------------------------------|
+| 0.00–0.10            | Negligible association           |
+| 0.10–0.20            | Weak                             |
+| 0.20–0.40            | Moderate                         |
+| 0.40–0.60            | Relatively strong                |
+| 0.60–0.80            | Strong                           |
+| 0.80–1.00            | Very strong (possibly redundant) |
+
+For the variables with continuous values I’ll be using the Wilcoxon two paired groups test. P-value will be used to determine whether we can reject the NULL hypothesis at a .01 level. I’ll also include boxplots to see in which direction there might be influence from the variables.
+
+We are going to split up the analysis into two different datasets. The first dataset will combine 3 of the previous states into one.
+
+-   Has meaningful employment anywhere in Northeast Minnesota, which combines the following states;
+    -   Meaningful emp County
+    -   Meaningful emp region
+
+The remaining states will stay the same.
+
+-   Has meaningful employment in Minnesota, but not in Northeast Minnesota
+-   Is attending a post-secondary institution.
+-   Has a MN employment record but it's not meaningful, and they are not attending post-secondary.
+-   Does not have a MN employment record and is not attending post-secondary.
+
+We have quite a few variables remaining, even after MCA analysis. So let's take a look at how we are going to proceed and group all of this together to see how these relationships work.
+
+-   Demographics
+    -   `Gender`
+    -   `grad.year.covid`
+    -   `economic.status`
+    -   `SpecialEdStatus`
+    -   `RaceEthnicity`
+    -   `englisher.learner`
+-   High school characteristics
+    -   `Dem_Desc`
+    -   `range.school`
+    -   `avg.unemp.rate`
+    -   `avg.wage.pct.state`
+-   High school accomplishments
+    -   `pseo.participant`
+    -   `took.ACT`
+    -   `ACTCompositeScore`
+    -   `ap.exam`
+    -   `sat.taken`
+    -   MCA scores
+        -   `MCA.M`
+        -   `MCA.R`
+        -   `MCA.S`
+    -   `cte.achievement`
+    -   `total.cte.courses.taken`
+-   Post-secondary
+    -   `attended.ps.within.first.year.hsgrad`
+    -   `attended.ps`
+    -   `ps.grad`
+    -   `ps.grad.InstitutionSector`
+    -   `highest.cred.level`
+    -   `ps.grad.location`
+
+<br>
+
+# Meaningful employment in Northeast Minnesota
+
+```{r prep meaningful employment in Northeast MN}
+meaningful.emp.ne <- updated.master %>%
+  mutate(grad.year.1 = ifelse(grad.year.1 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", as.character(grad.year.1)),
+         grad.year.1 = as_factor(grad.year.1),
+         grad.year.1 = fct_relevel(grad.year.1, "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", as.character(grad.year.5)),
+         grad.year.5 = as_factor(grad.year.5),
+         grad.year.5 = fct_relevel(grad.year.5, "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         grad.year.10 = ifelse(grad.year.10 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", as.character(grad.year.10)),
+         grad.year.10 = as_factor(grad.year.10),
+         grad.year.10 = fct_relevel(grad.year.10, "Meaningful emp region", "Meaningful emp MN", "Attending ps", "Not meaningful, not attending ps", "No MN emp record, not attending ps", "After 2023"),
+         highest.cred.level = fct_relevel(highest.cred.level, "No college", "Some college", "Less than Associate Degree", "Associate degree", "Bachelor degree or higher"))
+
+write_csv(meaningful.emp.ne, "Data/SLEDS/Masters/After analysis/Master-meaningful-emp-ne.csv")
+```
+
+Let's first take a look at proportion of states in each of the time.X. The chart below shows that nealy half of the graduates are attending post-secondary (48%) one year after graduating high school. The further away from high school graduation results in a bit of an increase in the percentage of individuals who have meaningful employment in the region and in Minnesota, while about a third of graduates do not have a MN employment record and are not going to post-secondary.
+
+```{r proportion of states meaningful emp SW}
+prop.states.meaningful.emp.ne <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.5, grad.year.10) %>%
+  pivot_longer(names_to = "grad.year", values_to = "states", 1:3) %>%
+  group_by(grad.year, states) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  filter(states != "After 2023") %>%
+  group_by(grad.year) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(data_id = seq(n()),
+         grad.year = fct_relevel(grad.year, "grad.year.1", "grad.year.5", "grad.year.10"))
+
+prop.states.meaningful.emp.ne.plot <- ggplot(prop.states.meaningful.emp.ne, aes(grad.year, pct, fill = states, group = states)) +
+  geom_col_interactive(position = "dodge", aes(data_id = data_id, tooltip = paste(grad.year, "\nState of individuals: ", states, "\nNumber of people in states: ", comma(n), "\nPercent of people in state: ", percent(pct, accuracy = .1), sep = ""))) +
+   labs(x="", y = "", color="", title = "Percent of people in each state")+
+  scale_y_continuous(labels=scales::percent)+
+  theme_bar+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu"),
+                    guide = guide_legend(ncol = 2)) +
+  theme(legend.position = "bottom",
+        text = element_text(size = 18))
+
+
+girafe(ggobj = prop.states.meaningful.emp.ne.plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE))      
+
+```
+
+<br>
+
+Let's examine the variables to see if there are any significant differences in the proportion of individuals in these states across the variable categories or values.
+
+<br>
+
+# Demographics
+
+In the demographics section we will examine the relationship between that paths taken by individuals and the following variables;
+
+-   Demographics
+    -   `Gender`
+    -   `grad.year.covid`
+    -   `economic.status`
+    -   `SpecialEdStatus`
+    -   `RaceEthnicity`
+    -   `englisher.learner`
+
+<br>
+
+## Demographics Section Summary
+
+### Comparative Table of Cramer’s V Across Demographic Variables
+
+| Variable | Year 1 V | Year 5 V | Year 10 V | Peak Strength | Pattern of Change |
+|------------|------------|------------|------------|------------|------------|
+| Gender | 0.109 | 0.078 | 0.051 | Year 1 | Declines steadily over time |
+| Economic Status | 0.238 | 0.140 | 0.096 | Year 1 | Strong early, declines but remains significant |
+| SpecialEdStatus | 0.258 | 0.155 | 0.108 | Year 1 | Strongest early, moderate decline |
+| Race/Ethnicity | 0.067 | 0.051 | 0.058 | Year 1 | Weak but consistent, relatively stable |
+| English Learner | 0.188 | 0.115 | 0.079 | Year 1 | Strong early, weakens but remains significant |
+
+------------------------------------------------------------------------
+
+### Key Patterns & Comparative Insights
+
+**Strongest Associations**
+
+-   **Special Education Status (V = 0.258 at Year 1)** and **Economic Status (V = 0.238 at Year 1)** emerge as the **strongest predictors of post-graduation outcomes**. Both show very large disparities in postsecondary participation and elevated risks of disconnection. In terms of **regional meaningful employment**, SpecialEd students start at parity but fall behind by Year 5 and 10, while higher economic status students consistently hold an edge.
+
+**Moderately Strong Associations**
+
+-   **English Learner status (V = 0.188 at Year 1)** also shows a strong early effect, with EL students much less likely to enter postsecondary pathways and far more likely to be disconnected. The disadvantage persists through Year 10, with especially large gaps in meaningful regional employment and disconnection rates.
+-   **Gender (V = 0.109 at Year 1)** presents more moderate differences. Males are more likely to enter meaningful employment in the region, while females dominate postsecondary enrollment. These gaps diminish but persist slightly by Year 10.
+
+**Weakest Associations**
+
+-   **Race/Ethnicity (V = 0.067 at Year 1)** shows weaker overall associations but still highlights persistent inequities. White graduates are more likely to secure meaningful regional jobs, while American Indian, Black, Hispanic, and Asian/PI students show consistently lower rates of regional employment and higher disconnection. Although the effect sizes are weaker, the equity implications are substantial.
+
+**Overall Insight**
+
+-   Among demographic variables, **SpecialEdStatus, Economic Status, and English Learner status** stand out as the **most influential factors** shaping post-graduation outcomes, particularly through disparities in **meaningful employment in the region**. Gender plays a secondary but notable role, while Race/Ethnicity shows weaker statistical association but nonetheless reflects important and persistent disparities in equity and opportunity.
+
+<br>
+
+## `Gender`
+
+### **Key Findings**
+
+There is a statistically significant relationship between gender and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **557.79**, Cramer’s V = **0.109**, p \< .001, N = 46,777
+-   5 years after graduation: χ²(4) = **213.66**, Cramer’s V = **0.078**, p \< .001, N = 34,683
+-   10 years after graduation: χ²(3) = **51.15**, Cramer’s V = **0.051**, p \< .001, N = 19,828
+
+The strength of association is **moderate in the first year** and diminishes over time, though it remains statistically significant. The primary pattern is that **males are more likely to enter meaningful employment in the region**, while **females are more likely to pursue postsecondary pathways in the short term**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Females are much more likely to be attending postsecondary (52.6% vs. 43.1%). Males are more likely to be in meaningful employment in the region (16.7% vs. 13.9%) and also somewhat more likely to be disconnected (14.2% vs. 9.1%). This reflects a split where **males move into the local workforce earlier**, while **females prioritize education**.
+
+**5 Years After Graduation:** The postsecondary gap narrows, though females remain more likely to be enrolled (18.4% vs. 13.7%). Males continue to have higher rates of meaningful regional employment (28.1% vs. 24.8%). Disconnection is higher for males (22.7% vs. 19.3%), but the difference in not meaningful employment is small. By this point, **males consolidate a stronger role in the regional labor market**.
+
+**10 Years After Graduation:** Gender differences shrink further. Males retain an edge in meaningful regional employment (30.8% vs. 27.7%). Females are slightly more likely to be in not meaningful work (20.7% vs. 17.1%), while disconnection rates are nearly identical (32.5% vs. 32.4%). The overall pattern shows that while gendered gaps weaken over time, **males remain more tied to regional meaningful employment** in the long run.
+
+<br>
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics gender one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, Gender) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$Gender, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/Gender-1.html",
+         use.viewer = TRUE)
+```
+
+### Five years after graduating
+
+```{r demographics gender five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, Gender) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$Gender, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/Gender-5.html")
+
+```
+
+### Ten years after graduating
+
+```{r demographics gender ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, Gender) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$Gender, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/Gender-10.html")
+
+```
+:::
+
+<br>
+
+## `Grad.year.covid`
+
+### **Key Findings**
+
+There is a statistically significant relationship between graduation cohort (pre- vs. post-COVID) and post-graduation outcomes at 1 year:
+
+-   **1 year after graduation**: χ² = 202.89, df = 4, Cramer’s V = 0.066, p \< .001
+
+The strength of association is **weak but meaningful**, suggesting that the COVID-19 pandemic had a measurable effect on early post-graduation pathways. **Post-COVID graduates are less likely to be attending postsecondary education** and more likely to be in non-meaningful employment or disconnected outcomes, while **pre-COVID graduates show higher postsecondary enrollment**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation**: Post-COVID graduates are less likely to be **attending postsecondary education** (41.2% vs. 49.3% pre-COVID) and more likely to be in **not meaningful employment** (23.2% vs. 20.4%). They also have slightly higher rates of having **no MN employment record** (13.0% vs. 11.4%). Pre-COVID graduates, by contrast, are more likely to be engaged in **postsecondary education**, with somewhat lower rates of disconnection. These findings reflect the early disruptions of the pandemic, which likely limited both postsecondary opportunities and stable employment pathways for the affected cohorts.
+
+<br>
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics grad.year.covid one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.covid) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$grad.year.covid, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE)
+```
+:::
+
+```{r echo = FALSE}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.5, grad.year.10, grad.year.covid) %>%
+  write_csv(., "Data/ChatGPT/Demographics/grad-year-covid.csv")
+```
+
+<br>
+
+## `economic.status`
+
+### **Key Findings**
+
+There is a statistically significant relationship between economic status and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **2655.85**, Cramer’s V = **0.238**, p \< .001, N = 46,777
+
+-   5 years after graduation: χ²(4) = **678.57**, Cramer’s V = **0.140**, p \< .001, N = 34,683
+
+-   10 years after graduation: χ²(3) = **181.08**, Cramer’s V = **0.096**, p \< .001, N = 19,828
+
+The strength of association is **strongest in the first year** and steadily declines over time, though it remains significant. The primary relationship is that **students from lower economic status backgrounds are less likely to attend postsecondary and more likely to appear in not meaningful or disconnected outcomes, while higher economic status students are more likely to pursue education and later show stronger representation in meaningful employment in the region.**
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Students from higher economic backgrounds are far more likely to be attending postsecondary (56.7% vs. 32.5%), while lower economic status students are more often in not meaningful employment (28.6% vs. 16.4%) or disconnected (15.6% vs. 9.4%). Regional meaningful employment is higher among higher economic status students (18.1% vs. 13.7%), suggesting early socioeconomic advantage in both education and quality employment.
+
+**5 Years After Graduation:** Postsecondary enrollment drops for all, but gaps remain (19.1% vs. 10.8%). Regional meaningful employment is nearly equal (26.6% vs. 26.3%), indicating some convergence in the local labor market. However, lower economic status students remain more likely to be not meaningful (25.9% vs. 18.6%) and disconnected (23.8% vs. 19.4%).
+
+**10 Years After Graduation:** Regional meaningful employment tips back in favor of higher economic status students (30.6% vs. 26.7%). They also have stronger statewide meaningful employment (21.0% vs. 16.4%), while lower economic status students are more concentrated in not meaningful (23.2% vs. 16.6%) and disconnected outcomes (33.7% vs. 31.7%). Over the long run, **economic advantage continues to translate into higher quality employment, especially within the region.**
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics economic.status one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, economic.status) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$economic.status, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/economic-status-1.html")
+```
+
+### Five years after graduating
+
+```{r demographics economic.status five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, economic.status) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$economic.status, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/economic-status-5.html")
+```
+
+### Ten years after graduating
+
+```{r demographics economic.status ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, economic.status) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$economic.status, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/economic-status-10.html")
+```
+:::
+
+<br>
+
+## `SpecialEdStatus` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between Special Education status and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **3110.70**, Cramer’s V = **0.258**, p \< .001, N = 46,777
+-   5 years after graduation: χ²(4) = **829.87**, Cramer’s V = **0.155**, p \< .001, N = 34,683
+-   10 years after graduation: χ²(3) = **231.15**, Cramer’s V = **0.108**, p \< .001, N = 19,828
+
+The strength of association is **strongest in the first year** and weakens over time, but the relationship remains significant. The primary pattern is that **SpecialEd students are less likely to attend postsecondary and more likely to be in not meaningful or disconnected outcomes**. While regional meaningful employment is roughly equal at Year 1, **by Years 5 and 10 non-SpecialEd students pull ahead in meaningful employment in the region**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is nearly the same for SpecialEd (15.6%) and non-SpecialEd (15.3%). The sharpest differences are in education and disconnection: only 21.4% of SpecialEd students are attending postsecondary compared to 52.5% of non-SpecialEd, and 25.1% of SpecialEd students are disconnected compared to 9.3% of non-SpecialEd. This points to an early divergence where SpecialEd students are disproportionately outside of education and tracked employment.
+
+**5 Years After Graduation:** Gaps in regional meaningful employment begin to open (SpecialEd 24.6% vs. non-SpecialEd 26.8%). SpecialEd students are still much less likely to be in postsecondary (6.8% vs. 17.6%) and more likely to be not meaningful (29.1% vs. 20.0%) or disconnected (30.0% vs. 19.5%). By this stage, **non-SpecialEd students strengthen their advantage in both education and regional meaningful jobs**.
+
+**10 Years After Graduation:** The gap in regional meaningful employment widens further (SpecialEd 24.7% vs. non-SpecialEd 29.9%). Non-SpecialEd students are also more likely to be in meaningful employment statewide (20.6% vs. 11.7%). SpecialEd students remain more concentrated in disconnected outcomes (36.9% vs. 31.7%). The long-term trajectory shows that **SpecialEd students are less attached to meaningful regional work and face persistent disadvantages in education and quality employment**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics SpecialEdStatus one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, SpecialEdStatus) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$SpecialEdStatus, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/SpecialEdStatus-1.html")
+```
+
+### Five years after graduating
+
+```{r demographics SpecialEdStatus five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, SpecialEdStatus) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$SpecialEdStatus, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/SpecialEdStatus-5.html")
+```
+
+### Ten years after graduating
+
+```{r demographics SpecialEdStatus ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, SpecialEdStatus) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$SpecialEdStatus, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/SpecialEdStatus-10.html")
+```
+:::
+
+<br>
+
+## `RaceEthnicity` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between race/ethnicity and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(16) = **737.61**, Cramer’s V = **0.067**, p \< .001, N = 41,205【435†source】
+-   5 years after graduation: χ²(16) = **363.79**, Cramer’s V = **0.051**, p \< .001, N = 34,683【437†source】
+-   10 years after graduation: χ²(12) = **198.54**, Cramer’s V = **0.058**, p \< .001, N = 19,828【438†source】
+
+The associations are **weak but consistent across time**, suggesting that while race/ethnicity matters, the effect sizes are smaller compared to other demographic variables. The primary relationship is that **White students are more likely to enter meaningful regional employment and attend postsecondary, while American Indian, Black, and Hispanic students are more often in not meaningful or disconnected outcomes**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** White students show higher rates of postsecondary attendance (50.1%) and meaningful regional employment (15.3%) compared to most other groups. American Indian students are less likely to attend postsecondary (32.2%) and more likely to be in not meaningful employment (28.8%) or disconnected (18.7%). Black and Hispanic students also face higher shares of not meaningful or disconnected outcomes, while Asian/PI students lean toward postsecondary enrollment (48.1%) but have low regional employment (8.3%).
+
+**5 Years After Graduation:** White students continue to dominate in meaningful regional employment (27.1%) and statewide meaningful work (15.6%). American Indian, Black, and Hispanic students remain underrepresented in regional employment (15.9–19.8%) and have higher shares in not meaningful or disconnected outcomes. Asian/PI students, though still lower in regional employment (15.9%), maintain stronger postsecondary presence (18.9%). The disparities remain persistent.
+
+**10 Years After Graduation:** White students further strengthen their advantage in meaningful regional employment (30.1%) and statewide meaningful work (19.9%). American Indian, Black, and Hispanic students remain behind, with regional employment in the 13–21% range and higher disconnection rates (44–50% for Black and Hispanic). Asian/PI students continue to have weaker attachment to regional employment (15.6%), though they retain moderate statewide meaningful employment. The long-term pattern highlights **systemic disparities in both education and labor market outcomes, with White students benefiting most from regional meaningful employment opportunities.**
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics RaceEthnicity one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, RaceEthnicity) %>%
+  filter(grad.year.1 != "After 2023",
+         RaceEthnicity != "Unknown") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$RaceEthnicity, 
+                 title = "", 
+                 show.exp = TRUE,
+                 show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/RaceEthnicity-1.html")
+
+```
+
+### Five years after graduating
+
+```{r demographics RaceEthnicity five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, RaceEthnicity) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$RaceEthnicity, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/RaceEthnicity-5.html")
+
+```
+
+### Ten years after graduating
+
+```{r demographics RaceEthnicity ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, RaceEthnicity) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$RaceEthnicity, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/RaceEthnicity-10.html")
+
+```
+:::
+
+<br>
+
+## `english.learner`
+
+### **Key Findings**
+
+There is a statistically significant relationship between English Learner (EL) status and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **1649.35**, Cramer’s V = **0.188**, p \< .001, N = 46,777
+-   5 years after graduation: χ²(4) = **459.23**, Cramer’s V = **0.115**, p \< .001, N = 34,683
+-   10 years after graduation: χ²(3) = **124.44**, Cramer’s V = **0.079**, p \< .001, N = 19,828
+
+The strength of association is **strongest in the first year** and weakens over time, though the relationship remains significant. The primary relationship is that **English Learner students are much less likely to attend postsecondary and more likely to be disconnected or in not meaningful employment, while non-EL students are more likely to pursue postsecondary and secure meaningful regional employment over time**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Non-EL students are more likely to be attending postsecondary (49.2% vs. 16.6%) and in meaningful regional employment (15.5% vs. 11.8%). EL students are disproportionately represented in not meaningful (31.8% vs. 20.4%) and disconnected outcomes (35.8% vs. 10.6%). This shows a sharp early divide.
+
+**5 Years After Graduation:** Regional meaningful employment grows for both groups, but the gap persists (26.7% non-EL vs. 21.1% EL). EL students continue to be much less likely to be in postsecondary (3.7% vs. 16.6%) and more likely to be disconnected (38.1% vs. 20.3%). By this point, **EL students are more than 15 percentage points less likely to secure regional meaningful jobs**.
+
+**10 Years After Graduation:** Non-EL students further strengthen their advantage in meaningful regional employment (29.6% vs. 17.4%) and statewide meaningful employment (19.7% vs. 7.6%). Nearly half of EL students (48.3%) remain disconnected, compared to 32.0% of non-EL students. The long-term trajectory shows that **English Learners face enduring disadvantages in both education and attachment to meaningful regional employment**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r demographics english.learner one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, english.learner) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$english.learner, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/english-learner-1.html")
+```
+
+### Five years after graduating
+
+```{r demographics english.learner five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, english.learner) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$english.learner, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/english-learner-5.html")
+
+```
+
+### Ten years after graduating
+
+```{r demographics english.learner ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, english.learner) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$english.learner, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Demographics/english-learner-10.html")
+```
+:::
+
+<br>
+
+# High school characteristics
+
+We will take a look at the following variables;
+
+-   `Dem_Desc`
+-   `range.school`
+-   `avg.unemp.rate`
+-   `avg.wage.pct.state`
+
+<br>
+
+## High School Characteristics Section Summary
+
+### Comparative Table of Effect Sizes Across Variables
+
+| Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
+|----------------|------------|------------|------------|------------|------------|
+| Rural–Urban Context | V = 0.024 | V = 0.054 | V = 0.044 | Year 5 | Weak overall, small uptick at Year 5 |
+| Range School | V = 0.061 | V = 0.043 | V = 0.054 | Year 1 | Weak but consistent, stable across time |
+| Avg. County Unemployment | F(4,46772) = 33.8 | F(4,34678) = 17.6 | F(3,19824) = 6.7 | Year 1 | Significant, declining strength over time |
+| Avg. Wages % of State | F(4,46772) = 15.2 | F(4,34678) = 12.0 | F(3,19824) = 8.2 | Year 1 | Significant, modest and consistent across years |
+
+------------------------------------------------------------------------
+
+### Key Patterns & Comparative Insights
+
+**Strongest Associations**
+
+-   **Range School** stands out among categorical variables, showing a clear though modest pattern: Range graduates are more likely to enter and sustain **meaningful regional employment**, with the gap widening at 10 years (34% vs. 28% for non‑Range).
+-   **County Unemployment Rate** demonstrates robust significance in ANOVA tests, with Tukey results showing that **lower‑unemployment counties are consistently tied to higher rates of regional meaningful employment**. This reinforces the importance of local economic conditions.
+
+**Moderate Associations**
+
+-   **County Wages (% of State)** shows consistent though modest effects: **regional meaningful employment is concentrated in lower‑wage counties**, while higher‑wage counties are more tied to postsecondary and statewide outcomes. This complements the unemployment findings by showing that stronger regional employment pathways may develop in relatively weaker wage contexts.
+-   **Rural–Urban Context** has the weakest effect sizes but reveals consistent differences: students from **urban/town/rural mix** areas are more likely to remain in regional meaningful employment, while those from **entirely rural** schools are more likely to move into statewide work.
+
+**Overall Insight**\
+High school context variables show **modest but meaningful influences** on post-graduation outcomes. The clearest signals are that **Range schools and lower‑unemployment counties support stronger attachment to meaningful regional employment**, while higher‑wage counties and more rural settings steer students toward education, statewide, or external employment pathways.
+
+<br>
+
+## `Dem_Desc`
+
+### **Key Findings**
+
+There is a statistically significant relationship between rural–urban context and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(8) = **54.72**, Cramer’s V = **0.024**, p \< .001, N = 46,777【474†source】
+-   5 years after graduation: χ²(8) = **201.14**, Cramer’s V = **0.054**, p \< .001, N = 34,683【476†source】
+-   10 years after graduation: χ²(6) = **75.40**, Cramer’s V = **0.044**, p \< .001, N = 19,828【477†source】
+
+The associations are **weak but consistent**. The primary pattern is that **students from Urban/town/rural mix areas are most likely to achieve meaningful employment in the region, while those from Entirely rural areas are least likely to do so**, especially by Years 5 and 10.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is highest for **Urban/town/rural mix (15.8%)**, followed by **Town/rural mix (14.9%)**, and lowest for **Entirely rural (11.8%)**. Postsecondary attendance is nearly identical across groups (\~48%). Disconnection is slightly higher for **Entirely rural (12.1%)** compared to others (≈11.6–11.9%)【474†source】.
+
+**5 Years After Graduation:** **Urban/town/rural mix** leads in regional meaningful employment (27.8%), compared to **Town/rural mix (24.3%)** and **Entirely rural (20.2%)**. Interestingly, **Entirely rural graduates show higher statewide meaningful employment (23.5%)**, indicating more attachment to jobs outside their immediate region. Disconnection is modestly lower for **Entirely rural (19.7%)** compared to others (≈20.8–21.9%)【476†source】.
+
+**10 Years After Graduation:** The pattern persists. **Urban/town/rural mix** maintains the highest regional meaningful employment (30.3%), while **Entirely rural** remains lowest (22.8%). Entirely rural students, however, hold the highest statewide meaningful employment share (26.9%), reinforcing the pattern of outward mobility for work. Disconnection is high across all groups (\~30–33%) but does not vary sharply by rural–urban context【477†source】.
+
+Overall, the rural–urban context shows **weak but clear differences**: **students from more urban-influenced areas are more likely to remain in meaningful employment within the region, while those from entirely rural schools are more likely to find meaningful employment elsewhere in Minnesota**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs characteristics Dem_Desc one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, Dem_Desc) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/Dem_Desc-1.html")
+```
+
+### Five years after graduating
+
+```{r hs characteristics Dem_Desc five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, Dem_Desc) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/Dem_Desc-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs characteristics Dem_Desc ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, Dem_Desc) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/Dem_Desc-10.html")
+```
+:::
+
+<br>
+
+## `range.school`
+
+### **Key Findings**
+
+There is a statistically significant relationship between attending a Range school and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **173.72**, Cramer’s V = **0.061**, p \< .001, N = 46,777\
+-   5 years after graduation: χ²(4) = **63.68**, Cramer’s V = **0.043**, p \< .001, N = 34,683【488†source】\
+-   10 years after graduation: χ²(3) = **57.03**, Cramer’s V = **0.054**, p \< .001, N = 19,828【489†source】
+
+The strength of association is **weak overall** but consistent. The primary relationship is that **Range school students are more likely to achieve meaningful employment in the region** compared to non‑Range peers, though differences in postsecondary attendance and disconnection are modest.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is slightly higher among Range school students (16.6% vs. 15.0%). Range students are also somewhat more likely to be attending postsecondary (52.1% vs. 46.6%) and less likely to be in not meaningful work (17.8% vs. 21.8%). Disconnection is lower for Range students (10.2% vs. 12.1%)【487†source】.
+
+**5 Years After Graduation:** Regional meaningful employment advantages grow, with 29.3% of Range graduates employed in the region compared to 25.8% of non‑Range peers. Postsecondary enrollment remains somewhat higher (17.3% vs. 15.7%), while not meaningful and disconnection outcomes are slightly lower for Range graduates (19.6% vs. 21.7% and 19.3% vs. 21.5%)【488†source】.
+
+**10 Years After Graduation:** The gap in regional meaningful employment becomes more pronounced: 34.0% of Range graduates vs. 28.0% of non‑Range graduates. Range graduates maintain comparable statewide meaningful employment (18.4% vs. 19.7%), and their disconnection remains modestly lower (29.7% vs. 33.1%)【489†source】. The long‑term trend indicates that **Range school students are more attached to regional meaningful work than non‑Range peers**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs characteristics range.school one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, range.school) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$range.school, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/range-school-1.html")
+```
+
+### Five years after graduating
+
+```{r hs characteristics range.school five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, range.school) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$range.school, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/range-school-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs characteristics range.school ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, range.school) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$range.school, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school characteristics/range-school-10.html")
+```
+:::
+
+<br>
+
+## `avg.unemp.rate`
+
+### **Key Findings**
+
+There is a statistically significant relationship between the **county unemployment rate during high school** and post‑graduation outcomes in all three timeframes (ANOVA on unemployment rate across outcome groups):
+
+-   **1 year after graduation**: F(4, 46772) = **12.55**, p \< .001\
+-   **5 years after graduation**: F(4, 34678) = **13.03**, p \< .001\
+-   **10 years after graduation**: F(3, 19745) = **9.69**, p \< .001
+
+Effects are **modest but reliable** across years.
+
+### **Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   **Attending postsecondary** comes from **higher‑unemployment counties** than **Meaningful employment in the region** (Δ = +0.118, p \< .001).
+-   **Not meaningful** and **No MN record** are also higher than **Meaningful region** (Δ ≈ +0.07 to +0.08, both p \< .05).
+-   Takeaway: in the first year, **regional meaningful employment is associated with comparatively lower local unemployment** than several alternative pathways.
+
+**Year 5:**
+
+-   **Meaningful MN (statewide)** \> **Meaningful region** (Δ = +0.146, p \< .001).
+-   **Attending ps** and **No MN record** are **lower** than **Meaningful MN** (Δ ≈ −0.091 and −0.088, both p ≤ .004).
+-   Takeaway: by five years out, **statewide meaningful employment** is associated with **higher‑unemployment counties** than regional meaningful jobs, while **continued schooling** and **no record** skew lower than statewide meaningful.
+
+**Year 10:**
+
+-   **Meaningful MN** \> **Meaningful region** (Δ = +0.088, p = .0009).
+-   **Not meaningful** \> **Meaningful region** (Δ = +0.067, p = .022).
+-   **No MN record** \< **Meaningful MN** and \< **Not meaningful** (Δ = −0.103 and −0.082; p ≤ .002).
+-   Takeaway: a decade out, **regional meaningful employment** remains linked to **lower unemployment contexts** than **statewide meaningful** and **not meaningful** routes; those with **no MN record** tend to come from **lower‑unemployment counties** than peers in statewide/not‑meaningful outcomes.
+
+Overall, the pattern suggests that **students from lower‑unemployment counties are more likely to land in meaningful employment within the region**, whereas **higher‑unemployment origins** are more often associated with **statewide meaningful**, **not meaningful**, or **continued schooling** pathways.
+
+::: panel-tabset
+### One year after graduation
+
+```{r hs characteristics avg.unemp.rate one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, avg.unemp.rate) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(avg.unemp.rate, .25),
+         q3 = quantile(avg.unemp.rate, .75),
+         iqr = IQR(avg.unemp.rate),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.unemp.rate > low.outlier,
+         avg.unemp.rate < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(avg.unemp.rate, .0),
+            Q1 = quantile(avg.unemp.rate, .25),
+            Median = median(avg.unemp.rate),
+            Q3 = quantile(avg.unemp.rate, .75),
+            Max = quantile(avg.unemp.rate, 1),
+            Mean = mean(avg.unemp.rate)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, avg.unemp.rate, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 15, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of average unemployment by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 20))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.unemp.rate ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-1.xlsx", overwrite = TRUE)
+```
+
+### Five years after graduating
+
+```{r hs characteristics avg.unemp.rate five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, avg.unemp.rate) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(avg.unemp.rate, .25),
+         q3 = quantile(avg.unemp.rate, .75),
+         iqr = IQR(avg.unemp.rate),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.unemp.rate > low.outlier,
+         avg.unemp.rate < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(avg.unemp.rate, .0),
+            Q1 = quantile(avg.unemp.rate, .25),
+            Median = median(avg.unemp.rate),
+            Q3 = quantile(avg.unemp.rate, .75),
+            Max = quantile(avg.unemp.rate, 1),
+            Mean = mean(avg.unemp.rate)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, avg.unemp.rate, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 15, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of average unemployment by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 30))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.unemp.rate ~ grad.year.5, data = data)
+
+summary(summary)
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-5.xlsx", overwrite = TRUE)
+```
+
+### Ten years after graduating
+
+```{r hs characteristics avg.unemp.rate ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, avg.unemp.rate) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(avg.unemp.rate, .25),
+         q3 = quantile(avg.unemp.rate, .75),
+         iqr = IQR(avg.unemp.rate),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.unemp.rate > low.outlier,
+         avg.unemp.rate < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(avg.unemp.rate, .0),
+            Q1 = quantile(avg.unemp.rate, .25),
+            Median = median(avg.unemp.rate),
+            Q3 = quantile(avg.unemp.rate, .75),
+            Max = quantile(avg.unemp.rate, 1),
+            Mean = mean(avg.unemp.rate)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, avg.unemp.rate, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 25, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of average unemployment by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 30))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.unemp.rate ~ grad.year.10, data = data)
+
+summary(summary)
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+## `avg.wages.pct.state`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **relative county wages** and post‑graduation outcomes in all three timeframes (ANOVA on wage percent across outcome groups):
+
+-   **1 year after graduation**: F(4, 46751) = **15.33**, p \< .001
+-   **5 years after graduation**: F(4, 34678) = **24.64**, p \< .001
+-   **10 years after graduation**: F(3, 19824) = **11.82**, p \< .001
+
+Although effect sizes are small, the relationships are consistent. The primary finding is that **graduates from counties with higher relative wages are more likely to pursue postsecondary education, while those from lower‑wage counties are more likely to be in meaningful regional employment**.
+
+### **Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   **Postsecondary attendees** come from **higher‑wage counties** than nearly all other groups (Δ ≈ +0.009 vs. regional meaningful, p \< .001).
+-   **Not meaningful** and **No MN record** are also slightly higher than **regional meaningful** (Δ ≈ +0.006–0.008, p ≤ .05).
+-   Takeaway: early on, **regional meaningful employment is linked to lower‑wage counties**, while **education is linked to higher‑wage contexts**.
+
+**Year 5:**
+
+-   **Postsecondary attendees** again come from higher‑wage counties (+0.009 vs. meaningful MN, p \< .001).
+-   **Regional meaningful employment** is associated with **lower‑wage contexts** compared to statewide meaningful (Δ = −0.009, p \< .001).
+-   **Not meaningful** and **No MN record** are slightly higher than **regional meaningful** (Δ ≈ +0.005–0.006, both p \< .01).
+-   Takeaway: **statewide meaningful employment and further schooling** are linked to higher‑wage counties, while **regional meaningful work remains concentrated in lower‑wage areas**.
+
+**Year 10:**
+
+-   **Regional meaningful employment** continues to be tied to **lower‑wage counties** than statewide meaningful (Δ = −0.007, p \< .001).
+-   **Not meaningful** (+0.004, p = .008) and **No MN record** (+0.006, p \< .001) are also above regional meaningful.
+-   Takeaway: a decade out, the pattern solidifies — **regional meaningful employment is most strongly associated with lower‑wage counties**, while higher‑wage counties are more tied to **education, statewide meaningful, or disconnected pathways**.
+
+Overall, the wage context shows a consistent divide: **regional meaningful jobs are concentrated in lower‑wage counties, whereas higher‑wage counties foster postsecondary and statewide pathways**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs characteristics avg.wages.pct.state one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, avg.wages.pct.state) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(avg.wages.pct.state, .25),
+         q3 = quantile(avg.wages.pct.state, .75),
+         iqr = IQR(avg.wages.pct.state),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.wages.pct.state > low.outlier,
+         avg.wages.pct.state < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(avg.wages.pct.state, .0),
+            Q1 = quantile(avg.wages.pct.state, .25),
+            Median = median(avg.wages.pct.state),
+            Q3 = quantile(avg.wages.pct.state, .75),
+            Max = quantile(avg.wages.pct.state, 1),
+            Mean = mean(avg.wages.pct.state)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, avg.wages.pct.state, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 1.25, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of wages as percent of state wages by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 1.5))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.wages.pct.state ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-1.xlsx", overwrite = TRUE)
+
+```
+
+### Five years after graduating
+
+```{r hs characteristics avg.wages.pct.state five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, avg.wages.pct.state) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(avg.wages.pct.state, .25),
+         q3 = quantile(avg.wages.pct.state, .75),
+         iqr = IQR(avg.wages.pct.state),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.wages.pct.state > low.outlier,
+         avg.wages.pct.state < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(avg.wages.pct.state, .0),
+            Q1 = quantile(avg.wages.pct.state, .25),
+            Median = median(avg.wages.pct.state),
+            Q3 = quantile(avg.wages.pct.state, .75),
+            Max = quantile(avg.wages.pct.state, 1),
+            Mean = mean(avg.wages.pct.state)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, avg.wages.pct.state, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 1.25, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of wages as percent of state wages by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 1.5))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.wages.pct.state ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-5.xlsx", overwrite = TRUE)
+
+```
+
+### Ten years after graduating
+
+```{r hs characteristics avg.wages.pct.state ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, avg.wages.pct.state) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(avg.wages.pct.state, .25),
+         q3 = quantile(avg.wages.pct.state, .75),
+         iqr = IQR(avg.wages.pct.state),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(avg.wages.pct.state > low.outlier,
+         avg.wages.pct.state < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(avg.wages.pct.state, .0),
+            Q1 = quantile(avg.wages.pct.state, .25),
+            Median = median(avg.wages.pct.state),
+            Q3 = quantile(avg.wages.pct.state, .75),
+            Max = quantile(avg.wages.pct.state, 1),
+            Mean = mean(avg.wages.pct.state)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, avg.wages.pct.state, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 1.25, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of wages as percent of state wages by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 1.5))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(avg.wages.pct.state ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+# High School Accomplishments
+
+We are going to analyze the following variables;
+
+-   `pseo.participant`
+-   `took.ACT`
+-   `ACTCompositeScore`
+-   `ap.exam`
+-   `sat.taken`
+-   MCA scores
+    -   `MCA.M`
+    -   `MCA.R`
+    -   `MCA.S`
+-   `cte.achievement`
+-   `total.cte.courses.taken`
+
+<br>
+
+## High School Accomplishments Section Summary
+
+### Comparative Table of Effect Sizes Across Variables
+
+| Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
+|----------------|------------|------------|------------|------------|------------|
+| PSEO Participation | V = 0.290 | V = 0.132 | V = 0.089 | Year 1 | Very strong at Year 1, steadily weakens over time |
+| Took ACT | V = 0.364 | V = 0.214 | V = 0.142 | Year 1 | Strongest early, gradual decline but remains significant |
+| ACT Composite Score | F(4,46772) = 578.9 | F(4,34678) = 266.2 | F(3,19824) = 158.6 | Year 1 | Strong consistent effect, diminishes over time |
+| AP Exam Participation | V = 0.133 | V = 0.093 | V = 0.076 | Year 1 | Small to moderate, declining but significant |
+| SAT Taken | V = 0.070 | V = 0.074 | V = 0.071 | Year 5 | Weak but stable across years |
+| MCA Reading (MCA.R) | F(4,46772) = 689.4 | F(4,34678) = 310.7 | F(3,19824) = 202.5 | Year 1 | Strong effect early, gradually declines |
+| MCA Science (MCA.S) | F(4,37501) = 544.0 | F(4,26050) = 160.3 | F(3,11879) = 81.7 | Year 1 | Strong effect, steady weakening |
+| MCA Math (MCA.M) | F(4,42550) = 1344.5 | F(4,33107) = 152.4 | F(3,18728) = 95.0 | Year 1 | Extremely strong early, remains significant later |
+| CTE Achievement | V = 0.074 | V = 0.067 | V = 0.066 | Year 1 | Weak but consistent associations |
+| Total CTE Courses Taken | F(4,46772) = 232.1 | F(4,34678) = 178.6 | F(3,19824) = 104.4 | Year 1 | Moderate effect, consistent over time |
+
+------------------------------------------------------------------------
+
+### Key Patterns & Comparative Insights
+
+**Strongest Associations**
+
+-   **Took ACT** and **PSEO Participation** show the **strongest categorical associations**, with very high Cramer’s V values in Year 1 (0.36 and 0.29 respectively). Both sharply differentiate pathways: **ACT and PSEO participants move into postsecondary and statewide work**, while non‑participants are more likely to remain in **regional meaningful employment**.
+-   **MCA Math** demonstrates the strongest continuous predictor effect, with extremely high F‑values. Higher scores are tied to **education and statewide jobs**, while lower scores are tied to **regional employment and weaker outcomes**.
+
+**Moderate Associations**
+
+-   **MCA Reading and MCA Science** show very strong Year 1 effects that taper over time. The pattern mirrors MCA Math but with slightly smaller magnitudes. Again, **higher achievement sorts students into education and statewide outcomes**, while **lower achievement is tied to regional jobs and disconnection**.
+-   **ACT Composite Score** follows a similar trajectory, reinforcing how standardized test performance channels students into distinct pathways.
+
+**Weaker but Consistent Associations**
+
+-   **AP Exam participation** shows moderate effects, consistently distinguishing students who pursue **postsecondary and statewide employment** from those in regional work.
+-   **SAT participation** shows small but notable effects, primarily identifying a mobile subgroup less tied to regional outcomes.
+
+**Regional Employment Predictors**
+
+-   **CTE pathways stand out as the clearest predictors of regional meaningful employment.** CTE Concentrators/Completers and students with heavier CTE course loads are consistently more likely to enter and remain in **regional meaningful jobs**. This contrasts strongly with academic achievement and college‑prep measures, which steer students toward postsecondary and statewide employment.
+
+**Overall Insight**\
+High school accomplishments reveal two broad patterns:
+
+1.  **Academic and college‑prep measures (ACT, PSEO, MCA, AP, SAT)** channel students toward **education and statewide employment pathways**, reducing the likelihood of regional employment.
+2.  **Career and technical education measures (CTE achievement and course load)** increase the likelihood of **regional meaningful employment**, anchoring students in the local workforce.
+
+This split highlights the **dual pathways** of high school preparation: **college‑oriented students exit the region or pursue statewide opportunities, while CTE‑focused students strengthen regional workforce attachment**.
+
+<br>
+
+## `pseo.participant`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **PSEO participation** and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **3076.21**, Cramer’s V = **0.290**, p \< .001, N = 36,625【542†source】
+-   5 years after graduation: χ²(4) = **430.00**, Cramer’s V = **0.132**, p \< .001, N = 24,531【543†source】
+-   10 years after graduation: χ²(3) = **77.28**, Cramer’s V = **0.089**, p \< .001, N = 9,676【544†source】
+
+The strength of association is **very strong in the first year** but weakens considerably over time. The primary relationship is that **PSEO participants are much more likely to pursue postsecondary education, while non‑participants are more likely to enter meaningful regional employment early on**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is higher among **non‑PSEO students (18.4%)** compared to PSEO participants (12.6%). In contrast, **PSEO participants are far more likely to be attending postsecondary (61.8% vs. 33.6%)**. Disconnection is notably lower among PSEO participants (6.5% vs. 16.2%)【542†source】.
+
+**5 Years After Graduation:** Regional meaningful employment gaps narrow (28.1% non‑PSEO vs. 25.1% PSEO). Importantly, **PSEO participants surpass non‑participants in meaningful employment statewide (18.0% vs. 13.3%)**. Postsecondary attendance is higher among PSEO students (19.1% vs. 11.9%), while disconnection is lower (18.7% vs. 23.5%)【543†source】.
+
+**10 Years After Graduation:** Regional meaningful employment is relatively similar (29.7% non‑PSEO vs. 26.8% PSEO). PSEO participants maintain higher **statewide meaningful employment (24.0% vs. 16.9%)**, while disconnection rates are similar (\~32%). The long‑term pattern suggests **PSEO participants transition from education into statewide meaningful jobs, while non‑participants retain an edge in regional meaningful employment**【544†source】.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments pseo.participant one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, pseo.participant) %>%
+  filter(grad.year.1 != "After 2023",
+         pseo.participant != is.na(pseo.participant)) %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/pseo-participant-1.html")
+```
+
+### Five years after graduating
+
+```{r hs accomplishments pseo.participant five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, pseo.participant) %>%
+  filter(grad.year.5 != "After 2023",
+         pseo.participant != is.na(pseo.participant)) %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/pseo-participant-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments pseo.participant ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, pseo.participant) %>%
+  filter(grad.year.10 != "After 2023",
+         pseo.participant != is.na(pseo.participant)) %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/pseo-participant-10.html")
+```
+:::
+
+<br>
+
+## `took.ACT`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **taking the ACT** and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **6187.26**, Cramer’s V = **0.364**, p \< .001, N = 46,777【554†source】
+-   5 years after graduation: χ²(4) = **1583.75**, Cramer’s V = **0.214**, p \< .001, N = 34,683【555†source】
+-   10 years after graduation: χ²(3) = **397.81**, Cramer’s V = **0.142**, p \< .001, N = 19,828【556†source】
+
+The strength of association is **very strong in the first year** and declines over time, but remains statistically significant. The key pattern is that **ACT takers are much more likely to pursue postsecondary education, while non‑takers are more likely to enter meaningful employment in the region**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Non‑ACT students show **much higher regional meaningful employment (19.8% vs. 12.1%)** and are more likely to appear in not meaningful or disconnected outcomes (≈20% each). ACT participants overwhelmingly attend postsecondary (62.6% vs. 27.2%), illustrating a sharp divide between direct work and education pathways【554†source】.
+
+**5 Years After Graduation:** Regional meaningful employment is still higher among non‑ACT students (28.7% vs. 25.0%), but ACT takers gain ground in **statewide meaningful employment (17.8% vs. 11.3%)**. Postsecondary attendance is notably higher among ACT students (21.1% vs. 8.6%). Disconnection remains higher for non‑ACT (26.6% vs. 17.2%)【555†source】.
+
+**10 Years After Graduation:** Regional meaningful employment narrows (29.9% non‑ACT vs. 28.6% ACT). ACT takers surpass non‑takers in **statewide meaningful employment (24.2% vs. 13.9%)**, while non‑ACT students remain more tied to regional employment. Disconnection is still higher for non‑ACT students (33.7% vs. 31.3%). The long‑term trajectory suggests that **ACT takers shift into broader statewide employment, while non‑takers retain a stronger regional employment profile**【556†source】.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments took.ACT one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, took.ACT) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/took-ACT-1.html")
+```
+
+### Five years after graduating
+
+```{r hs accomplishments took.ACT five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, took.ACT) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/took-ACT-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments took.ACT ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, took.ACT) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/took-ACT-10.html")
+```
+:::
+
+```{r echo = FALSE}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.5, grad.year.10, took.ACT) %>%
+  write_csv(., "Data/ChatGPT/High school accomplishments/took-ACT.csv")
+
+```
+
+<br>
+
+## `ACTCompositeScore`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **ACT Composite Score** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
+
+-   **1 year after graduation**: F(4, 27079) = **387.39**, p \< .001
+-   **5 years after graduation**: F(4, 20617) = **159.11**, p \< .001
+-   **10 years after graduation**: F(3, 10486) = **119.50**, p \< .001
+
+The results show a **clear and consistent pattern**: students with **higher ACT scores are more likely to attend postsecondary and later secure meaningful statewide employment**, while students with **lower ACT scores are more concentrated in regional meaningful jobs, not meaningful employment, or disconnected outcomes**.
+
+### **Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   **Postsecondary attendees** have ACT scores \~2.8 points higher than those in **regional meaningful employment** (p \< .001).
+-   **Not meaningful** (+0.88) and **No MN record** (+1.43) also score above **regional meaningful** (both p \< .001).
+-   Takeaway: **regional meaningful employment is tied to lower ACT scores**, while higher scores track into education and other categories.
+
+**Year 5:**
+
+-   **Postsecondary** (+1.87), **statewide meaningful** (+1.84), and **No MN record** (+1.69) all score significantly above **regional meaningful** (p \< .001).
+-   **Not meaningful** is \~0.62 higher than regional meaningful (p \< .001).
+-   Takeaway: by five years, **regional meaningful employment continues to come from lower ACT backgrounds**, while higher scores predict broader education and statewide employment.
+
+**Year 10:**
+
+-   **Statewide meaningful** (+1.64) and **No MN record** (+1.75) have higher ACT scores than **regional meaningful** (p \< .001).
+-   **Not meaningful** (+0.43) is also above **regional meaningful** (p = .005).
+-   Takeaway: a decade out, **regional meaningful employment is consistently tied to lower ACT scores**, while **higher scores are associated with statewide employment or exit from tracked MN employment**.
+
+Overall, the ACT Composite Score reinforces a strong sorting effect: **higher scores steer students toward education and statewide jobs, while regional meaningful employment is more common among lower scorers**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments ACTCompositeScore one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ACTCompositeScore) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(ACTCompositeScore, .25),
+         q3 = quantile(ACTCompositeScore, .75),
+         iqr = IQR(ACTCompositeScore),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(ACTCompositeScore > low.outlier,
+         ACTCompositeScore < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(ACTCompositeScore, .0),
+            Q1 = quantile(ACTCompositeScore, .25),
+            Median = median(ACTCompositeScore),
+            Q3 = quantile(ACTCompositeScore, .75),
+            Max = quantile(ACTCompositeScore, 1),
+            Mean = mean(ACTCompositeScore)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, ACTCompositeScore, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 40, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of ACT composite score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 45))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(ACTCompositeScore ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-1.xlsx", overwrite = TRUE)
+
+
+```
+
+### Five years after graduating
+
+```{r hs accomplishments ACTCompositeScore five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ACTCompositeScore) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(ACTCompositeScore, .25),
+         q3 = quantile(ACTCompositeScore, .75),
+         iqr = IQR(ACTCompositeScore),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(ACTCompositeScore > low.outlier,
+         ACTCompositeScore < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(ACTCompositeScore, .0),
+            Q1 = quantile(ACTCompositeScore, .25),
+            Median = median(ACTCompositeScore),
+            Q3 = quantile(ACTCompositeScore, .75),
+            Max = quantile(ACTCompositeScore, 1),
+            Mean = mean(ACTCompositeScore)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, ACTCompositeScore, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 40, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of ACT composite score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 45))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(ACTCompositeScore ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-5.xlsx", overwrite = TRUE)
+
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments ACTCompositeScore ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ACTCompositeScore) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(ACTCompositeScore, .25),
+         q3 = quantile(ACTCompositeScore, .75),
+         iqr = IQR(ACTCompositeScore),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(ACTCompositeScore > low.outlier,
+         ACTCompositeScore < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(ACTCompositeScore, .0),
+            Q1 = quantile(ACTCompositeScore, .25),
+            Median = median(ACTCompositeScore),
+            Q3 = quantile(ACTCompositeScore, .75),
+            Max = quantile(ACTCompositeScore, 1),
+            Mean = mean(ACTCompositeScore)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, ACTCompositeScore, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 40, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of ACT composite score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 40))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(ACTCompositeScore ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+```{r echo=FALSE}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, grad.year.5, grad.year.10, ACTCompositeScore) %>%
+  write_csv(., "Data/ChatGPT/High school accomplishments/ACTCompositeScore.csv")
+
+```
+
+<br>
+
+## `ap.exam`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **AP exam participation** and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **822.44**, Cramer’s V = **0.133**, p \< .001, N = 46,777【581†source】
+-   5 years after graduation: χ²(4) = **301.32**, Cramer’s V = **0.093**, p \< .001, N = 34,683【582†source】
+-   10 years after graduation: χ²(3) = **113.60**, Cramer’s V = **0.076**, p \< .001, N = 19,828【583†source】
+
+The strength of association is **strongest in the first year** and declines over time, though remains statistically significant. The primary relationship is that **AP exam participants are much more likely to attend postsecondary, while non‑participants are more likely to enter meaningful regional employment**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is substantially higher among **non‑AP students (16.1% vs. 7.7%)**, while AP exam participants are much more likely to be in postsecondary (68.8% vs. 45.7%). Disconnection is lower for AP participants (6.7% vs. 12.2%)【581†source】.
+
+**5 Years After Graduation:** Non‑AP students retain an advantage in regional meaningful employment (27.4% vs. 17.1%), while AP participants show higher rates of **statewide meaningful employment (19.8% vs. 14.7%)** and continued postsecondary enrollment (23.7% vs. 15.3%). Disconnection rates are similar (\~21%)【582†source】.
+
+**10 Years After Graduation:** Regional meaningful employment remains higher for non‑AP students (29.9% vs. 22.7%). AP participants hold an advantage in **statewide meaningful employment (27.0% vs. 18.7%)**. Disconnection is slightly higher for AP participants (36.0% vs. 32.1%), suggesting some trade‑off in regional attachment over time【583†source】.
+
+Overall, AP exam participation sorts students into pathways favoring **education and statewide employment**, while non‑participants maintain stronger ties to **regional meaningful employment**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments ap.exam one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ap.exam) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ap.exam, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/ap-exam-1.html")
+```
+
+### Five years after graduating
+
+```{r hs accomplishments ap.exam five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ap.exam) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ap.exam, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/ap-exam-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments ap.exam ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ap.exam) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ap.exam, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/ap-exam-10.html")
+```
+:::
+
+<br>
+
+## `sat.taken` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between **taking the SAT** and post-graduation outcomes in all three timeframes:
+
+-   1 year after graduation: χ²(4) = **228.74**, Cramer’s V = **0.070**, p \< .001, N = 46,777【595†source】
+-   5 years after graduation: χ²(4) = **188.76**, Cramer’s V = **0.074**, p \< .001, N = 34,683【596†source】
+-   10 years after graduation: χ²(3) = **99.99**, Cramer’s V = **0.071**, p \< .001, N = 19,828【597†source】
+
+The effect sizes are **small but consistent**. The key pattern is that **SAT takers are far more likely to attend postsecondary education**, while **non‑takers are more likely to enter meaningful employment in the region**.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** SAT takers are overwhelmingly in postsecondary (73.5% vs. 47.3% for non‑takers). Regional meaningful employment is much lower for SAT takers (3.2% vs. 15.5%), while disconnection is also somewhat lower (9.0% vs. 11.7%)【595†source】.
+
+**5 Years After Graduation:** SAT takers maintain higher postsecondary enrollment (30.1% vs. 15.8%). Regional meaningful employment is still much lower (7.6% vs. 26.8%). Interestingly, SAT takers are slightly more likely to be in meaningful employment statewide (18.2% vs. 15.1%). Disconnection is higher among SAT takers (28.6% vs. 20.9%)【596†source】.
+
+**10 Years After Graduation:** SAT takers continue to show **very low regional meaningful employment (11.5% vs. 29.5%)**, while statewide meaningful employment is similar (18.6% vs. 19.4%). Disconnection is much higher among SAT takers (55.9% vs. 32.0%)【597†source】.
+
+Overall, SAT participation identifies a small group of students who overwhelmingly pursue postsecondary initially, but long‑term outcomes show **weak regional attachment and much higher disconnection**, suggesting that **SAT takers may be more mobile, pursue opportunities outside the region or state, or leave tracked employment systems altogether**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments sat.taken one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, sat.taken) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$sat.taken, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/sat-taken-1.html")
+```
+
+### Five years after graduating
+
+```{r hs accomplishments sat.taken five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, sat.taken) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$sat.taken, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/sat-taken-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments sat.taken ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, sat.taken) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$sat.taken, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/sat-taken-10.html")
+```
+:::
+
+<br>
+
+## `MCA.R` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between **MCA Reading scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
+
+-   **1 year after graduation**: F(4, 42500) = **689.45**, p \< .001
+-   **5 years after graduation**: F(4, 31013) = **119.45**, p \< .001
+-   **10 years after graduation**: F(3, 17590) = **237.15**, p \< .001
+
+The results show a **very strong early effect** that remains significant over time. The primary pattern is that **higher MCA Reading scores are associated with postsecondary enrollment and statewide meaningful employment, while lower scores are more tied to regional meaningful employment or not meaningful/disconnected outcomes**.
+
+**Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   **Postsecondary attendees** score about **+0.26 higher** than regional meaningful workers (p \< .001).
+-   **Not meaningful** (+0.09) and **No MN record** (+0.14) also score higher than regional meaningful (p ≤ .02).
+-   Takeaway: **regional meaningful employment is linked to lower reading scores**, while higher scores track into postsecondary and other categories.
+
+**Year 5:**
+
+-   **Postsecondary** (+0.21), **statewide meaningful** (+0.17), and **No MN record** (+0.08) all score above **regional meaningful** (p \< .001).
+-   **Not meaningful** scores slightly below regional meaningful (−0.17, p \< .001).
+-   Takeaway: by five years, **regional meaningful employment sits lower on the MCA-R spectrum**, while postsecondary and statewide jobs skew higher.
+
+**Year 10:**
+
+-   **Statewide meaningful** (+0.18) and **No MN record** (+0.14) are significantly above **regional meaningful** (p \< .001).
+-   **Not meaningful** scores considerably lower (−0.25, p \< .001).
+-   Takeaway: a decade out, **regional meaningful employment remains tied to lower MCA-R scores**, with higher scores concentrated in statewide meaningful employment or outside tracked records.
+
+Overall, MCA Reading reinforces that **academic achievement predicts longer-term educational and statewide work pathways**, while **lower scores are associated with stronger regional attachment but also greater risk of not meaningful outcomes**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments MCA.R one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, MCA.R) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(MCA.R, .25),
+         q3 = quantile(MCA.R, .75),
+         iqr = IQR(MCA.R),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.R > low.outlier,
+         MCA.R < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(MCA.R, .0),
+            Q1 = quantile(MCA.R, .25),
+            Median = median(MCA.R),
+            Q3 = quantile(MCA.R, .75),
+            Max = quantile(MCA.R, 1),
+            Mean = mean(MCA.R)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, MCA.R, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Reading score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.R ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-1.xlsx", overwrite = TRUE)
+
+
+```
+
+### Five years after graduating
+
+```{r hs accomplishments MCA.R five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, MCA.R) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(MCA.R, .25),
+         q3 = quantile(MCA.R, .75),
+         iqr = IQR(MCA.R),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.R > low.outlier,
+         MCA.R < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(MCA.R, .0),
+            Q1 = quantile(MCA.R, .25),
+            Median = median(MCA.R),
+            Q3 = quantile(MCA.R, .75),
+            Max = quantile(MCA.R, 1),
+            Mean = mean(MCA.R)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, MCA.R, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Reading score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.R ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-5.xlsx", overwrite = TRUE)
+
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments MCA.R ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, MCA.R) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(MCA.R, .25),
+         q3 = quantile(MCA.R, .75),
+         iqr = IQR(MCA.R),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.R > low.outlier,
+         MCA.R < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(MCA.R, .0),
+            Q1 = quantile(MCA.R, .25),
+            Median = median(MCA.R),
+            Q3 = quantile(MCA.R, .75),
+            Max = quantile(MCA.R, 1),
+            Mean = mean(MCA.R)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, MCA.R, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Reading score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.R ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+## `MCA.S` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between **MCA Science scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
+
+-   **1 year after graduation**: F(4, 37501) = **544.02**, p \< .001
+-   **5 years after graduation**: F(4, 26050) = **160.29**, p \< .001
+-   **10 years after graduation**: F(3, 11879) = **81.74**, p \< .001
+
+The results show a **very strong early effect** that remains significant through 10 years. The key pattern is that **higher MCA Science scores are associated with postsecondary education and statewide meaningful employment, while lower scores are tied to regional meaningful employment or not meaningful outcomes**.
+
+**Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   Postsecondary attendees score substantially higher than **regional meaningful** (+0.38, p \< .001).
+-   **Statewide meaningful** (+0.07) also scores higher than regional meaningful (p = .025).
+-   **Not meaningful** (−0.07) and **No MN record** (−0.12) score below **postsecondary**.
+-   Takeaway: early on, **regional meaningful work is tied to lower MCA-S scores**, while **education and statewide jobs are tied to higher scores**.
+
+**Year 5:**
+
+-   **Statewide meaningful (+0.25)** and **postsecondary (+0.32)** are far above **regional meaningful** (p \< .001).
+-   **No MN record (+0.11)** is also higher.
+-   **Not meaningful (−0.04)** is slightly below regional meaningful (p = .044).
+-   Takeaway: by 5 years, the **gap widens**, with statewide and postsecondary pathways clearly tied to higher MCA-S scores, while regional meaningful remains lower.
+
+**Year 10:**
+
+-   **Statewide meaningful (+0.27)** and **No MN record (+0.18)** score above **regional meaningful** (p \< .001).
+-   **Not meaningful (−0.31)** scores well below regional meaningful (p \< .001).
+-   Takeaway: a decade out, **regional meaningful employment remains linked to lower MCA-S scores**, while higher scores push students into statewide jobs or out of tracked MN employment.
+
+Overall, MCA Science mirrors the MCA Reading pattern: **academic achievement is strongly tied to educational and statewide pathways, while lower achievement is associated with stronger regional attachment or risk of weaker employment outcomes**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments MCA.S one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, MCA.S) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(MCA.S, .25),
+         q3 = quantile(MCA.S, .75),
+         iqr = IQR(MCA.S),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.S > low.outlier,
+         MCA.S < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(MCA.S, .0),
+            Q1 = quantile(MCA.S, .25),
+            Median = median(MCA.S),
+            Q3 = quantile(MCA.S, .75),
+            Max = quantile(MCA.S, 1),
+            Mean = mean(MCA.S)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, MCA.S, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Science score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.S ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-1.xlsx", overwrite = TRUE)
+
+```
+
+### Five years after graduating
+
+```{r hs accomplishments MCA.S five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, MCA.S) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(MCA.S, .25),
+         q3 = quantile(MCA.S, .75),
+         iqr = IQR(MCA.S),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.S > low.outlier,
+         MCA.S < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(MCA.S, .0),
+            Q1 = quantile(MCA.S, .25),
+            Median = median(MCA.S),
+            Q3 = quantile(MCA.S, .75),
+            Max = quantile(MCA.S, 1),
+            Mean = mean(MCA.S)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, MCA.S, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Science score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.S ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-5.xlsx", overwrite = TRUE)
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments MCA.S ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, MCA.S) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(MCA.S, .25),
+         q3 = quantile(MCA.S, .75),
+         iqr = IQR(MCA.S),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.S > low.outlier,
+         MCA.S < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(MCA.S, .0),
+            Q1 = quantile(MCA.S, .25),
+            Median = median(MCA.S),
+            Q3 = quantile(MCA.S, .75),
+            Max = quantile(MCA.S, 1),
+            Mean = mean(MCA.S)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, MCA.S, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Science score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.S ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+## `MCA.M`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **MCA Math scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
+
+-   **1 year after graduation**: F(4, 42550) = **1344.53**, p \< .001
+-   **5 years after graduation**: F(4, 33107) = **152.39**, p \< .001
+-   **10 years after graduation**: F(3, 18728) = **94.98**, p \< .001
+
+The results show an **especially strong relationship in the first year**, with effects tapering but still significant through Year 10. The key pattern is that **higher MCA Math scores are linked to postsecondary enrollment and statewide meaningful employment, while lower scores are tied to regional meaningful employment and weaker outcomes**.
+
+**Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   **Postsecondary attendees** score much higher than **regional meaningful** (+0.58, p \< .001).
+-   **Statewide meaningful** is also above **regional meaningful** (+0.07, p = .026).
+-   **Not meaningful (−0.06)** and **No MN record (−0.17)** score lower than **regional meaningful** (p ≤ .001).
+-   Takeaway: early on, **regional meaningful employment is positioned between low‑scoring disconnected outcomes and high‑scoring education pathways**.
+
+**Year 5:**
+
+-   **Postsecondary (+0.28)** and **statewide meaningful (+0.27)** both score significantly above **regional meaningful** (p \< .001).
+-   **Not meaningful (−0.08)** and **No MN record (−0.24)** score below regional meaningful (p \< .001).
+-   Takeaway: by five years, **regional meaningful work is associated with lower scores relative to statewide and postsecondary**, but still stronger than disconnected categories.
+
+**Year 10:**
+
+-   **Statewide meaningful** (+0.29) remains higher than **regional meaningful** (p \< .001).
+-   **No MN record** shows a mixed pattern: one contrast indicates higher scores (+0.13, p \< .001) while another shows lower scores (−0.15, p \< .001), reflecting sub‑patterns in this group.
+-   **Not meaningful (−0.10 to −0.38)** scores consistently lower than regional meaningful (p \< .001).
+-   Takeaway: a decade out, **regional meaningful jobs remain linked to mid‑range math scores**, lower than statewide/postsecondary but higher than disconnected outcomes.
+
+Overall, MCA Math reinforces the trend seen in other MCA measures: **higher achievement channels students into education and statewide employment, while regional meaningful employment is associated with lower but not the lowest scores, positioning it as a middle pathway**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments MCA.M one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, MCA.M) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(MCA.M, .25),
+         q3 = quantile(MCA.M, .75),
+         iqr = IQR(MCA.M),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.M > low.outlier,
+         MCA.M < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(MCA.M, .0),
+            Q1 = quantile(MCA.M, .25),
+            Median = median(MCA.M),
+            Q3 = quantile(MCA.M, .75),
+            Max = quantile(MCA.M, 1),
+            Mean = mean(MCA.M)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, MCA.M, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Math score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.M ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-1.xlsx", overwrite = TRUE)
+
+```
+
+### Five years after graduating
+
+```{r hs accomplishments MCA.M five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, MCA.M) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(MCA.M, .25),
+         q3 = quantile(MCA.M, .75),
+         iqr = IQR(MCA.M),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.M > low.outlier,
+         MCA.M < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(MCA.M, .0),
+            Q1 = quantile(MCA.M, .25),
+            Median = median(MCA.M),
+            Q3 = quantile(MCA.M, .75),
+            Max = quantile(MCA.M, 1),
+            Mean = mean(MCA.M)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, MCA.M, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Math score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.M ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-5.xlsx", overwrite = TRUE)
+
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments MCA.M ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, MCA.M) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(MCA.M, .25),
+         q3 = quantile(MCA.M, .75),
+         iqr = IQR(MCA.M),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(MCA.M > low.outlier,
+         MCA.M < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(MCA.M, .0),
+            Q1 = quantile(MCA.M, .25),
+            Median = median(MCA.M),
+            Q3 = quantile(MCA.M, .75),
+            Max = quantile(MCA.M, 1),
+            Mean = mean(MCA.M)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, MCA.M, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of MCA-Math score by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(MCA.M ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+## `cte.achievement`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **CTE achievement** (Concentrator/Completer, Participant, No CTE) and post‑graduation outcomes across all three timeframes:
+
+-   **1 year after graduation**: χ²(8) = **508.14**, Cramer’s V = **0.074**, p \< .001, N = 46,777【663†source】
+-   **5 years after graduation**: χ²(8) = **307.50**, Cramer’s V = **0.067**, p \< .001, N = 34,683【664†source】
+-   **10 years after graduation**: χ²(6) = **174.53**, Cramer’s V = **0.066**, p \< .001, N = 19,828【665†source】
+
+The associations are modest but consistent. The clearest relationship is that **CTE Concentrators/Completers are more likely to enter meaningful employment in the region**, while students with no CTE are more likely to be in postsecondary or outside regional attachment.
+
+### **Interpretation Over Time**
+
+**1 Year After Graduation:** Regional meaningful employment is highest for **CTE Concentrators/Completers (19.4%)**, compared to **Participants (15.1%)** and **No CTE students (12.6%)**. Postsecondary enrollment is much higher among **No CTE (51.3%)** and **Participants (49.2%)** than Concentrators/Completers (41.5%). This suggests that **CTE pathways steer students more quickly into regional work** while non‑CTE students delay employment through postsecondary【663†source】.
+
+**5 Years After Graduation:** The regional employment gap persists: **31.9% for Concentrators/Completers vs. 27.2% for Participants and 22.9% for No CTE**. Postsecondary attendance is relatively low across all groups (13–17%), but still higher for those without CTE. Concentrators/Completers maintain stronger local employment connections, while non‑CTE students lean slightly more toward statewide employment (15.7%)【664†source】.
+
+**10 Years After Graduation:** Regional meaningful employment remains strongest among **Concentrators/Completers (34.6%)**, compared to **Participants (29.1%)** and **No CTE students (25.5%)**. Statewide meaningful employment is more evenly distributed, while disconnection is highest among those with **No CTE (35.5%)**. The long‑term pattern confirms that **CTE achievement reinforces regional employment pathways**, while students outside CTE are more likely to leave the region or experience disconnection【665†source】.
+
+Overall, CTE achievement consistently predicts **stronger regional workforce attachment**, distinguishing Concentrators/Completers as the group most likely to remain engaged in meaningful employment within the region over time.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments cte.achievement one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, cte.achievement) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/cte-achievement-1.html")
+```
+
+### Five years after graduating
+
+```{r hs accomplishments cte.achievement five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, cte.achievement) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/cte-achievement-5.html")
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments cte.achievement ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, cte.achievement) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/High school accomplishments/cte-achievement-10.html")
+```
+:::
+
+<br>
+
+## `total.cte.courses.taken`
+
+### **Key Findings**
+
+There is a statistically significant relationship between the **number of CTE courses taken** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
+
+-   **1 year after graduation**: F(4, 45696) = **232.40**, p \< .001
+-   **5 years after graduation**: F(4, 33828) = **104.15**, p \< .001
+-   **10 years after graduation**: F(3, 19320) = **36.17**, p \< .001
+
+The results show a consistent pattern: **students who took more CTE courses are more likely to enter meaningful regional employment**, while students with fewer CTE courses lean toward postsecondary, statewide, or disconnected pathways.
+
+### **Interpretation Over Time (Tukey HSD highlights)**
+
+**Year 1:**
+
+-   Regional meaningful employment is associated with **higher CTE course counts** compared to postsecondary (−0.72, p \< .001), not meaningful (−0.21, p \< .001), and no MN record (−0.37, p \< .001).
+-   Postsecondary students have the lowest CTE course counts, confirming that **heavier CTE load ties directly into early regional work**.
+
+**Year 5:**
+
+-   Regional meaningful again shows **higher CTE courses** than postsecondary (−0.61, p \< .001), meaningful MN (−0.44, p \< .001), not meaningful (−0.33, p \< .001), and no MN record (−0.45, p \< .001).
+-   Postsecondary and statewide workers come from lower CTE course backgrounds.
+-   Takeaway: at five years, **regional meaningful work is strongly linked to CTE engagement**, while those with fewer CTE courses are dispersed across statewide or disconnected outcomes.
+
+**Year 10:**
+
+-   Regional meaningful still has higher CTE courses compared to statewide meaningful (−0.31, p \< .001) and no MN record (−0.31, p \< .001).
+-   Not meaningful outcomes also show slightly higher CTE courses than regional (+0.21, p \< .001), reflecting a mixed subgroup.
+-   Takeaway: a decade out, **regional meaningful employment is still concentrated among heavier CTE participants**, reinforcing CTE as a strong predictor of regional attachment.
+
+Overall, total CTE course load demonstrates that **increased CTE participation anchors students more firmly in regional employment**, while lighter CTE engagement is linked to education and broader employment pathways.
+
+::: panel-tabset
+### One year after graduating
+
+```{r hs accomplishments total.cte.courses.taken one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, total.cte.courses.taken) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.1) %>%
+  mutate(q1 = quantile(total.cte.courses.taken, .25),
+         q3 = quantile(total.cte.courses.taken, .75),
+         iqr = IQR(total.cte.courses.taken),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(total.cte.courses.taken > low.outlier,
+         total.cte.courses.taken < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.1) %>%
+  summarize(Min = quantile(total.cte.courses.taken, .0),
+            Q1 = quantile(total.cte.courses.taken, .25),
+            Median = median(total.cte.courses.taken),
+            Q3 = quantile(total.cte.courses.taken, .75),
+            Max = quantile(total.cte.courses.taken, 1),
+            Mean = mean(total.cte.courses.taken)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.1, total.cte.courses.taken, fill = grad.year.1, group = grad.year.1)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.1, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of number of CTE courses by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(total.cte.courses.taken ~ grad.year.1, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-1.xlsx", overwrite = TRUE)
+
+
+```
+
+### Five years after graduating
+
+```{r hs accomplishments total.cte.courses.taken five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, total.cte.courses.taken) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.5) %>%
+  mutate(q1 = quantile(total.cte.courses.taken, .25),
+         q3 = quantile(total.cte.courses.taken, .75),
+         iqr = IQR(total.cte.courses.taken),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(total.cte.courses.taken > low.outlier,
+         total.cte.courses.taken < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.5) %>%
+  summarize(Min = quantile(total.cte.courses.taken, .0),
+            Q1 = quantile(total.cte.courses.taken, .25),
+            Median = median(total.cte.courses.taken),
+            Q3 = quantile(total.cte.courses.taken, .75),
+            Max = quantile(total.cte.courses.taken, 1),
+            Mean = mean(total.cte.courses.taken)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.5, total.cte.courses.taken, fill = grad.year.5, group = grad.year.5)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.5, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of number of CTE courses by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(total.cte.courses.taken ~ grad.year.5, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-5.xlsx", overwrite = TRUE)
+```
+
+### Ten years after graduating
+
+```{r hs accomplishments total.cte.courses.taken ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, total.cte.courses.taken) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  drop_na() %>%
+  group_by(grad.year.10) %>%
+  mutate(q1 = quantile(total.cte.courses.taken, .25),
+         q3 = quantile(total.cte.courses.taken, .75),
+         iqr = IQR(total.cte.courses.taken),
+         low.outlier = q1 - 1.5*iqr,
+         high.outlier = q3 + 1.5*iqr) %>%
+  filter(total.cte.courses.taken > low.outlier,
+         total.cte.courses.taken < high.outlier) %>%
+  ungroup()
+
+labels <- data %>%
+  group_by(grad.year.10) %>%
+  summarize(Min = quantile(total.cte.courses.taken, .0),
+            Q1 = quantile(total.cte.courses.taken, .25),
+            Median = median(total.cte.courses.taken),
+            Q3 = quantile(total.cte.courses.taken, .75),
+            Max = quantile(total.cte.courses.taken, 1),
+            Mean = mean(total.cte.courses.taken)) %>%
+  ungroup()
+
+plot <- ggplot(data, aes(grad.year.10, total.cte.courses.taken, fill = grad.year.10, group = grad.year.10)) +
+  geom_boxplot_interactive() +
+  geom_label(data = labels, aes(x = grad.year.10, y = 5, label = paste("Min: ", comma(Min, accuracy = .1), "\nQ1: ", comma(Q1, accuracy = .1), "\nMedian: ", comma(Median, accuracy = .1), "\nQ3: ", comma(Q3, accuracy = .1), "\nMax: ", comma(Max, accuracy = ), "\nMean: ", comma(Mean, accuracy = .1))), color = "white") +
+  labs(x="", y = "", color="", title = "Boxplots of number of CTE courses by employment state")+
+  scale_y_continuous(labels=scales::comma,
+                     limits = c(0, 6))+
+  scale_fill_manual(values = brewer.pal(n = 6, "RdYlBu")) +
+  theme_bar+
+  theme(legend.position = "none",
+        text = element_text(size = 18),
+        axis.text.x = element_text(angle = 25, hjust = .9))
+
+
+girafe(ggobj = plot, width_svg = 10, height_svg = 10) %>%
+  girafe_options(opts_selection(type = "none"),
+                 opts_sizing(rescale = FALSE)) 
+
+
+summary <- aov(total.cte.courses.taken ~ grad.year.10, data = data)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+
+tukey_df <- broom::tidy(TukeyHSD(summary))
+
+wb <- createWorkbook()
+addWorksheet(wb, "ANOVA")
+addWorksheet(wb, "TukeyHSD")
+writeData(wb, "ANOVA", anova_df)
+writeData(wb, "TukeyHSD", tukey_df)
+saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-10.xlsx", overwrite = TRUE)
+
+```
+:::
+
+<br>
+
+# Post-secondary
+
+We will analyze the following variables;
+
+-   `attended.ps.within.first.year.hsgrad`
+-   `attended.ps`
+-   `ps.grad`
+-   `ps.grad.InstitutionSector`
+-   `highest.cred.level`
+-   `ps.grad.location`
+
+<br>
+
+## Postsecondary Experience Section Summary
+
+### Comparative Table of Effect Sizes Across Variables
+
+| Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
+|-------------------|-----------|-----------|-----------|-----------|-----------|
+| Attended PS within 1st year | V = 0.542 | V = 0.246 | V = 0.101 | Year 1 | Extremely strong early effect, weakens but persists |
+| Ever Attended PS | V = 0.683 | V = 0.342 | V = 0.137 | Year 1 | Very strong early, declines steadily |
+| Postsecondary Graduation | V = 0.600 | V = 0.378 | V = 0.155 | Year 1 | Strong predictor, declines but remains significant |
+| PS Grad by Institution Sector | V = 0.138 | V = 0.152 | V = 0.160 | Year 10 | Moderate, stable over time |
+| Highest Credential Level | V = 0.366 | V = 0.231 | V = 0.132 | Year 1 | Strong early association, gradually weakens |
+| PS Graduation Location | V = 0.197 | V = 0.207 | V = 0.164 | Year 5 | Moderate and consistent, strongest at year 5 |
+
+------------------------------------------------------------------------
+
+### Key Patterns & Comparative Insights
+
+**Strongest Associations**
+
+-   The **attendance variables** (attended within 1st year, ever attended) and **postsecondary graduation** have the **strongest early associations**, with Cramer’s V values above 0.5–0.6 at Year 1. These measures clearly separate students who pursue higher education from those who do not, with PS attenders/graduates far less likely to enter immediate regional work but more likely to gain stable employment outcomes over time.
+-   **Highest credential level** also shows strong early differentiation, with higher credentials linked to delayed workforce entry and eventual statewide mobility, while lower or mid‑level credentials tie more closely to regional jobs.
+
+**Moderate Associations**
+
+-   **PS graduation location** and **institution sector** matter less than attendance or graduation itself but still provide meaningful distinctions. **Regional PS graduates** are far more likely to remain in local employment, while **graduates from 4‑year universities or from outside the region** show greater statewide mobility.
+
+**Regional Employment Predictors**
+
+-   Non‑attenders and non‑graduates are consistently more likely to enter **regional meaningful employment** early, but they also carry much higher risks of disconnection in the long run.
+-   **CTE‑like pathways within postsecondary (2‑year institutions, Associate degrees, regional institutions)** show the strongest alignment with long‑term regional workforce attachment.
+-   **Bachelor’s+ degrees, 4‑year universities, and graduation outside MN** are consistently tied to statewide employment and mobility, reducing regional anchoring.
+
+**Overall Insight**\
+Postsecondary experiences draw a clear line between **regional anchoring vs. statewide mobility**.
+
+1.  **Access and completion of postsecondary education** lead to broader statewide opportunities and reduced risk of disconnection.
+2.  **Absence of postsecondary pathways** results in earlier regional employment but higher long‑term vulnerability.
+3.  **The type, level, and location of postsecondary attainment** nuance this divide: regional and 2‑year pathways strengthen local attachment, while higher‑level and out‑of‑region pathways expand opportunities but reduce regional ties.
+
+<br>
+
+## `attended.ps.within.first.year.hsgrad` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between **attending postsecondary within the first year after high school** and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(8) = **27,442.69**, Cramer’s V = **0.542**, p \< .001, N = 46,777【712†source】
+-   **5 years after graduation**: χ²(8) = **4,207.23**, Cramer’s V = **0.246**, p \< .001, N = 34,683【713†source】
+-   **10 years after graduation**: χ²(6) = **408.26**, Cramer’s V = **0.101**, p \< .001, N = 19,828【714†source】
+
+The effect is **extremely strong in the first year** and weakens over time, though it remains statistically significant. The main pattern is that **students who attend PS within the first year are much less likely to be in regional meaningful employment, while those who do not attend are far more likely to start working in the region**.
+
+### **Interpretation Over Time**
+
+**Year 1:** Students who did not attend PS in the first year had a much higher rate of **regional meaningful employment (19.9%)** compared to attenders (12.8%). Conversely, attenders overwhelmingly show up as **still in postsecondary (74.6% vs. \~0%)**. Non‑attenders also show very high rates of disconnection (44.2% “not meaningful” and 30.1% “no MN record”). This reflects a clear divide: **attenders delay employment through school, while non‑attenders move directly into local jobs or into disconnected outcomes**【712†source】.
+
+**Year 5:** Regional meaningful employment is somewhat higher among attenders (27.9%) than non‑attenders (23.9%). However, **statewide meaningful employment favors attenders (17.0% vs. 11.7%)**. Disconnection remains higher for non‑attenders (27.4% “not meaningful” vs. 18.8% among attenders; 37.0% “no MN record” vs. 14.8%). Thus by five years, **attenders are more successful statewide, while non‑attenders show weaker stability and higher disconnection**【713†source】.
+
+**Year 10:** Regional meaningful employment continues to be higher for attenders (31.6%) compared to non‑attenders (23.0%). Attenders also remain stronger in statewide meaningful employment (21.6% vs. 14.4%). By contrast, non‑attenders face higher disconnection (41.7% “no MN record” vs. 28.9% for attenders). The long‑term pattern confirms that **early PS attendance reduces immediate regional attachment but supports statewide employment and better outcomes over time**, while **non‑attenders anchor more in the region early but face greater disconnection risks long‑term**【714†source】.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary attended.ps.within.first.year.hsgrad ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, attended.ps.within.first.year.hsgrad) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps.within.first.year.hsgrad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-10.html")
+```
+:::
+
+<br>
+
+## `attended.ps`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **ever attending postsecondary** and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(4) = **21,822.13**, Cramer’s V = **0.683**, p \< .001, N = 46,777【724†source】
+-   **5 years after graduation**: χ²(4) = **4,066.08**, Cramer’s V = **0.342**, p \< .001, N = 34,683【725†source】
+-   **10 years after graduation**: χ²(3) = **372.88**, Cramer’s V = **0.137**, p \< .001, N = 19,828【726†source】
+
+The effect is **extremely strong in the first year** but declines steadily over time. The central pattern is that **students who attended postsecondary are far less likely to be in regional meaningful employment early on, though they become more evenly distributed between regional and statewide employment later**.
+
+### **Interpretation Over Time**
+
+**Year 1:** Students who did not attend PS show much higher **regional meaningful employment (19.9% vs. 13.3%)**. However, their outcomes also include far more disconnection: **44.2% “not meaningful” and 30.1% “no MN record”** compared to 10.5% and 3.5% among attenders. By contrast, attenders are overwhelmingly in **postsecondary (69.1%)**. This reflects a sharp early divide: **non‑attenders attach to local jobs or disconnect, while attenders delay employment for education**【724†source】.
+
+**Year 5:** Regional meaningful employment becomes slightly higher for attenders (27.5% vs. 23.9%), and **statewide meaningful employment is also stronger among attenders (16.5% vs. 11.7%)**. Meanwhile, disconnection is far more common among non‑attenders (27.4% “not meaningful” and 37.0% “no record”) compared to 19% and 15% for attenders. Thus, by five years, **attenders gain more stable and broader employment outcomes**, while non‑attenders remain more vulnerable【725†source】.
+
+**Year 10:** Regional meaningful employment favors attenders (31.4% vs. 23.0%), and their advantage in **statewide meaningful employment (21.1% vs. 14.4%)** continues. Non‑attenders remain much more disconnected (41.7% “no record” vs. 29.2% among attenders). Long‑term, this confirms that **attending postsecondary—even if not immediately—enhances both regional and statewide employment outcomes, while non‑attenders remain more likely to disconnect**【726†source】.
+
+Overall, the evidence shows that **postsecondary attendance strongly reduces early local workforce entry but leads to more stable and broader employment later**, whereas non‑attenders enter regional work early but remain at higher risk of disconnection.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary attended.ps one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, attended.ps) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary attended.ps five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, attended.ps) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary attended.ps ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, attended.ps) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/attended-ps-10.html")
+```
+:::
+
+<br>
+
+## `ps.grad` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between **postsecondary graduation** and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(4) = **15,285.21**, Cramer’s V = **0.600**, p \< .001, N = 42,459【736†source】
+-   **5 years after graduation**: χ²(4) = **4,882.22**, Cramer’s V = **0.378**, p \< .001, N = 34,144【737†source】
+-   **10 years after graduation**: χ²(3) = **476.15**, Cramer’s V = **0.155**, p \< .001, N = 19,828【738†source】
+
+The effect is **very strong in the first year**, moderate by year 5, and still significant though weaker at year 10. The pattern shows that **graduates are initially concentrated in continued postsecondary enrollment**, but over time they transition into **statewide meaningful employment** and maintain somewhat stronger outcomes than non‑graduates.
+
+### **Interpretation Over Time**
+
+**Year 1:** Postsecondary graduates are overwhelmingly recorded as **still attending PS (77.4%)**, compared to only 19.4% of non‑graduates. Regional meaningful employment is lower for graduates (11.6% vs. 19.2%), while non‑graduates are far more likely to fall into **not meaningful (35%)** or **no MN record (20.8%)**. This shows the early divide: **graduates are embedded in education, while non‑graduates more often enter local work or disconnection**【736†source】.
+
+**Year 5:** By this point, regional meaningful employment is similar between the two groups (26.9% graduates vs. 26.3% non‑graduates). However, **graduates are more likely to achieve statewide meaningful employment (18.0% vs. 12.6%)** and remain more represented in ongoing postsecondary enrollment (27.4% vs. 4.2%). Non‑graduates are much more disconnected, with 27.3% in “not meaningful” and 29.6% with no MN record【737†source】.
+
+**Year 10:** Regional meaningful employment slightly favors graduates (33.0% vs. 25.6%). Graduates also maintain a strong advantage in statewide meaningful employment (23.4% vs. 15.6%). By contrast, non‑graduates are far more disconnected (36.7% “no MN record” vs. 28.0% for graduates). Long‑term, this confirms that **postsecondary graduation enhances both regional and statewide employment outcomes**, while **non‑graduates are more likely to face disconnection**【738†source】.
+
+Overall, postsecondary graduation is a **critical predictor of long‑term stability**, reducing disconnection and improving both regional and statewide employment, while non‑graduates remain more vulnerable.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-10.html")
+```
+:::
+
+<br>
+
+## `ps.grad.InstitutionSector` 
+
+### **Key Findings**
+
+There is a statistically significant relationship between the **sector of postsecondary graduation** (4‑year public, 2‑year public, other) and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(12) = **1313.46**, Cramer’s V = **0.138**, p \< .001, N = 22,962【748†source】
+-   **5 years after graduation**: χ²(12) = **1181.64**, Cramer’s V = **0.152**, p \< .001, N = 17,154【749†source】
+-   **10 years after graduation**: χ²(6) = **498.68**, Cramer’s V = **0.160**, p \< .001, N = 9,691【750†source】
+
+The relationship is **moderate but consistent**, strengthening slightly by year 10. The main divide is between **4‑year and 2‑year graduates**, with different propensities toward statewide vs. regional employment.
+
+### **Interpretation Over Time**
+
+**Year 1:** Almost all graduates remain in postsecondary, but small differences emerge. **2‑year graduates show the highest early regional employment (20.6%)**, compared to 7.1% among “other” graduates and just 4.5% among 4‑year graduates. Graduates of 4‑year and “other” institutions overwhelmingly remain enrolled (86%+), delaying workforce entry【748†source】.
+
+**Year 5:** Clearer differences appear. **2‑year graduates lead in regional meaningful employment (40.7%)**, while 4‑year graduates show higher statewide employment (21.8%). “Other” graduates also lean toward regional work (21.7%). Disconnection rates are somewhat higher among 4‑year graduates, but overall the trend is that **2‑year pathways support stronger early attachment to regional jobs**【749†source】.
+
+**Year 10:** By this point, differences remain. **2‑year graduates sustain the highest regional meaningful employment (45.1%)**, while 4‑year graduates lean toward statewide meaningful employment (29.5%). “Other” graduates remain in the middle with balanced outcomes. Importantly, **no‑record rates are lowest for 2‑year graduates (21.6%)**, suggesting stronger regional retention. In contrast, 4‑year graduates have higher statewide outcomes but also higher “no record” rates (33.6%)【750†source】.
+
+Overall, institution sector matters: **2‑year graduates show stronger long‑term regional employment**, while **4‑year graduates pursue statewide opportunities and are more mobile**, and “other” graduates fall between.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad.InstitutionSector one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad.InstitutionSector) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.InstitutionSector, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad.InstitutionSector five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad.InstitutionSector) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.InstitutionSector, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad.InstitutionSector ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad.InstitutionSector) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad.InstitutionSector != "Did not grad") %>%
+  filter(ps.grad.InstitutionSector != "Never attended ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.InstitutionSector, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-10.html")
+```
+:::
+
+<br>
+
+## `highest.cred.level`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **highest credential earned** and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(20) = **25,119.08**, Cramer’s V = **0.366**, p \< .001, N = 46,777【760†source】
+-   **5 years after graduation**: χ²(20) = **7,371.79**, Cramer’s V = **0.231**, p \< .001, N = 34,683【761†source】
+-   **10 years after graduation**: χ²(12) = **1,030.86**, Cramer’s V = **0.132**, p \< .001, N = 19,828【762†source】
+
+The association is **strong in the first year**, moderates by year 5, and weakens further by year 10, though it remains significant. The key distinction is that **higher credentials (Bachelor’s or above) delay regional employment but lead to stronger statewide employment later**, while **lower or mid‑level credentials (Associate, less than Associate) are more tied to early and sustained regional employment**.
+
+### **Interpretation Over Time**
+
+**Year 1:** Students with **no college** are most likely to be in regional meaningful employment (19.9%), but also heavily represented in disconnection categories (44.2% not meaningful, 30.1% no record). Those with **some college or Associate degrees** show moderate regional employment (18–19%) but are strongly concentrated in “attending PS” (49–69%). Students pursuing a **Bachelor’s or higher** overwhelmingly remain in education (86.5%) and show the lowest regional employment (5.7%)【760†source】.
+
+**Year 5:** Regional meaningful employment peaks among **less than Associate (42.3%)** and **Associate degree earners (36.5%)**, with **some college** also relatively strong (29.2%). By contrast, **Bachelor’s or higher** show lower regional attachment (19.1%) but higher statewide meaningful employment (20.5%). Non‑college individuals still show significant disconnection (27.4% not meaningful, 37.0% no record)【761†source】.
+
+**Year 10:** The **regional advantage of Associate and sub‑Associate credentials remains high (42–43%)**, while **Bachelor’s or higher show stronger statewide employment (27.9%)** and lower regional employment (26.5%). Non‑college individuals continue to show the weakest outcomes, with the highest disconnection rates (41.7% no record)【762†source】.
+
+Overall, the evidence shows that **mid‑level credentials (Associate and below) strongly anchor individuals in regional employment**, while **Bachelor’s and above foster statewide mobility and stronger longer‑term outcomes**, and **no credential consistently yields the weakest employment stability**.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary highest.cred.level one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, highest.cred.level) %>%
+  filter(grad.year.1 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$highest.cred.level, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/highest-cred-level-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary highest.cred.level five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, highest.cred.level) %>%
+  filter(grad.year.5 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$highest.cred.level, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/highest-cred-level-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary highest.cred.level ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, highest.cred.level) %>%
+  filter(grad.year.10 != "After 2023") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$highest.cred.level, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/highest-cred-level-10.html")
+```
+:::
+
+<br>
+
+## `ps.grad.location`
+
+### **Key Findings**
+
+There is a statistically significant relationship between **location of postsecondary graduation** and post‑graduation outcomes across all timeframes:
+
+-   **1 year after graduation**: χ²(9) = **2713.62**, Cramer’s V = **0.197**, p \< .001, N = 23,341【772†source】\
+-   **5 years after graduation**: χ²(9) = **3699.62**, Cramer’s V = **0.207**, p \< .001, N = 28,840【773†source】\
+-   **10 years after graduation**: χ²(9) = **1609.04**, Cramer’s V =**0.164**, p \< .001, N = 19,827【774†source】
+
+The association is **moderate in years 1 and 5** and slightly weaker by year 10. The central divide is that **regional PS graduates are consistently more likely to work in the region**, while **graduates outside MN or at MN institutions outside the region are more likely to pursue statewide or out‑of‑state pathways**.
+
+### **Interpretation Over Time**
+
+**Year 1:** Regional graduates show the strongest immediate tie to local jobs, with **65.8% in regional meaningful employment**, compared to 23.8% of non‑graduates, 28.7% of MN graduates outside the region, and 22.0% of graduates outside MN. Non‑graduates are most often disconnected (43.4% “not meaningful” and 25.9% “no record”)【772†source】.
+
+**Year 5:** Regional graduates remain highly concentrated in regional employment (50.2%), far above MN graduates outside the region (18.3%) or graduates outside MN (20.4%). By contrast, **MN graduates outside the region have the highest statewide employment (44.0%)**, reflecting mobility within the state. Non‑graduates remain more disconnected (28.4% “not meaningful” and 31.0% “no record”)【773†source】.
+
+**Year 10:** Regional graduates sustain a long‑term edge in local employment (43.1%), while MN graduates outside the region remain more mobile (38.0% in statewide employment). Graduates outside MN have lower regional (20.7%) and statewide (17.8%) employment, with a higher share of disconnection (49.4% “no record”). Non‑graduates remain the weakest group, with only 25.6% regional employment and the highest share of disconnection (36.7% “no record”)【774†source】.
+
+Overall, the evidence shows that **regional PS graduation strongly anchors individuals in the local workforce**, while **graduation outside the region or outside MN promotes mobility and statewide attachment**. Non‑graduates remain at the greatest risk of disconnection across all timeframes.
+
+::: panel-tabset
+### One year after graduating
+
+```{r post-secondary ps.grad.location one year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.1, ps.grad.location) %>%
+  filter(grad.year.1 != "After 2023",
+         grad.year.1 != "Attending ps",
+         ps.grad.location != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.location, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-location-1.html")
+```
+
+### Five years after graduating
+
+```{r post-secondary ps.grad.location five year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.5, ps.grad.location) %>%
+  filter(grad.year.5 != "After 2023",
+         grad.year.5 != "Attending ps",
+         ps.grad.location != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.location, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-location-5.html")
+```
+
+### Ten years after graduating
+
+```{r post-secondary ps.grad.location ten year}
+data <- meaningful.emp.ne %>%
+  select(grad.year.10, ps.grad.location) %>%
+  filter(grad.year.10 != "After 2023",
+         grad.year.10 != "Attending ps",
+         ps.grad.location != "Attending ps") %>%
+  droplevels()
+
+tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.location, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary/ps-grad-location-10.html")
+```
+:::
+
+<br>
+
+# Final Wrap-Up: Pathways After High School – Northeast Minnesota
+
+This final synthesis combines findings across all four sections: **Demographics, High School Characteristics, High School Accomplishments, and Postsecondary Experiences**.
+
+------------------------------------------------------------------------
+
+## Comparative Table of Effect Sizes Across Sections
+
+| Section | Strongest Variables (Peak V/F) | Weakest Variables (Peak V/F) | General Pattern |
+|-----------------|--------------------|-------------------|-----------------|
+| **Demographics** | SpecialEd Status (V = 0.258, Yr 1); Race/Ethnicity (V = 0.126, Yr 1) | Gender (V = 0.109, Yr 1); English Learner (V = 0.062, Yr 1) | Demographic factors matter, but fade significantly over time; strongest for SpecialEd. |
+| **High School Characteristics** | Avg. Unemployment Rate (F ≈ 53.1, Yr 1); Rural/Urban location (V = 0.094, Yr 1) | Range School (V ≈ 0.03–0.05) | Local economic conditions and geography shape outcomes; strong early signals that diminish with time. |
+| **High School Accomplishments** | Took ACT (V = 0.364, Yr 1); MCA Math (F = 1344.5, Yr 1) | SAT Taken (V ≈ 0.07–0.08) | Clear divide: Academic/college-prep routes push students statewide; CTE anchors students regionally. |
+| **Postsecondary Experiences** | Attended PS (V = 0.683, Yr 1); PS Graduation (V = 0.600, Yr 1) | PS Grad by Sector (V ≈ 0.14–0.16) | Postsecondary pathways dominate long-term outcomes, separating regional vs statewide employment. |
+
+------------------------------------------------------------------------
+
+## Key Patterns & Comparative Insights
+
+### Demographics
+
+-   **SpecialEd Status** and **Race/Ethnicity** stand out as the strongest demographic predictors, particularly in shaping early outcomes.
+-   Gender, Economic Status, and English Learner status show weaker associations that fade quickly.
+-   Overall, demographics set context but are less determinative compared to later factors.
+
+### High School Characteristics
+
+-   **Local context (rural/urban, unemployment, wage levels)** influences early pathways, especially pushing some students into immediate work.
+-   These effects diminish with time, suggesting that **structural local factors matter most at the point of high school exit**, but individual choices and credentials overtake them later.
+
+### High School Accomplishments
+
+-   Clear **split between academic and technical tracks**:
+    -   **College-prep measures (ACT, PSEO, MCA, AP, SAT)** → lead to postsecondary and statewide employment, reducing regional attachment.
+    -   **CTE measures (CTE achievement, total courses)** → tie directly to **regional meaningful employment**, with effects persisting 10 years out.
+-   MCA Math in particular emerges as the strongest achievement predictor across all accomplishment variables.
+
+### Postsecondary Experiences
+
+-   This is the **most powerful section overall**. Postsecondary attendance and completion dominate long-term outcomes.
+-   **Attenders and graduates** show stronger statewide and stable employment, while **non-attenders and non-graduates** enter regional jobs early but face greater disconnection risk long-term.
+-   **Institution type, credential level, and location** add nuance:
+    -   **Regional and 2-year pathways** → strengthen regional attachment.
+    -   **4-year and out-of-state pathways** → expand statewide opportunities but reduce regional ties.
+
+------------------------------------------------------------------------
+
+## Overall Conclusion
+
+Across all sections, a consistent theme emerges:
+
+-   **Regional meaningful employment** is most strongly predicted by **career/technical education in high school** and **regional/2-year postsecondary pathways**.
+-   **Statewide meaningful employment and mobility** are driven by **academic achievement, 4-year college pathways, and higher credentials**.
+-   **Disconnection** is most common among **non-attenders, non-graduates, and those with weaker academic/CTE preparation**, compounded by local economic stressors.
+
+In sum, the evidence highlights **two diverging but equally important pathways**:
+
+1.  **Academic + 4-year trajectories → statewide mobility and higher credentials.**
+2.  **CTE + regional PS pathways → stronger anchoring in the regional workforce.**
+
+Both play vital roles in shaping the Northeast Minnesota labor market and should be considered complementary in policy and planning.
+
+<br>
+
+# Model-Ready Variable Recommendations
+
+As we move from descriptive analysis to **predictive modeling**, the goal is to retain the strongest predictors while removing weaker or redundant ones.\
+
+Below is a structured list by section.
+
+------------------------------------------------------------------------
+
+## Demographics
+
+**Keep / Prioritize**
+
+-   **SpecialEd Status** (strongest demographic predictor)
+-   **Race/Ethnicity** (moderate strength, important equity covariate)
+-   Economic Status (moderate but weaker compared to later predictors; may retain as a control if needed)
+
+**Drop / Deprioritize**
+
+-   Gender (weak, V ≈ .05–.10, fades over time)
+-   English Learner (very weak, V \< .07, small group sizes)
+
+------------------------------------------------------------------------
+
+## High School Characteristics
+
+**Keep / Prioritize**
+
+-   Dem_Desc (Rural/Urban) – moderate, useful contextual control
+-   Avg. Unemployment – strong early F-values, local context matters
+-   Avg. Wages % State – strong F-values, economic environment indicator
+
+**Drop / Deprioritize**
+
+-   Range School (very weak effect, V ≈ .03–.05)
+
+------------------------------------------------------------------------
+
+## High School Accomplishments
+
+**Keep / Prioritize**
+
+-   ACT (took ACT, ACT Composite Score) – strong, differentiates pathways
+-   MCA (Math strongest, Reading & Science secondary) – critical academic predictors
+-   CTE Achievement – anchors to regional meaningful employment
+-   Total CTE Courses Taken – consistent predictor of regional attachment
+-   PSEO Participation – strong early differentiator of statewide vs regional pathways
+
+**Drop / Deprioritize**
+
+-   SAT Taken (consistently weak, V ≈ .07, redundant with ACT)
+-   AP Exam (moderate, but less powerful than ACT/MCA; may be dropped if multicollinearity is high)
+
+------------------------------------------------------------------------
+
+## Postsecondary Experiences
+
+**Keep / Prioritize**
+
+-   Attended Postsecondary Within First Year – strongest early effect (V \> .5)
+-   Ever Attended Postsecondary – very strong differentiator (V \> .6)
+-   Postsecondary Graduation – critical predictor of long-term stability
+-   Highest Credential Level – strong differentiator between statewide vs regional pathways
+-   Graduation Location – strong anchor for regional vs statewide attachment
+
+**Drop / Deprioritize**
+
+-   Institution Sector – moderate only (V ≈ .14–.16); may be redundant with credential level & location
+
+------------------------------------------------------------------------
+
+## Overall Guidance
+
+-   **Drop:** Gender, English Learner, Range School, SAT Taken, possibly AP Exam, possibly Institution Sector\
+-   **Keep:** All others, with focus on SpecialEd, Race/Ethnicity, local economic indicators, ACT/MCA, CTE, and Postsecondary attendance/graduation/credentials.
+
+This balances **parsimony** (leaner model) with **coverage** (keeping conceptually important drivers of outcomes).
+
+<br>
+
+```{r create new master after analysis}
+master.after.ct <- meaningful.emp.ne %>%
+  select(-Gender, -english.learner, -range.school, -sat.taken, -ap.exam, ps.grad.InstitutionSector)
+
+write_csv(master.after.ct, "Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
+```

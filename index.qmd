@@ -1,4 +1,49 @@
 ---
-title: "Summary"
+title: "Pathways After High School – Northeast Minnesota"
 editor: visual
 ---
+
+# Contingency Tables
+
+## Employment Outcomes vs. Independent Variables
+
+This one-page overview integrates **effect size tables and key insights,** across all four major sections of analysis.
+
+------------------------------------------------------------------------
+
+### Comparative Insights by Section
+
+**Demographics**
+
+-   Strongest predictor: **SpecialEd Status** (V = 0.258, Yr 1).
+-   Demographics fade in importance over time; **SpecialEd** and **Race/Ethnicity** remain the most relevant.
+
+**High School Characteristics**
+
+-   **Local economic conditions (unemployment, wages)** significantly shape early outcomes (F = 53.1 for unemployment, Yr 1).
+-   Rural/urban divides also matter, but effects diminish by Year 10.
+
+**High School Accomplishments**
+
+-   **Academic/college-prep measures (ACT, MCA, PSEO, AP)** → statewide pathways, less regional attachment.
+-   **CTE achievement and course load** → strongest predictors of **regional meaningful employment**.
+-   MCA Math has the **largest overall predictive power** (F = 1344.5, Yr 1).
+
+**Postsecondary Experiences**
+
+-   The **most powerful overall predictors**.
+-   **Attendance and graduation** separate students into statewide vs. regional pathways.
+-   **Credential level and location** nuance outcomes: regional/2-year credentials anchor locally, 4-year/out-of-state expand mobility.
+
+### Overall Conclusion
+
+-   **Regional meaningful employment** is most strongly tied to **CTE in high school** and **regional/2-year postsecondary pathways**.
+-   **Statewide employment and mobility** stem from **academic success and 4-year/out-of-state credentials**.
+-   **Disconnection** is concentrated among **non-attenders, non-graduates, and those with weaker preparation**, amplified by local economic stressors.
+
+This highlights a **dual pathway model**:
+
+1.  **Academic + 4-year trajectories → statewide mobility and higher credentials.**
+2.  **CTE + regional PS pathways → strong anchoring in the local workforce.**
+
+Both are vital in shaping Northeast Minnesota’s labor market outcomes.
