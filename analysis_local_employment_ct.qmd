@@ -428,7 +428,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$Gender,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/Gender-1.html",
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/Gender-1.html",
          use.viewer = TRUE)
 ```
 
@@ -444,7 +444,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$Gender,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/Gender-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/Gender-5.html")
 
 ```
 
@@ -460,7 +460,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$Gender,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/Gender-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/Gender-10.html")
 
 ```
 :::
@@ -502,7 +502,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$grad.year.covid,
 ```{r echo = FALSE}
 data <- meaningful.emp.ne %>%
   select(grad.year.1, grad.year.5, grad.year.10, grad.year.covid) %>%
-  write_csv(., "Data/ChatGPT/Demographics/grad-year-covid.csv")
+  write_csv(., "Data/ChatGPT/Meaningful emp ct/Demographics/grad-year-covid.csv")
 ```
 
 <br>
@@ -542,7 +542,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$economic.status,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/economic-status-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/economic-status-1.html")
 ```
 
 ### Five years after graduating
@@ -557,7 +557,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$economic.status,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/economic-status-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/economic-status-5.html")
 ```
 
 ### Ten years after graduating
@@ -572,13 +572,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$economic.status,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/economic-status-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/economic-status-10.html")
 ```
 :::
 
 <br>
 
-## `SpecialEdStatus` 
+## `SpecialEdStatus`
 
 ### **Key Findings**
 
@@ -612,7 +612,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$SpecialEdStatus,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/SpecialEdStatus-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/SpecialEdStatus-1.html")
 ```
 
 ### Five years after graduating
@@ -627,7 +627,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$SpecialEdStatus,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/SpecialEdStatus-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/SpecialEdStatus-5.html")
 ```
 
 ### Ten years after graduating
@@ -642,13 +642,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$SpecialEdStatus,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/SpecialEdStatus-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/SpecialEdStatus-10.html")
 ```
 :::
 
 <br>
 
-## `RaceEthnicity` 
+## `RaceEthnicity`
 
 ### **Key Findings**
 
@@ -682,7 +682,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$RaceEthnicity,
                  title = "", 
                  show.exp = TRUE,
                  show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/RaceEthnicity-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/RaceEthnicity-1.html")
 
 ```
 
@@ -699,7 +699,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$RaceEthnicity,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/RaceEthnicity-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/RaceEthnicity-5.html")
 
 ```
 
@@ -715,7 +715,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$RaceEthnicity,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/RaceEthnicity-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/RaceEthnicity-10.html")
 
 ```
 :::
@@ -756,7 +756,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$english.learner,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/english-learner-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/english-learner-1.html")
 ```
 
 ### Five years after graduating
@@ -771,7 +771,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$english.learner,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/english-learner-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/english-learner-5.html")
 
 ```
 
@@ -788,7 +788,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$english.learner,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Demographics/english-learner-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Demographics/english-learner-10.html")
 ```
 :::
 
@@ -810,7 +810,7 @@ We will take a look at the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|----------------|------------|------------|------------|------------|------------|
+|------------|------------|------------|------------|------------|------------|
 | Rural–Urban Context | V = 0.024 | V = 0.054 | V = 0.044 | Year 5 | Weak overall, small uptick at Year 5 |
 | Range School | V = 0.061 | V = 0.043 | V = 0.054 | Year 1 | Weak but consistent, stable across time |
 | Avg. County Unemployment | F(4,46772) = 33.8 | F(4,34678) = 17.6 | F(3,19824) = 6.7 | Year 1 | Significant, declining strength over time |
@@ -870,7 +870,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$Dem_Desc,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/Dem_Desc-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/Dem_Desc-1.html")
 ```
 
 ### Five years after graduating
@@ -885,7 +885,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$Dem_Desc,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/Dem_Desc-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/Dem_Desc-5.html")
 ```
 
 ### Ten years after graduating
@@ -900,7 +900,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$Dem_Desc,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/Dem_Desc-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/Dem_Desc-10.html")
 ```
 :::
 
@@ -939,7 +939,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$range.school,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/range-school-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/range-school-1.html")
 ```
 
 ### Five years after graduating
@@ -954,7 +954,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$range.school,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/range-school-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/range-school-5.html")
 ```
 
 ### Ten years after graduating
@@ -969,7 +969,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$range.school,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school characteristics/range-school-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school characteristics/range-school-10.html")
 ```
 :::
 
@@ -1071,7 +1071,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-unemp-rate-1.xlsx", overwrite = TRUE)
 ```
 
 ### Five years after graduating
@@ -1134,7 +1134,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-unemp-rate-5.xlsx", overwrite = TRUE)
 ```
 
 ### Ten years after graduating
@@ -1197,7 +1197,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-unemp-rate-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-unemp-rate-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -1300,7 +1300,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-wages-pct-state-1.xlsx", overwrite = TRUE)
 
 ```
 
@@ -1364,7 +1364,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-wages-pct-state-5.xlsx", overwrite = TRUE)
 
 ```
 
@@ -1428,7 +1428,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school characteristics/avg-wages-pct-state-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg-wages-pct-state-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -1458,7 +1458,7 @@ We are going to analyze the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|----------------|------------|------------|------------|------------|------------|
+|------------|------------|------------|------------|------------|------------|
 | PSEO Participation | V = 0.290 | V = 0.132 | V = 0.089 | Year 1 | Very strong at Year 1, steadily weakens over time |
 | Took ACT | V = 0.364 | V = 0.214 | V = 0.142 | Year 1 | Strongest early, gradual decline but remains significant |
 | ACT Composite Score | F(4,46772) = 578.9 | F(4,34678) = 266.2 | F(3,19824) = 158.6 | Year 1 | Strong consistent effect, diminishes over time |
@@ -1537,7 +1537,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$pseo.participant,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/pseo-participant-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/pseo-participant-1.html")
 ```
 
 ### Five years after graduating
@@ -1553,7 +1553,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$pseo.participant,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/pseo-participant-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/pseo-participant-5.html")
 ```
 
 ### Ten years after graduating
@@ -1569,7 +1569,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$pseo.participant,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/pseo-participant-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/pseo-participant-10.html")
 ```
 :::
 
@@ -1608,7 +1608,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$took.ACT,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/took-ACT-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/took-ACT-1.html")
 ```
 
 ### Five years after graduating
@@ -1623,7 +1623,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$took.ACT,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/took-ACT-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/took-ACT-5.html")
 ```
 
 ### Ten years after graduating
@@ -1638,14 +1638,14 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$took.ACT,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/took-ACT-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/took-ACT-10.html")
 ```
 :::
 
 ```{r echo = FALSE}
 data <- meaningful.emp.ne %>%
   select(grad.year.1, grad.year.5, grad.year.10, took.ACT) %>%
-  write_csv(., "Data/ChatGPT/High school accomplishments/took-ACT.csv")
+  write_csv(., "Data/ChatGPT/Meaningful emp ct/High school accomplishments/took-ACT.csv")
 
 ```
 
@@ -1746,7 +1746,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ACTCompositeScore-1.xlsx", overwrite = TRUE)
 
 
 ```
@@ -1811,7 +1811,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ACTCompositeScore-5.xlsx", overwrite = TRUE)
 
 ```
 
@@ -1875,7 +1875,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ACTCompositeScore-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -1883,7 +1883,7 @@ saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/ACTCompositeScore-10.
 ```{r echo=FALSE}
 data <- meaningful.emp.ne %>%
   select(grad.year.1, grad.year.5, grad.year.10, ACTCompositeScore) %>%
-  write_csv(., "Data/ChatGPT/High school accomplishments/ACTCompositeScore.csv")
+  write_csv(., "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ACTCompositeScore.csv")
 
 ```
 
@@ -1924,7 +1924,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$ap.exam,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/ap-exam-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ap-exam-1.html")
 ```
 
 ### Five years after graduating
@@ -1939,7 +1939,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$ap.exam,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/ap-exam-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ap-exam-5.html")
 ```
 
 ### Ten years after graduating
@@ -1954,13 +1954,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ap.exam,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/ap-exam-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/ap-exam-10.html")
 ```
 :::
 
 <br>
 
-## `sat.taken` 
+## `sat.taken`
 
 ### **Key Findings**
 
@@ -1995,7 +1995,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$sat.taken,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/sat-taken-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/sat-taken-1.html")
 ```
 
 ### Five years after graduating
@@ -2010,7 +2010,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$sat.taken,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/sat-taken-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/sat-taken-5.html")
 ```
 
 ### Ten years after graduating
@@ -2025,13 +2025,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$sat.taken,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/sat-taken-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/sat-taken-10.html")
 ```
 :::
 
 <br>
 
-## `MCA.R` 
+## `MCA.R`
 
 ### **Key Findings**
 
@@ -2126,7 +2126,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-R-1.xlsx", overwrite = TRUE)
 
 
 ```
@@ -2191,7 +2191,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-R-5.xlsx", overwrite = TRUE)
 
 ```
 
@@ -2255,14 +2255,14 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-R-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-R-10.xlsx", overwrite = TRUE)
 
 ```
 :::
 
 <br>
 
-## `MCA.S` 
+## `MCA.S`
 
 ### **Key Findings**
 
@@ -2359,7 +2359,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-S-1.xlsx", overwrite = TRUE)
 
 ```
 
@@ -2423,7 +2423,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-S-5.xlsx", overwrite = TRUE)
 ```
 
 ### Ten years after graduating
@@ -2486,7 +2486,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-S-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-S-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -2590,7 +2590,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-M-1.xlsx", overwrite = TRUE)
 
 ```
 
@@ -2654,7 +2654,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-M-5.xlsx", overwrite = TRUE)
 
 ```
 
@@ -2718,7 +2718,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/MCA-M-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA-M-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -2760,7 +2760,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$cte.achievement,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/cte-achievement-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/cte-achievement-1.html")
 ```
 
 ### Five years after graduating
@@ -2775,7 +2775,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$cte.achievement,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/cte-achievement-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/cte-achievement-5.html")
 ```
 
 ### Ten years after graduating
@@ -2790,7 +2790,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$cte.achievement,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/High school accomplishments/cte-achievement-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/High school accomplishments/cte-achievement-10.html")
 ```
 :::
 
@@ -2890,7 +2890,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/total-cte-courses-taken-1.xlsx", overwrite = TRUE)
 
 
 ```
@@ -2955,7 +2955,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/total-cte-courses-taken-5.xlsx", overwrite = TRUE)
 ```
 
 ### Ten years after graduating
@@ -3018,7 +3018,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/High school accomplishments/total-cte-courses-taken-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/total-cte-courses-taken-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -3043,7 +3043,7 @@ We will analyze the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|-------------------|-----------|-----------|-----------|-----------|-----------|
+|-------------|------------|------------|------------|------------|------------|
 | Attended PS within 1st year | V = 0.542 | V = 0.246 | V = 0.101 | Year 1 | Extremely strong early effect, weakens but persists |
 | Ever Attended PS | V = 0.683 | V = 0.342 | V = 0.137 | Year 1 | Very strong early, declines steadily |
 | Postsecondary Graduation | V = 0.600 | V = 0.378 | V = 0.155 | Year 1 | Strong predictor, declines but remains significant |
@@ -3079,7 +3079,7 @@ Postsecondary experiences draw a clear line between **regional anchoring vs. sta
 
 <br>
 
-## `attended.ps.within.first.year.hsgrad` 
+## `attended.ps.within.first.year.hsgrad`
 
 ### **Key Findings**
 
@@ -3112,7 +3112,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps.within.first.yea
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-within-first-year-hsgrad-1.html")
 ```
 
 ### Five years after graduating
@@ -3127,7 +3127,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps.within.first.yea
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-within-first-year-hsgrad-5.html")
 ```
 
 ### Ten years after graduating
@@ -3142,7 +3142,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps.within.first.ye
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-within-first-year-hsgrad-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-within-first-year-hsgrad-10.html")
 ```
 :::
 
@@ -3183,7 +3183,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$attended.ps,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-1.html")
 ```
 
 ### Five years after graduating
@@ -3198,7 +3198,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$attended.ps,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-5.html")
 ```
 
 ### Ten years after graduating
@@ -3213,13 +3213,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/attended-ps-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/attended-ps-10.html")
 ```
 :::
 
 <br>
 
-## `ps.grad` 
+## `ps.grad`
 
 ### **Key Findings**
 
@@ -3255,7 +3255,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-1.html")
 ```
 
 ### Five years after graduating
@@ -3271,7 +3271,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-5.html")
 ```
 
 ### Ten years after graduating
@@ -3287,13 +3287,13 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-10.html")
 ```
 :::
 
 <br>
 
-## `ps.grad.InstitutionSector` 
+## `ps.grad.InstitutionSector`
 
 ### **Key Findings**
 
@@ -3330,7 +3330,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.InstitutionSector,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-InstitutionSector-1.html")
 ```
 
 ### Five years after graduating
@@ -3347,7 +3347,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.InstitutionSector,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-InstitutionSector-5.html")
 ```
 
 ### Ten years after graduating
@@ -3364,7 +3364,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.InstitutionSector,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-InstitutionSector-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-InstitutionSector-10.html")
 ```
 :::
 
@@ -3405,7 +3405,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$highest.cred.level,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/highest-cred-level-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/highest-cred-level-1.html")
 ```
 
 ### Five years after graduating
@@ -3420,7 +3420,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$highest.cred.level,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/highest-cred-level-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/highest-cred-level-5.html")
 ```
 
 ### Ten years after graduating
@@ -3435,7 +3435,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$highest.cred.level,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/highest-cred-level-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/highest-cred-level-10.html")
 ```
 :::
 
@@ -3478,7 +3478,7 @@ tab_xtab(var.row = data$grad.year.1, var.col = data$ps.grad.location,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-location-1.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-location-1.html")
 ```
 
 ### Five years after graduating
@@ -3495,7 +3495,7 @@ tab_xtab(var.row = data$grad.year.5, var.col = data$ps.grad.location,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-location-5.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-location-5.html")
 ```
 
 ### Ten years after graduating
@@ -3512,7 +3512,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.location,
          title = "", 
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary/ps-grad-location-10.html")
+         file = "Data/ChatGPT/Meaningful emp ct/Post-secondary/ps-grad-location-10.html")
 ```
 :::
 
@@ -3527,7 +3527,7 @@ This final synthesis combines findings across all four sections: **Demographics,
 ## Comparative Table of Effect Sizes Across Sections
 
 | Section | Strongest Variables (Peak V/F) | Weakest Variables (Peak V/F) | General Pattern |
-|-----------------|--------------------|-------------------|-----------------|
+|------------------|-------------------|------------------|------------------|
 | **Demographics** | SpecialEd Status (V = 0.258, Yr 1); Race/Ethnicity (V = 0.126, Yr 1) | Gender (V = 0.109, Yr 1); English Learner (V = 0.062, Yr 1) | Demographic factors matter, but fade significantly over time; strongest for SpecialEd. |
 | **High School Characteristics** | Avg. Unemployment Rate (F ≈ 53.1, Yr 1); Rural/Urban location (V = 0.094, Yr 1) | Range School (V ≈ 0.03–0.05) | Local economic conditions and geography shape outcomes; strong early signals that diminish with time. |
 | **High School Accomplishments** | Took ACT (V = 0.364, Yr 1); MCA Math (F = 1344.5, Yr 1) | SAT Taken (V ≈ 0.07–0.08) | Clear divide: Academic/college-prep routes push students statewide; CTE anchors students regionally. |
