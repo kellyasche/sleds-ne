@@ -47,3 +47,78 @@ This highlights a **dual pathway model**:
 2.  **CTE + regional PS pathways → strong anchoring in the local workforce.**
 
 Both are vital in shaping Northeast Minnesota’s labor market outcomes.
+
+<br>
+
+# CART Analysis
+
+## Employment Outcomes
+
+This analysis examined what factors anchor young adults into **meaningful employment in their high school region** versus drifting into three alternative paths:\
+1. Employment elsewhere in Minnesota\
+2. Not meaningful employment/not attending postsecondary\
+3. No Minnesota employment record/not attending postsecondary
+
+Using CART models at **1, 5, and 10 years after high school**, the goal was to identify the most influential variables and extract actionable insights for regional workforce and education policy.
+
+------------------------------------------------------------------------
+
+### Key Anchors of Regional Employment
+
+Across all models, three consistent anchors emerged:
+
+1.  **Regional Postsecondary Completion**
+    -   By 5 and 10 years, the strongest predictor of staying anchored in the region is graduating from a **postsecondary institution within the region**.
+    -   Higher credential levels (associate and bachelor’s degrees) amplify this effect.
+2.  **CTE Engagement**
+    -   In high school, simply taking 2+ CTE courses increases the likelihood of regional employment (especially by Year 1).
+    -   By Year 10, **CTE concentrators and completers** show significantly higher rates of remaining in the region, even when academic scores are modest.
+3.  **Moderate-to-Strong Academic Readiness**
+    -   ACT participation and moderate ACT scores (not necessarily the highest) anchor students in the region early on.
+    -   MCA Math and Reading proficiency sustain attachment at later stages, providing a foundation for both CTE and postsecondary success.
+
+------------------------------------------------------------------------
+
+### Persistent Barriers
+
+1.  **Failure to Complete Postsecondary**
+    -   Students who do not graduate from any postsecondary program are consistently at higher risk of disconnection or leaving the region.
+2.  **Weak Academic Preparation**
+    -   Very low ACT scores and MCA performance are early barriers, limiting postsecondary access and undermining employability.
+3.  **Limited CTE Engagement**
+    -   Students without depth in CTE (no concentration or completion) are more likely to fall into non-meaningful employment or lack a Minnesota employment record.
+4.  **Economic and Demographic Context**
+    -   Low local wages and higher unemployment rates increase the risk of disconnection.
+    -   White students with weak academic or CTE preparation were more likely to leave or disconnect, while non-White students paired with CTE/PS pathways showed stronger anchoring.
+    -   Special Education status appears as a short-term barrier in Year 1, but its influence diminishes once postsecondary pathways are engaged.
+
+------------------------------------------------------------------------
+
+### Policy Implications for Northeast Minnesota
+
+The modeling results point to **clear levers** for strengthening regional workforce attachment:
+
+1.  **Expand Regional Postsecondary Pipelines**
+    -   Strengthen partnerships between high schools and regional colleges/universities.
+    -   Provide targeted supports to ensure not just access but **completion of credentials** in the region.
+2.  **Deepen CTE Pathways**
+    -   Encourage students to progress from introductory courses to **CTE concentrator/completer status**, which has strong long-term anchoring effects.
+    -   Align CTE pathways tightly with regional industries and labor market needs.
+3.  **Support Academic Readiness at Moderate Levels**
+    -   Ensure broad ACT participation and boost MCA Math/Reading performance.
+    -   Focus less on elite performance and more on raising the floor to “workforce-ready” levels.
+4.  **Mitigate Barriers for At-Risk Groups**
+    -   Target interventions for students with low academic scores, no early CTE exposure, or no clear postsecondary plan.
+    -   Provide wage incentives and local internships to keep academically mobile students from leaving the region.
+
+------------------------------------------------------------------------
+
+### Conclusion
+
+The results show that **anchoring students in Northeast Minnesota’s workforce is not about producing the highest scorers or sending students to selective institutions elsewhere**. Instead, the most powerful strategies are:
+
+-   Ensuring students complete postsecondary programs **within the region**,
+-   Building strong **career and technical pathways**, and
+-   Raising academic preparation to **moderate workforce-ready levels**.
+
+Barriers remain significant for those who leave postsecondary incomplete, underperform academically, or fail to engage in CTE. Addressing these gaps offers the most direct path to strengthening regional workforce resilience.
