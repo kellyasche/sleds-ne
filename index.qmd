@@ -3,9 +3,109 @@ title: "Pathways After High School – Northeast Minnesota"
 editor: visual
 ---
 
-# Contingency Tables
+# Pathways to Meaningful Regional Employment in Northeast Minnesota
 
-## Employment Outcomes vs. Independent Variables
+## Purpose of the Research
+
+This research examined which factors most strongly influence whether individuals achieve **meaningful employment within Northeast Minnesota’s region (EDR 3)** after high school. Using both **contingency table analysis (effect sizes, trends over 1, 5, and 10 years)** and **CART modeling**, the goal was to identify which variables most reliably anchor individuals in the regional workforce versus those that push them toward statewide mobility, disconnection, or outmigration.
+
+The findings provide a roadmap for education and workforce policy, showing how **demographics, high school context, accomplishments, and postsecondary experiences** interact to shape local labor market attachment.
+
+------------------------------------------------------------------------
+
+## Contingency Table Insights
+
+### Demographics
+
+Demographic factors were relatively modest predictors overall. **Special Education status** showed the strongest short-term influence (V = 0.258, Yr 1), while **Race/Ethnicity** maintained moderate effects over time. However, most demographic effects faded by 10 years, suggesting that **institutional and educational pathways, not demographics alone, determine long-run anchoring**.
+
+### High School Characteristics
+
+**Local economic context** (particularly unemployment rates and wages) shaped immediate outcomes, with F = 53.1 for unemployment in Year 1. Students graduating during periods of high unemployment or low wages were more likely to disconnect or leave the region. **Rural/urban divides** also mattered in the short term but diminished by Year 10, underscoring that **macro-economic conditions strongly affect early transitions, but personal educational pathways matter more over time**.
+
+### High School Accomplishments
+
+Clear patterns emerged between academic and technical preparation:\
+- **Academic indicators** (ACT, MCA, PSEO, AP) predicted **statewide mobility and non-regional pathways**.\
+- **CTE achievement and course-taking** were the strongest predictors of **regional meaningful employment**, with MCA Math showing the largest single predictive power overall (F = 1344.5, Yr 1).\
+This split underscores the dual pathways: **academic preparation expands options outward, while CTE preparation anchors locally**.
+
+### Postsecondary Experiences
+
+The **most powerful predictors overall** were found here.\
+- **Attendance and completion of postsecondary education** sharply separated those with stable pathways from those at risk of disconnection.\
+- **Credential level and graduation location** added nuance:\
+- **Regional/2-year credentials anchored students locally**.\
+- **4-year or out-of-state credentials expanded mobility**.\
+- **Non-completers were most at risk** of poor outcomes.
+
+------------------------------------------------------------------------
+
+## CART Analysis Findings
+
+CART models confirmed and sharpened the contingency table results.
+
+### Anchors of Regional Employment
+
+1.  **Regional Postsecondary Completion** was the most consistent long-term anchor. Students completing degrees at regional colleges had the highest likelihood of meaningful employment locally.\
+2.  **CTE Engagement** mattered even at modest levels. Two or more CTE courses increased Year 1 anchoring, while CTE concentrators/completers showed strong 10-year retention in the region.\
+3.  **Moderate Academic Readiness** (ACT participation, MCA proficiency) was critical. Students did not need elite scores — moderate proficiency paired with CTE or regional postsecondary completion was sufficient to anchor them.
+
+### Persistent Barriers
+
+-   **Failure to complete postsecondary** increased long-term disconnection risks.
+-   **Weak academic preparation** blocked both postsecondary and workforce entry.
+-   **Low CTE engagement** was linked to disconnection or leaving the region.
+-   **Local economic conditions and demographic stressors** amplified risks, though their influence faded once students engaged successfully in CTE or postsecondary pathways.
+
+------------------------------------------------------------------------
+
+## Postsecondary Pathways: Credential vs. Location
+
+-   **Graduation Location** determined **whether students stayed rooted in the region**. Regional institutions consistently anchored graduates locally, particularly for students from disadvantaged backgrounds who succeeded academically.
+-   **Highest Credential Level** determined **how far opportunities extended**.
+    -   **Sub-baccalaureate degrees (associate and certificates)** aligned closely with regional employment.
+    -   **Bachelor’s and above** expanded opportunities statewide and nationally, but reduced local retention.
+    -   **Non-completers** faced the worst outcomes, with high rates of disconnection.
+
+This dynamic highlights the balance between **place-based retention** and **credential-driven mobility**.
+
+------------------------------------------------------------------------
+
+## Synthesis and Policy Implications
+
+The findings converge on a **dual pathway model** for Northeast Minnesota:
+
+1.  **CTE + Regional Postsecondary Completion → Anchoring Pathway**
+    -   Leads to strong, long-term meaningful employment within the region.
+    -   Particularly effective for students with moderate academic preparation.
+2.  **Academic + 4-Year/Out-of-State Postsecondary → Mobility Pathway**
+    -   Leads to broader statewide and national employment opportunities.
+    -   Expands credentials but often results in outmigration.
+
+**Policy priorities** include:
+
+-   Strengthening **regional postsecondary pipelines**, ensuring not just access but completion.
+-   Expanding **CTE concentrator/completer opportunities**, aligned with local industry.
+-   Supporting **moderate-level academic readiness** (raising the floor, not just the ceiling).
+-   Targeting **at-risk groups** (low academic, low CTE, non-completers) with early interventions.
+-   Addressing **local economic barriers** with incentives (internships, wage support) to retain mobile talent.
+
+------------------------------------------------------------------------
+
+## Conclusion
+
+Meaningful regional employment in Northeast Minnesota is not about producing the highest scorers or exporting students to selective institutions. It is about ensuring **broad participation in CTE, moderate academic readiness, and completion of regional postsecondary credentials**. These are the variables that most reliably anchor individuals to the region’s workforce.
+
+At the same time, the region must recognize and support the **mobility pathway**: some students will pursue academic excellence and higher degrees that take them beyond the region. Balancing these pathways — anchoring some, supporting mobility for others — is the key to long-term workforce resilience.
+
+<br>
+
+# Summaries of each analysis
+
+## Contingency Tables
+
+### Employment Outcomes vs. Independent Variables
 
 This one-page overview integrates **effect size tables and key insights,** across all four major sections of analysis.
 
@@ -50,9 +150,9 @@ Both are vital in shaping Northeast Minnesota’s labor market outcomes.
 
 <br>
 
-# CART Analysis
+## CART Analysis
 
-## Employment Outcomes
+### Employment Outcomes
 
 This analysis examined what factors anchor young adults into **meaningful employment in their high school region** versus drifting into three alternative paths:\
 1. Employment elsewhere in Minnesota\
@@ -122,3 +222,21 @@ The results show that **anchoring students in Northeast Minnesota’s workforce 
 -   Raising academic preparation to **moderate workforce-ready levels**.
 
 Barriers remain significant for those who leave postsecondary incomplete, underperform academically, or fail to engage in CTE. Addressing these gaps offers the most direct path to strengthening regional workforce resilience.
+
+<br>
+
+## Post-secondary Pathways
+
+### **Comparison of Postsecondary Graduation Location and Highest Credential Earned**
+
+Both postsecondary graduation location and highest credential earned emerged as powerful predictors of meaningful employment, but they influenced outcomes in different ways.
+
+Graduation location primarily reflected **where students were most likely to remain employed**. The CART analysis showed that students who graduated from a **regional institution** were the most likely to secure meaningful local employment, demonstrating the strong anchoring effect of nearby colleges. By contrast, students graduating outside the region, especially outside Minnesota, were less likely to stay in the regional labor market. Academic readiness, particularly higher ACT scores, increased the likelihood of completing a regional credential, with disadvantaged students who scored well on the ACT especially anchored to local institutions.
+
+Highest credential earned, on the other hand, shaped **how far students’ employment opportunities extended**. Students who attained a **bachelor’s degree or higher** were less likely to remain employed locally, as these credentials opened access to broader state and national labor markets. In contrast, students with **associate degrees or lower** were more likely to stay in regional employment, reflecting a closer alignment between sub-baccalaureate training and local job structures. Non-completers were at the highest risk of poor employment outcomes altogether, with many remaining in the region but in lower-skill, less stable jobs.
+
+### **Summary and Policy Implications**
+
+Together, the two models highlight a complementary dynamic: **graduation location determines whether students stay rooted in the region, while credential level determines whether they pursue local opportunities or broader labor markets**. Regional institutions play a critical role in anchoring students, particularly those from disadvantaged backgrounds with strong academic preparation, while credential level shapes the degree of geographic mobility.
+
+For policy and planning, this suggests two priorities. First, **strengthening regional postsecondary institutions** can enhance local workforce retention, especially by supporting high-achieving but economically constrained students who might otherwise leave. Second, **expanding opportunities for sub-baccalaureate credentials** can help align education with regional labor market needs, while creating clearer pathways for bachelor’s graduates to find meaningful employment locally may help reduce outmigration. In short, **location ties students to place, while credential level influences the reach of their opportunities**—a balance that policymakers and institutions can shape through program design and workforce partnerships.
