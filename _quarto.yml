@@ -56,7 +56,7 @@ website:
           - text: Local Employment CART Analysis
             href: analysis_local_employment_CART.qmd
           - text: Post-secondary pathways CART
-            href: analysis_post_secondary_pathways_CART.qmd
+            href: analysis_post_secondary_paths_CART.qmd
         
 
 
