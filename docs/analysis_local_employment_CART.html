@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -21,8 +21,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +34,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -64,15 +65,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,7 +120,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -238,6 +240,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./analysis_post_secondary_paths_CART.html">
  <span class="dropdown-text">Post-secondary pathways CART</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_non_post_secondary_graduates.html">
+ <span class="dropdown-text">Non-college graduates</span></a>
   </li>  
     </ul>
   </li>
@@ -1350,8 +1356,8 @@ Across all time horizons, meaningful employment in the <strong>region</strong> i
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-5ea507c5b256be19584e" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-5ea507c5b256be19584e">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"2003\" data-max=\"7176\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.218215491883647\" data-max=\"0.781784508116353\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[2003,7176],[0.2182154918836474,0.7817845081163526]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f8a6d4ef33dfae5491e0" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f8a6d4ef33dfae5491e0">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"2003\" data-max=\"7176\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.218215491883647\" data-max=\"0.781784508116353\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[2003,7176],[0.2182154918836474,0.7817845081163526]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -1411,12 +1417,12 @@ n= 6425
 8  0.00047755     89   0.91619 1.1404 0.024789
 9  0.00044771     95   0.91332 1.1426 0.024805
 10 0.00035817    103   0.90974 1.1411 0.024794
-11 0.00031837    127   0.90043 1.1741 0.025030
-12 0.00028653    136   0.89756 1.1805 0.025075
-13 0.00023878    153   0.88968 1.1927 0.025159
-14 0.00017908    162   0.88754 1.2006 0.025213
-15 0.00014327    170   0.88610 1.2170 0.025323
-16 0.00000000    175   0.88539 1.2321 0.025423</code></pre>
+11 0.00031837    127   0.90043 1.1748 0.025035
+12 0.00028653    136   0.89756 1.1812 0.025080
+13 0.00023878    153   0.88968 1.1934 0.025164
+14 0.00017908    162   0.88754 1.2013 0.025217
+15 0.00014327    170   0.88610 1.2178 0.025328
+16 0.00000000    175   0.88539 1.2314 0.025418</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.mn.grad.year.<span class="fl">1.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1490,7 +1496,7 @@ n= 6425
 
          CP nsplit rel error xerror     xstd
 1 0.0016714      0   1.00000 1.0000 0.023679
-2 0.0000000      6   0.98997 1.0222 0.023866</code></pre>
+2 0.0000000      6   0.98997 1.0229 0.023872</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.mn.grad.year.<span class="fl">1.</span>model.preprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -1564,7 +1570,7 @@ n= 6425
 
          CP nsplit rel error xerror     xstd
 1 0.0016714      0   1.00000 1.0000 0.023679
-2 0.0000000      6   0.98997 1.0222 0.023866</code></pre>
+2 0.0000000      6   0.98997 1.0229 0.023872</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.mn.grad.year.<span class="fl">1.</span>model.postprune)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -6479,8 +6485,8 @@ The root split on <em>avg.wages.pct.state &lt; 0.82</em> shows that wage competi
 <span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-12ba88994dd191d87513" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-12ba88994dd191d87513">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5253\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.363730785209804\" data-max=\"0.636269214790196\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[5253,9189],[0.3637307852098047,0.6362692147901953]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e9301a9fa3269a2e089e" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e9301a9fa3269a2e089e">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5253\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.363730785209804\" data-max=\"0.636269214790196\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[5253,9189],[0.3637307852098047,0.6362692147901953]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -6548,24 +6554,24 @@ n= 10109
 15 6.4155e-04     73   0.75089 0.85565 0.012761
 16 5.4990e-04     81   0.74457 0.86692 0.012807
 17 4.8117e-04    131   0.71515 0.87270 0.012830
-18 4.5825e-04    145   0.70745 0.88122 0.012864
-19 4.3207e-04    148   0.70608 0.88040 0.012861
-20 4.1243e-04    155   0.70305 0.88342 0.012872
-21 3.6660e-04    168   0.69700 0.88644 0.012884
-22 3.4369e-04    183   0.69040 0.89552 0.012919
-23 3.2994e-04    202   0.68188 0.89717 0.012925
-24 3.2078e-04    208   0.67941 0.89717 0.012925
-25 3.0932e-04    216   0.67638 0.89717 0.012925
-26 2.7495e-04    227   0.67253 0.91889 0.013005
-27 2.0621e-04    263   0.66236 0.92796 0.013037
-28 1.8330e-04    302   0.65246 0.94089 0.013082
-29 1.3748e-04    320   0.64806 0.95298 0.013122
-30 1.1784e-04    374   0.63816 0.96811 0.013171
-31 1.0998e-04    382   0.63679 0.97168 0.013182
-32 9.1651e-05    394   0.63541 0.97800 0.013202
-33 6.8738e-05    411   0.63376 0.97855 0.013203
-34 5.4990e-05    415   0.63349 0.98378 0.013219
-35 0.0000e+00    420   0.63321 0.99065 0.013240</code></pre>
+18 4.5825e-04    144   0.70773 0.88122 0.012864
+19 4.3207e-04    147   0.70635 0.88040 0.012861
+20 4.1243e-04    154   0.70333 0.88342 0.012872
+21 3.6660e-04    167   0.69728 0.88644 0.012884
+22 3.4369e-04    182   0.69068 0.89442 0.012915
+23 3.2994e-04    201   0.68216 0.89607 0.012921
+24 3.2078e-04    207   0.67968 0.89607 0.012921
+25 3.0932e-04    215   0.67666 0.89607 0.012921
+26 2.7495e-04    226   0.67281 0.91806 0.013002
+27 2.0621e-04    262   0.66263 0.92714 0.013034
+28 1.8330e-04    301   0.65274 0.94144 0.013083
+29 1.3748e-04    319   0.64834 0.95353 0.013124
+30 1.1784e-04    373   0.63844 0.96838 0.013172
+31 1.0998e-04    381   0.63706 0.97195 0.013183
+32 9.1651e-05    393   0.63569 0.97828 0.013203
+33 6.8738e-05    410   0.63404 0.97883 0.013204
+34 5.4990e-05    414   0.63376 0.98405 0.013220
+35 0.0000e+00    419   0.63349 0.99093 0.013241</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.mn.grad.year.<span class="fl">5.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -6822,8 +6828,8 @@ Five years after high school, meaningful employment in the region remains the mo
 <span id="cb48-13"><a href="#cb48-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb48-14"><a href="#cb48-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e07144171505582b2a4b" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e07144171505582b2a4b">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"3847\" data-max=\"5798\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.398859512700881\" data-max=\"0.601140487299119\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[3847,5798],[0.3988595127008813,0.6011404872991187]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-87b26ec2045470d1a7a0" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-87b26ec2045470d1a7a0">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp MN&quot;,&quot;Meaningful emp region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"3847\" data-max=\"5798\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.398859512700881\" data-max=\"0.601140487299119\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp MN","Meaningful emp region"],[3847,5798],[0.3988595127008813,0.6011404872991187]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -6892,20 +6898,20 @@ n= 6751
 16 0.00073910     88   0.72210 0.89431 0.014561
 17 0.00067751    113   0.70325 0.91094 0.014619
 18 0.00061592    120   0.69845 0.90798 0.014609
-19 0.00059128    123   0.69660 0.90798 0.014609
-20 0.00055432    138   0.68514 0.90946 0.014614
-21 0.00049273    146   0.68071 0.91759 0.014642
-22 0.00046194    161   0.67258 0.92276 0.014659
-23 0.00036955    165   0.67073 0.92387 0.014662
-24 0.00030796    250   0.63562 0.93976 0.014713
-25 0.00027716    257   0.63341 0.94937 0.014742
-26 0.00024637    261   0.63230 0.95602 0.014762
-27 0.00022173    264   0.63156 0.95861 0.014769
-28 0.00018477    269   0.63045 0.97228 0.014808
-29 0.00014782    289   0.62676 0.97228 0.014808
-30 0.00012318    299   0.62528 0.97931 0.014827
-31 0.00007391    309   0.62380 0.97931 0.014827
-32 0.00000000    314   0.62343 0.98189 0.014834</code></pre>
+19 0.00059128    123   0.69660 0.90872 0.014612
+20 0.00055432    138   0.68514 0.91020 0.014617
+21 0.00049273    146   0.68071 0.91833 0.014644
+22 0.00046194    161   0.67258 0.92350 0.014661
+23 0.00036955    165   0.67073 0.92461 0.014665
+24 0.00030796    250   0.63562 0.94161 0.014719
+25 0.00027716    257   0.63341 0.95122 0.014748
+26 0.00024637    261   0.63230 0.95787 0.014767
+27 0.00022173    264   0.63156 0.96046 0.014775
+28 0.00018477    269   0.63045 0.97376 0.014812
+29 0.00014782    289   0.62676 0.97376 0.014812
+30 0.00012318    299   0.62528 0.98078 0.014831
+31 0.00007391    309   0.62380 0.98078 0.014831
+32 0.00000000    314   0.62343 0.98337 0.014838</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(meaningful.emp.mn.grad.year.<span class="fl">10.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -7312,8 +7318,8 @@ Across all years, the dominant anchors to meaningful employment in the high scho
 <span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-77f7bd32edca2b1a4abf" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-77f7bd32edca2b1a4abf">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7176\" data-max=\"9787\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.423038377645463\" data-max=\"0.576961622354537\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[7176,9787],[0.4230383776454636,0.5769616223545363]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f9988390559092676c55" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f9988390559092676c55">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7176\" data-max=\"9787\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.423038377645463\" data-max=\"0.576961622354537\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[7176,9787],[0.4230383776454636,0.5769616223545363]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -7341,7 +7347,7 @@ Across all years, the dominant anchors to meaningful employment in the high scho
 <span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a><span class="fu">percent</span>(accuracy_base, <span class="at">accuracy =</span> .<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] "56.5%"</code></pre>
+<pre><code>[1] "56.4%"</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Examine the complexity plot</span></span>
 <span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">printcp</span>(not.meaningful.grad.year.<span class="fl">1.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -7387,19 +7393,19 @@ n= 11874
 22 3.4729e-04    247   0.78785 1.01508 0.010708
 23 3.3075e-04    252   0.78567 1.01786 0.010712
 24 2.9768e-04    278   0.77674 1.02104 0.010716
-25 2.6460e-04    332   0.75967 1.02758 0.010724
-26 2.5515e-04    350   0.75392 1.03016 0.010727
-27 2.4807e-04    357   0.75213 1.03096 0.010728
-28 2.3814e-04    362   0.75074 1.03195 0.010729
-29 2.3153e-04    367   0.74955 1.03195 0.010729
-30 2.2050e-04    376   0.74737 1.03195 0.010729
-31 1.9845e-04    385   0.74539 1.04326 0.010741
-32 1.4175e-04    443   0.73348 1.04505 0.010743
-33 1.3230e-04    450   0.73249 1.05140 0.010750
-34 9.9226e-05    463   0.73070 1.05180 0.010750
-35 6.6151e-05    503   0.72673 1.06152 0.010759
-36 4.9613e-05    512   0.72614 1.06350 0.010761
-37 0.0000e+00    516   0.72594 1.06390 0.010761</code></pre>
+25 2.6460e-04    334   0.75908 1.02758 0.010724
+26 2.5515e-04    352   0.75332 1.03016 0.010727
+27 2.4807e-04    359   0.75154 1.03096 0.010728
+28 2.3814e-04    364   0.75015 1.03195 0.010729
+29 2.3153e-04    369   0.74896 1.03195 0.010729
+30 2.2050e-04    378   0.74678 1.03195 0.010729
+31 1.9845e-04    387   0.74479 1.04306 0.010741
+32 1.4175e-04    443   0.73328 1.04485 0.010743
+33 1.3230e-04    450   0.73229 1.05100 0.010749
+34 9.9226e-05    463   0.73050 1.05140 0.010750
+35 6.6151e-05    503   0.72653 1.06132 0.010759
+36 4.9613e-05    512   0.72594 1.06331 0.010761
+37 0.0000e+00    516   0.72574 1.06370 0.010761</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(not.meaningful.grad.year.<span class="fl">1.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -7589,7 +7595,7 @@ n= 11874
 </ul>
 <!-- -->
 <ul>
-<li>Base model: 56.5%</li>
+<li>Base model: 56.4%</li>
 <li>Pre-pruned model: 59.0%</li>
 <li>Post-pruned model: 59.3%</li>
 </ul>
@@ -7664,8 +7670,8 @@ At one year, meaningful employment in the region is most likely for students <st
 <span id="cb88-13"><a href="#cb88-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb88-14"><a href="#cb88-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-158259683427f2abb123" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-158259683427f2abb123">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7387\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.445644305019305\" data-max=\"0.554355694980696\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[9189,7387],[0.554355694980695,0.445644305019305]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-bb3762e6deeec3ecc4f2" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-bb3762e6deeec3ecc4f2">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7387\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.445644305019305\" data-max=\"0.554355694980696\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[9189,7387],[0.554355694980695,0.445644305019305]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -7738,32 +7744,32 @@ n= 11603
 20 7.0949e-04     75   0.77496 0.88042 0.010176
 21 6.7724e-04     97   0.75793 0.87984 0.010175
 22 6.2887e-04    100   0.75561 0.88080 0.010177
-23 5.8050e-04    104   0.75310 0.88526 0.010186
-24 5.1600e-04    126   0.73994 0.89048 0.010196
-25 4.8375e-04    152   0.72291 0.89822 0.010211
-26 4.5150e-04    185   0.70588 0.89841 0.010212
-27 3.8700e-04    203   0.69659 0.90712 0.010228
-28 3.3862e-04    250   0.67666 0.91022 0.010233
-29 3.2250e-04    260   0.67241 0.91834 0.010248
-30 3.0960e-04    288   0.66157 0.92783 0.010264
-31 2.9025e-04    295   0.65925 0.93053 0.010268
-32 2.7090e-04    333   0.64706 0.93286 0.010272
-33 2.5800e-04    353   0.64029 0.93518 0.010275
-34 2.4187e-04    366   0.63680 0.93789 0.010280
-35 1.9350e-04    372   0.63487 0.93943 0.010282
-36 1.6931e-04    446   0.61997 0.94988 0.010297
-37 1.6586e-04    458   0.61784 0.95201 0.010301
-38 1.5480e-04    467   0.61591 0.95414 0.010304
-39 1.4512e-04    476   0.61320 0.95550 0.010305
-40 1.2900e-04    499   0.60797 0.96072 0.010313
-41 9.6749e-05    526   0.60217 0.96246 0.010315
-42 7.7399e-05    568   0.59810 0.97175 0.010327
-43 7.2562e-05    585   0.59675 0.97291 0.010329
-44 6.4499e-05    593   0.59617 0.97407 0.010330
-45 4.8375e-05    602   0.59559 0.97407 0.010330
-46 3.2250e-05    608   0.59520 0.97562 0.010332
-47 2.7643e-05    614   0.59501 0.97601 0.010332
-48 0.0000e+00    621   0.59481 0.97601 0.010332</code></pre>
+23 5.8050e-04    104   0.75310 0.88487 0.010185
+24 5.1600e-04    126   0.73994 0.89009 0.010196
+25 4.8375e-04    152   0.72291 0.89783 0.010211
+26 4.5150e-04    185   0.70588 0.89803 0.010211
+27 3.8700e-04    203   0.69659 0.90654 0.010227
+28 3.3862e-04    250   0.67666 0.90964 0.010232
+29 3.2250e-04    260   0.67241 0.91776 0.010247
+30 3.0960e-04    288   0.66157 0.92724 0.010263
+31 2.9025e-04    295   0.65925 0.92995 0.010267
+32 2.7090e-04    333   0.64706 0.93208 0.010270
+33 2.5800e-04    353   0.64029 0.93440 0.010274
+34 2.4187e-04    366   0.63680 0.93711 0.010278
+35 1.9350e-04    372   0.63487 0.93866 0.010281
+36 1.6931e-04    446   0.61997 0.94969 0.010297
+37 1.6586e-04    458   0.61784 0.95182 0.010300
+38 1.5480e-04    467   0.61591 0.95395 0.010303
+39 1.4512e-04    476   0.61320 0.95530 0.010305
+40 1.2900e-04    499   0.60797 0.96053 0.010312
+41 9.6749e-05    526   0.60217 0.96227 0.010315
+42 7.7399e-05    568   0.59810 0.97156 0.010327
+43 7.2562e-05    585   0.59675 0.97272 0.010328
+44 6.4499e-05    593   0.59617 0.97388 0.010330
+45 4.8375e-05    602   0.59559 0.97388 0.010330
+46 3.2250e-05    608   0.59520 0.97543 0.010332
+47 2.7643e-05    614   0.59501 0.97581 0.010332
+48 0.0000e+00    621   0.59481 0.97581 0.010332</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb93"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(not.meaningful.grad.year.<span class="fl">5.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -8034,8 +8040,8 @@ Five years after graduation, meaningful regional employment is anchored most str
 <span id="cb107-13"><a href="#cb107-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb107-14"><a href="#cb107-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-9f375e3d905b470592bc" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-9f375e3d905b470592bc">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"3752\" data-max=\"5798\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.392879581151832\" data-max=\"0.607120418848168\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[5798,3752],[0.6071204188481676,0.3928795811518325]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-1b088a36b895da9d2bac" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-1b088a36b895da9d2bac">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;Not meaningful, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"3752\" data-max=\"5798\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.392879581151832\" data-max=\"0.607120418848168\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","Not meaningful, not attending ps"],[5798,3752],[0.6071204188481676,0.3928795811518325]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -8097,26 +8103,26 @@ n= 6685
 9  1.9238e-03     19   0.88573 0.96614 0.015235
 10 1.7314e-03     26   0.87226 0.96845 0.015242
 11 1.5391e-03     28   0.86880 0.96922 0.015245
-12 1.4429e-03     39   0.85071 0.97422 0.015260
-13 1.3467e-03     43   0.84494 0.97768 0.015271
-14 1.1543e-03     45   0.84225 0.98576 0.015295
-15 1.0773e-03     55   0.83070 0.99115 0.015310
-16 1.0581e-03     61   0.82378 0.99346 0.015317
-17 1.0260e-03     65   0.81955 0.99346 0.015317
-18 9.6191e-04     68   0.81647 0.99962 0.015334
-19 7.6953e-04     74   0.81070 1.00308 0.015344
-20 6.4127e-04    131   0.75760 1.02078 0.015391
-21 5.7715e-04    142   0.74990 1.02578 0.015404
-22 5.1302e-04    163   0.73644 1.03848 0.015435
-23 4.6172e-04    173   0.73067 1.04232 0.015444
-24 3.8476e-04    190   0.72105 1.04117 0.015442
-25 3.2980e-04    247   0.69758 1.04271 0.015445
-26 3.1481e-04    276   0.68449 1.04733 0.015456
-27 2.8857e-04    290   0.67949 1.04963 0.015461
-28 1.9238e-04    299   0.67680 1.05579 0.015475
-29 1.5391e-04    305   0.67564 1.07195 0.015510
-30 1.2825e-04    323   0.67257 1.07849 0.015523
-31 9.6191e-05    346   0.66833 1.07849 0.015523
+12 1.4429e-03     39   0.85071 0.97230 0.015254
+13 1.3467e-03     43   0.84494 0.97576 0.015265
+14 1.1543e-03     45   0.84225 0.98422 0.015290
+15 1.0773e-03     55   0.83070 0.98923 0.015305
+16 1.0581e-03     61   0.82378 0.99307 0.015316
+17 1.0260e-03     65   0.81955 0.99307 0.015316
+18 9.6191e-04     68   0.81647 0.99923 0.015333
+19 7.6953e-04     74   0.81070 1.00269 0.015343
+20 6.4127e-04    131   0.75760 1.02001 0.015389
+21 5.7715e-04    142   0.74990 1.02501 0.015402
+22 5.1302e-04    163   0.73644 1.03771 0.015433
+23 4.6172e-04    173   0.73067 1.04155 0.015443
+24 3.8476e-04    190   0.72105 1.04078 0.015441
+25 3.2980e-04    247   0.69758 1.04232 0.015444
+26 3.1481e-04    276   0.68449 1.04694 0.015455
+27 2.8857e-04    290   0.67949 1.04925 0.015460
+28 1.9238e-04    299   0.67680 1.05541 0.015474
+29 1.5391e-04    305   0.67564 1.07157 0.015509
+30 1.2825e-04    323   0.67257 1.07811 0.015522
+31 9.6191e-05    346   0.66833 1.07811 0.015522
 32 0.0000e+00    354   0.66756 1.08349 0.015533</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(not.meaningful.grad.year.<span class="fl">10.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -8508,8 +8514,8 @@ Ten years after graduation, <strong>postsecondary completion, CTE engagement, an
 <span id="cb126-13"><a href="#cb126-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb126-14"><a href="#cb126-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-bb29872ef60230d6200c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-bb29872ef60230d6200c">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5471\" data-max=\"7176\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.432592709733533\" data-max=\"0.567407290266467\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[7176,5471],[0.5674072902664663,0.4325927097335336]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a59514363520feed7a6f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a59514363520feed7a6f">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5471\" data-max=\"7176\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.432592709733533\" data-max=\"0.567407290266467\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[7176,5471],[0.5674072902664663,0.4325927097335336]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.1<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.1","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -8581,22 +8587,22 @@ n= 8852
 20 6.0418e-04     93   0.69549 0.82393 0.011690
 21 5.8260e-04     97   0.69291 0.82703 0.011699
 22 5.6965e-04    101   0.69057 0.82703 0.011699
-23 5.6102e-04    110   0.68462 0.83143 0.011713
-24 5.1787e-04    125   0.67400 0.83118 0.011712
-25 4.8088e-04    163   0.65329 0.83739 0.011731
-26 4.3156e-04    176   0.64604 0.84516 0.011754
-27 3.8840e-04    191   0.63853 0.85577 0.011784
-28 3.4524e-04    205   0.63309 0.85836 0.011791
-29 3.3291e-04    220   0.62791 0.86069 0.011797
-30 3.2367e-04    231   0.62325 0.86147 0.011799
-31 2.5893e-04    236   0.62144 0.86432 0.011807
-32 2.3016e-04    299   0.60306 0.87830 0.011844
-33 2.1578e-04    311   0.59969 0.87804 0.011843
-34 2.0715e-04    324   0.59684 0.88037 0.011849
-35 1.9420e-04    329   0.59581 0.88037 0.011849
-36 1.8495e-04    337   0.59425 0.88659 0.011865
-37 1.7262e-04    350   0.59140 0.88659 0.011865
-38 1.2947e-04    356   0.59037 0.88814 0.011868
+23 5.6102e-04    110   0.68462 0.83118 0.011712
+24 5.1787e-04    125   0.67400 0.83092 0.011711
+25 4.8088e-04    163   0.65329 0.83713 0.011730
+26 4.3156e-04    176   0.64604 0.84490 0.011753
+27 3.8840e-04    191   0.63853 0.85552 0.011783
+28 3.4524e-04    205   0.63309 0.85810 0.011790
+29 3.3291e-04    220   0.62791 0.86044 0.011797
+30 3.2367e-04    231   0.62325 0.86121 0.011799
+31 2.5893e-04    236   0.62144 0.86406 0.011806
+32 2.3016e-04    299   0.60306 0.87804 0.011843
+33 2.1578e-04    311   0.59969 0.87778 0.011842
+34 2.0715e-04    324   0.59684 0.88011 0.011848
+35 1.9420e-04    329   0.59581 0.88011 0.011848
+36 1.8495e-04    337   0.59425 0.88633 0.011864
+37 1.7262e-04    350   0.59140 0.88633 0.011864
+38 1.2947e-04    356   0.59037 0.88788 0.011868
 39 1.0357e-04    389   0.58545 0.89513 0.011885
 40 9.9590e-05    395   0.58467 0.89669 0.011889
 41 8.6311e-05    412   0.58234 0.89953 0.011896
@@ -8869,8 +8875,8 @@ At one year, meaningful employment in the region is anchored by <strong>academic
 <span id="cb145-13"><a href="#cb145-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb145-14"><a href="#cb145-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-86dcf83832a056ee7550" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-86dcf83832a056ee7550">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7290\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.442381212452211\" data-max=\"0.557618787547789\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[9189,7290],[0.557618787547788,0.4423812124522119]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-6e00faff56acf445b667" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-6e00faff56acf445b667">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7290\" data-max=\"9189\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.442381212452211\" data-max=\"0.557618787547789\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[9189,7290],[0.557618787547788,0.4423812124522119]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.5<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.5","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -8951,23 +8957,23 @@ n= 11535
 28 3.1336e-04    202   0.60615 0.79240 0.0100377
 29 3.0776e-04    225   0.59851 0.79397 0.0100423
 30 2.9377e-04    232   0.59636 0.79436 0.0100434
-31 2.7419e-04    276   0.58186 0.79847 0.0100552
-32 2.6113e-04    304   0.57090 0.80082 0.0100619
-33 2.5180e-04    323   0.56502 0.80063 0.0100614
-34 2.4481e-04    331   0.56267 0.80239 0.0100663
-35 1.9585e-04    335   0.56169 0.80317 0.0100685
-36 1.7137e-04    389   0.55112 0.81238 0.0100940
-37 1.4689e-04    406   0.54720 0.81806 0.0101093
-38 1.3057e-04    414   0.54602 0.82393 0.0101249
-39 9.7924e-05    423   0.54465 0.82667 0.0101320
-40 8.7044e-05    459   0.54113 0.83431 0.0101515
-41 7.8339e-05    473   0.53937 0.83510 0.0101535
-42 6.5283e-05    480   0.53878 0.83764 0.0101599
-43 5.5957e-05    483   0.53858 0.83882 0.0101628
-44 4.8962e-05    491   0.53799 0.84215 0.0101710
-45 3.9170e-05    499   0.53760 0.84215 0.0101710
-46 2.4481e-05    509   0.53721 0.84567 0.0101796
-47 0.0000e+00    525   0.53682 0.84567 0.0101796</code></pre>
+31 2.7419e-04    276   0.58186 0.79886 0.0100563
+32 2.6113e-04    304   0.57090 0.80121 0.0100630
+33 2.5180e-04    323   0.56502 0.80102 0.0100625
+34 2.4481e-04    331   0.56267 0.80278 0.0100674
+35 1.9585e-04    335   0.56169 0.80356 0.0100696
+36 1.7137e-04    389   0.55112 0.81199 0.0100929
+37 1.4689e-04    406   0.54720 0.81767 0.0101083
+38 1.3057e-04    414   0.54602 0.82354 0.0101238
+39 9.7924e-05    423   0.54465 0.82628 0.0101310
+40 8.7044e-05    459   0.54113 0.83392 0.0101505
+41 7.8339e-05    473   0.53937 0.83470 0.0101525
+42 6.5283e-05    480   0.53878 0.83725 0.0101589
+43 5.5957e-05    483   0.53858 0.83843 0.0101618
+44 4.8962e-05    491   0.53799 0.84175 0.0101700
+45 3.9170e-05    499   0.53760 0.84175 0.0101700
+46 2.4481e-05    509   0.53721 0.84528 0.0101786
+47 0.0000e+00    525   0.53682 0.84528 0.0101786</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb150"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(no.mn.emp.grad.year.<span class="fl">5.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -9228,8 +9234,8 @@ At five years, meaningful regional employment is anchored most strongly by <stro
 <span id="cb164-13"><a href="#cb164-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb164-14"><a href="#cb164-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-7b64adaab6fa9940cad0" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-7b64adaab6fa9940cad0">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5798\" data-max=\"6431\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.474118897702183\" data-max=\"0.525881102297817\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[5798,6431],[0.4741188977021834,0.5258811022978167]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-a2d447b3b5290a4f7a6c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-a2d447b3b5290a4f7a6c">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Meaningful emp region&quot;,&quot;No MN emp record, not attending ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"5798\" data-max=\"6431\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.474118897702183\" data-max=\"0.525881102297817\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Meaningful emp region","No MN emp record, not attending ps"],[5798,6431],[0.4741188977021834,0.5258811022978167]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>grad.year.10<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"grad.year.10","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -9303,14 +9309,14 @@ n= 8560
 21 3.3325e-04    206   0.61310 0.83629 0.011283
 22 3.1242e-04    245   0.59760 0.84354 0.011301
 23 2.4994e-04    254   0.59460 0.84529 0.011305
-24 1.9995e-04    323   0.57586 0.86128 0.011341
-25 1.8745e-04    340   0.57161 0.86578 0.011350
-26 1.6663e-04    345   0.57036 0.86878 0.011356
-27 1.2497e-04    348   0.56986 0.86903 0.011357
-28 8.3313e-05    376   0.56636 0.87503 0.011369
-29 6.2484e-05    391   0.56486 0.87478 0.011369
-30 4.9988e-05    395   0.56461 0.87628 0.011372
-31 0.0000e+00    400   0.56436 0.87728 0.011373</code></pre>
+24 1.9995e-04    323   0.57586 0.86153 0.011341
+25 1.8745e-04    340   0.57161 0.86653 0.011352
+26 1.6663e-04    345   0.57036 0.86953 0.011358
+27 1.2497e-04    348   0.56986 0.86978 0.011358
+28 8.3313e-05    376   0.56636 0.87553 0.011370
+29 6.2484e-05    391   0.56486 0.87528 0.011370
+30 4.9988e-05    395   0.56461 0.87678 0.011373
+31 0.0000e+00    400   0.56436 0.87778 0.011374</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb169"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(no.mn.emp.grad.year.<span class="fl">10.</span>model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -9691,236 +9697,242 @@ Anchors shift from <strong>ACT participation, MCA Math, and 2+ CTE courses at Ye
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -9928,185 +9940,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 

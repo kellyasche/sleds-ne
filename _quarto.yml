@@ -57,6 +57,8 @@ website:
             href: analysis_local_employment_CART.qmd
           - text: Post-secondary pathways CART
             href: analysis_post_secondary_paths_CART.qmd
+          - text: Non-college graduates
+            href: analysis_non_post_secondary_graduates.qmd
         
 
 

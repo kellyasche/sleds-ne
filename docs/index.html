@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.6.42">
+<meta name="generator" content="quarto-1.7.32">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -30,15 +30,16 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-2f5df379a58b258e96c21c0638c20c03.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6bd9cfa162949bde0a231f530c97869d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-c1fac2584b48ed01fb6e278e36375074.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -70,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -191,6 +192,10 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./analysis_post_secondary_paths_CART.html">
  <span class="dropdown-text">Post-secondary pathways CART</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_non_post_secondary_graduates.html">
+ <span class="dropdown-text">Non-college graduates</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -225,6 +230,11 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#persistent-barriers" id="toc-persistent-barriers" class="nav-link" data-scroll-target="#persistent-barriers">Persistent Barriers</a></li>
   </ul></li>
   <li><a href="#postsecondary-pathways-credential-vs.-location" id="toc-postsecondary-pathways-credential-vs.-location" class="nav-link" data-scroll-target="#postsecondary-pathways-credential-vs.-location">Postsecondary Pathways: Credential vs.&nbsp;Location</a></li>
+  <li><a href="#non-college-graduate-insights" id="toc-non-college-graduate-insights" class="nav-link" data-scroll-target="#non-college-graduate-insights">Non-College Graduate Insights</a>
+  <ul class="collapse">
+  <li><a href="#relationships-analysis" id="toc-relationships-analysis" class="nav-link" data-scroll-target="#relationships-analysis">Relationships Analysis</a></li>
+  <li><a href="#predictive-analysis" id="toc-predictive-analysis" class="nav-link" data-scroll-target="#predictive-analysis">Predictive Analysis</a></li>
+  </ul></li>
   <li><a href="#synthesis-and-policy-implications" id="toc-synthesis-and-policy-implications" class="nav-link" data-scroll-target="#synthesis-and-policy-implications">Synthesis and Policy Implications</a></li>
   <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
   </ul></li>
@@ -248,6 +258,11 @@ ul.task-list li input[type="checkbox"] {
   <ul class="collapse">
   <li><a href="#comparison-of-postsecondary-graduation-location-and-highest-credential-earned" id="toc-comparison-of-postsecondary-graduation-location-and-highest-credential-earned" class="nav-link" data-scroll-target="#comparison-of-postsecondary-graduation-location-and-highest-credential-earned"><strong>Comparison of Postsecondary Graduation Location and Highest Credential Earned</strong></a></li>
   <li><a href="#summary-and-policy-implications" id="toc-summary-and-policy-implications" class="nav-link" data-scroll-target="#summary-and-policy-implications"><strong>Summary and Policy Implications</strong></a></li>
+  </ul></li>
+  <li><a href="#non-college-grads" id="toc-non-college-grads" class="nav-link" data-scroll-target="#non-college-grads">Non-college grads</a>
+  <ul class="collapse">
+  <li><a href="#cross-tabs" id="toc-cross-tabs" class="nav-link" data-scroll-target="#cross-tabs">Cross-tabs</a></li>
+  <li><a href="#predictive" id="toc-predictive" class="nav-link" data-scroll-target="#predictive">Predictive</a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -280,6 +295,7 @@ ul.task-list li input[type="checkbox"] {
 <section id="purpose-of-the-research" class="level2">
 <h2 class="anchored" data-anchor-id="purpose-of-the-research">Purpose of the Research</h2>
 <p>This research examined which factors most strongly influence whether individuals achieve <strong>meaningful employment within Northeast Minnesota’s region (EDR 3)</strong> after high school. Using both <strong>contingency table analysis (effect sizes, trends over 1, 5, and 10 years)</strong> and <strong>CART modeling</strong>, the goal was to identify which variables most reliably anchor individuals in the regional workforce versus those that push them toward statewide mobility, disconnection, or outmigration.</p>
+<p>A special focus was also placed on <strong>non-college graduates</strong>, who represent a substantial share of the region’s young adults and are at higher risk of disconnection from the labor force. Understanding their pathways provides additional insights into how to build a stronger, more inclusive regional workforce.</p>
 <p>The findings provide a roadmap for education and workforce policy, showing how <strong>demographics, high school context, accomplishments, and postsecondary experiences</strong> interact to shape local labor market attachment.</p>
 <hr>
 </section>
@@ -287,27 +303,29 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="contingency-table-insights">Contingency Table Insights</h2>
 <section id="demographics" class="level3">
 <h3 class="anchored" data-anchor-id="demographics">Demographics</h3>
-<p>Demographic factors were relatively modest predictors overall. <strong>Special Education status</strong> showed the strongest short-term influence (V = 0.258, Yr 1), while <strong>Race/Ethnicity</strong> maintained moderate effects over time. However, most demographic effects faded by 10 years, suggesting that <strong>institutional and educational pathways, not demographics alone, determine long-run anchoring</strong>.</p>
+<p>Demographic factors were relatively modest predictors overall. <strong>Special Education status</strong> showed the strongest short-term influence (V = 0.258, Yr 1), while <strong>Race/Ethnicity</strong> maintained moderate effects over time. Most demographic effects faded by 10 years, suggesting that <strong>institutional and educational pathways, not demographics alone, determine long-run anchoring</strong>.</p>
+<p>For non-college graduates specifically, demographics had a sharper impact. <strong>SpecialEd students</strong> were persistently less likely to secure meaningful regional work and more likely to face disconnection. <strong>Economic status</strong> shaped outcomes differently: lower-income students were more region-bound but faced higher risks of unstable work, while higher-income peers more often pursued statewide opportunities.</p>
 </section>
 <section id="high-school-characteristics" class="level3">
 <h3 class="anchored" data-anchor-id="high-school-characteristics">High School Characteristics</h3>
-<p><strong>Local economic context</strong> (particularly unemployment rates and wages) shaped immediate outcomes, with F = 53.1 for unemployment in Year 1. Students graduating during periods of high unemployment or low wages were more likely to disconnect or leave the region. <strong>Rural/urban divides</strong> also mattered in the short term but diminished by Year 10, underscoring that <strong>macro-economic conditions strongly affect early transitions, but personal educational pathways matter more over time</strong>.</p>
+<p><strong>Local economic context</strong> strongly influenced early outcomes. Unemployment rates (F = 53.1, Yr 1) and wage levels shaped whether graduates found local work or disconnected. <strong>Rural graduates</strong> were somewhat more likely to remain in meaningful regional jobs, while peers in urban or mixed settings pursued statewide employment. By 10 years, these contextual effects weakened, giving way to individual educational accomplishments.</p>
 </section>
 <section id="high-school-accomplishments" class="level3">
 <h3 class="anchored" data-anchor-id="high-school-accomplishments">High School Accomplishments</h3>
-<p>Clear patterns emerged between academic and technical preparation:<br>
+<p>Clear patterns emerged between <strong>academic and technical preparation</strong>:<br>
 - <strong>Academic indicators</strong> (ACT, MCA, PSEO, AP) predicted <strong>statewide mobility and non-regional pathways</strong>.<br>
-- <strong>CTE achievement and course-taking</strong> were the strongest predictors of <strong>regional meaningful employment</strong>, with MCA Math showing the largest single predictive power overall (F = 1344.5, Yr 1).<br>
-This split underscores the dual pathways: <strong>academic preparation expands options outward, while CTE preparation anchors locally</strong>.</p>
+- <strong>CTE achievement and course-taking</strong> were the strongest predictors of <strong>regional meaningful employment</strong>, with MCA Math showing the largest single predictive power overall (F = 1344.5, Yr 1).</p>
+<p>For non-college graduates, <strong>CTE engagement was the most reliable pathway into meaningful regional employment</strong>, persisting through 10 years. By contrast, higher academic scorers and PSEO participants were less likely to anchor regionally, instead moving into statewide or out-of-region opportunities.</p>
 </section>
 <section id="postsecondary-experiences" class="level3">
 <h3 class="anchored" data-anchor-id="postsecondary-experiences">Postsecondary Experiences</h3>
-<p>The <strong>most powerful predictors overall</strong> were found here.<br>
-- <strong>Attendance and completion of postsecondary education</strong> sharply separated those with stable pathways from those at risk of disconnection.<br>
-- <strong>Credential level and graduation location</strong> added nuance:<br>
-- <strong>Regional/2-year credentials anchored students locally</strong>.<br>
-- <strong>4-year or out-of-state credentials expanded mobility</strong>.<br>
+<p>For the full population, <strong>postsecondary experiences were the most powerful predictors overall</strong>:<br>
+- <strong>Attendance and completion</strong> of postsecondary education separated stable from disconnected pathways.<br>
+- <strong>Credential level and location</strong> nuanced outcomes:<br>
+- <strong>Regional/2-year credentials anchored locally</strong>,<br>
+- <strong>4-year/out-of-state credentials expanded mobility</strong>,<br>
 - <strong>Non-completers were most at risk</strong> of poor outcomes.</p>
+<p>Non-college graduates, by definition, did not experience these pathways, making their employment outcomes far more dependent on <strong>high school accomplishments and local economic context</strong>.</p>
 <hr>
 </section>
 </section>
@@ -317,37 +335,67 @@ This split underscores the dual pathways: <strong>academic preparation expands o
 <section id="anchors-of-regional-employment" class="level3">
 <h3 class="anchored" data-anchor-id="anchors-of-regional-employment">Anchors of Regional Employment</h3>
 <ol type="1">
-<li><strong>Regional Postsecondary Completion</strong> was the most consistent long-term anchor. Students completing degrees at regional colleges had the highest likelihood of meaningful employment locally.<br>
+<li><strong>Regional Postsecondary Completion</strong> anchored the broader graduate population long-term.<br>
 </li>
-<li><strong>CTE Engagement</strong> mattered even at modest levels. Two or more CTE courses increased Year 1 anchoring, while CTE concentrators/completers showed strong 10-year retention in the region.<br>
+<li><strong>CTE Engagement</strong> mattered across both groups. Two or more CTE courses increased Year 1 anchoring, while concentrators/completers sustained regional employment through Year 10 — even for non-college grads.<br>
 </li>
-<li><strong>Moderate Academic Readiness</strong> (ACT participation, MCA proficiency) was critical. Students did not need elite scores — moderate proficiency paired with CTE or regional postsecondary completion was sufficient to anchor them.</li>
+<li><strong>Moderate Academic Readiness</strong> (ACT participation, MCA proficiency) anchored students regionally when paired with CTE or regional postsecondary experiences.</li>
 </ol>
 </section>
 <section id="persistent-barriers" class="level3">
 <h3 class="anchored" data-anchor-id="persistent-barriers">Persistent Barriers</h3>
 <ul>
-<li><strong>Failure to complete postsecondary</strong> increased long-term disconnection risks.</li>
-<li><strong>Weak academic preparation</strong> blocked both postsecondary and workforce entry.</li>
-<li><strong>Low CTE engagement</strong> was linked to disconnection or leaving the region.</li>
-<li><strong>Local economic conditions and demographic stressors</strong> amplified risks, though their influence faded once students engaged successfully in CTE or postsecondary pathways.</li>
+<li><strong>Failure to complete postsecondary</strong> was the strongest barrier overall, though irrelevant for non-college grads.<br>
+</li>
+<li><strong>SpecialEd needs</strong> consistently predicted disconnection in both groups.<br>
+</li>
+<li><strong>Weak academics</strong> blocked employability and increased risk of unstable or non-meaningful work.<br>
+</li>
+<li><strong>Unfavorable local economies</strong> (low wages, high unemployment) amplified disconnection risks, especially for non-college grads.</li>
 </ul>
 <hr>
 </section>
 </section>
 <section id="postsecondary-pathways-credential-vs.-location" class="level2">
 <h2 class="anchored" data-anchor-id="postsecondary-pathways-credential-vs.-location">Postsecondary Pathways: Credential vs.&nbsp;Location</h2>
-<ul>
-<li><strong>Graduation Location</strong> determined <strong>whether students stayed rooted in the region</strong>. Regional institutions consistently anchored graduates locally, particularly for students from disadvantaged backgrounds who succeeded academically.</li>
-<li><strong>Highest Credential Level</strong> determined <strong>how far opportunities extended</strong>.
-<ul>
-<li><strong>Sub-baccalaureate degrees (associate and certificates)</strong> aligned closely with regional employment.</li>
-<li><strong>Bachelor’s and above</strong> expanded opportunities statewide and nationally, but reduced local retention.</li>
-<li><strong>Non-completers</strong> faced the worst outcomes, with high rates of disconnection.</li>
-</ul></li>
-</ul>
-<p>This dynamic highlights the balance between <strong>place-based retention</strong> and <strong>credential-driven mobility</strong>.</p>
+<p>For students who attended postsecondary:<br>
+- <strong>Graduation Location</strong> determined whether graduates stayed rooted in the region. Regional institutions consistently anchored graduates, particularly disadvantaged but academically strong students.<br>
+- <strong>Highest Credential Level</strong> determined how far opportunities extended. Sub-baccalaureate degrees aligned closely with regional jobs, while bachelor’s and higher opened broader mobility. Non-completers faced the weakest outcomes.</p>
+<p>For <strong>non-college graduates</strong>, these dynamics were absent. Their pathways were instead shaped by <strong>CTE participation, high school academics, and local economic conditions</strong>. CTE provided the anchoring force that postsecondary completion otherwise plays.</p>
 <hr>
+</section>
+<section id="non-college-graduate-insights" class="level2">
+<h2 class="anchored" data-anchor-id="non-college-graduate-insights">Non-College Graduate Insights</h2>
+<section id="relationships-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="relationships-analysis">Relationships Analysis</h3>
+<ul>
+<li><strong>CTE engagement</strong> was the strongest and most consistent predictor of meaningful regional work.<br>
+</li>
+<li><strong>Lower ACT/MCA scorers</strong> were more likely to enter regional jobs, while higher scorers pursued broader opportunities.<br>
+</li>
+<li><strong>SpecialEd students</strong> faced persistent disadvantages, rarely securing regional work.<br>
+</li>
+<li><strong>Economic status</strong> showed mixed effects: lower-income grads were more region-bound but also more likely to disconnect.<br>
+</li>
+<li><strong>Local context</strong> mattered: rural settings and stronger county economies improved anchoring.</li>
+</ul>
+</section>
+<section id="predictive-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="predictive-analysis">Predictive Analysis</h3>
+<ul>
+<li><strong>Year 1 models</strong> provided the clearest separation; predictive power declined over time.<br>
+</li>
+<li><strong>CTE engagement</strong> remained the most durable anchor.<br>
+</li>
+<li><strong>SpecialEd status</strong> was the most consistent barrier to connection.<br>
+</li>
+<li><strong>Academic strength (especially ACT participation and scores)</strong> acted as mobility markers, steering students toward statewide jobs.<br>
+</li>
+<li><strong>Local wages/unemployment</strong> set the broader context, with stronger labor markets supporting regional employment.</li>
+</ul>
+<p>Overall, <strong>non-college graduates anchored regionally through CTE and favorable local economies, while academically strong students were more mobile and SpecialEd students faced long-term risks of disconnection</strong>.</p>
+<hr>
+</section>
 </section>
 <section id="synthesis-and-policy-implications" class="level2">
 <h2 class="anchored" data-anchor-id="synthesis-and-policy-implications">Synthesis and Policy Implications</h2>
@@ -355,29 +403,36 @@ This split underscores the dual pathways: <strong>academic preparation expands o
 <ol type="1">
 <li><strong>CTE + Regional Postsecondary Completion → Anchoring Pathway</strong>
 <ul>
-<li>Leads to strong, long-term meaningful employment within the region.</li>
+<li>Anchors both college-goers and non-college grads in meaningful regional jobs.</li>
 <li>Particularly effective for students with moderate academic preparation.</li>
 </ul></li>
 <li><strong>Academic + 4-Year/Out-of-State Postsecondary → Mobility Pathway</strong>
 <ul>
-<li>Leads to broader statewide and national employment opportunities.</li>
-<li>Expands credentials but often results in outmigration.</li>
+<li>Expands opportunities statewide and nationally.</li>
+<li>Often results in outmigration but yields higher credentials.</li>
 </ul></li>
 </ol>
+<p>For <strong>non-college graduates</strong>, CTE fills the role that postsecondary completion otherwise plays in anchoring young adults. Strong local economies further enhance this effect, while weak academics or SpecialEd needs elevate disconnection risks.</p>
 <p><strong>Policy priorities</strong> include:</p>
 <ul>
-<li>Strengthening <strong>regional postsecondary pipelines</strong>, ensuring not just access but completion.</li>
-<li>Expanding <strong>CTE concentrator/completer opportunities</strong>, aligned with local industry.</li>
-<li>Supporting <strong>moderate-level academic readiness</strong> (raising the floor, not just the ceiling).</li>
-<li>Targeting <strong>at-risk groups</strong> (low academic, low CTE, non-completers) with early interventions.</li>
-<li>Addressing <strong>local economic barriers</strong> with incentives (internships, wage support) to retain mobile talent.</li>
+<li>Strengthening <strong>regional postsecondary pipelines</strong>, with focus on completion.</li>
+<li>Expanding and deepening <strong>CTE pathways</strong>, ensuring students progress to concentrator/completer status.</li>
+<li>Supporting <strong>moderate academic readiness</strong> to ensure workforce-ready skills for both college and non-college pathways.</li>
+<li>Providing <strong>targeted interventions for SpecialEd students</strong> and academically weaker groups.</li>
+<li>Investing in <strong>local wage growth and employment opportunities</strong> to prevent disconnection among non-college graduates.</li>
 </ul>
 <hr>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
-<p>Meaningful regional employment in Northeast Minnesota is not about producing the highest scorers or exporting students to selective institutions. It is about ensuring <strong>broad participation in CTE, moderate academic readiness, and completion of regional postsecondary credentials</strong>. These are the variables that most reliably anchor individuals to the region’s workforce.</p>
-<p>At the same time, the region must recognize and support the <strong>mobility pathway</strong>: some students will pursue academic excellence and higher degrees that take them beyond the region. Balancing these pathways — anchoring some, supporting mobility for others — is the key to long-term workforce resilience.</p>
+<p>Meaningful regional employment in Northeast Minnesota is anchored by <strong>CTE engagement, moderate academic readiness, and regional postsecondary completion</strong>. For non-college graduates, <strong>CTE is the single most important pathway</strong>, substituting for the anchoring effect of college completion.</p>
+<p>At the same time, the region must support the <strong>mobility pathway</strong>: academically strong students will continue to pursue broader opportunities. Balancing these pathways — anchoring some while supporting mobility for others — is essential for long-term workforce resilience.</p>
+<p>The most dependable strategies are therefore:</p>
+<ul>
+<li>Ensuring students <strong>engage deeply in CTE</strong>,</li>
+<li>Supporting <strong>regional postsecondary completion where possible</strong>, and</li>
+<li>Creating <strong>inclusive supports for SpecialEd students and academically weaker graduates</strong> to prevent long-term disconnection.</li>
+</ul>
 <p><br></p>
 </section>
 </section>
@@ -539,6 +594,141 @@ This split underscores the dual pathways: <strong>academic preparation expands o
 <h3 class="anchored" data-anchor-id="summary-and-policy-implications"><strong>Summary and Policy Implications</strong></h3>
 <p>Together, the two models highlight a complementary dynamic: <strong>graduation location determines whether students stay rooted in the region, while credential level determines whether they pursue local opportunities or broader labor markets</strong>. Regional institutions play a critical role in anchoring students, particularly those from disadvantaged backgrounds with strong academic preparation, while credential level shapes the degree of geographic mobility.</p>
 <p>For policy and planning, this suggests two priorities. First, <strong>strengthening regional postsecondary institutions</strong> can enhance local workforce retention, especially by supporting high-achieving but economically constrained students who might otherwise leave. Second, <strong>expanding opportunities for sub-baccalaureate credentials</strong> can help align education with regional labor market needs, while creating clearer pathways for bachelor’s graduates to find meaningful employment locally may help reduce outmigration. In short, <strong>location ties students to place, while credential level influences the reach of their opportunities</strong>—a balance that policymakers and institutions can shape through program design and workforce partnerships.</p>
+<p><br></p>
+</section>
+</section>
+<section id="non-college-grads" class="level2">
+<h2 class="anchored" data-anchor-id="non-college-grads">Non-college grads</h2>
+<section id="cross-tabs" class="level3">
+<h3 class="anchored" data-anchor-id="cross-tabs">Cross-tabs</h3>
+<p>For non-college graduates in Northeast Minnesota, the central question is whether they secure <strong>meaningful employment in their home region</strong>. The evidence shows that while demographics and local economic conditions play important roles, the most consistent predictors come from students’ <strong>high school accomplishments</strong>.</p>
+<p><strong>High school accomplishments</strong> are the strongest drivers of long-term outcomes. Career and Technical Education (CTE) stands out: concentrators/completors and those who took more CTE courses were consistently more likely to secure meaningful regional jobs, with this advantage persisting even 10 years after graduation. Academic achievement (ACT, MCA) shaped pathways in the opposite direction: lower scorers more often transitioned earlier into regional employment, while higher scorers pursued postsecondary education and eventually secured meaningful work outside the region. PSEO participants followed a similar pattern—more likely to remain in school or move into statewide jobs, but less likely to anchor in regional employment.</p>
+<p><strong>Demographics</strong> highlighted persistent disparities. Students in special education were the least likely to secure meaningful regional jobs, instead concentrated in non-meaningful employment or disconnected from the workforce. Economic status also mattered: lower-income students were more likely to be region-bound but also more at risk of disconnection, while higher-income students more often pursued statewide opportunities. Race and ethnicity had small but notable effects, with white graduates slightly more likely to be in regional jobs. Gender was not analyzed for this region.</p>
+<p><strong>High school characteristics</strong> and local context provided important structural boundaries. Rural graduates were somewhat more likely to remain in meaningful regional work, while peers in more urban or mixed settings were more likely to move into statewide employment. County-level economic conditions were also influential: lower unemployment rates and higher relative wages boosted the chances of meaningful regional employment, while weaker counties increased risks of disconnection.</p>
+<p>Taken together, the story is clear: <strong>for non-college graduates in Northeast Minnesota, CTE engagement is the most reliable pathway into meaningful regional employment.</strong> By contrast, stronger academic preparation and PSEO open broader opportunities but often outside the region. Demographics underscore where risks of disconnection are greatest, while county conditions reveal how local economies can either anchor graduates in regional jobs or push them away.</p>
+<p><u><strong>Ranked Importance for Regional Employment (Most → Least)</strong></u></p>
+<ol type="1">
+<li><strong>CTE Engagement (Accomplishments: achievement + total courses)</strong> – strongest and most consistent predictor of meaningful regional work.</li>
+<li><strong>ACT &amp; MCA Scores (Accomplishments)</strong> – lower scorers more likely to enter and remain in regional jobs; higher scorers more likely to leave.</li>
+<li><strong>Special Education Status (Demographic)</strong> – persistent disadvantage, far less likely to secure regional work.</li>
+<li><strong>Economic Status (Demographic)</strong> – lower-income grads more region-bound but also more disconnected; higher-income grads more mobile.</li>
+<li><strong>PSEO Participation (Accomplishments)</strong> – reduces likelihood of regional employment over time as participants pursue broader opportunities.</li>
+<li><strong>Rural/Urban (HS Characteristic)</strong> – rural grads more likely to stay local; urban/town grads more likely to leave.</li>
+<li><strong>County Conditions (Unemployment, Wages)</strong> – stronger local economies increase regional employment chances.</li>
+<li><strong>Race/Ethnicity (Demographic)</strong> – small but significant effects; white grads slightly more likely to secure regional jobs.</li>
+<li><strong>Gender (Demographic)</strong> – not analyzed in this region.</li>
+</ol>
+<p>👉 The <strong>headline story</strong> is: <em>Among non-college graduates in Northeast Minnesota, the most dependable route into meaningful employment in the region is strong CTE engagement. Regional employment is more common for lower scorers, rural students, and those from lower-income backgrounds, while higher scorers, PSEO participants, and higher-income students often pursue opportunities outside the region. Special education status and weaker local economies sharply increase risks of disconnection.</em></p>
+<p><br></p>
+</section>
+<section id="predictive" class="level3">
+<h3 class="anchored" data-anchor-id="predictive">Predictive</h3>
+<p>This analysis explored three contrasts in employment outcomes for non-college graduates:</p>
+<ol type="1">
+<li><strong>Meaningful emp region vs.&nbsp;Meaningful emp MN</strong></li>
+<li><strong>Meaningful emp region vs.&nbsp;Not meaningful, not attending ps</strong></li>
+<li><strong>Meaningful emp region vs.&nbsp;No MN employment record, not attending ps</strong></li>
+</ol>
+<p>Across all outcomes, models show that <strong>regional employment is most strongly anchored by CTE engagement</strong> and undermined by <strong>SpecialEd needs, weak academics, and unfavorable economic contexts</strong>. Predictive strength declines from Year 1 to Year 10 as life paths diversify, but consistent patterns emerge.</p>
+<hr>
+<p><u><strong>Model Performance</strong></u></p>
+<ul>
+<li><strong>Region vs.&nbsp;MN:</strong> Models perform slightly above baseline at Year 1 (78.3%) and then decline (66.8% at Year 5, 62.1% at Year 10).</li>
+<li><strong>Region vs.&nbsp;Not meaningful:</strong> Year 1 (65.7%), Year 5 (54.7%), and Year 10 (55.5%) all show limited but interpretable gains over baseline.</li>
+<li><strong>Region vs.&nbsp;No MN record:</strong> Year 1 (62.3%) shows strong improvement over baseline, with Year 5 (57.7%) and Year 10 (59.3%) holding modest gains.</li>
+</ul>
+<p>Overall, <strong>Year 1 models provide the clearest separation</strong>, while later models mainly highlight persistent anchors and barriers.</p>
+<hr>
+<p><u><strong>Variable Importance Across Outcomes</strong></u></p>
+<ul>
+<li><strong>CTE Engagement:</strong> The most consistent anchor across all contrasts and years. Both heavy course-taking and concentrator/completer status increase the likelihood of staying in meaningful regional employment.</li>
+<li><strong>SpecialEd Status:</strong> A strong and consistent predictor of disconnection — students with SpecialEd needs are much more likely to fall into “Not meaningful” or “No MN record.”</li>
+<li><strong>Academic Performance:</strong>
+<ul>
+<li><strong>ACT scores</strong> matter most in Region vs.&nbsp;MN (mobility marker) and Region vs.&nbsp;Not meaningful (early anchor).</li>
+<li><strong>Reading (MCA.R)</strong> becomes increasingly relevant by Year 10, especially for differentiating Region vs.&nbsp;No MN record.</li>
+</ul></li>
+<li><strong>Economic Conditions:</strong> Local wages and unemployment rates shape outcomes at every stage, with higher wages anchoring students regionally and high unemployment increasing disconnection risk.</li>
+<li><strong>Socioeconomic Status (income):</strong> By Year 10, low-income students are sometimes more anchored regionally than higher-income peers, especially under weak labor markets.</li>
+</ul>
+<hr>
+<p><u><strong>Interpretation Across Years</strong></u></p>
+<ul>
+<li><strong>Year 1 (Early Career Launch):</strong>
+<ul>
+<li>Regional employment hinges on <strong>local wages</strong> and <strong>academic preparation</strong>.</li>
+<li><strong>High ACT scorers</strong> often pursue statewide jobs, while <strong>CTE engagement</strong> keeps even high scorers in regional work.</li>
+<li><strong>SpecialEd students</strong> face steep barriers and are most likely to appear in “Not meaningful” or “No MN record.”</li>
+</ul></li>
+<li><strong>Year 5 (Mid-Career Sorting):</strong>
+<ul>
+<li>The landscape broadens to include <strong>SpecialEd status, CTE completion, academics, and economic context</strong>.</li>
+<li><strong>High academic performers</strong> increasingly pursue statewide employment.</li>
+<li><strong>CTE concentrators/completers</strong> remain regionally anchored, while SpecialEd students and low scorers are most at risk of disconnection.</li>
+</ul></li>
+<li><strong>Year 10 (Long-Run Outcomes):</strong>
+<ul>
+<li>Outcomes are shaped by <strong>CTE anchors vs.&nbsp;academic mobility markers</strong>.</li>
+<li><strong>ACT takers with high scores</strong> are the most mobile, while <strong>weak reading performance and SpecialEd needs</strong> predict long-term disconnection.</li>
+<li><strong>Labor markets (wages, unemployment)</strong> and <strong>income levels</strong> determine whether weaker students sustain regional jobs or exit Minnesota employment altogether.</li>
+</ul></li>
+</ul>
+<hr>
+<p><u><strong>Overall Narrative</strong></u></p>
+<p>Across all three comparisons, a clear pattern emerges:</p>
+<ul>
+<li><strong>Regional anchors:</strong> CTE engagement (especially completion), local wages, and in some cases low-income background.</li>
+<li><strong>Mobility markers:</strong> High ACT scores, ACT participation, and academic strength, which open pathways to statewide work.</li>
+<li><strong>Barriers to connection:</strong> SpecialEd needs, weak reading/math skills, and high local unemployment consistently predict disconnection from meaningful regional employment.</li>
+</ul>
+<p>In short, <strong>regional employment is sustained when students engage deeply in CTE and are supported by favorable local labor markets</strong>, while <strong>academic high achievers are more mobile</strong> and <strong>SpecialEd students face enduring risks of disconnection</strong>.</p>
+<hr>
+<p><u><strong>Comparative Predictor Table</strong></u></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 26%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Outcome</th>
+<th>Year 1 Key Predictors</th>
+<th>Year 5 Key Predictors</th>
+<th>Year 10 Key Predictors</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Region vs.&nbsp;MN</strong></td>
+<td>Local wages, ACT score, MCA.R, CTE courses</td>
+<td>Wages, unemployment, ACT score, MCA.R, CTE completion, ACT participation, SpecialEd</td>
+<td>ACT participation, ACT score, unemployment, wages, MCA.R, CTE courses</td>
+</tr>
+<tr class="even">
+<td><strong>Region vs.&nbsp;Not meaningful</strong></td>
+<td>ACT score, SpecialEd, CTE courses, wages</td>
+<td>SpecialEd, CTE courses, ACT score, economic status, unemployment</td>
+<td>Economic status, SpecialEd, MCA.M, unemployment</td>
+</tr>
+<tr class="odd">
+<td><strong>Region vs.&nbsp;No MN record</strong></td>
+<td>SpecialEd, CTE courses, ACT score, wages</td>
+<td>ACT score, SpecialEd, CTE completion, ACT participation</td>
+<td>CTE completion, SpecialEd, MCA.R, unemployment, wages, economic status</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><u><strong>Summary</strong></u></p>
+<ul>
+<li><strong>CTE is the most durable anchor</strong> across all comparisons and years.</li>
+<li><strong>SpecialEd needs are the strongest barrier</strong>, consistently pushing students toward disconnection.</li>
+<li><strong>Academic achievement fuels mobility</strong>, especially toward statewide jobs.</li>
+<li><strong>Local wages and unemployment</strong> set the context, shaping whether weaker students remain employed regionally or fall out of the MN workforce.</li>
+</ul>
+<p>Together, the findings emphasize that <strong>regional employment pathways are built on CTE engagement and supportive local economies</strong>, but require <strong>targeted supports for SpecialEd students and academically weaker groups</strong> to prevent long-term disconnection.</p>
 
 
 </section>
@@ -547,236 +737,242 @@ This split underscores the dual pathways: <strong>academic preparation expands o
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
-      }
-    }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
-      }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
-      for (const childEl of codeEl.children) {
-        if (isCodeAnnotation(childEl)) {
-          childEl.remove();
-        }
-      }
-      return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
-    });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-    }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
-      }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
     };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
         }
       }
+      return false;
     }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
         }
-        return container.innerHTML
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -784,185 +980,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
