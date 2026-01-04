@@ -196,6 +196,14 @@ ul.task-list li input[type="checkbox"] {
     <a class="dropdown-item" href="./analysis_non_post_secondary_graduates.html">
  <span class="dropdown-text">Non-college graduates</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_disconnected.qmd">
+ <span class="dropdown-text">Disconnected</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_non_college_deeper.html">
+ <span class="dropdown-text">Further analysis on non-college grads</span></a>
+  </li>  
     </ul>
   </li>
 </ul>
@@ -240,13 +248,13 @@ ul.task-list li input[type="checkbox"] {
   </ul></li>
   <li><a href="#summaries-of-each-analysis" id="toc-summaries-of-each-analysis" class="nav-link" data-scroll-target="#summaries-of-each-analysis">Summaries of each analysis</a>
   <ul class="collapse">
-  <li><a href="#contingency-tables" id="toc-contingency-tables" class="nav-link" data-scroll-target="#contingency-tables">Contingency Tables</a>
+  <li><a href="#relationships---employment" id="toc-relationships---employment" class="nav-link" data-scroll-target="#relationships---employment">Relationships - Employment</a>
   <ul class="collapse">
   <li><a href="#employment-outcomes-vs.-independent-variables" id="toc-employment-outcomes-vs.-independent-variables" class="nav-link" data-scroll-target="#employment-outcomes-vs.-independent-variables">Employment Outcomes vs.&nbsp;Independent Variables</a></li>
   <li><a href="#comparative-insights-by-section" id="toc-comparative-insights-by-section" class="nav-link" data-scroll-target="#comparative-insights-by-section">Comparative Insights by Section</a></li>
   <li><a href="#overall-conclusion" id="toc-overall-conclusion" class="nav-link" data-scroll-target="#overall-conclusion">Overall Conclusion</a></li>
   </ul></li>
-  <li><a href="#cart-analysis" id="toc-cart-analysis" class="nav-link" data-scroll-target="#cart-analysis">CART Analysis</a>
+  <li><a href="#predictive-employment-cart-analysis" id="toc-predictive-employment-cart-analysis" class="nav-link" data-scroll-target="#predictive-employment-cart-analysis">Predictive employment CART Analysis</a>
   <ul class="collapse">
   <li><a href="#employment-outcomes" id="toc-employment-outcomes" class="nav-link" data-scroll-target="#employment-outcomes">Employment Outcomes</a></li>
   <li><a href="#key-anchors-of-regional-employment" id="toc-key-anchors-of-regional-employment" class="nav-link" data-scroll-target="#key-anchors-of-regional-employment">Key Anchors of Regional Employment</a></li>
@@ -254,15 +262,19 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#policy-implications-for-northeast-minnesota" id="toc-policy-implications-for-northeast-minnesota" class="nav-link" data-scroll-target="#policy-implications-for-northeast-minnesota">Policy Implications for Northeast Minnesota</a></li>
   <li><a href="#conclusion-1" id="toc-conclusion-1" class="nav-link" data-scroll-target="#conclusion-1">Conclusion</a></li>
   </ul></li>
-  <li><a href="#post-secondary-pathways" id="toc-post-secondary-pathways" class="nav-link" data-scroll-target="#post-secondary-pathways">Post-secondary Pathways</a>
+  <li><a href="#relationships-post-secondary-pathways" id="toc-relationships-post-secondary-pathways" class="nav-link" data-scroll-target="#relationships-post-secondary-pathways">Relationships Post-secondary Pathways</a>
   <ul class="collapse">
   <li><a href="#comparison-of-postsecondary-graduation-location-and-highest-credential-earned" id="toc-comparison-of-postsecondary-graduation-location-and-highest-credential-earned" class="nav-link" data-scroll-target="#comparison-of-postsecondary-graduation-location-and-highest-credential-earned"><strong>Comparison of Postsecondary Graduation Location and Highest Credential Earned</strong></a></li>
   <li><a href="#summary-and-policy-implications" id="toc-summary-and-policy-implications" class="nav-link" data-scroll-target="#summary-and-policy-implications"><strong>Summary and Policy Implications</strong></a></li>
   </ul></li>
-  <li><a href="#non-college-grads" id="toc-non-college-grads" class="nav-link" data-scroll-target="#non-college-grads">Non-college grads</a>
+  <li><a href="#predictive-post-secondary-pathways-cart" id="toc-predictive-post-secondary-pathways-cart" class="nav-link" data-scroll-target="#predictive-post-secondary-pathways-cart">Predictive post-secondary pathways CART</a>
   <ul class="collapse">
-  <li><a href="#cross-tabs" id="toc-cross-tabs" class="nav-link" data-scroll-target="#cross-tabs">Cross-tabs</a></li>
-  <li><a href="#predictive" id="toc-predictive" class="nav-link" data-scroll-target="#predictive">Predictive</a></li>
+  <li><a href="#overall-model-performance" id="toc-overall-model-performance" class="nav-link" data-scroll-target="#overall-model-performance"><strong>Overall Model Performance</strong></a></li>
+  <li><a href="#key-predictors-across-models" id="toc-key-predictors-across-models" class="nav-link" data-scroll-target="#key-predictors-across-models"><strong>Key Predictors Across Models</strong></a></li>
+  <li><a href="#interpretation-of-pathways" id="toc-interpretation-of-pathways" class="nav-link" data-scroll-target="#interpretation-of-pathways"><strong>Interpretation of Pathways</strong></a></li>
+  <li><a href="#synthesis-of-findings" id="toc-synthesis-of-findings" class="nav-link" data-scroll-target="#synthesis-of-findings"><strong>Synthesis of Findings</strong></a></li>
+  <li><a href="#policy-implications" id="toc-policy-implications" class="nav-link" data-scroll-target="#policy-implications"><strong>Policy Implications</strong></a></li>
+  <li><a href="#conclusion-2" id="toc-conclusion-2" class="nav-link" data-scroll-target="#conclusion-2"><strong>Conclusion</strong></a></li>
   </ul></li>
   </ul></li>
   </ul>
@@ -438,8 +450,8 @@ ul.task-list li input[type="checkbox"] {
 </section>
 <section id="summaries-of-each-analysis" class="level1">
 <h1>Summaries of each analysis</h1>
-<section id="contingency-tables" class="level2">
-<h2 class="anchored" data-anchor-id="contingency-tables">Contingency Tables</h2>
+<section id="relationships---employment" class="level2">
+<h2 class="anchored" data-anchor-id="relationships---employment">Relationships - Employment</h2>
 <section id="employment-outcomes-vs.-independent-variables" class="level3">
 <h3 class="anchored" data-anchor-id="employment-outcomes-vs.-independent-variables">Employment Outcomes vs.&nbsp;Independent Variables</h3>
 <p>This one-page overview integrates <strong>effect size tables and key insights,</strong> across all four major sections of analysis.</p>
@@ -486,8 +498,8 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 </section>
 </section>
-<section id="cart-analysis" class="level2">
-<h2 class="anchored" data-anchor-id="cart-analysis">CART Analysis</h2>
+<section id="predictive-employment-cart-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="predictive-employment-cart-analysis">Predictive employment CART Analysis</h2>
 <section id="employment-outcomes" class="level3">
 <h3 class="anchored" data-anchor-id="employment-outcomes">Employment Outcomes</h3>
 <p>This analysis examined what factors anchor young adults into <strong>meaningful employment in their high school region</strong> versus drifting into three alternative paths:<br>
@@ -582,8 +594,8 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 </section>
 </section>
-<section id="post-secondary-pathways" class="level2">
-<h2 class="anchored" data-anchor-id="post-secondary-pathways">Post-secondary Pathways</h2>
+<section id="relationships-post-secondary-pathways" class="level2">
+<h2 class="anchored" data-anchor-id="relationships-post-secondary-pathways">Relationships Post-secondary Pathways</h2>
 <section id="comparison-of-postsecondary-graduation-location-and-highest-credential-earned" class="level3">
 <h3 class="anchored" data-anchor-id="comparison-of-postsecondary-graduation-location-and-highest-credential-earned"><strong>Comparison of Postsecondary Graduation Location and Highest Credential Earned</strong></h3>
 <p>Both postsecondary graduation location and highest credential earned emerged as powerful predictors of meaningful employment, but they influenced outcomes in different ways.</p>
@@ -597,138 +609,77 @@ ul.task-list li input[type="checkbox"] {
 <p><br></p>
 </section>
 </section>
-<section id="non-college-grads" class="level2">
-<h2 class="anchored" data-anchor-id="non-college-grads">Non-college grads</h2>
-<section id="cross-tabs" class="level3">
-<h3 class="anchored" data-anchor-id="cross-tabs">Cross-tabs</h3>
-<p>For non-college graduates in Northeast Minnesota, the central question is whether they secure <strong>meaningful employment in their home region</strong>. The evidence shows that while demographics and local economic conditions play important roles, the most consistent predictors come from students’ <strong>high school accomplishments</strong>.</p>
-<p><strong>High school accomplishments</strong> are the strongest drivers of long-term outcomes. Career and Technical Education (CTE) stands out: concentrators/completors and those who took more CTE courses were consistently more likely to secure meaningful regional jobs, with this advantage persisting even 10 years after graduation. Academic achievement (ACT, MCA) shaped pathways in the opposite direction: lower scorers more often transitioned earlier into regional employment, while higher scorers pursued postsecondary education and eventually secured meaningful work outside the region. PSEO participants followed a similar pattern—more likely to remain in school or move into statewide jobs, but less likely to anchor in regional employment.</p>
-<p><strong>Demographics</strong> highlighted persistent disparities. Students in special education were the least likely to secure meaningful regional jobs, instead concentrated in non-meaningful employment or disconnected from the workforce. Economic status also mattered: lower-income students were more likely to be region-bound but also more at risk of disconnection, while higher-income students more often pursued statewide opportunities. Race and ethnicity had small but notable effects, with white graduates slightly more likely to be in regional jobs. Gender was not analyzed for this region.</p>
-<p><strong>High school characteristics</strong> and local context provided important structural boundaries. Rural graduates were somewhat more likely to remain in meaningful regional work, while peers in more urban or mixed settings were more likely to move into statewide employment. County-level economic conditions were also influential: lower unemployment rates and higher relative wages boosted the chances of meaningful regional employment, while weaker counties increased risks of disconnection.</p>
-<p>Taken together, the story is clear: <strong>for non-college graduates in Northeast Minnesota, CTE engagement is the most reliable pathway into meaningful regional employment.</strong> By contrast, stronger academic preparation and PSEO open broader opportunities but often outside the region. Demographics underscore where risks of disconnection are greatest, while county conditions reveal how local economies can either anchor graduates in regional jobs or push them away.</p>
-<p><u><strong>Ranked Importance for Regional Employment (Most → Least)</strong></u></p>
-<ol type="1">
-<li><strong>CTE Engagement (Accomplishments: achievement + total courses)</strong> – strongest and most consistent predictor of meaningful regional work.</li>
-<li><strong>ACT &amp; MCA Scores (Accomplishments)</strong> – lower scorers more likely to enter and remain in regional jobs; higher scorers more likely to leave.</li>
-<li><strong>Special Education Status (Demographic)</strong> – persistent disadvantage, far less likely to secure regional work.</li>
-<li><strong>Economic Status (Demographic)</strong> – lower-income grads more region-bound but also more disconnected; higher-income grads more mobile.</li>
-<li><strong>PSEO Participation (Accomplishments)</strong> – reduces likelihood of regional employment over time as participants pursue broader opportunities.</li>
-<li><strong>Rural/Urban (HS Characteristic)</strong> – rural grads more likely to stay local; urban/town grads more likely to leave.</li>
-<li><strong>County Conditions (Unemployment, Wages)</strong> – stronger local economies increase regional employment chances.</li>
-<li><strong>Race/Ethnicity (Demographic)</strong> – small but significant effects; white grads slightly more likely to secure regional jobs.</li>
-<li><strong>Gender (Demographic)</strong> – not analyzed in this region.</li>
-</ol>
-<p>👉 The <strong>headline story</strong> is: <em>Among non-college graduates in Northeast Minnesota, the most dependable route into meaningful employment in the region is strong CTE engagement. Regional employment is more common for lower scorers, rural students, and those from lower-income backgrounds, while higher scorers, PSEO participants, and higher-income students often pursue opportunities outside the region. Special education status and weaker local economies sharply increase risks of disconnection.</em></p>
-<p><br></p>
+<section id="predictive-post-secondary-pathways-cart" class="level2">
+<h2 class="anchored" data-anchor-id="predictive-post-secondary-pathways-cart">Predictive post-secondary pathways CART</h2>
+<section id="overall-model-performance" class="level3">
+<h3 class="anchored" data-anchor-id="overall-model-performance"><strong>Overall Model Performance</strong></h3>
+<p>Across both dependent variables — <strong>postsecondary graduation location</strong> and <strong>highest credential earned</strong> — the pre-pruned CART models achieved accuracies of <strong>61.7%</strong> and <strong>64.2%</strong>, respectively. Both represented clear improvements over baseline distributions and showed that a relatively small set of predictors consistently explains meaningful variation in student pathways.</p>
+<p>While not capturing all individual-level complexity, these models highlight <strong>distinct sets of academic, demographic, and experiential variables</strong> that shape whether students remain anchored in the Southern MN workforce pipeline or pursue mobility pathways.</p>
 </section>
-<section id="predictive" class="level3">
-<h3 class="anchored" data-anchor-id="predictive">Predictive</h3>
-<p>This analysis explored three contrasts in employment outcomes for non-college graduates:</p>
+<section id="key-predictors-across-models" class="level3">
+<h3 class="anchored" data-anchor-id="key-predictors-across-models"><strong>Key Predictors Across Models</strong></h3>
+<p>The following predictors emerged as the most consistently influential:</p>
+<ul>
+<li><strong>Academic readiness</strong>: MCA Reading and ACT Composite Score.</li>
+<li><strong>Economic status</strong>: Persistent disadvantages for low-income students.</li>
+<li><strong>Race/Ethnicity</strong>: White and Asian/PI students more likely to reach higher credentials; Black, AI, and Hispanic students more often concentrated in lower or incomplete outcomes.</li>
+<li><strong>PSEO participation</strong>: Steers students toward bachelor’s+ and out-of-region completions.</li>
+<li><strong>CTE engagement (courses taken)</strong>: Reinforces regional and sub-baccalaureate pathways.</li>
+</ul>
+<p>These predictors operate in <strong>two clear pipelines</strong> — one driving local attachment through sub-baccalaureate credentials, and one fostering mobility through advanced credentials.</p>
+</section>
+<section id="interpretation-of-pathways" class="level3">
+<h3 class="anchored" data-anchor-id="interpretation-of-pathways"><strong>Interpretation of Pathways</strong></h3>
+<section id="graduation-location-ps.grad.location" class="level4">
+<h4 class="anchored" data-anchor-id="graduation-location-ps.grad.location">1. <strong>Graduation Location (ps.grad.location)</strong></h4>
+<ul>
+<li><strong>Regional completions</strong> clustered among <strong>economically disadvantaged students with moderate academic readiness</strong>.</li>
+<li><strong>Non-completion</strong> was strongly tied to <strong>low ACT and MCA scores</strong>, often regardless of background.</li>
+<li><strong>High academic readiness and PSEO participation</strong> predicted completions outside the region, fueling mobility pathways.</li>
+</ul>
+<p><strong>Implication</strong>: Regional institutions disproportionately serve disadvantaged students who achieve moderate readiness, while high scorers leave the region for completion.</p>
+</section>
+<section id="highest-credential-earned-highest.cred.level" class="level4">
+<h4 class="anchored" data-anchor-id="highest-credential-earned-highest.cred.level">2. <strong>Highest Credential Earned (highest.cred.level)</strong></h4>
+<ul>
+<li><strong>Bachelor’s or higher</strong> credentials were most strongly linked to <strong>high MCA and ACT scores</strong>, advantaged status, and <strong>PSEO participation</strong>.</li>
+<li><strong>Non-completion</strong> was almost guaranteed for students with low MCA Reading or ACT scores, even when other factors were favorable.</li>
+<li><strong>Associate or lower credentials</strong> (though less prominent in the tree structure) align with CTE-heavy pathways, serving as stabilizers for the regional workforce.</li>
+</ul>
+<p><strong>Implication</strong>: Academic readiness acts as the primary gateway to bachelor’s+ attainment, but economic and racial inequities remain barriers, even among high scorers.</p>
+</section>
+</section>
+<section id="synthesis-of-findings" class="level3">
+<h3 class="anchored" data-anchor-id="synthesis-of-findings"><strong>Synthesis of Findings</strong></h3>
+<p>Together, the models reinforce the existence of a <strong>dual-pipeline system</strong> in Southern Minnesota:</p>
 <ol type="1">
-<li><strong>Meaningful emp region vs.&nbsp;Meaningful emp MN</strong></li>
-<li><strong>Meaningful emp region vs.&nbsp;Not meaningful, not attending ps</strong></li>
-<li><strong>Meaningful emp region vs.&nbsp;No MN employment record, not attending ps</strong></li>
+<li><strong>Regional Workforce Pipeline</strong>
+<ul>
+<li>Driven by <strong>CTE engagement, associate-or-lower credentials, and regional completions</strong>.</li>
+<li>Anchors students with <strong>economic disadvantage and moderate readiness</strong> into the local labor market.</li>
+<li>Provides workforce stability but limits long-term mobility and earning potential.</li>
+</ul></li>
+<li><strong>Mobility Pipeline</strong>
+<ul>
+<li>Driven by <strong>academic rigor, bachelor’s+ attainment, PSEO participation, and out-of-region completions</strong>.</li>
+<li>Attracts <strong>advantaged, high-scoring students</strong>, who are least likely to remain in the region after completion.</li>
+<li>Fuels statewide and out-of-state labor markets more than the local workforce.</li>
+</ul></li>
 </ol>
-<p>Across all outcomes, models show that <strong>regional employment is most strongly anchored by CTE engagement</strong> and undermined by <strong>SpecialEd needs, weak academics, and unfavorable economic contexts</strong>. Predictive strength declines from Year 1 to Year 10 as life paths diversify, but consistent patterns emerge.</p>
-<hr>
-<p><u><strong>Model Performance</strong></u></p>
+</section>
+<section id="policy-implications" class="level3">
+<h3 class="anchored" data-anchor-id="policy-implications"><strong>Policy Implications</strong></h3>
 <ul>
-<li><strong>Region vs.&nbsp;MN:</strong> Models perform slightly above baseline at Year 1 (78.3%) and then decline (66.8% at Year 5, 62.1% at Year 10).</li>
-<li><strong>Region vs.&nbsp;Not meaningful:</strong> Year 1 (65.7%), Year 5 (54.7%), and Year 10 (55.5%) all show limited but interpretable gains over baseline.</li>
-<li><strong>Region vs.&nbsp;No MN record:</strong> Year 1 (62.3%) shows strong improvement over baseline, with Year 5 (57.7%) and Year 10 (59.3%) holding modest gains.</li>
+<li><strong>Strengthen regional anchors</strong>: Expand academic and financial supports for disadvantaged, moderate scorers to ensure successful completions in Southern MN institutions.</li>
+<li><strong>Address inequities in bachelor’s+ attainment</strong>: Target resources for high-achieving but low-income and underrepresented students to reduce barriers to advanced credentials.</li>
+<li><strong>Leverage CTE strategically</strong>: Maintain CTE as a stabilizer but ensure stackable pathways to prevent students from being locked into sub-associate outcomes.</li>
+<li><strong>Engage high-achievers locally</strong>: Create incentives and career opportunities that connect PSEO participants and bachelor’s+ completers back to the region to mitigate brain drain.</li>
 </ul>
-<p>Overall, <strong>Year 1 models provide the clearest separation</strong>, while later models mainly highlight persistent anchors and barriers.</p>
-<hr>
-<p><u><strong>Variable Importance Across Outcomes</strong></u></p>
-<ul>
-<li><strong>CTE Engagement:</strong> The most consistent anchor across all contrasts and years. Both heavy course-taking and concentrator/completer status increase the likelihood of staying in meaningful regional employment.</li>
-<li><strong>SpecialEd Status:</strong> A strong and consistent predictor of disconnection — students with SpecialEd needs are much more likely to fall into “Not meaningful” or “No MN record.”</li>
-<li><strong>Academic Performance:</strong>
-<ul>
-<li><strong>ACT scores</strong> matter most in Region vs.&nbsp;MN (mobility marker) and Region vs.&nbsp;Not meaningful (early anchor).</li>
-<li><strong>Reading (MCA.R)</strong> becomes increasingly relevant by Year 10, especially for differentiating Region vs.&nbsp;No MN record.</li>
-</ul></li>
-<li><strong>Economic Conditions:</strong> Local wages and unemployment rates shape outcomes at every stage, with higher wages anchoring students regionally and high unemployment increasing disconnection risk.</li>
-<li><strong>Socioeconomic Status (income):</strong> By Year 10, low-income students are sometimes more anchored regionally than higher-income peers, especially under weak labor markets.</li>
-</ul>
-<hr>
-<p><u><strong>Interpretation Across Years</strong></u></p>
-<ul>
-<li><strong>Year 1 (Early Career Launch):</strong>
-<ul>
-<li>Regional employment hinges on <strong>local wages</strong> and <strong>academic preparation</strong>.</li>
-<li><strong>High ACT scorers</strong> often pursue statewide jobs, while <strong>CTE engagement</strong> keeps even high scorers in regional work.</li>
-<li><strong>SpecialEd students</strong> face steep barriers and are most likely to appear in “Not meaningful” or “No MN record.”</li>
-</ul></li>
-<li><strong>Year 5 (Mid-Career Sorting):</strong>
-<ul>
-<li>The landscape broadens to include <strong>SpecialEd status, CTE completion, academics, and economic context</strong>.</li>
-<li><strong>High academic performers</strong> increasingly pursue statewide employment.</li>
-<li><strong>CTE concentrators/completers</strong> remain regionally anchored, while SpecialEd students and low scorers are most at risk of disconnection.</li>
-</ul></li>
-<li><strong>Year 10 (Long-Run Outcomes):</strong>
-<ul>
-<li>Outcomes are shaped by <strong>CTE anchors vs.&nbsp;academic mobility markers</strong>.</li>
-<li><strong>ACT takers with high scores</strong> are the most mobile, while <strong>weak reading performance and SpecialEd needs</strong> predict long-term disconnection.</li>
-<li><strong>Labor markets (wages, unemployment)</strong> and <strong>income levels</strong> determine whether weaker students sustain regional jobs or exit Minnesota employment altogether.</li>
-</ul></li>
-</ul>
-<hr>
-<p><u><strong>Overall Narrative</strong></u></p>
-<p>Across all three comparisons, a clear pattern emerges:</p>
-<ul>
-<li><strong>Regional anchors:</strong> CTE engagement (especially completion), local wages, and in some cases low-income background.</li>
-<li><strong>Mobility markers:</strong> High ACT scores, ACT participation, and academic strength, which open pathways to statewide work.</li>
-<li><strong>Barriers to connection:</strong> SpecialEd needs, weak reading/math skills, and high local unemployment consistently predict disconnection from meaningful regional employment.</li>
-</ul>
-<p>In short, <strong>regional employment is sustained when students engage deeply in CTE and are supported by favorable local labor markets</strong>, while <strong>academic high achievers are more mobile</strong> and <strong>SpecialEd students face enduring risks of disconnection</strong>.</p>
-<hr>
-<p><u><strong>Comparative Predictor Table</strong></u></p>
-<table class="caption-top table">
-<colgroup>
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 24%">
-<col style="width: 26%">
-</colgroup>
-<thead>
-<tr class="header">
-<th>Outcome</th>
-<th>Year 1 Key Predictors</th>
-<th>Year 5 Key Predictors</th>
-<th>Year 10 Key Predictors</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><strong>Region vs.&nbsp;MN</strong></td>
-<td>Local wages, ACT score, MCA.R, CTE courses</td>
-<td>Wages, unemployment, ACT score, MCA.R, CTE completion, ACT participation, SpecialEd</td>
-<td>ACT participation, ACT score, unemployment, wages, MCA.R, CTE courses</td>
-</tr>
-<tr class="even">
-<td><strong>Region vs.&nbsp;Not meaningful</strong></td>
-<td>ACT score, SpecialEd, CTE courses, wages</td>
-<td>SpecialEd, CTE courses, ACT score, economic status, unemployment</td>
-<td>Economic status, SpecialEd, MCA.M, unemployment</td>
-</tr>
-<tr class="odd">
-<td><strong>Region vs.&nbsp;No MN record</strong></td>
-<td>SpecialEd, CTE courses, ACT score, wages</td>
-<td>ACT score, SpecialEd, CTE completion, ACT participation</td>
-<td>CTE completion, SpecialEd, MCA.R, unemployment, wages, economic status</td>
-</tr>
-</tbody>
-</table>
-<hr>
-<p><u><strong>Summary</strong></u></p>
-<ul>
-<li><strong>CTE is the most durable anchor</strong> across all comparisons and years.</li>
-<li><strong>SpecialEd needs are the strongest barrier</strong>, consistently pushing students toward disconnection.</li>
-<li><strong>Academic achievement fuels mobility</strong>, especially toward statewide jobs.</li>
-<li><strong>Local wages and unemployment</strong> set the context, shaping whether weaker students remain employed regionally or fall out of the MN workforce.</li>
-</ul>
-<p>Together, the findings emphasize that <strong>regional employment pathways are built on CTE engagement and supportive local economies</strong>, but require <strong>targeted supports for SpecialEd students and academically weaker groups</strong> to prevent long-term disconnection.</p>
+</section>
+<section id="conclusion-2" class="level3">
+<h3 class="anchored" data-anchor-id="conclusion-2"><strong>Conclusion</strong></h3>
+<p>The predictive analysis confirms that <strong>academic readiness, economic status, and experiential factors like PSEO and CTE are the primary levers shaping postsecondary pathways</strong>. These pathways, in turn, determine whether students are most likely to remain in the Southern MN workforce or pursue mobility.</p>
+<p>Ultimately, the models illustrate a <strong>structural duality</strong>: disadvantaged students with modest preparation form the backbone of the regional workforce through 2-year and regional completions, while advantaged high scorers are systematically funneled into statewide mobility. Policy efforts must therefore balance <strong>supporting the regional anchor pipeline</strong> with <strong>developing mechanisms to retain or re-engage mobile students</strong> after higher attainment.</p>
 
 
 </section>

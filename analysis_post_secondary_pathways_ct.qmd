@@ -240,7 +240,7 @@ For all of these, we will use the predictors that were in Tier 1 and Tier 2 of t
 
 <br>
 
-# [**Tier 1: Core Postsecondary Access and Attainment**]{.underline} 
+# [**Tier 1: Core Postsecondary Access and Attainment**]{.underline}
 
 Tier 1 examined how demographic background, high school context, and high school accomplishments predict three key milestones: (1) **immediate enrollment** (“attended.ps.within.first.year.hsgrad”), (2) **ever attending postsecondary** (“attended.ps”), and (3) **completing a credential** (“ps.grad”).
 
@@ -1056,7 +1056,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High schoo
 
 <br>
 
-## `ps.grad` 
+## `ps.grad`
 
 ### Summary
 

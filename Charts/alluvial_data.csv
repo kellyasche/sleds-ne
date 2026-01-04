@@ -1,0 +1,16 @@
+cte.achievement,grad.year.5,n,pct
+CTE Concentrator or Completor,Attending ps,1229,0.13068906848149722
+CTE Concentrator or Completor,Meaningful WF - MN,1329,0.14132284134410888
+CTE Concentrator or Completor,Meaningful WF - Northeast,2999,0.31890684814972353
+CTE Concentrator or Completor,No MN emp record,1812,0.19268396427052317
+CTE Concentrator or Completor,Not meaningful,2035,0.21639727775414716
+CTE Participant,Attending ps,1543,0.16559347499463403
+CTE Participant,Meaningful WF - MN,1419,0.1522858982614295
+CTE Participant,Meaningful WF - Northeast,2535,0.27205408886027044
+CTE Participant,No MN emp record,1858,0.19939901266366172
+CTE Participant,Not meaningful,1963,0.2106675252200043
+No CTE,Attending ps,2792,0.1749263830587056
+No CTE,Meaningful WF - MN,2505,0.15694505356807217
+No CTE,Meaningful WF - Northeast,3655,0.22899567696259632
+No CTE,No MN emp record,3620,0.22680283190276299
+No CTE,Not meaningful,3389,0.2123300545078629

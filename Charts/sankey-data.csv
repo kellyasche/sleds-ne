@@ -1,0 +1,37 @@
+x,node,next_x,next_node,value,flow_id,highlight
+CTE,CTE Concentrator,grad.year.5,Meaningful WF - MN,0.16256880733944953,1,base
+"5 years after
+high school",Meaningful WF - MN,NA,NA,0.16256880733944953,1,base
+CTE,CTE Concentrator,grad.year.5,Meaningful WF - NE,0.3668501529051988,2,highlight
+"5 years after
+high school",Meaningful WF - NE,NA,NA,0.3668501529051988,2,highlight
+CTE,CTE Concentrator,grad.year.5,No MN employment,0.22165137614678898,3,base
+"5 years after
+high school",No MN employment,NA,NA,0.22165137614678898,3,base
+CTE,CTE Concentrator,grad.year.5,Not meaningful,0.2489296636085627,4,base
+"5 years after
+high school",Not meaningful,NA,NA,0.2489296636085627,4,base
+CTE,CTE Participant,grad.year.5,Meaningful WF - MN,0.182508038585209,5,base
+"5 years after
+high school",Meaningful WF - MN,NA,NA,0.182508038585209,5,base
+CTE,CTE Participant,grad.year.5,Meaningful WF - NE,0.3260450160771704,6,highlight
+"5 years after
+high school",Meaningful WF - NE,NA,NA,0.3260450160771704,6,highlight
+CTE,CTE Participant,grad.year.5,No MN employment,0.2389710610932476,7,base
+"5 years after
+high school",No MN employment,NA,NA,0.2389710610932476,7,base
+CTE,CTE Participant,grad.year.5,Not meaningful,0.252475884244373,8,base
+"5 years after
+high school",Not meaningful,NA,NA,0.252475884244373,8,base
+CTE,No CTE,grad.year.5,Meaningful WF - MN,0.19021945478016555,9,base
+"5 years after
+high school",Meaningful WF - MN,NA,NA,0.19021945478016555,9,base
+CTE,No CTE,grad.year.5,Meaningful WF - NE,0.2775457513858304,10,highlight
+"5 years after
+high school",Meaningful WF - NE,NA,NA,0.2775457513858304,10,highlight
+CTE,No CTE,grad.year.5,No MN employment,0.2748879945326145,11,base
+"5 years after
+high school",No MN employment,NA,NA,0.2748879945326145,11,base
+CTE,No CTE,grad.year.5,Not meaningful,0.25734679930138965,12,base
+"5 years after
+high school",Not meaningful,NA,NA,0.25734679930138965,12,base

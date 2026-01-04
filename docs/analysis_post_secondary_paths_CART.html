@@ -105,7 +105,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
 <script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<script src="site_libs/datatables-binding-0.34.0/datatables.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
 <link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
@@ -114,8 +114,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/nouislider-7.0.10/jquery.nouislider.min.js"></script>
 <link href="site_libs/selectize-0.12.0/selectize.bootstrap3.css" rel="stylesheet">
 <script src="site_libs/selectize-0.12.0/selectize.min.js"></script>
-<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/crosstalk-1.2.2/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.2/js/crosstalk.min.js"></script>
 
 
 </head>
@@ -244,6 +244,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="./analysis_non_post_secondary_graduates.html">
  <span class="dropdown-text">Non-college graduates</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_disconnected.qmd">
+ <span class="dropdown-text">Disconnected</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_non_college_deeper.html">
+ <span class="dropdown-text">Further analysis on non-college grads</span></a>
   </li>  
     </ul>
   </li>
@@ -1987,8 +1995,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-76402c0dc10811bcebcc" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-76402c0dc10811bcebcc">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Did not graduate ps&quot;,&quot;PS grad outside region&quot;,&quot;PS grad Region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7730\" data-max=\"25390\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.175542182354944\" data-max=\"0.576586805949813\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Did not graduate ps","PS grad outside region","PS grad Region"],[25390,7730,10915],[0.5765868059498126,0.1755421823549449,0.2478710116952424]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>ps.grad.location.new<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"ps.grad.location.new","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-58aa9fc089a25dc51bab" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-58aa9fc089a25dc51bab">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Did not graduate ps&quot;,&quot;PS grad outside region&quot;,&quot;PS grad Region&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7730\" data-max=\"25390\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.175542182354944\" data-max=\"0.576586805949813\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Did not graduate ps","PS grad outside region","PS grad Region"],[25390,7730,10915],[0.5765868059498126,0.1755421823549449,0.2478710116952424]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>ps.grad.location.new<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"ps.grad.location.new","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -2051,62 +2059,62 @@ n= 30824
 11 6.8744e-04     26   0.86809 0.89207 0.0065055
 12 5.3468e-04     28   0.86671 0.89177 0.0065051
 13 4.9649e-04     29   0.86618 0.89062 0.0065034
-14 4.8376e-04     33   0.86389 0.89146 0.0065046
-15 4.5830e-04     36   0.86244 0.89184 0.0065052
-16 4.2010e-04     39   0.86106 0.89154 0.0065047
-17 4.1247e-04     44   0.85869 0.89146 0.0065046
-18 4.0737e-04     49   0.85663 0.89146 0.0065046
-19 3.9464e-04     52   0.85541 0.89146 0.0065046
-20 3.8191e-04     61   0.85144 0.89085 0.0065037
-21 3.5645e-04     68   0.84876 0.89024 0.0065029
-22 3.4372e-04     71   0.84769 0.89284 0.0065066
-23 3.3099e-04     84   0.84135 0.89528 0.0065100
-24 3.0553e-04    109   0.83188 0.89528 0.0065100
-25 2.8007e-04    119   0.82883 0.89482 0.0065094
-26 2.7498e-04    126   0.82684 0.89375 0.0065079
-27 2.6734e-04    134   0.82432 0.89497 0.0065096
-28 2.5461e-04    137   0.82340 0.89482 0.0065094
-29 2.4824e-04    140   0.82264 0.89574 0.0065107
-30 2.4442e-04    151   0.81981 0.89574 0.0065107
-31 2.2915e-04    164   0.81638 0.89559 0.0065105
-32 2.1642e-04    213   0.80469 0.89513 0.0065098
-33 2.1005e-04    227   0.80125 0.89444 0.0065088
-34 2.0369e-04    232   0.80011 0.89597 0.0065110
-35 1.9096e-04    241   0.79827 0.89589 0.0065109
-36 1.7823e-04    277   0.78987 0.89704 0.0065125
-37 1.7186e-04    283   0.78880 0.89704 0.0065125
-38 1.5277e-04    298   0.78537 0.90231 0.0065198
-39 1.3367e-04    427   0.76428 0.90628 0.0065252
-40 1.3094e-04    440   0.76245 0.90979 0.0065299
-41 1.2730e-04    447   0.76153 0.91017 0.0065304
-42 1.2221e-04    477   0.75687 0.91476 0.0065364
-43 1.1457e-04    494   0.75474 0.91682 0.0065391
-44 1.0503e-04    567   0.74572 0.92156 0.0065451
-45 1.0184e-04    593   0.74206 0.92354 0.0065476
-46 9.5478e-05    638   0.73709 0.92591 0.0065506
-47 8.9113e-05    642   0.73671 0.92591 0.0065506
-48 8.7294e-05    648   0.73617 0.92591 0.0065506
-49 7.6383e-05    655   0.73556 0.93973 0.0065673
-50 6.9439e-05    785   0.72540 0.94111 0.0065689
-51 6.8342e-05    798   0.72434 0.94287 0.0065710
-52 6.6835e-05    951   0.70646 0.94562 0.0065741
-53 6.3652e-05    959   0.70593 0.94592 0.0065745
-54 6.1106e-05    966   0.70547 0.94798 0.0065768
-55 5.7287e-05    976   0.70486 0.94844 0.0065773
-56 5.0922e-05    985   0.70432 0.95310 0.0065825
-57 4.5830e-05   1012   0.70295 0.95440 0.0065840
-58 4.2435e-05   1036   0.70173 0.95532 0.0065850
-59 3.8191e-05   1047   0.70119 0.95959 0.0065896
-60 3.0553e-05   1123   0.69829 0.96074 0.0065908
-61 2.5461e-05   1156   0.69722 0.96670 0.0065971
-62 2.1824e-05   1180   0.69661 0.96754 0.0065979
-63 2.0832e-05   1187   0.69646 0.96754 0.0065979
-64 1.9096e-05   1198   0.69623 0.96838 0.0065988
-65 1.6974e-05   1214   0.69592 0.96861 0.0065990
-66 1.5277e-05   1223   0.69577 0.96914 0.0065996
-67 1.2730e-05   1248   0.69539 0.96991 0.0066004
-68 9.5478e-06   1254   0.69531 0.96991 0.0066004
-69 0.0000e+00   1262   0.69523 0.97021 0.0066007</code></pre>
+14 4.8376e-04     33   0.86389 0.89138 0.0065045
+15 4.5830e-04     36   0.86244 0.89192 0.0065053
+16 4.2010e-04     39   0.86106 0.89161 0.0065048
+17 4.1247e-04     44   0.85869 0.89154 0.0065047
+18 4.0737e-04     49   0.85663 0.89154 0.0065047
+19 3.9464e-04     52   0.85541 0.89154 0.0065047
+20 3.8191e-04     61   0.85144 0.89093 0.0065039
+21 3.5645e-04     68   0.84876 0.89031 0.0065030
+22 3.4372e-04     71   0.84769 0.89291 0.0065067
+23 3.3099e-04     84   0.84135 0.89536 0.0065101
+24 3.0553e-04    109   0.83188 0.89536 0.0065101
+25 2.8007e-04    119   0.82883 0.89490 0.0065095
+26 2.7498e-04    126   0.82684 0.89383 0.0065080
+27 2.6734e-04    134   0.82432 0.89505 0.0065097
+28 2.5461e-04    137   0.82340 0.89490 0.0065095
+29 2.4824e-04    140   0.82264 0.89581 0.0065108
+30 2.4442e-04    151   0.81981 0.89581 0.0065108
+31 2.2915e-04    164   0.81638 0.89543 0.0065102
+32 2.1642e-04    213   0.80469 0.89474 0.0065093
+33 2.1005e-04    227   0.80125 0.89406 0.0065083
+34 2.0369e-04    232   0.80011 0.89543 0.0065102
+35 1.9096e-04    241   0.79827 0.89536 0.0065101
+36 1.7823e-04    277   0.78987 0.89650 0.0065117
+37 1.7186e-04    283   0.78880 0.89650 0.0065117
+38 1.5277e-04    298   0.78537 0.90200 0.0065193
+39 1.3367e-04    427   0.76428 0.90590 0.0065246
+40 1.3094e-04    440   0.76245 0.90956 0.0065296
+41 1.2730e-04    447   0.76153 0.90995 0.0065301
+42 1.2221e-04    477   0.75687 0.91468 0.0065363
+43 1.1457e-04    494   0.75474 0.91674 0.0065390
+44 1.0503e-04    567   0.74572 0.92148 0.0065450
+45 1.0184e-04    593   0.74206 0.92346 0.0065475
+46 9.5478e-05    638   0.73709 0.92606 0.0065508
+47 8.9113e-05    642   0.73671 0.92606 0.0065508
+48 8.7294e-05    648   0.73617 0.92606 0.0065508
+49 7.6383e-05    655   0.73556 0.93989 0.0065675
+50 6.9439e-05    785   0.72540 0.94126 0.0065691
+51 6.8342e-05    798   0.72434 0.94302 0.0065711
+52 6.6835e-05    951   0.70646 0.94577 0.0065743
+53 6.3652e-05    959   0.70593 0.94607 0.0065746
+54 6.1106e-05    966   0.70547 0.94814 0.0065770
+55 5.7287e-05    976   0.70486 0.94859 0.0065775
+56 5.0922e-05    985   0.70432 0.95325 0.0065827
+57 4.5830e-05   1012   0.70295 0.95455 0.0065841
+58 4.2435e-05   1036   0.70173 0.95547 0.0065851
+59 3.8191e-05   1047   0.70119 0.95975 0.0065898
+60 3.0553e-05   1123   0.69829 0.96089 0.0065910
+61 2.5461e-05   1156   0.69722 0.96677 0.0065972
+62 2.1824e-05   1180   0.69661 0.96761 0.0065980
+63 2.0832e-05   1187   0.69646 0.96761 0.0065980
+64 1.9096e-05   1198   0.69623 0.96845 0.0065989
+65 1.6974e-05   1214   0.69592 0.96868 0.0065991
+66 1.5277e-05   1223   0.69577 0.96922 0.0065997
+67 1.2730e-05   1248   0.69539 0.96998 0.0066004
+68 9.5478e-06   1254   0.69531 0.96998 0.0066004
+69 0.0000e+00   1262   0.69523 0.97029 0.0066008</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(ps.grad.location.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
@@ -2353,8 +2361,8 @@ The CART model indicates that <strong>high academic readiness is the strongest p
 <span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatCurrency</span>(<span class="dv">2</span>, <span class="st">""</span>, <span class="at">digits =</span> <span class="dv">0</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">formatPercentage</span>(<span class="dv">3</span>, <span class="at">digits =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-c99bdd11ec0d9e220816" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-c99bdd11ec0d9e220816">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Associate degree or lower&quot;,&quot;Bachelor degree or higher&quot;,&quot;Did not graduate ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7900\" data-max=\"25390\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.179398673812335\" data-max=\"0.576573712417114\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Associate degree or lower","Bachelor degree or higher","Did not graduate ps"],[7900,10746,25390],[0.1793986738123354,0.2440276137705514,0.5765737124171133]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>highest.cred.level.new<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"highest.cred.level.new","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-d272c3bf836af3bd1536" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-d272c3bf836af3bd1536">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"factor\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"width: 100%; display: none;\">\n      <select multiple=\"multiple\" style=\"width: 100%;\" data-options=\"[&quot;Associate degree or lower&quot;,&quot;Bachelor degree or higher&quot;,&quot;Did not graduate ps&quot;]\"><\/select>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"7900\" data-max=\"25390\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"0.179398673812335\" data-max=\"0.576573712417114\" data-scale=\"15\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Associate degree or lower","Bachelor degree or higher","Did not graduate ps"],[7900,10746,25390],[0.1793986738123354,0.2440276137705514,0.5765737124171133]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>highest.cred.level.new<\/th>\n      <th>n<\/th>\n      <th>pct<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"targets":2,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatPercentage(data, 1, 3, \",\", \".\", null);\n  }"},{"targets":1,"render":"function(data, type, row, meta) {\n    return type !== 'display' ? data : DTWidget.formatCurrency(data, \"\", 0, 3, \",\", \".\", true, null);\n  }"},{"className":"dt-center","targets":[1,2]},{"name":"highest.cred.level.new","targets":0},{"name":"n","targets":1},{"name":"pct","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":["options.columnDefs.0.render","options.columnDefs.1.render"],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -2429,41 +2437,41 @@ n= 30825
 23 1.9083e-04    136   0.73292 0.79269 0.0063341
 24 1.7810e-04    149   0.73040 0.79383 0.0063364
 25 1.6962e-04    155   0.72933 0.79399 0.0063367
-26 1.6538e-04    179   0.72506 0.79895 0.0063463
-27 1.5266e-04    192   0.72254 0.79940 0.0063472
-28 1.4418e-04    309   0.70231 0.80406 0.0063561
-29 1.4176e-04    359   0.69353 0.80543 0.0063587
-30 1.3358e-04    368   0.69216 0.80788 0.0063633
-31 1.3085e-04    381   0.69002 0.80780 0.0063632
-32 1.2722e-04    388   0.68911 0.80811 0.0063638
-33 1.2213e-04    400   0.68758 0.81085 0.0063689
-34 1.1450e-04    420   0.68499 0.81215 0.0063713
-35 1.0904e-04    527   0.67170 0.81940 0.0063846
-36 1.0686e-04    534   0.67094 0.82009 0.0063859
-37 1.0495e-04    546   0.66949 0.82284 0.0063908
-38 1.0177e-04    554   0.66865 0.82375 0.0063925
-39 9.5413e-05    578   0.66621 0.82650 0.0063974
-40 8.7234e-05    610   0.66277 0.82719 0.0063986
-41 7.6330e-05    619   0.66193 0.84062 0.0064219
-42 6.1064e-05    772   0.65010 0.84329 0.0064264
-43 5.7248e-05    777   0.64980 0.84856 0.0064352
-44 5.4521e-05    790   0.64903 0.85413 0.0064443
-45 5.3431e-05    812   0.64758 0.85413 0.0064443
-46 5.0887e-05    822   0.64705 0.85482 0.0064454
-47 4.8574e-05    887   0.64361 0.85642 0.0064480
-48 4.5798e-05    902   0.64278 0.85749 0.0064497
-49 4.4526e-05    907   0.64255 0.85787 0.0064503
-50 3.8165e-05    922   0.64178 0.86688 0.0064645
-51 3.4695e-05    990   0.63919 0.86741 0.0064654
-52 3.3924e-05   1001   0.63881 0.86856 0.0064671
-53 3.0532e-05   1010   0.63850 0.87001 0.0064694
-54 2.5443e-05   1020   0.63812 0.87367 0.0064750
-55 2.3486e-05   1048   0.63728 0.87383 0.0064752
-56 1.9083e-05   1064   0.63690 0.87856 0.0064823
-57 1.5266e-05   1128   0.63568 0.87856 0.0064823
-58 1.0904e-05   1148   0.63537 0.88131 0.0064864
-59 8.4811e-06   1162   0.63522 0.88215 0.0064876
-60 0.0000e+00   1180   0.63507 0.88230 0.0064878</code></pre>
+26 1.6538e-04    179   0.72506 0.79902 0.0063465
+27 1.5266e-04    192   0.72254 0.79948 0.0063474
+28 1.4418e-04    309   0.70231 0.80414 0.0063563
+29 1.4176e-04    359   0.69353 0.80551 0.0063589
+30 1.3358e-04    368   0.69216 0.80795 0.0063635
+31 1.3085e-04    381   0.69002 0.80788 0.0063633
+32 1.2722e-04    388   0.68911 0.80818 0.0063639
+33 1.2213e-04    400   0.68758 0.81101 0.0063692
+34 1.1450e-04    420   0.68499 0.81230 0.0063716
+35 1.0904e-04    527   0.67170 0.81956 0.0063849
+36 1.0686e-04    534   0.67094 0.82024 0.0063861
+37 1.0495e-04    546   0.66949 0.82299 0.0063911
+38 1.0177e-04    554   0.66865 0.82391 0.0063927
+39 9.5413e-05    578   0.66621 0.82665 0.0063976
+40 8.7234e-05    610   0.66277 0.82734 0.0063988
+41 7.6330e-05    619   0.66193 0.84055 0.0064217
+42 6.1064e-05    772   0.65010 0.84322 0.0064262
+43 5.7248e-05    777   0.64980 0.84848 0.0064350
+44 5.4521e-05    790   0.64903 0.85406 0.0064442
+45 5.3431e-05    812   0.64758 0.85406 0.0064442
+46 5.0887e-05    822   0.64705 0.85474 0.0064453
+47 4.8574e-05    887   0.64361 0.85635 0.0064479
+48 4.5798e-05    902   0.64278 0.85742 0.0064496
+49 4.4526e-05    907   0.64255 0.85780 0.0064502
+50 3.8165e-05    922   0.64178 0.86680 0.0064644
+51 3.4695e-05    990   0.63919 0.86734 0.0064652
+52 3.3924e-05   1001   0.63881 0.86848 0.0064670
+53 3.0532e-05   1010   0.63850 0.86993 0.0064692
+54 2.5443e-05   1020   0.63812 0.87360 0.0064748
+55 2.3486e-05   1048   0.63728 0.87375 0.0064751
+56 1.9083e-05   1064   0.63690 0.87848 0.0064822
+57 1.5266e-05   1128   0.63568 0.87848 0.0064822
+58 1.0904e-05   1148   0.63537 0.88123 0.0064863
+59 8.4811e-06   1162   0.63522 0.88207 0.0064875
+60 0.0000e+00   1180   0.63507 0.88222 0.0064877</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plotcp</span>(highest.cred.level.model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">

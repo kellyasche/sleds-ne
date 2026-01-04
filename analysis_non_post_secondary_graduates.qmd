@@ -151,7 +151,7 @@ kable(head(master.original))
 
 # Define the subset
 
-One of the aspects noticed during analysis is the percentage of individuals that never graduated college that also had meaningful employment in the region. The table below shows that 58% of the high school graduates in Northeast Minnesota never graduated college.
+One of the aspects noticed during analysis is the percentage of individuals that never graduated college that also had meaningful employment in the region. The table below shows that 54% of the high school graduates in Southern Minnesota never graduated college.
 
 ```{r}
 data <- master.original %>%
@@ -169,7 +169,7 @@ datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
 
 ```
 
-We are going to examine, more closely, this 58% of the population and see if there are patterns in which they end up in different employment outcomes 1-, 5- and 10-years after graduating high school.
+We are going to examine, more closely, this 54% of the population and see if there are patterns in which they end up in different employment outcomes 1-, 5- and 10-years after graduating high school.
 
 <br>
 
@@ -177,19 +177,26 @@ We are going to examine, more closely, this 58% of the population and see if the
 
 The following tables provide the percentage of non-college graduates that were categorized in the various employment outcomes at 1-, 5-, and 10-years after graduating high school.
 
-**Key Findings**\
-At Year 1, most non-graduates were concentrated in non-meaningful employment (35.0%) or had no Minnesota employment record (20.8%). Meaningful regional employment accounted for 19.2%, while meaningful employment elsewhere in Minnesota was minimal (5.6%). By Year 5, regional meaningful employment rose to 26.3% and became the largest single category, non-meaningful work declined to 27.3%, and meaningful employment outside the region more than doubled to 12.6%. By Year 10, regional meaningful employment held steady at 25.6% and meaningful employment outside the region grew slightly to 15.6%, but detachment from the state labor market surged to 36.7%.
+## Distribution of Employment Outcomes for Non-College Graduates
 
-**Interpretation Over Time**\
-Year 1 reflects a difficult transition for non-graduates, with most in unstable or disconnected positions. By Year 5, there is clear upward mobility as regional meaningful employment strengthens and non-meaningful work declines. This marks the high point of progress for those remaining in the workforce. However, by Year 10 the picture stabilizes, with little additional growth in meaningful employment. Instead, labor market detachment grows substantially, overtaking all other categories and becoming the dominant outcome.
+### **Key Findings**
 
-**Conclusion**\
-Non-graduates make early gains toward meaningful regional employment, particularly within the first five years, but these gains plateau by Year 10. The growing share with no Minnesota employment record highlights long-term fragility in workforce attachment, suggesting that without intervention, a significant portion of this group will remain disconnected from the state’s labor market.
+At **1-year after graduation**, non-college grads are widely dispersed across outcomes. The largest share (31.2%) are in *not meaningful, not attending postsecondary*, followed closely by *attending postsecondary* (21.8%) and *meaningful employment in region* (20.4%). A substantial group (19.8%) has *no MN employment record*.
+
+By **5-years after graduation**, the share in *meaningful employment in region* grows to 30.1%, becoming the single largest group. *Meaningful employment in MN (outside region)* also rises to 14.1%. Meanwhile, *attending postsecondary* falls sharply (to 5.1%), and both *not meaningful* (24.0%) and *no MN employment* (26.6%) remain substantial.
+
+At **10-years after graduation**, regional meaningful employment is still the largest category (30.6%), while *meaningful employment in MN (outside region)* continues to grow (16.6%). The proportion with *no MN employment record* increases to its highest level (34.0%), while *not meaningful employment* shrinks (18.7%).
+
+### **Interpretation Over Time**
+
+Immediately after high school, many non-college grads are either in low-quality employment or still engaged in postsecondary activity. Over the medium term (5 years), the transition away from postsecondary and into the workforce is clear, with meaningful employment in the region gaining prominence. By 10 years, regional employment remains stable, but there is a clear shift toward greater geographic mobility (*meaningful employment in MN outside region*) and a steady rise in the share leaving the state or the formal workforce (*no MN employment record*). Importantly, the group in *not meaningful employment* shrinks over time, suggesting improvement in employment quality among those who stay in the labor market.
+
+### **Conclusion**
+
+For non-college grads, the early years are characterized by instability and disconnection. By 5 years out, many transition into stable, meaningful employment, especially in the region. However, by 10 years, the rise of out-of-region employment and the growing proportion with no Minnesota employment record point toward greater mobility and possible outmigration. Overall, regional meaningful employment remains the single largest and most stable outcome across time, but the pathway diverges into mobility or disengagement as time progresses.
 
 ::: panel-tabset
 ## 1 year after graduation
-
-Most non-graduates did not secure meaningful employment early on. Over one-third (35.0%) were employed in Minnesota but not in meaningful work, while another 20.8% had no Minnesota employment record and were not in school. Meaningful employment in the region (19.2%) was far more common than meaningful employment elsewhere in Minnesota (5.6%). A notable share (19.4%) continued their postsecondary education despite not completing a credential.
 
 ```{r}
 data <- master.original %>%
@@ -198,7 +205,8 @@ data <- master.original %>%
   group_by(grad.year.1) %>%
   summarize(n = n()) %>%
   ungroup %>%
-  mutate(pct = n / sum(n))
+  mutate(pct = n / sum(n)) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/Distribution/one-year-grad.csv")
 
 datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
           options = list(columnDefs = list(list(className = "dt-center", targets = 1:2)))) %>%
@@ -208,8 +216,6 @@ datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
 
 ## 5 years after graduation
 
-The share of individuals in postsecondary dropped sharply (19.4% → 4.2%), reflecting that most either left school or completed without graduating. Meaningful employment in the region grew steadily (19.2% → 26.3%), signaling that the region became a stronger employment destination over time. Meaningful employment outside the region also more than doubled (5.6% → 12.6%), though it remained less common than regional pathways. Non-meaningful employment declined (35.0% → 27.3%), but the proportion with no Minnesota employment record stayed high (20.8% → 29.6%), suggesting long-term detachment from the state labor force for a sizeable share.
-
 ```{r}
 data <- master.original %>%
   filter(ps.grad == "No") %>%
@@ -217,7 +223,8 @@ data <- master.original %>%
   group_by(grad.year.5) %>%
   summarize(n = n()) %>%
   ungroup %>%
-  mutate(pct = n / sum(n))
+  mutate(pct = n / sum(n)) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/Distribution/five-year-grad.csv")
 
 datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
           options = list(columnDefs = list(list(className = "dt-center", targets = 1:2)))) %>%
@@ -227,8 +234,6 @@ datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
 
 ## 10 years after graduation
 
-Meaningful regional employment held steady (26.3% → 25.6%), suggesting limited additional gains after the first five years. Meaningful employment elsewhere in Minnesota declined (12.6% → 15.6%), indicating a modest shift outward from the region. Non-meaningful employment fell again (27.3% → 22.1%), pointing to some continued upward mobility. However, the most striking change was in detachment: those with no Minnesota employment record jumped from 29.6% to 36.7%, showing that long-term disconnection from the state labor market becomes the dominant outcome by Year 10.
-
 ```{r}
 data <- master.original %>%
   filter(ps.grad == "No") %>%
@@ -236,7 +241,8 @@ data <- master.original %>%
   group_by(grad.year.10) %>%
   summarize(n = n()) %>%
   ungroup %>%
-  mutate(pct = n / sum(n))
+  mutate(pct = n / sum(n)) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/Distribution/ten-year-grad.csv")
 
 datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
           options = list(columnDefs = list(list(className = "dt-center", targets = 1:2)))) %>%
@@ -246,7 +252,7 @@ datatable(data, class = "cell-border stripe", filter = "top", rownames = FALSE,
 ```
 :::
 
-This analysis is going to focus on that 58% of the graduates, and explore relationships and patterns of the portion of this population that found meaningful employment in the region vs. other employment outcomes.
+This analysis is going to focus on that 54% of the graduates, and explore relationships and patterns of the portion of this population that found meaningful employment in the region vs. other employment outcomes.
 
 <br>
 
@@ -285,9 +291,9 @@ This will:
 
 We are going to continue using the variables that we have used throughout this project.
 
--   **Demographic:** `RaceEthnicity`, `economic.status`, `SpecialEdStatus`
+-   **Demographic:** `RaceEthnicity`, `economic.status`, `SpecialEdStatus`, `Gender`
 -   **High school characteristics:** `Dem_Desc`, `avg.unemp.rate`, `avg.wages.pct.state`
--   **High school accomplishments:** `pseo.participant`, `cte.achievement`, `total.cte.courses.taken`, `ACTCompositeScore`, `took.ACT`, `MCA.M`, `MCA.R`, `MCA.S`
+-   **High school accomplishments:** `pseo.participant`, `cte.achievement`, `total.cte.courses.taken`, `ACTCompositeScore`, `MCA.M`, `MCA.R`, `MCA.S`
 
 <br>
 
@@ -297,49 +303,55 @@ We will first explore the relationships between the independent variables and th
 
 ## Demographics
 
-**Key Findings**\
-Among demographic variables, the strength of association with employment outcomes for non-college graduates ranges from weak to moderate. The relative influence is:
+### Grand Synthesis: Demographic Variables and Employment Pathways of Non-College Graduates
 
-1.  **Special Education Status** – strongest predictor, with moderate effects (Cramer’s V ≈ 0.10–0.16), consistently linked to lower meaningful regional employment and higher disconnection.
-2.  **Economic Status** – moderate influence (Cramer’s V ≈ 0.08–0.10), shaping job quality and access to meaningful regional employment, though less predictive of long-term detachment.
-3.  **Race/Ethnicity** – weakest but still significant (Cramer’s V ≈ 0.05–0.06), highlighting disparities in meaningful regional employment and long-term workforce attachment.
+#### Key Findings
 
-**Interpretation Over Time**
+-   **Economic Status**: The strongest and most consistent demographic factor. At 1 year, low-income students are notably less likely to be in **meaningful employment in the region** (Cramer’s V = 0.115, *p* \< .001). While disparities weaken at 5 and 10 years, gaps in regional meaningful employment remain.
+-   **Special Education Status**: Also a strong differentiator. At 1 year, students with special education needs are substantially less likely to achieve meaningful regional employment (Cramer’s V = 0.176, *p* \< .001). Although the association weakens over time, regional employment gaps persist through year 10.
+-   **Gender**: Displays a modest but consistent influence. Males are more likely to secure meaningful employment in the region, with gaps narrowing at 5 years but re-emerging by 10 years (Cramer’s V ≈ 0.06–0.08, *p* \< .001).
+-   **Race/Ethnicity**: Shows a small but persistent association (Cramer’s V ≈ 0.05, *p* \< .001). White students are more likely to be in meaningful regional employment, while students of color are more often in weaker outcomes. The disparity remains stable over time.
 
--   **Year 1:** Disparities emerge immediately. Students of color (especially Black, Hispanic, and Asian/PI) and those with special education status face lower rates of meaningful regional employment and higher rates of detachment or non-meaningful work. Low-income students are more likely to be in non-meaningful jobs but show similar regional meaningful employment rates to their peers.
--   **Year 5:** Regional meaningful employment grows across groups, but gaps persist. Special education students remain more likely to be disconnected or in non-meaningful roles. Race/Ethnicity disparities widen as White and American Indian students gain stronger footholds in regional employment while Black, Hispanic, and Asian/PI students face higher disconnection. Economic status differences become more evident in job quality, with low-income students lagging.
--   **Year 10:** Patterns stabilize into long-term trajectories. Special education status remains the most consistent barrier to meaningful regional employment. Race/Ethnicity disparities deepen, with workforce detachment affecting more than half of Asian/PI and Hispanic students compared to about one-third of White students. Economic status continues to shape job quality, though disconnection rates converge across income levels.
+#### Interpretation Over Time
 
-**Conclusion**\
-Demographic characteristics meaningfully influence non-college graduates’ pathways into the workforce, with special education status standing out as the strongest and most consistent predictor of disadvantage. Race/Ethnicity disparities reveal systemic inequities, particularly in long-term workforce attachment for students of color, while economic status most strongly impacts job quality. Together, these findings show that while demographic effects are not the sole drivers of employment outcomes, they create enduring barriers that limit equitable access to meaningful regional employment.
+Demographic influences are strongest at **1 year after high school**, when the likelihood of entering **meaningful employment in the region** is most sharply stratified. Economic disadvantage and special education needs stand out as particularly strong barriers, producing early gaps that never fully close. Gender and race/ethnicity also shape outcomes, though their effects are smaller in magnitude. Over time, all disparities persist, with some evidence of narrowing (economic status, special education) but none disappearing. By 10 years, meaningful regional employment stabilizes at \~30% overall, but disadvantaged groups remain systematically underrepresented.
+
+#### Conclusion
+
+For non-college graduates, **demographics matter most in the early transition** into the workforce. Economic disadvantage and special education needs significantly reduce access to meaningful employment in the region, while gender and race/ethnicity exert smaller but still persistent effects. Importantly, disparities do not vanish over time—regional meaningful employment remains an unequal outcome at 1, 5, and 10 years.
+
+#### Policy Implications
+
+-   **Early Intervention is Critical**: Programs supporting disadvantaged students in the first 1–2 years after high school are most likely to reduce long-term disparities in regional meaningful employment.
+-   **Target Regional Employment Pipelines**: Connecting low-income students, students of color, women, and special education students to local employers and career ladders can address inequities at their source.
+-   **Retention and Advancement Strategies**: Since gaps persist into the 10-year mark, interventions cannot stop at initial placement—long-term supports are needed to sustain equity in regional employment.
+-   **Equity Benchmarking**: Meaningful employment in the region should be treated as a key benchmark for equity policy, as it is both the most desirable outcome and the one where disparities are most evident.
 
 <br>
 
 ### `RaceEthnicity`
 
-**Key Findings**\
-Across Years 1, 5, and 10, Race/Ethnicity consistently shows a statistically significant relationship with employment outcomes, though effect sizes remain weak (Cramer’s V = 0.047–0.063). White and American Indian students are consistently more likely to secure meaningful employment in the region (ranging from 17–27%), while Black, Hispanic, and Asian/PI students remain less represented in these jobs (typically 10–17%). Disconnection from the Minnesota labor market is persistently higher for Asian/PI and Hispanic students, climbing to more than half of each group by Year 10, compared with roughly one-third of White peers.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, race/ethnicity shows a statistically significant but weak association with employment outcomes (*p* \< .001, **Cramer's V = 0.053**). Students of color are **less likely to be in meaningful employment in the region** and more likely in “not meaningful” or “no MN employment record.”
+-   At **5- and 10-years**, the association remains significant (*p* \< .001) with nearly identical effect sizes (**Cramer's V ≈ 0.052–0.053**). Racial gaps in meaningful regional employment persist over time, though they do not appear to widen.
 
--   **Year 1:** Disparities emerge immediately, with White and American Indian students more likely to access meaningful regional jobs, while Black, Hispanic, and Asian/PI peers experience higher rates of non-meaningful employment or detachment.
--   **Year 5:** Meaningful regional employment rises across all groups, but gaps persist. Disconnection begins to sharply diverge for Asian/PI and Hispanic students, who are increasingly disconnected compared to White peers.
--   **Year 10:** Patterns solidify. White and American Indian students sustain stronger representation in meaningful regional employment, while long-term detachment dominates for Asian/PI and Hispanic students, with nearly half or more disconnected from the state’s workforce.
+#### Interpretation Over Time
 
-**Conclusion**\
-While the overall statistical association between Race/Ethnicity and employment outcomes is modest, the persistence of disparities is clear. White and American Indian non-graduates are better integrated into meaningful regional employment, while Black, Hispanic, and Asian/PI peers face enduring barriers and disproportionately higher rates of workforce disconnection. These results highlight systemic inequities in labor market access and underscore the need for targeted interventions to support underrepresented groups in achieving and sustaining meaningful regional employment.
+While small in magnitude, the disparities are consistent: White non-college grads are more likely to secure **meaningful employment in the region**, whereas students of color remain more concentrated in weaker outcomes. These gaps remain stable at 5 and 10 years, suggesting persistent but not growing barriers to regional employment access.
+
+#### Conclusion
+
+Race/ethnicity has a **modest but enduring influence** on non-college grads’ ability to secure meaningful employment in the region. The disparities do not close over time, underscoring structural barriers that shape access to the regional labor market.
+
+#### Policy Implications
+
+-   **Equity in regional employment pathways** should be a priority, with targeted support for students of color in the early years after high school.
+-   Expanding **regional employer partnerships** and mentorship opportunities could help address underrepresentation in meaningful regional employment.
+-   Because disparities persist over the long run, **policy should focus on dismantling barriers to entry into regional employment**, not just early transition supports.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Findings**\
-At Year 1, Race/Ethnicity shows a statistically significant relationship with employment outcomes (χ²=188.6, p\<.001), though the effect size is weak (Cramer’s V=0.047). White and American Indian students had the highest rates of meaningful regional employment (19.2% and 17.4%), while Black (11.7%), Hispanic (11.6%), and Asian/PI (10.0%) students were less likely to be employed meaningfully in the region. Non-meaningful employment was the most common outcome across all groups, with disconnection from Minnesota’s workforce particularly high among Asian/PI (35.0%) and Hispanic (32.5%) students.
-
-**Interpretation**\
-The data suggest that in the first year after graduation, non-college graduates from underrepresented racial/ethnic groups are less likely to secure meaningful employment in the region compared to White or American Indian peers. Instead, they face higher rates of disconnection or concentration in non-meaningful employment. This points to early disparities in how different groups connect to the regional labor market, with meaningful regional employment disproportionately concentrated among White and American Indian students.
-
-**Conclusion**\
-While the overall effect of Race/Ethnicity is weak, the disparities are clear: Black, Hispanic, and Asian/PI non-graduates are less likely to enter meaningful regional employment in the critical first year. These patterns highlight structural barriers that may hinder equitable access to quality regional jobs and suggest the need for targeted supports to improve early labor market attachment for underrepresented groups.
 
 ```{r}
 data <- master.original %>%
@@ -352,18 +364,16 @@ tab_xtab(var.row = data$grad.year.1,
          show.exp = TRUE,
          show.col.prc = TRUE)
 
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  filter(RaceEthnicity != "Unknown") %>%
+  select(grad.year.1, RaceEthnicity) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/RaceEthnicity-1.csv")
+
 ```
 
 #### 5-years after graduation
-
-**Key Findings**\
-At Year 5, Race/Ethnicity remains statistically significant in predicting employment outcomes (χ²=188.0, p\<.001), though the effect size is weak (Cramer’s V=0.052). White students continued to have the highest share of meaningful regional employment (27.3%), followed by American Indian students (23.0%). In contrast, Black (15.0%), Hispanic (16.9%), and Asian/PI (17.9%) students were less likely to secure meaningful employment in the region. Disconnection from the Minnesota labor market was especially high among Asian/PI (45.9%) and Hispanic (47.7%) students compared to 28.9% of White students.
-
-**Interpretation**\
-By Year 5, regional meaningful employment increased across all groups, but disparities persisted. White and American Indian non-graduates were most likely to benefit from meaningful regional jobs, while Black, Hispanic, and Asian/PI peers remained underrepresented in these opportunities. Importantly, workforce detachment became a more pronounced issue for Asian/PI and Hispanic students, who were disproportionately disconnected from the state’s employment system.
-
-**Conclusion**\
-The Year 5 outcomes show that while regional meaningful employment grows overall, racial/ethnic disparities continue to shape labor market experiences. White and American Indian students have stronger footholds in the regional workforce, while Black, Hispanic, and Asian/PI students face both lower regional employment rates and higher disconnection. This suggests that structural inequalities established in the early years persist and deepen, limiting equitable access to meaningful regional employment for underrepresented groups.
 
 ```{r}
 data <- master.original %>%
@@ -375,18 +385,16 @@ tab_xtab(var.row = data$grad.year.5,
          var.col = data$RaceEthnicity,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  filter(RaceEthnicity != "Unknown") %>%
+  select(grad.year.5, RaceEthnicity) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/RaceEthnicity-5.csv")
 ```
 
 #### 10-years after graduation
-
-**Key Findings**\
-At Year 10, Race/Ethnicity continues to show a statistically significant relationship with employment outcomes (χ²=120.3, p\<.001), though the effect size remains weak (Cramer’s V=0.063). White students had the highest share of meaningful regional employment (26.5%), followed by American Indian students (23.8%). Black (12.0%), Hispanic (14.6%), and Asian/PI (10.8%) students were far less likely to achieve meaningful regional employment. Workforce detachment became a dominant outcome, especially among Asian/PI (58.1%) and Hispanic (51.1%) students, compared to 36.0% of White students.
-
-**Interpretation**\
-By Year 10, disparities in labor market outcomes persist and in some cases widen. White and American Indian students maintain stronger footholds in regional meaningful employment, while Black, Hispanic, and Asian/PI students remain disproportionately excluded. The most striking difference lies in long-term detachment: over half of Asian/PI and Hispanic non-graduates are disconnected from the state workforce, a rate far higher than for White or American Indian peers.
-
-**Conclusion**\
-The Year 10 outcomes highlight enduring structural inequities in the regional labor market. While a subset of White and American Indian students sustain meaningful employment in the region, Black, Hispanic, and Asian/PI students face compounded barriers, with disconnection from the workforce emerging as the dominant trajectory. These long-term gaps underscore the importance of targeted strategies to improve retention and advancement in meaningful regional employment for underrepresented racial/ethnic groups.
 
 ```{r}
 data <- master.original %>%
@@ -398,6 +406,13 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$RaceEthnicity,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  filter(RaceEthnicity != "Unknown") %>%
+  select(grad.year.10, RaceEthnicity) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/RaceEthnicity-10.csv")
 ```
 :::
 
@@ -405,23 +420,29 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `economic.status`
 
-**Key Findings**\
-Across Years 1, 5, and 10, economic status consistently shows a statistically significant relationship with employment outcomes, with small but persistent effects (Cramer’s V = 0.076–0.097). The strongest differences appear in job quality: non-low-income students are more likely to secure meaningful regional employment (24–28%) and less likely to be in non-meaningful jobs (19–32%), while low-income students face higher rates of non-meaningful work. Workforce detachment rates are similar for both groups at each time point.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, economic status (FRL qualification) has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.115**). Economically disadvantaged non-college grads are **less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
+-   At **5-years**, the association weakens (*p* \< .001, **Cramer's V = 0.079**), but disadvantaged students still lag in securing meaningful regional employment, even as overall shares in the region rise.
+-   At **10-years**, the association is smaller but still present (*p* \< .001, **Cramer's V = 0.076**). While many low-income students improve their outcomes, gaps in regional meaningful employment remain.
 
--   **Year 1:** Differences are visible mainly in postsecondary continuation and non-meaningful employment, with low-income students less likely to be in school and more likely to work in non-meaningful jobs. Regional meaningful employment rates were nearly identical across groups.
--   **Year 5:** Gaps widen in job quality. Non-low-income students are more likely to move into meaningful regional employment (28.1% vs. 24.5%), while low-income students remain more concentrated in non-meaningful work. Disconnection levels are nearly the same across groups.
--   **Year 10:** Patterns persist. Non-low-income students sustain higher regional meaningful employment (27.8% vs. 23.1%) and lower non-meaningful employment (19.3% vs. 25.3%). Both groups experience high and nearly identical levels of workforce detachment (36–37%).
+#### Interpretation Over Time
 
-**Conclusion**\
-Economic status matters less for whether non-college graduates remain connected to the Minnesota workforce and more for the type of jobs they hold. Low-income students are consistently less likely to attain meaningful regional employment and more likely to be in non-meaningful roles, while disconnection rates remain high and similar across groups. This suggests that long-term workforce participation challenges are broadly shared, but economic disadvantage creates enduring barriers to accessing quality regional employment.
+At the 1-year mark, economic disadvantage clearly restricts access to **regional meaningful employment**, pushing more students into unstable or disconnected pathways. By 5 years, many students—both disadvantaged and not—shift into meaningful regional employment, but disadvantaged students do so at **lower rates**. By 10 years, meaningful regional employment levels stabilize around 30% overall, yet economically disadvantaged students remain **underrepresented in this core category**. This suggests that while some catch-up occurs, regional meaningful employment is a persistent challenge for low-income non-college grads.
+
+#### Conclusion
+
+Economic status strongly shapes the likelihood of securing **regional meaningful employment**, especially in the critical early transition period. Though the disparities lessen with time, disadvantaged students never reach parity in regional employment outcomes. Regional meaningful employment is thus both the most desirable and most unequal category for this group.
+
+#### Policy Implications
+
+-   **Focus on regional employment pipelines**: Strengthen direct connections between disadvantaged students and regional employers, especially in industries offering long-term stability.
+-   **First-job interventions matter**: Ensuring that low-income non-college grads enter meaningful regional work within 1–2 years could reduce long-term disparities.
+-   **Retention supports**: Programs that help disadvantaged workers remain in the region and advance within local employment could help close the persistent 10-year gap.
+-   Policymakers should treat **meaningful regional employment as the key equity benchmark** for non-college grads, since disparities concentrate in this outcome even more than in overall employment.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, Economic Status)**\
-Economic status is significantly related to outcomes (χ²=222.7, p\<.001) with a small effect (Cramer’s V=0.097). Students not identified as low-income were more likely to be attending postsecondary (23.1% vs. 15.8%) and less likely to be in non-meaningful employment (32.1% vs. 37.8%). Rates of meaningful regional employment were nearly identical (19.1% vs. 19.3%), showing that early disparities are driven more by school continuation and job quality than by access to regional meaningful work.
 
 ```{r}
 data <- master.original %>%
@@ -432,12 +453,15 @@ tab_xtab(var.row = data$grad.year.1,
          var.col = data$economic.status,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.1, economic.status) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/economic.status-1.csv")
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, Economic Status)**\
-Economic status remains significantly related to outcomes (χ²=102.1, p\<.001) with a small effect (Cramer’s V=0.076). Non-low-income students were more likely to secure meaningful regional employment (28.1% vs. 24.5%) and less likely to be in non-meaningful work (24.3% vs. 30.2%). Postsecondary enrollment and disconnection rates were similar across groups, showing the main gap lies in job quality and access to meaningful regional work.
 
 ```{r}
 data <- master.original %>%
@@ -448,12 +472,15 @@ tab_xtab(var.row = data$grad.year.5,
          var.col = data$economic.status,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.5, economic.status) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/economic.status-5.csv")
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, Economic Status)**\
-Economic status continues to show a significant relationship with outcomes (χ²=69.6, p\<.001) with a small effect (Cramer’s V=0.083). Non-low-income students were more likely to achieve meaningful regional employment (27.8% vs. 23.1%) and less likely to be in non-meaningful jobs (19.3% vs. 25.3%). Rates of workforce detachment were similar (36.3% vs. 37.2%), indicating that long-term disconnection affects both groups, while job quality differences remain tied to economic status.
 
 ```{r}
 data <- master.original %>%
@@ -464,6 +491,12 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$economic.status,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.10, economic.status) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/economic.status-10.csv")
 ```
 :::
 
@@ -471,23 +504,29 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `SpecialEdStatus`
 
-**Key Findings**\
-Across Years 1, 5, and 10, special education status consistently shows a significant relationship with employment outcomes, with small-to-moderate effects (Cramer’s V = 0.097–0.157). Students without special education services are more likely to secure meaningful regional employment (20–27%) and meaningful employment elsewhere in Minnesota (14–17%), while students with special education status consistently lag behind (15–22% regional, 9–10% elsewhere). Those with special education status are also more likely to be disconnected or in non-meaningful work at every time point.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, special education status shows a **moderate association** with employment outcomes (*p* \< .001, **Cramer's V = 0.176**). Students with special education needs are **substantially less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or disconnected categories.
+-   At **5-years**, the association remains significant but weaker (*p* \< .001, **Cramer's V = 0.113**). Some catch-up occurs, but students with special education needs are still underrepresented in regional meaningful employment.
+-   At **10-years**, the association is smaller but persists (*p* \< .001, **Cramer's V = 0.084**), indicating that while disparities narrow, a lasting gap remains in access to meaningful regional employment.
 
--   **Year 1:** Early disparities emerge sharply. Students with special education status are less likely to be in postsecondary or meaningful regional employment and more likely to be disconnected (29.5% vs. 18.0%) or in non-meaningful jobs (38.2% vs. 33.9%).
--   **Year 5:** Regional meaningful employment rises for both groups, but gaps persist (27.4% vs. 22.5%). Special education students remain more concentrated in disconnection (34.4% vs. 28.2%) and non-meaningful work (30.8% vs. 26.2%).
--   **Year 10:** Differences stabilize into long-term patterns. Non-special education students sustain stronger meaningful regional employment (26.6% vs. 22.0%), while special education students remain more likely to be disconnected (39.7% vs. 35.9%) or in non-meaningful jobs (27.9% vs. 20.5%).
+#### Interpretation Over Time
 
-**Conclusion**\
-Special education status is one of the strongest demographic predictors of employment outcomes for non-college graduates. While both groups face high disconnection rates over time, students with special education status are consistently less likely to secure meaningful regional employment and more likely to be detached from the workforce or in non-meaningful roles. These persistent gaps highlight the need for tailored supports to improve workforce integration and long-term job quality for this population.
+The early transition period is especially difficult for students with special education needs: their entry into **regional meaningful employment** is notably constrained compared to peers. By 5 years, some improvement is visible, but disparities remain. At 10 years, the gap is smaller yet still present, showing that students with special education needs are consistently less likely to secure meaningful employment in the region across their careers.
+
+#### Conclusion
+
+Special education status is a **strong barrier to meaningful regional employment** in the early years after high school, and while the influence diminishes over time, it does not disappear. Students with special education needs remain systematically disadvantaged in achieving stable, meaningful employment in the region.
+
+#### Policy Implications
+
+-   **Early transition supports are critical**: Programs that directly connect special education students to regional employers in their first 1–2 years could help close the largest gap.
+-   **Workforce preparation tailored to regional industries** may improve long-term outcomes, especially when aligned with local employer needs.
+-   **Sustained supports** beyond high school are necessary, since disparities in regional employment persist even after 10 years.
+-   Policymakers should view meaningful regional employment as a **key equity target** for students with special education needs, ensuring both access and retention within the local labor market.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, SpecialEd Status)**\
-Special education status is strongly related to outcomes (χ²=584.2, p\<.001) with a moderate effect (Cramer’s V=0.157). Students without special education services were more likely to continue in postsecondary (21.9% vs. 12.0%) and to secure meaningful regional employment (20.3% vs. 15.7%). Students with special education status were far more likely to be disconnected (29.5% vs. 18.0%) or in non-meaningful jobs (38.2% vs. 33.9%), underscoring early disadvantages in workforce integration.
 
 ```{r}
 data <- master.original %>%
@@ -498,12 +537,15 @@ tab_xtab(var.row = data$grad.year.1,
          var.col = data$SpecialEdStatus,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.1, SpecialEdStatus) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/SpecialEdStatus-1.csv")
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, SpecialEd Status)**\
-Special education status remains significantly related to outcomes (χ²=163.1, p\<.001) with a small effect (Cramer’s V=0.097). Non-special education students were more likely to achieve meaningful regional employment (27.4% vs. 22.5%) and meaningful employment elsewhere in Minnesota (13.7% vs. 9.2%). Students with special education status were more often disconnected (34.4% vs. 28.2%) or in non-meaningful jobs (30.8% vs. 26.2%), showing persistent disparities in job quality and workforce attachment.
 
 ```{r}
 data <- master.original %>%
@@ -514,12 +556,15 @@ tab_xtab(var.row = data$grad.year.5,
          var.col = data$SpecialEdStatus,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.5, SpecialEdStatus) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/SpecialEdStatus-5.csv")
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, SpecialEd Status)**\
-Special education status continues to significantly shape outcomes (χ²=110.9, p\<.001) with a small-to-moderate effect (Cramer’s V=0.105). Non-special education students were more likely to secure meaningful regional employment (26.6% vs. 22.0%) and meaningful employment elsewhere in Minnesota (17.0% vs. 10.4%). Students with special education status faced higher rates of disconnection (39.7% vs. 35.9%) and non-meaningful work (27.9% vs. 20.5%), underscoring persistent disadvantages in long-term labor market integration.
 
 ```{r}
 data <- master.original %>%
@@ -530,6 +575,12 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$SpecialEdStatus,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.10, SpecialEdStatus) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/Demographics/SpecialEdStatus-10.csv")
 ```
 :::
 
@@ -537,47 +588,55 @@ tab_xtab(var.row = data$grad.year.10,
 
 ## High school characteristics
 
-**Key Findings**\
-Among High School Characteristics, the strength of association with non-college graduate outcomes ranges from weak to moderate. The relative influence is:
+### Grand Synthesis: High School Characteristics and Employment Pathways of Non-College Graduates
 
-1.  **County Unemployment Rate** – strongest predictor (F=52.1 → 7.1), consistently linked to lower meaningful regional employment and higher detachment in higher-unemployment counties.
-2.  **County Wages (% of State)** – moderate predictor (F=14.5 → 6.5), with students from higher-wage counties more likely to stay in their home region for meaningful work.
-3.  **Rural-ness (Dem_Desc)** – weakest predictor (Cramer’s V ≈ 0.03–0.06), showing that students from entirely rural counties are less likely to achieve meaningful regional employment and more likely to seek work outside their region.
+#### Key Findings
 
-**Interpretation Over Time**
+-   **Dem_Desc (Rural/Urban Context)**: Shows a small but consistent association with employment outcomes (Cramer’s V ≈ 0.03–0.04, *p* \< .001). Rural graduates are **slightly more likely to secure meaningful employment in the region**, while urban students are more often in non-MN or non-meaningful outcomes.
+-   **Average County Unemployment Rate**: A strong differentiator, especially at 1 year (*F* = 110.8, *p* \< .001). Students from high-unemployment counties are less likely to achieve meaningful regional employment. The effect weakens but remains significant at 5 and 10 years.
+-   **Average County Wages (Pct. of State Median)**: Significant at 1 year (*F* = 12.3, *p* \< .001) and 5 years (*F* = 9.8, *p* \< .001), with higher-wage counties modestly increasing access to meaningful regional employment. By 10 years, the association disappears (*p* = .329).
 
--   **Year 1:** County economic conditions strongly shaped early pathways. Students from stronger local economies (lower unemployment, higher wages) were more likely to secure meaningful regional jobs, while those from rural or weaker economies faced disadvantages.
--   **Year 5:** The influence of county unemployment and wages remained significant, though weaker. Students from healthier economies stayed in their region for meaningful work, while those from high-unemployment counties were more likely to disconnect or seek work elsewhere. Rural disadvantages became clearer, with entirely rural students showing the lowest regional employment rates.
--   **Year 10:** Effects of local conditions persisted but narrowed. County unemployment and wages still tilted outcomes toward meaningful regional work, though less strongly. Rural students continued to lag in meaningful regional employment, often relying on jobs outside their region.
+#### Interpretation Over Time
 
-**Conclusion**\
-High School Characteristics matter most in the early years, when local labor market conditions at the time of graduation heavily shape pathways into meaningful regional employment. Over time, their influence weakens but does not disappear. Students from stronger county economies (low unemployment, higher wages) consistently fare better, while entirely rural students face persistent barriers to securing meaningful employment within their home regions.
+High school characteristics tied to **place-based economic conditions** shape non-college graduates’ employment outcomes, especially in the **early years after graduation**. Students from rural and higher-wage counties, and those graduating in low-unemployment environments, are more likely to secure **meaningful employment in the region**. Over time, the influence of county-level wage strength fades, while unemployment context retains a lingering effect even at 10 years. Rural advantages in regional employment are consistent but modest throughout.
+
+#### Conclusion
+
+High school characteristics exert their strongest influence on regional meaningful employment **within the first few years after high school**, setting the stage for career trajectories. Economic conditions (county unemployment, wage strength) matter more than rural/urban context, though all three factors shape access to regional employment opportunities. By 10 years, wage context no longer matters, but unemployment and rural-urban patterns continue to leave a modest imprint.
+
+#### Policy Implications
+
+-   **Place-based supports** are critical: students in high-unemployment or lower-wage counties need targeted programs to connect them to regional employment.
+-   **Rural strengths can be leveraged**: replicating strong employer pipelines in rural areas for urban students may help reduce disparities in regional employment outcomes.
+-   **Early career interventions** (within 1–5 years) are most impactful, as local wage and unemployment contexts influence outcomes most strongly in this period.
+-   **Long-term strategies** should focus on strengthening county labor markets themselves, since structural conditions leave lasting imprints even beyond individual differences.
 
 <br>
 
 ### `Dem_Desc`
 
-**Key Findings**\
-Rural-ness shows a consistent, statistically significant relationship with outcomes for non-college graduates, though the effects are weak (Cramer’s V ≈ 0.03–0.06). Within the High School Characteristics group, it is among the weaker predictors. The relative outcomes are clear:
+#### Key Findings
 
--   **Urban/town/rural mix** – consistently highest regional meaningful employment (20–27%).
--   **Town/rural mix** – mid-range outcomes (18–24%).
--   **Entirely rural** – lowest regional meaningful employment (15–21%) but highest meaningful employment outside the region (20–24%).
+-   At **1-year**, rural-urban context shows a **statistically significant but weak association** with employment outcomes (*p* \< .001, **Cramer's V = 0.035**). Rural students are somewhat **more likely to enter meaningful employment in the region**, while urban students are more represented in postsecondary attendance or non-meaningful categories.
+-   At **5-years**, the association remains weak but significant (*p* \< .001, **Cramer's V = 0.038**). Rural students retain a stronger presence in regional meaningful employment, though overall disparities remain small.
+-   At **10-years**, the association persists at a similarly weak level (*p* \< .001, **Cramer's V = 0.032**). Regional meaningful employment continues to lean toward rural students, but the effect is minimal.
 
-**Interpretation Over Time**
+#### Interpretation Over Time
 
--   **Year 1:** Urban/town/rural mix students had the strongest foothold in meaningful regional employment (19.6%), while entirely rural students lagged (15.6%) and leaned more heavily on non-meaningful jobs.
--   **Year 5:** Gaps widened. Urban/town/rural mix students reached 27.6% in regional meaningful employment, compared to 24.0% for town/rural mix and only 21.0% for entirely rural students. Entirely rural students had the highest rates of meaningful employment outside the region (20.0%), suggesting limited local options.
--   **Year 10:** Patterns stabilized. Urban/town/rural mix students maintained the advantage in regional meaningful work (26.9%), while entirely rural peers remained lowest (20.0%) and continued to rely more on jobs outside the region (24.0%). Detachment rates converged across all groups at around 36%.
+Rural-urban differences in employment outcomes are **small but consistent**. Students from rural contexts are slightly more likely to anchor in **meaningful employment in the region**, reflecting stronger ties to local labor markets. Urban students are more likely to disperse into non-MN employment or extended schooling paths, reducing their presence in regional meaningful employment. The overall magnitude of these differences is modest and stable across time.
 
-**Conclusion**\
-Rural-ness modestly influences non-college graduates’ employment pathways. Students from entirely rural areas are less likely to achieve meaningful employment in their home region and more likely to find meaningful work elsewhere in Minnesota. By contrast, students from more mixed urban/rural backgrounds consistently achieve higher rates of meaningful regional employment. This suggests that geographic context shapes opportunity structures, with rural students facing persistent barriers to staying meaningfully employed within their region.
+#### Conclusion
+
+Rural context modestly increases the likelihood of **meaningful regional employment** for non-college graduates. The effect is weak in statistical terms but consistent, highlighting a subtle but persistent geographic pattern in labor market attachment.
+
+#### Policy Implications
+
+-   **Rural advantage in regional employment** suggests that local labor market connections are stronger outside urban areas. Policymakers should seek to replicate these pathways for urban graduates who may lack similar networks.
+-   **Regional employer partnerships** could be expanded in urban and mixed settings to improve access to meaningful regional employment.
+-   Because disparities are small, **rural-urban differences should be viewed as complementary to other equity dimensions** (economic status, special education, etc.), rather than as a major independent driver of outcomes.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, Rural-ness)**\
-Rural-ness is significantly related to outcomes (χ²=53.2, p\<.001) but with a very weak effect (Cramer’s V=0.033). Differences across location types are small. Urban/town/rural mix students had slightly higher meaningful regional employment (19.6%) compared to town/rural mix (18.8%) and entirely rural (15.6%). Entirely rural students had the lowest regional employment rates and slightly higher reliance on non-meaningful jobs, indicating modest early disadvantages.
 
 ```{r}
 data <- master.original %>%
@@ -588,12 +647,15 @@ tab_xtab(var.row = data$grad.year.1,
          var.col = data$Dem_Desc,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.1, Dem_Desc) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/Dem_Desc-1.csv")
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, Rural-ness)**\
-Rural-ness remains significantly related to outcomes (χ²=110.3, p\<.001) with a weak effect (Cramer’s V=0.056). Regional meaningful employment was lowest among entirely rural students (21.0%) compared to town/rural mix (24.0%) and urban/town/rural mix (27.6%). Entirely rural students were more likely to secure meaningful employment outside the region (20.0% vs. 11–14%), suggesting limited local opportunities and a stronger push to find work beyond their home region.
 
 ```{r}
 data <- master.original %>%
@@ -604,12 +666,15 @@ tab_xtab(var.row = data$grad.year.5,
          var.col = data$Dem_Desc,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.5, Dem_Desc) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/Dem_Desc-5.csv")
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, Rural-ness)**\
-Rural-ness continues to be significantly related to outcomes (χ²=61.1, p\<.001) with a weak effect (Cramer’s V=0.055). Entirely rural students had the highest rates of meaningful employment outside the region (24.0%) but the lowest meaningful regional employment (20.0%). By contrast, students from urban/town/rural mix areas had the highest regional meaningful employment (26.9%). Disconnection rates were similar across groups (33–37%), suggesting that long-term workforce detachment affects all location types at comparable levels.
 
 ```{r}
 data <- master.original %>%
@@ -620,6 +685,12 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$Dem_Desc,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.10, Dem_Desc) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/Dem_Desc-10.csv")
 ```
 :::
 
@@ -627,39 +698,28 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `avg.unemp.rate`
 
-**Key Findings**\
-County unemployment rate shows a consistent, statistically significant relationship with outcomes across all three years, though its influence weakens over time (F=52.1 → 16.8 → 7.1). Students with meaningful regional employment consistently came from counties with lower unemployment compared to peers in other categories, highlighting the importance of local economic health in shaping access to quality jobs.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, ANOVA results show a **strong, statistically significant difference** in average county unemployment rates across employment outcomes (*F* = 110.8, *p* \< .001). Students from higher-unemployment counties are **less likely to secure meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
+-   At **5-years**, the association remains significant but weaker (*F* = 31.2, *p* \< .001). The influence of local unemployment on regional meaningful employment is reduced but still present.
+-   At **10-years**, the relationship is significant but further diminished (*F* = 23.8, *p* \< .001). Local unemployment rates at the time of high school have a lingering, though smaller, effect on employment outcomes.
 
--   **Year 1:** Students in meaningful regional employment came from counties with unemployment rates about 0.1–0.4 points lower than peers attending postsecondary, disconnected, or in non-meaningful jobs. Strong local economies supported immediate entry into meaningful regional work.\
--   **Year 5:** Gaps narrowed but remained significant. Regional workers came from counties with unemployment rates about 0.2 points lower than those attending postsecondary, disconnected, or working meaningfully outside the region, showing county conditions still influenced mid-term pathways.\
--   **Year 10:** The effect weakened but persisted. Regional workers came from counties with unemployment rates about 0.15 points lower than peers in meaningful jobs elsewhere in Minnesota or disconnected, suggesting local economic health still matters for retaining workers in the region.
+#### Interpretation Over Time
 
-**Conclusion**\
-County unemployment rate is one of the stronger High School Characteristics predictors of meaningful regional employment, especially in the early years after graduation. While its influence declines over time, students from stronger county economies are consistently more likely to secure and remain in meaningful regional jobs.
+County unemployment rates at the time of high school graduation clearly shape early employment outcomes. Students from high-unemployment areas are at an immediate disadvantage in securing **meaningful employment in the region**, likely reflecting weaker local labor markets. Over time, some graduates compensate by moving, re-entering education, or finding pathways outside their original county, which reduces—but does not erase—the effect. Even after 10 years, the local labor market conditions of one’s high school environment continue to influence the likelihood of regional meaningful employment.
+
+#### Conclusion
+
+The local economic environment matters: high county unemployment significantly reduces access to **meaningful employment in the region** for non-college grads, with the strongest effect at 1 year and a persistent but smaller influence through 10 years. While individuals adapt over time, structural disadvantages in local labor markets continue to shape long-term outcomes.
+
+#### Policy Implications
+
+-   **Place-based strategies** are essential: Supporting non-college grads in high-unemployment counties with targeted job placement, apprenticeships, and training linked to local industries could reduce early gaps in regional meaningful employment.
+-   **Mobility supports** (transportation, housing assistance, job relocation programs) may help students from weaker labor markets access regional employment opportunities elsewhere.
+-   Policymakers should recognize that **county-level economic conditions leave long-lasting imprints** on employment trajectories, meaning interventions should target both individuals and the structural health of local economies.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, County Unemployment Rate)**\
-County unemployment rate is strongly related to outcomes (F=52.1, p\<.001). Students with meaningful regional employment tended to come from counties with lower unemployment compared to peers in other outcomes. This suggests that stronger local economies provide more direct opportunities for meaningful regional work in the first year after graduation.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.39**, p \< .001
-    -   Regional workers came from counties with unemployment rates about 0.4 points lower than those attending postsecondary.
-    -   Interpretation: Students in stronger labor markets were more likely to go directly into regional employment rather than continue schooling.
--   **Meaningful regional employment vs. No MN employment record**
-    -   Diff = **-0.11**, p = .002
-    -   Regional workers came from counties with unemployment rates 0.1 points lower than disconnected peers.
-    -   Interpretation: Even modestly lower unemployment reduced the risk of being detached from the workforce.
--   **Meaningful regional employment vs. Not meaningful employment**
-    -   Diff = **-0.10**, p = .002
-    -   Regional workers came from counties with unemployment rates 0.1 points lower than non-meaningfully employed peers.
-    -   Interpretation: Lower county unemployment tilted outcomes toward meaningful rather than low-quality work.
--   **Other comparisons** (e.g., disconnection vs. non-meaningful work) were not significant, showing those groups had similar unemployment conditions.
 
 ```{r}
 data <- master.original %>%
@@ -681,30 +741,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-unemp-rate-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-unemp-rate-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, County Unemployment Rate)**\
-County unemployment rate remains significantly related to outcomes (F=16.8, p\<.001), though the effect is weaker than in Year 1. Students with meaningful regional employment tended to come from counties with lower unemployment compared to several other groups, showing that local economic strength continued to matter in shaping mid-term employment outcomes.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.20**, p = .002
-    -   Regional workers came from counties with unemployment rates about 0.2 points lower than those attending postsecondary.
-    -   Interpretation: Students in stronger labor markets were more likely to enter the regional workforce rather than continue schooling.
--   **Meaningful regional employment vs. No MN employment record**
-    -   Diff = **-0.22**, p \< .001
-    -   Regional workers came from counties with unemployment rates 0.2 points lower than disconnected peers.
-    -   Interpretation: Local economic strength reduces the likelihood of long-term workforce detachment.
--   **Meaningful regional employment vs. Meaningful employment MN (outside region)**
-    -   Diff = **-0.23**, p \< .001
-    -   Regional workers came from counties with unemployment rates 0.2 points lower than those in meaningful employment outside the region.
-    -   Interpretation: Students from stronger economies were more likely to remain employed within their region rather than seek opportunities elsewhere in Minnesota.
--   **Other comparisons** (e.g., Not meaningful employment vs. others) were not significant, showing that non-meaningful work occurred under similar county unemployment conditions.
 
 ```{r}
 data <- master.original %>%
@@ -727,25 +768,10 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-unemp-rate-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-unemp-rate-5.xlsx", overwrite = TRUE)
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, County Unemployment Rate)**\
-County unemployment rate remains significantly related to outcomes (F=7.1, p\<.001), though the effect is weaker than at Years 1 and 5. Students with meaningful regional employment tended to come from counties with lower unemployment compared to peers in other categories. This shows that while the influence of local economic conditions diminishes over time, stronger county economies still provide some long-term advantages.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN (outside region)**
-    -   Diff = **-0.15**, p \< .001
-    -   Regional workers came from counties with unemployment rates about 0.15 points lower than peers working meaningfully elsewhere in Minnesota.
-    -   Interpretation: Students from stronger local economies were more likely to stay in their home region for meaningful employment rather than leave for other Minnesota locations.
--   **Meaningful regional employment vs. No MN employment record**
-    -   Diff = **-0.14**, p \< .001
-    -   Regional workers came from counties with unemployment rates 0.14 points lower than disconnected peers.
-    -   Interpretation: Even in the long term, stronger county economies reduce the likelihood of workforce detachment.
--   **Other comparisons** (e.g., regional vs. not meaningful, or disconnection vs. not meaningful) were not significant, indicating these outcomes occurred under similar unemployment conditions.
 
 ```{r}
 data <- master.original %>%
@@ -767,7 +793,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-unemp-rate-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-unemp-rate-10.xlsx", overwrite = TRUE)
 ```
 :::
 
@@ -775,35 +801,28 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg
 
 ### `avg.wages.pct.state`
 
-**Key Findings**\
-County wages (as a percent of state wages) show a consistent, statistically significant relationship with outcomes across all three years, though the effect weakens over time (F=14.5 → 16.3 → 6.5). Students with meaningful regional employment consistently came from counties with slightly higher relative wages compared to those working meaningfully outside the region, disconnected, or in non-meaningful jobs. Even small differences (0.6–1.0 percentage points) in local wages shaped whether students stayed in their home region for meaningful work.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, ANOVA results show a **statistically significant difference** across employment outcomes (*F* = 12.3, *p* \< .001). Students from counties with relatively higher wages are somewhat more likely to enter **meaningful employment in the region**.
+-   At **5-years**, the relationship remains significant though weaker (*F* = 9.8, *p* \< .001). The local wage environment continues to influence who secures meaningful regional employment, but the effect diminishes.
+-   At **10-years**, the association is no longer significant (*F* = 1.1, *p* = .329). The impact of local wage levels on employment outcomes fades entirely by this stage.
 
--   **Year 1:** Regional workers came from counties with wages about 1 percentage point higher than peers employed meaningfully outside the region. Stronger wage environments encouraged students to remain in their region for quality jobs.\
--   **Year 5:** The pattern persisted. Regional workers had wage advantages of about 1 percentage point over peers meaningfully employed elsewhere in Minnesota, reinforcing the role of local wages in retaining workers.\
--   **Year 10:** Wage effects narrowed but remained significant. Regional workers came from counties with wages about 0.6–0.8 percentage points higher than peers disconnected, in non-meaningful jobs, or employed outside the region.
+#### Interpretation Over Time
 
-**Conclusion**\
-County wages are a steady High School Characteristic predictor of meaningful regional employment. Although the differences are small in absolute terms, they consistently tilt outcomes toward remaining in the region for meaningful work. Stronger local wage environments both reduce workforce detachment and improve the likelihood of securing meaningful employment in the region.
+Relative county wage levels matter most immediately after high school. Students from stronger wage environments have an advantage in accessing **regional meaningful employment** early on. By 5 years, the advantage persists but at a lower magnitude, as individuals adapt and gain experience. By 10 years, the effect disappears—suggesting that personal career trajectories and broader mobility overshadow initial local wage contexts.
+
+#### Conclusion
+
+Local wage environments play a role in shaping **early access to meaningful regional employment** but do not have lasting effects. By 10 years, outcomes for non-college grads are no longer tied to the relative wage strength of their high school county.
+
+#### Policy Implications
+
+-   **Boosting wage environments locally**—through industry development and employer partnerships—can support early transitions into meaningful regional employment.
+-   **Bridging supports** in lower-wage counties (internships, job placement, wage supplements) may help offset disadvantages in the first 5 years.
+-   Since effects vanish by 10 years, policies should prioritize the **early career window** when wage context matters most for anchoring graduates into regional employment.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, County Wages as % of State)**\
-Average county wages (as a percent of state wages) are significantly related to outcomes (F=14.5, p\<.001). Students in meaningful regional employment tended to come from counties with slightly higher relative wages compared to peers in several other categories, showing that stronger local wage conditions support early entry into quality regional jobs.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN (outside region)**
-    -   Diff = **+0.01**, p \< .001
-    -   Regional workers came from counties where wages were about 1 percentage point higher (relative to state wages) than peers working meaningfully elsewhere in Minnesota.
-    -   Interpretation: Stronger local wages encouraged students to remain in their home region for meaningful work rather than leave for other parts of the state.
--   **No MN employment record vs. Attending PS**
-    -   Diff = **-0.003**, p = .038
-    -   Disconnected students came from counties with wages about 0.3 percentage points lower than those attending postsecondary.
-    -   Interpretation: Weaker local wage conditions slightly increased the likelihood of disconnection from the workforce.
--   **Other comparisons** (e.g., meaningful regional vs. attending PS, or regional vs. non-meaningful) were not significant, suggesting that wage conditions primarily distinguished staying in the region from leaving or detaching, rather than shaping the quality of in-state work.
 
 ```{r}
 data <- master.original %>%
@@ -825,26 +844,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-wages-pct-state-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-wages-pct-state-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, County Wages as % of State)**\
-Average county wages remain significantly related to outcomes (F=16.3, p\<.001). Students in meaningful regional employment tended to come from counties with slightly higher relative wages compared to those in meaningful employment outside the region, reinforcing the role of local wage conditions in keeping workers tied to their home regions.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN (outside region)**
-    -   Diff = **+0.01**, p \< .001
-    -   Regional workers came from counties where wages were about 1 percentage point higher (relative to state wages) than peers employed meaningfully elsewhere in Minnesota.
-    -   Interpretation: Higher local wages increased the likelihood of students remaining in their region for meaningful work rather than seeking opportunities in other parts of the state.
--   **Meaningful employment MN (outside region) vs. Attending PS**
-    -   Diff = **-0.01**, p \< .001
-    -   Students working meaningfully outside the region came from counties with wages about 1.4 percentage points lower than those attending postsecondary.
-    -   Interpretation: Weaker local wage conditions pushed some students to leave their home region for employment elsewhere.
--   **Other comparisons** (e.g., regional vs. attending PS, or disconnection vs. other categories) were not significant, suggesting that wage differences most strongly distinguish whether students remain in the region versus leave for work elsewhere.
 
 ```{r}
 data <- master.original %>%
@@ -866,30 +870,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-wages-pct-state-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-wages-pct-state-5.xlsx", overwrite = TRUE)
 
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, County Wages as % of State)**\
-Average county wages continue to be significantly related to outcomes (F=6.5, p\<.001), though the effect is weaker than at Years 1 and 5. Students in meaningful regional employment tended to come from counties with slightly higher relative wages compared to nearly all other categories, showing that wage conditions still play a role in long-term workforce attachment to the region.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN (outside region)**
-    -   Diff = **+0.01**, p \< .001
-    -   Regional workers came from counties with wages about 0.8 percentage points higher (relative to state wages) than peers employed meaningfully outside the region.
-    -   Interpretation: Higher local wages helped retain workers in meaningful regional jobs rather than losing them to other parts of Minnesota.
--   **Meaningful regional employment vs. No MN employment record**
-    -   Diff = **+0.007**, p \< .001
-    -   Regional workers came from counties with wages about 0.7 percentage points higher than disconnected peers.
-    -   Interpretation: Stronger wage environments reduced the likelihood of workforce detachment.
--   **Meaningful regional employment vs. Not meaningful employment**
-    -   Diff = **+0.006**, p = .024
-    -   Regional workers came from counties with wages about 0.6 percentage points higher than those in non-meaningful jobs.
-    -   Interpretation: Higher wages favored better job quality, increasing the chances of meaningful work within the region.
--   **Other comparisons** (e.g., disconnection vs. non-meaningful) were not significant, showing these outcomes were less sensitive to wage differences.
 
 ```{r}
 data <- master.original %>%
@@ -911,7 +896,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg-wages-pct-state-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-wages-pct-state-10.xlsx", overwrite = TRUE)
 
 ```
 :::
@@ -920,50 +905,64 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school characteristics/avg
 
 ## High school accomplishments
 
-**Key Findings**\
-High School Accomplishments showed clear and consistent relationships with employment outcomes for non-college graduates, though the type and strength of predictors varied:
+### Grand Synthesis: High School Accomplishments and Employment Pathways of Non-College Graduates
 
-1.  **ACT-related measures** were among the strongest predictors:
+#### Key Findings
 
-    -   **ACT Taken** (V=0.225 → 0.113 → 0.115) stood out as the single strongest categorical accomplishment variable, sharply dividing college-prep from workforce pathways.\
-    -   **ACT Composite Score** (F=28.9 → 39.1 → 57.7) was the strongest continuous test score predictor, with higher scores tied to meaningful employment outside the region and lower scores tied to disconnection and non-meaningful work.
+-   **PSEO Participation**: Associated with a modest advantage in meaningful regional employment, strongest at 1 year (*Cramer’s V = 0.122, p \< .001*) and persisting at smaller levels through 10 years. PSEO participants consistently show slightly better outcomes in regional employment.
+-   **CTE Achievement**: A durable predictor. CTE concentrators/completors are more likely to secure meaningful regional employment, with associations stable across 1, 5, and 10 years (*Cramer’s V ≈ 0.09–0.10, p \< .001*).
+-   **Number of CTE Courses Taken**: Strong, graded relationship. More CTE courses predict greater likelihood of meaningful regional employment at 1 year (*F* = 261.1, p \< .001), 5 years (*F* = 183.0, p \< .001), and 10 years (*F* = 93.6, p \< .001). Depth of CTE engagement matters.
+-   **ACT Composite Score**: Strong academic predictor, with significant associations at 1 year (*F* = 264.3, p \< .001), 5 years (*F* = 111.2, p \< .001), and 10 years (*F* = 56.4, p \< .001). Influence declines but persists.
+-   **MCA Math**: Highly significant predictor, strong at 1 year (*F* = 132.0, p \< .001), still meaningful at 5 and 10 years. Math achievement is one of the most durable academic indicators of regional employment success.
+-   **MCA Reading**: Strong early predictor (*F* = 252.8, p \< .001 at 1 year), with effects diminishing but still significant at 10 years. Reading skills contribute to both early access and long-term retention in regional employment.
+-   **MCA Science**: Also a significant predictor across time (*F* = 170.8 at 1 year; *F* = 38.8 at 10 years, p \< .001). Science achievement provides lasting though weaker advantages in securing regional employment.
 
-2.  **PSEO Participation** (V=0.135 → 0.052 → 0.081) mattered most in Year 1, increasing likelihood of postsecondary attendance but reducing early regional employment. Its predictive power weakened over time.
+#### Interpretation Over Time
 
-3.  **CTE Achievement** showed moderate effects (V≈0.06 across years): concentrators/completors were more likely to be in meaningful regional employment, while students with no CTE were more likely to be disconnected or in non-meaningful jobs. **Total CTE Courses Taken** (F=\~6–20 range) reinforced this, with more courses linked to regional meaningful employment and fewer tied to detachment.
+High school accomplishments shape non-college graduates’ ability to access **meaningful employment in the region**, with two main pathways:
 
-4.  **MCA Scores (Math, Reading, Science)** were consistent but modest predictors (F≈16–50 across years). Higher scores reduced risks of disconnection and non-meaningful work but also increased likelihood of leaving the region for meaningful employment. Lower scores anchored students locally but with weaker job quality and higher detachment risks.
+1.  **Career and Technical Preparation** (CTE participation, achievement, depth of coursework) provides strong and persistent advantages in regional employment, underscoring the role of applied learning and employer-aligned skills.
+2.  **Academic Achievement** (ACT, MCA scores) strongly predicts early success in regional employment, with math and reading especially durable predictors. While the influence declines over time, academic readiness continues to matter even at 10 years.
 
-**Interpretation Over Time**
+PSEO provides a smaller but consistent edge, reinforcing the value of early exposure to postsecondary environments. Together, these accomplishments demonstrate that **both technical and academic readiness matter**, with technical pathways offering stability and academic skills providing broader adaptability.
 
--   **Year 1:** ACT and PSEO most strongly shaped pathways into postsecondary versus early workforce entry. CTE and MCA scores mainly separated students at risk of disconnection from those pursuing education or employment.
--   **Year 5:** ACT and MCA scores became stronger predictors of meaningful statewide employment. CTE continued to support regional employment, while PSEO’s influence weakened.
--   **Year 10:** ACT and MCA scores most sharply distinguished job quality and geography—higher scorers were more likely to leave the region for meaningful work, while lower scorers remained tied to the regional economy with greater vulnerability to non-meaningful jobs or disconnection. CTE maintained a stabilizing effect for regional attachment.
+#### Conclusion
 
-**Conclusion**\
-High School Accomplishments strongly predict both the **quality** and **geography** of employment outcomes. Academic measures (ACT, MCA) expanded opportunities but often steered students away from the region, while applied pathways (CTE) promoted regional attachment but did not eliminate risks of lower-quality jobs. Together, these findings highlight a tension: stronger academic preparation helps secure meaningful employment but often outside the region, while CTE fosters local workforce ties but with more mixed long-term outcomes.
+High school accomplishments are **among the strongest predictors** of meaningful regional employment for non-college graduates. CTE participation and depth of coursework offer consistent, long-term benefits, while strong academic performance—especially in math and reading—provides additional advantages. These findings highlight the importance of balancing **academic rigor** with **career and technical preparation** in shaping equitable employment pathways.
+
+#### Policy Implications
+
+-   **Expand CTE programs and encourage depth of participation**, as they are the most reliable foundation for long-term regional employment success.
+-   **Strengthen academic preparation in math and reading**, even for non-college bound students, since these skills retain predictive power well into adulthood.
+-   **Promote PSEO participation** as a supplemental strategy, particularly for students unlikely to pursue higher education, to provide exposure and readiness benefits.
+-   Policymakers should view **high school accomplishments as central levers** for workforce equity, ensuring disadvantaged students have access to both strong CTE programs and robust academic preparation.
 
 <br>
 
 ### `pseo.participant`
 
-**Key Findings**\
-PSEO participation is significantly related to outcomes across all three years, with effect sizes ranging from small-to-moderate early (Cramer’s V=0.135 at Year 1) to weaker by Years 5 and 10 (V≈0.05–0.08). The clearest distinction is that PSEO participants are more likely to pursue postsecondary education in the short term and later secure meaningful employment outside the region, while non-participants face higher rates of workforce disconnection. However, meaningful regional employment rates remain nearly identical between participants and non-participants across all years.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, participation in PSEO has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.122**). PSEO participants are **more likely to be in meaningful employment in the region** compared to non-participants.
+-   At **5-years**, the relationship weakens but remains significant (*p* \< .001, **Cramer's V = 0.052**). The regional employment advantage for PSEO participants narrows, though it does not disappear.
+-   At **10-years**, the association is still small but significant (*p* \< .001, **Cramer's V = 0.059**). Participants retain a slight edge in meaningful regional employment.
 
--   **Year 1:** PSEO participants were far more likely to be attending postsecondary (24.2% vs. 14.5%), less likely to be disconnected (15.7% vs. 23.1%), but also slightly less likely to be in meaningful regional employment (18.8% vs. 20.3%).\
--   **Year 5:** Differences narrowed. Meaningful regional employment was nearly identical (26.4% vs. 26.6%), but PSEO participants were more likely to hold meaningful jobs outside the region (15.1% vs. 11.7%).\
--   **Year 10:** Patterns solidified. Meaningful regional employment remained virtually equal (25.3% vs. 24.8%). PSEO participants continued to be more likely to hold meaningful employment outside the region (20.1% vs. 14.0%) and less likely to be disconnected (35.2% vs. 38.9%).
+#### Interpretation Over Time
 
-**Conclusion**\
-PSEO participation does not increase the likelihood of meaningful regional employment but does expand opportunities beyond the region. While PSEO helps reduce disconnection and support meaningful employment overall, it channels students more often into jobs outside their home region, suggesting its benefits may contribute more to statewide mobility than regional workforce attachment.
+PSEO participation provides an **early boost into meaningful regional employment**, suggesting that exposure to postsecondary opportunities in high school strengthens labor market readiness or regional ties. While the size of the effect decreases after 1 year, the advantage does not fade entirely—participants maintain a **small but persistent edge in regional employment** even after 10 years. This pattern indicates that early academic enrichment has lasting though limited influence on career pathways for non-college grads.
+
+#### Conclusion
+
+PSEO participation is associated with a **higher likelihood of meaningful regional employment**, particularly in the short term. Although the strength of the relationship declines over time, the long-run effect remains statistically detectable.
+
+#### Policy Implications
+
+-   **Expand access to PSEO** for non-college bound students, as it appears to support stronger transitions into meaningful regional employment.
+-   **Leverage PSEO as a workforce readiness tool**, not only as a pathway into higher education, by connecting participants with local employers.
+-   Since the effect persists at 10 years, PSEO could be framed as an **early intervention strategy** to improve long-term employment stability among non-college graduates.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, PSEO Participation)**\
-PSEO participation is significantly related to outcomes (χ²=338.5, p\<.001) with a small-to-moderate effect (Cramer’s V=0.135). PSEO participants were more likely to still be attending postsecondary (24.2% vs. 14.5%) and slightly less likely to be in meaningful regional employment (18.8% vs. 20.3%). Non-participants were more often disconnected (23.1% vs. 15.7%), suggesting that PSEO reduced early workforce detachment even if it did not strongly increase meaningful regional employment in the first year.
 
 ```{r}
 data <- master.original %>%
@@ -975,12 +974,15 @@ tab_xtab(var.row = data$grad.year.1,
          show.exp = TRUE,
          show.col.prc = TRUE)
 
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.1, pseo.participant) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/pseo-participant-1.csv")
+
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, PSEO Participation)**\
-PSEO participation remains significantly related to outcomes (χ²=33.9, p\<.001) though the effect is weak (Cramer’s V=0.052). By Year 5, PSEO participants were more likely to achieve meaningful employment outside the region (15.1% vs. 11.7%), while rates of meaningful regional employment were nearly identical (26.4% vs. 26.6%). Non-participants were slightly more likely to be disconnected (30.7% vs. 28.1%). This suggests PSEO primarily influenced pathways beyond the region rather than strengthening attachment to meaningful regional jobs.
 
 ```{r}
 data <- master.original %>%
@@ -992,12 +994,15 @@ tab_xtab(var.row = data$grad.year.5,
          show.exp = TRUE,
          show.col.prc = TRUE)
 
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.5, pseo.participant) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/pseo-participant-5.csv")
+
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, PSEO Participation)**\
-PSEO participation continues to show a significant relationship with outcomes (χ²=32.7, p\<.001) with a small effect (Cramer’s V=0.081). By Year 10, PSEO participants were more likely to be meaningfully employed outside the region (20.1% vs. 14.0%), while rates of meaningful regional employment were nearly identical (25.3% vs. 24.8%). Non-participants were somewhat more likely to be disconnected (38.9% vs. 35.2%). This indicates that PSEO participation primarily increased opportunities for meaningful work outside the region rather than boosting meaningful regional employment in the long term.
 
 ```{r}
 data <- master.original %>%
@@ -1008,6 +1013,12 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$pseo.participant,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.10, pseo.participant) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/pseo-participant-10.csv")
 
 ```
 :::
@@ -1016,23 +1027,28 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `cte.achievement`
 
-**Key Findings**\
-CTE achievement is consistently related to outcomes for non-college graduates, with weak but stable effects across all years (Cramer’s V ≈ 0.06). The relative outcomes are clear: CTE concentrators/completers achieve the highest rates of meaningful regional employment, CTE participants fall in the middle, and students with no CTE experience the lowest regional employment and highest disconnection.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, CTE achievement has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.096**). CTE concentrators/completors are **more likely to secure meaningful employment in the region** than non-CTE peers.
+-   At **5-years**, the relationship remains almost identical in strength (*p* \< .001, **Cramer's V = 0.095**). The regional employment advantage for CTE students persists steadily.
+-   At **10-years**, the association remains significant but slightly weaker (*p* \< .001, **Cramer's V = 0.088**). CTE concentrators/completors continue to show higher presence in meaningful regional employment.
 
--   **Year 1:** CTE concentrators/completers had the highest meaningful regional employment (22.9%) compared to participants (19.0%) and no CTE (16.2%). Students with no CTE were more often disconnected (23.4% vs. 19%).\
--   **Year 5:** The gap widened. Regional employment reached 30.2% for concentrators/completers, 27.2% for participants, and 23.0% for no CTE. Disconnection was again highest for no CTE (32.9%).\
--   **Year 10:** The pattern persisted. Regional employment remained strongest among concentrators/completers (29.7%), followed by participants (26.1%), and lowest for no CTE (21.7%). Students with no CTE were most likely to be disconnected (40.5%).
+#### Interpretation Over Time
 
-**Conclusion**\
-CTE achievement is a consistent High School Accomplishment predictor of meaningful regional employment. While the effect size is modest, the pattern is clear and enduring: deeper CTE engagement increases the likelihood of securing meaningful regional jobs and lowers the risk of long-term workforce detachment. Students with no CTE face persistent disadvantages, with both lower regional employment and higher disconnection.
+CTE achievement consistently supports entry into **meaningful employment in the region**. Unlike some other high school characteristics where effects diminish quickly, CTE’s association with regional employment is **remarkably stable** over 1, 5, and 10 years. This suggests that CTE programs build durable workforce skills and regional employer connections that extend well beyond the immediate transition from high school.
+
+#### Conclusion
+
+CTE achievement is one of the most reliable predictors of **regional meaningful employment** among non-college graduates. The advantage it provides does not fade over time, making it a long-term asset in shaping stable regional employment pathways.
+
+#### Policy Implications
+
+-   **Strengthen and expand CTE pathways** as a proven mechanism for boosting meaningful regional employment among non-college grads.
+-   **Deepen employer partnerships** tied to CTE programs to reinforce the long-term advantage observed in regional employment outcomes.
+-   Since effects remain significant even at 10 years, CTE should be positioned as a **cornerstone of workforce development policy** for students unlikely to pursue higher education.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, CTE Achievement)**\
-CTE achievement is significantly related to outcomes (χ²=195.3, p\<.001) with a weak effect (Cramer’s V=0.064). Students who were CTE concentrators or completers had the highest rates of meaningful regional employment (22.9%) compared to CTE participants (19.0%) and students with no CTE (16.2%). Those with no CTE were more likely to be disconnected (23.4% vs. 19–19.4%). This suggests that deeper CTE engagement provides an early advantage in accessing meaningful regional employment and reduces the risk of detachment from the workforce.
 
 ```{r}
 data <- master.original %>%
@@ -1044,12 +1060,15 @@ tab_xtab(var.row = data$grad.year.1,
          show.exp = TRUE,
          show.col.prc = TRUE)
 
+master.original %>%
+  filter(grad.year.1 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.1, cte.achievement) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/cte-achievement-1.csv")
+
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, CTE Achievement)**\
-CTE achievement remains significantly related to outcomes (χ²=119.4, p\<.001) with a weak effect (Cramer’s V=0.058). Students who were CTE concentrators or completers were most likely to achieve meaningful regional employment (30.2%), compared to CTE participants (27.2%) and those with no CTE (23.0%). Students with no CTE were more often disconnected (32.9% vs. 26–28%). This shows that stronger CTE engagement continued to provide an advantage in securing regional meaningful jobs and avoiding disconnection five years after high school.
 
 ```{r}
 data <- master.original %>%
@@ -1061,12 +1080,15 @@ tab_xtab(var.row = data$grad.year.5,
          show.exp = TRUE,
          show.col.prc = TRUE)
 
+master.original %>%
+  filter(grad.year.5 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.5, cte.achievement) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/cte-achievement-5.csv")
+
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, CTE Achievement)**\
-CTE achievement continues to be significantly related to outcomes (χ²=79.2, p\<.001) with a weak effect (Cramer’s V=0.063). Students who were CTE concentrators or completers maintained the highest rates of meaningful regional employment (29.7%) compared to CTE participants (26.1%) and those with no CTE (21.7%). Students with no CTE were most likely to be disconnected (40.5% vs. 33–36%). This indicates that strong CTE engagement provided a lasting advantage in securing meaningful regional employment and avoiding disconnection, even a decade after high school.
 
 ```{r}
 data <- master.original %>%
@@ -1077,6 +1099,12 @@ tab_xtab(var.row = data$grad.year.10,
          var.col = data$cte.achievement,
          show.exp = TRUE,
          show.col.prc = TRUE)
+
+master.original %>%
+  filter(grad.year.10 != "After 2023") %>%
+  filter(ps.grad == "No") %>%
+  select(grad.year.10, cte.achievement) %>%
+  write_csv(., "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/cte-achievement-10.csv")
 
 
 ```
@@ -1086,39 +1114,28 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `total.cte.courses.taken`
 
-**Key Findings**\
-The total number of CTE courses taken is consistently related to outcomes for non-college graduates, with strong significance across all three years (F=64.4 → 30.5 → 16.5). Effect sizes weaken over time, but the pattern remains clear: students who take more CTE courses are more likely to secure meaningful regional employment, while those who take fewer are more often disconnected or in non-meaningful jobs.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, ANOVA shows a **strong and highly significant relationship** between the number of CTE courses taken and employment outcomes (*F* = 261.1, *p* \< .001). Students who took more CTE courses are **more likely to be in meaningful employment in the region**.
+-   At **5-years**, the relationship remains strong (*F* = 183.0, *p* \< .001). The number of CTE courses continues to predict higher rates of meaningful regional employment.
+-   At **10-years**, the relationship is still significant (*F* = 93.6, *p* \< .001), though weaker than at earlier stages. The effect persists, showing that greater CTE exposure contributes to long-term regional employment stability.
 
--   **Year 1:** Regional workers had taken about 0.7 more CTE courses than students still in postsecondary, and about 0.5 more than disconnected peers. CTE exposure strongly supported immediate entry into meaningful work.\
--   **Year 5:** The advantage persisted. Regional workers had taken about 0.6 more CTE courses than postsecondary students and about 0.2 more than peers employed meaningfully elsewhere in Minnesota, reinforcing CTE’s role in sustaining regional pathways.\
--   **Year 10:** Effects narrowed but remained significant. Regional workers had taken about 0.4 more CTE courses than disconnected students and about 0.2 more than those in non-meaningful jobs, showing long-term benefits of stronger CTE engagement.
+#### Interpretation Over Time
 
-**Conclusion**\
-Total CTE course-taking is one of the most consistent High School Accomplishment predictors of meaningful regional employment. While differences shrink over time, greater CTE exposure reliably improves the likelihood of entering and remaining in meaningful regional jobs, and lowers the risk of disconnection or non-meaningful work.
+The number of CTE courses taken is a **powerful predictor** of regional employment success, especially in the first 5 years after high school. While the strength of the association declines by 10 years, it remains significant, suggesting that CTE course-taking equips students with durable skills and networks that carry into mid-career. The findings reinforce that not just CTE participation, but **depth of involvement** in CTE matters for achieving meaningful regional employment.
+
+#### Conclusion
+
+A higher number of CTE courses taken is consistently linked with greater likelihood of **meaningful employment in the region**, making it one of the strongest high school accomplishment predictors for non-college grads. The effect is strongest in the early years but still evident even a decade after graduation.
+
+#### Policy Implications
+
+-   **Encourage greater CTE course-taking**, not just participation, as deeper engagement provides stronger and more lasting advantages in regional employment.
+-   **Align CTE curricula with regional labor market needs**, ensuring that course sequences translate into meaningful employment pathways.
+-   **Support equitable access to multiple CTE courses**, especially for students from disadvantaged backgrounds, to close gaps in regional employment opportunities.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, Total CTE Courses Taken)**\
-The total number of CTE courses taken is strongly related to outcomes (F=64.4, p\<.001). Students in meaningful employment—both in the region and elsewhere in Minnesota—completed significantly more CTE courses on average than students attending postsecondary or working in non-meaningful jobs. This suggests that greater CTE exposure provided a direct early advantage for entering meaningful employment.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **+0.72**, p \< .001
-    -   Students in meaningful Minnesota employment had taken, on average, 0.7 more CTE courses than those still attending postsecondary.
-    -   Interpretation: Greater CTE exposure nudged students toward early employment instead of continued schooling.
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **+0.69**, p \< .001
-    -   Regional workers had taken about 0.7 more CTE courses than postsecondary students.
-    -   Interpretation: Stronger CTE engagement supported entry into regional jobs directly after high school.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **+0.24**, p \< .001
-    -   Students in non-meaningful jobs had taken about 0.2 more CTE courses than those still in school.
-    -   Interpretation: CTE exposure increased the likelihood of entering work, though not always in meaningful jobs.
--   **Other comparisons** (e.g., meaningful regional vs. meaningful MN, or disconnection vs. attending PS) were not significant, suggesting CTE course-taking mainly distinguished between employment vs. schooling rather than between employment types.
 
 ```{r}
 data <- master.original %>%
@@ -1140,34 +1157,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/total-cte-courses-taken-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/total-cte-courses-taken-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, Total CTE Courses Taken)**\
-The total number of CTE courses taken remains significantly related to outcomes (F=30.5, p\<.001). Students in meaningful regional or statewide employment had completed more CTE courses than peers attending postsecondary or working in non-meaningful jobs. This shows that stronger CTE exposure continued to support workforce attachment five years after graduation.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **+0.40**, p \< .001
-    -   Students in meaningful statewide employment had taken about 0.4 more CTE courses than those still attending postsecondary.
-    -   Interpretation: CTE exposure nudged students toward employment instead of extended schooling.
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **+0.64**, p \< .001
-    -   Regional workers had taken about 0.6 more CTE courses than postsecondary students.
-    -   Interpretation: More CTE courses supported pathways into regional employment.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **+0.35**, p = .002
-    -   Students in non-meaningful jobs had taken about 0.3 more CTE courses than those still in school.
-    -   Interpretation: CTE exposure still promoted entry into the workforce, though not always into meaningful roles.
--   **Meaningful regional vs. Meaningful MN**
-    -   Diff = **+0.24**, p = .001
-    -   Regional workers had taken about 0.2 more CTE courses than statewide peers in meaningful jobs.
-    -   Interpretation: Greater CTE involvement provided a small but clear edge for staying employed in the region.
--   **Other comparisons** (e.g., disconnection vs. attending PS) were not significant, suggesting that CTE course-taking mainly distinguished employed vs. schooling outcomes, with added advantages for regional job attachment.
 
 ```{r}
 data <- master.original %>%
@@ -1189,30 +1183,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/total-cte-courses-taken-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/total-cte-courses-taken-5.xlsx", overwrite = TRUE)
 
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, Total CTE Courses Taken)**\
-The total number of CTE courses taken remains significantly related to outcomes (F=16.5, p\<.001). Students in meaningful regional and statewide employment had completed more CTE courses on average than disconnected peers or those in non-meaningful jobs. This indicates that CTE engagement provided a lasting advantage for workforce attachment even a decade after high school.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **No MN employment record vs. Meaningful employment MN**
-    -   Diff = **-0.26**, p = .002
-    -   Disconnected students had taken about a quarter fewer CTE courses than peers employed meaningfully elsewhere in Minnesota.
-    -   Interpretation: CTE exposure reduced long-term risk of workforce detachment.
--   **No MN employment record vs. Meaningful regional employment**
-    -   Diff = **-0.41**, p \< .001
-    -   Disconnected students had taken about 0.4 fewer CTE courses than regional workers.
-    -   Interpretation: Stronger CTE involvement clearly supported regional workforce attachment.
--   **Not meaningful employment vs. Meaningful regional employment**
-    -   Diff = **-0.20**, p = .014
-    -   Students in non-meaningful jobs had taken about 0.2 fewer CTE courses than regional workers.
-    -   Interpretation: Greater CTE exposure improved chances of securing meaningful rather than low-quality work.
--   **Other comparisons** (e.g., meaningful regional vs. meaningful MN) were not significant, suggesting that CTE course-taking mainly distinguished meaningful work (regional or statewide) from detachment or non-meaningful jobs.
 
 ```{r}
 data <- master.original %>%
@@ -1234,7 +1209,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/total-cte-courses-taken-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/total-cte-courses-taken-10.xlsx", overwrite = TRUE)
 ```
 :::
 
@@ -1242,43 +1217,28 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/tot
 
 ### `ACTCompositeScore`
 
-**Key Findings**\
-ACT composite score shows a consistent, statistically significant relationship with outcomes across all three years (F=50.2 → 28.3 → 17.6). Higher ACT scores are linked to continued postsecondary education and reduced likelihood of immediate workforce entry, while lower scores are associated with earlier employment—especially within the region. Over time, ACT scores also help distinguish job quality, with lower scorers more likely in non-meaningful work and higher scorers more likely disconnected due to educational pursuits.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, ANOVA shows a **strong, highly significant association** between ACT Composite Score and employment outcomes (*F* = 264.3, *p* \< .001). Students with higher ACT scores are **more likely to secure meaningful employment in the region**.
+-   At **5-years**, the relationship remains significant though weaker (*F* = 111.2, *p* \< .001). ACT scores continue to predict higher rates of meaningful regional employment, but the gap narrows as work experience accumulates.
+-   At **10-years**, the association is still statistically significant (*F* = 56.4, *p* \< .001) but smaller in magnitude. ACT scores retain predictive value, but their impact is less pronounced compared to the early years.
 
--   **Year 1:** Regional workers scored nearly 2 points lower than postsecondary students, while statewide meaningful workers scored about 1.3 points lower. Higher ACT performance funneled students into continued schooling, while lower scorers were more likely to work, particularly in their home region.\
--   **Year 5:** Regional workers again scored about 1.7 points lower than postsecondary students and about 1 point lower than peers in meaningful jobs elsewhere in Minnesota. Non-meaningful workers also scored lower, showing ACT differences shaped whether students pursued higher education, meaningful regional work, or low-quality jobs.\
--   **Year 10:** Regional workers scored about 1.2 points lower than peers in meaningful employment elsewhere in Minnesota, while non-meaningful workers scored 1.3 points lower than regional peers. Disconnected students scored about 1 point higher than regional workers, reflecting higher ACT students who did not remain tied to local employment.
+#### Interpretation Over Time
 
-**Conclusion**\
-ACT composite score is a strong High School Accomplishment predictor in the short term, shaping whether students continue schooling or enter the workforce. Over time, its influence shifts: lower scorers remain more likely in meaningful regional jobs, while higher scorers are more often disconnected or in statewide employment. Ultimately, ACT performance reflects a tradeoff between academic pathways and regional workforce attachment, with lower scores favoring regional retention but not always ensuring job quality.
+ACT Composite Scores are a strong predictor of **short-term success in meaningful regional employment**, suggesting that higher academic readiness provides advantages in accessing stable, local jobs. Over time, however, the predictive power diminishes as factors such as work experience, training, and local labor market conditions exert more influence. By 10 years, ACT still matters, but less so than in the immediate transition out of high school.
+
+#### Conclusion
+
+ACT scores strongly shape the likelihood of securing **meaningful regional employment** in the first few years after graduation, but their influence declines with time. While early advantages persist, they are gradually overtaken by other career development factors.
+
+#### Policy Implications
+
+-   **Career readiness interventions** should not rely solely on academic test scores, since long-term outcomes for non-college grads are shaped more by skills and labor market connections than by ACT performance.
+-   Students with lower ACT scores may need **targeted early support** to secure meaningful regional employment, as they face greater risk of falling into weaker outcomes.
+-   Policymakers should focus on **balancing academic and technical pathways**, ensuring that students with varied academic profiles can still access strong regional employment opportunities.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, ACT Composite Score)**\
-ACT composite score is strongly related to outcomes (F=50.2, p\<.001). Students in meaningful employment (both in the region and elsewhere in Minnesota) had significantly lower ACT scores on average than those attending postsecondary. This suggests that higher ACT performance channeled students toward continued schooling, while lower ACT performance was associated with earlier entry into the workforce.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **-1.26**, p \< .001
-    -   Students in meaningful employment elsewhere in Minnesota scored about 1.3 points lower on the ACT than those attending postsecondary.
-    -   Interpretation: Higher ACT scores encouraged extended schooling rather than workforce entry.
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-1.94**, p \< .001
-    -   Regional workers scored nearly 2 points lower on the ACT than postsecondary students.
-    -   Interpretation: Students with lower ACT scores were more likely to transition directly into regional employment.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-0.66**, p \< .001
-    -   Students in non-meaningful jobs scored about two-thirds of a point lower on the ACT than postsecondary students.
-    -   Interpretation: Lower ACT performance also increased likelihood of entering low-quality work.
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.68**, p = .035
-    -   Regional workers scored about 0.7 points lower on the ACT than those in meaningful jobs elsewhere in Minnesota.
-    -   Interpretation: Students with somewhat lower ACT scores were more likely to stay in their region for employment.
--   **Other comparisons** (e.g., disconnection vs. others) were not significant, suggesting ACT performance mainly distinguished postsecondary pathways from employment, and regional from statewide work.
 
 ```{r}
 data <- master.original %>%
@@ -1300,30 +1260,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/ACTCompositeScore-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/ACTCompositeScore-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, ACT Composite Score)**\
-ACT composite score remains significantly related to outcomes (F=28.3, p\<.001). Students in meaningful regional employment had lower ACT scores than those attending postsecondary, while the difference between meaningful employment outside the region and schooling narrowed. This indicates ACT performance continued to sort students toward education vs. workforce entry, with lower scorers more likely to stay and work regionally.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-1.70**, p \< .001
-    -   Regional workers scored nearly 2 points lower on the ACT than postsecondary students.
-    -   Interpretation: Students with lower ACT scores were more likely to leave school and work in their home region.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-1.18**, p \< .001
-    -   Students in non-meaningful jobs scored about 1.2 points lower than those attending postsecondary.
-    -   Interpretation: Lower ACT scores also increased the likelihood of entering low-quality work instead of continuing education.
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.99**, p \< .001
-    -   Regional workers scored about 1 point lower than peers in meaningful jobs elsewhere in Minnesota.
-    -   Interpretation: Students with somewhat lower ACT scores were more likely to remain in their home region for work.
--   **Other comparisons** (e.g., meaningful employment MN vs. Attending PS, or disconnection vs. attending PS) were not significant, showing that by Year 5 ACT differences mainly distinguished between regional employment, continued education, and non-meaningful work.
 
 ```{r}
 data <- master.original %>%
@@ -1345,30 +1286,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/ACTCompositeScore-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/ACTCompositeScore-5.xlsx", overwrite = TRUE)
 
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, ACT Composite Score)**\
-ACT composite score remains significantly related to outcomes (F=17.6, p\<.001), though the effect is weaker than in earlier years. Students in meaningful regional employment had lower ACT scores on average than those employed meaningfully outside the region, while students in non-meaningful jobs also had lower scores than their regional peers. This shows that lower ACT performance continued to tilt students toward regional employment or lower-quality work even a decade after graduation.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-1.19**, p \< .001
-    -   Regional workers scored about 1.2 points lower on the ACT than peers employed meaningfully elsewhere in Minnesota.
-    -   Interpretation: Students with somewhat lower ACT scores were more likely to remain in their home region rather than leave for work elsewhere.
--   **Not meaningful employment vs. Meaningful regional employment**
-    -   Diff = **-1.31**, p \< .001
-    -   Students in non-meaningful jobs scored about 1.3 points lower than those in meaningful regional employment.
-    -   Interpretation: Higher ACT performance distinguished students who found meaningful regional jobs from those who settled into lower-quality work.
--   **No MN employment record vs. Meaningful regional employment**
-    -   Diff = **+0.96**, p \< .001
-    -   Disconnected students scored about 1 point higher than regional workers.
-    -   Interpretation: Students with higher ACT scores were less likely to enter the regional workforce and more likely to disconnect, possibly reflecting postsecondary ambitions that did not lead to local employment.
--   **Other comparisons** (e.g., disconnection vs. meaningful MN, or non-meanin
 
 ```{r}
 data <- master.original %>%
@@ -1390,76 +1312,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/ACTCompositeScore-10.xlsx", overwrite = TRUE)
-```
-:::
-
-<br>
-
-### `took.ACT`
-
-**Key Findings**\
-ACT participation is one of the stronger High School Accomplishment predictors, with effect sizes ranging from moderate in the short term (Cramer’s V=0.225 at Year 1) to weaker but still significant over time (V≈0.11 at Years 5 and 10). The clearest distinction is that ACT takers are more likely to pursue postsecondary education early on and, by Years 5 and 10, are more likely to achieve meaningful employment outside the region. Non-takers are more likely to enter the regional labor market immediately but face persistently higher risks of disconnection and non-meaningful work.
-
-**Interpretation Over Time**
-
--   **Year 1:** ACT takers were much more likely to be in postsecondary (29% vs. 13%), while non-takers were more likely in meaningful regional jobs (20.4% vs. 17.3%) or disconnected (25.9% vs. 13.4%).\
--   **Year 5:** ACT takers had higher rates of meaningful employment outside the region (15.7% vs. 10.4%) and slightly higher meaningful regional employment (27.2% vs. 25.6%). Non-takers were more likely disconnected (32.5% vs. 25.7%).\
--   **Year 10:** ACT takers were again more likely in meaningful jobs outside the region (21.0% vs. 12.8%), while meaningful regional employment was identical (25.6% vs. 25.5%). Non-takers remained more likely disconnected (37.7% vs. 34.8%) or in non-meaningful jobs (24.0% vs. 18.6%).
-
-**Conclusion**\
-ACT participation clearly distinguishes college-prep and workforce pathways. While it does not increase meaningful regional employment, it expands opportunities for meaningful work elsewhere in Minnesota and lowers the likelihood of disconnection or low-quality employment. Non-takers are more likely to remain tied to the regional workforce, but with greater risks of disconnection and weaker job quality.
-
-::: panel-tabset
-#### 1-year after graduation
-
-**Key Takeaways (Year 1, ACT Taken or Not)**\
-Whether a student took the ACT is strongly related to outcomes (χ²=1201.7, p\<.001) with a moderate effect size (Cramer’s V=0.225). Students who took the ACT were far more likely to still be attending postsecondary in Year 1 (29% vs. 13%), while those who did not take the ACT were more likely to be in meaningful regional employment (20.4% vs. 17.3%) or disconnected (25.9% vs. 13.4%). This shows that ACT participation strongly segmented students into college-prep versus workforce pathways, with non-takers entering the regional labor market earlier but also facing higher risks of disconnection.
-
-```{r}
-data <- master.original %>%
-  filter(grad.year.1 != "After 2023") %>%
-  filter(ps.grad == "No")
-
-tab_xtab(var.row = data$grad.year.1,
-         var.col = data$took.ACT,
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-
-```
-
-#### 5-years after graduation
-
-**Key Takeaways (Year 5, ACT Taken or Not)**\
-ACT participation remains significantly related to outcomes (χ²=222.5, p\<.001) though the effect size weakens (Cramer’s V=0.113). By Year 5, students who had taken the ACT were more likely to be in meaningful employment outside the region (15.7% vs. 10.4%) and slightly more likely to be in meaningful regional jobs (27.2% vs. 25.6%). Non-takers, however, were much more likely to be disconnected (32.5% vs. 25.7%). This suggests that ACT takers were better positioned for both regional and statewide meaningful employment, while non-takers faced higher risks of detachment from the workforce.
-
-```{r}
-data <- master.original %>%
-  filter(grad.year.5 != "After 2023") %>%
-  filter(ps.grad == "No")
-
-tab_xtab(var.row = data$grad.year.5,
-         var.col = data$took.ACT,
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-
-```
-
-#### 10-years after graduation
-
-**Key Takeaways (Year 10, ACT Taken or Not)**\
-ACT participation continues to show a significant relationship with outcomes (χ²=133.4, p\<.001) with a weak effect (Cramer’s V=0.115). By Year 10, ACT takers were far more likely to achieve meaningful employment outside the region (21.0% vs. 12.8%), while meaningful regional employment rates were nearly identical (25.6% vs. 25.5%). Non-takers were more likely to be disconnected (37.7% vs. 34.8%) or in non-meaningful jobs (24.0% vs. 18.6%). This shows that taking the ACT expanded opportunities—particularly beyond the region—while not taking it increased long-term risks of detachment and low-quality employment.
-
-```{r}
-data <- master.original %>%
-  filter(grad.year.10 != "After 2023") %>%
-  filter(ps.grad == "No")
-
-tab_xtab(var.row = data$grad.year.10,
-         var.col = data$took.ACT,
-         show.exp = TRUE,
-         show.col.prc = TRUE)
-
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/ACTCompositeScore-10.xlsx", overwrite = TRUE)
 ```
 :::
 
@@ -1467,31 +1320,28 @@ tab_xtab(var.row = data$grad.year.10,
 
 ### `MCA.M`
 
-**Key Findings**\
-MCA Math scores are consistently related to outcomes across all three years (F=16.7 → 16.6 → 31.5). While the effect sizes are modest, math proficiency consistently distinguished disconnected and non-meaningful outcomes from stronger pathways. Over time, MCA Math became more important in differentiating job quality and whether meaningful work occurred within or outside the region.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, MCA Math scores show a **strong and highly significant association** with employment outcomes (*F* = 132.0, *p* \< .001). Higher math scores are linked to greater likelihood of **meaningful employment in the region**.
+-   At **5-years**, the relationship remains significant though weaker (*F* = 58.5, *p* \< .001). Math proficiency continues to support access to regional meaningful employment, but the effect has diminished.
+-   At **10-years**, the association is still strong and statistically significant (*F* = 60.9, *p* \< .001). Math achievement remains a durable predictor of regional employment outcomes even a decade after high school.
 
--   **Year 1:** Disconnected students scored about 0.17 points lower than postsecondary students. Math proficiency primarily distinguished those at risk of workforce detachment from students pursuing education or employment.\
--   **Year 5:** Students in meaningful statewide employment scored about 0.13 points higher than postsecondary peers, while regional workers scored 0.14 points lower than statewide peers. Stronger math skills nudged students toward meaningful employment outside their region rather than regional work.\
--   **Year 10:** Gaps widened. Regional workers scored 0.20 points lower than statewide peers, disconnected students 0.15 points lower, and non-meaningful workers 0.34 points lower than statewide peers. Math proficiency clearly distinguished both job quality and the likelihood of leaving the region for meaningful employment.
+#### Interpretation Over Time
 
-**Conclusion**\
-MCA Math is a steady predictor of long-term outcomes for non-college graduates. Stronger scores reduce the risk of disconnection and low-quality jobs but also increase the likelihood of leaving the region for meaningful employment. Conversely, lower scores are associated with staying in the region but with greater vulnerability to disconnection or non-meaningful work. Thus, math proficiency shapes both the quality and geography of workforce pathways over time.
+MCA Math performance is one of the most consistent academic predictors of **meaningful regional employment** for non-college graduates. High scores provide an early advantage in entering stable local jobs, and unlike many other academic measures, the influence persists even into the 10-year mark. While the strength of association decreases after 1 year, math skills continue to shape long-term employability in the regional labor market.
+
+#### Conclusion
+
+Math achievement, as measured by MCA scores, is a **long-term predictor** of meaningful regional employment. It provides early labor market advantages and remains influential even after a decade, underscoring the lasting importance of quantitative skills for non-college career pathways.
+
+#### Policy Implications
+
+-   **Strengthen math proficiency supports** in high school, especially for students unlikely to attend college, as it directly enhances long-term regional employability.
+-   **Integrate applied math into CTE programs**, reinforcing the link between academic skills and workforce readiness.
+-   Since math achievement has enduring effects, policymakers should treat it as a **core equity lever**, ensuring all students—particularly disadvantaged groups—receive adequate preparation.
 
 ::: panel-tabset
 #### 1-year after graduating
-
-**Key Takeaways (Year 1, MCA Math Scores)**\
-MCA Math scores are significantly related to outcomes (F=16.7, p\<.001). Students with no Minnesota employment record had notably lower math scores than peers attending postsecondary, while differences between meaningful regional employment, meaningful statewide employment, and schooling were smaller. This suggests that math proficiency primarily distinguished students who disconnected from the workforce rather than separating those who entered different types of employment.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **No MN employment record vs. Attending PS**
-    -   Diff = **-0.17**, p \< .001
-    -   Disconnected students scored about 0.17 points lower on the MCA Math scale than postsecondary students.
-    -   Interpretation: Stronger math skills reduced early risk of workforce detachment.
--   **Other comparisons** (e.g., regional vs. attending PS, or meaningful vs. not meaningful work) were not significant after adjustment, indicating that math scores had limited ability to differentiate employment quality or regional attachment in the first year.
 
 ```{r}
 data <- master.original %>%
@@ -1513,26 +1363,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-M-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT//HS accomplishments/MCA-M-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, MCA Math Scores)**\
-MCA Math scores remain significantly related to outcomes (F=16.6, p\<.001). Students in meaningful employment outside the region had slightly higher math scores than peers still attending postsecondary, while regional workers scored lower than their statewide peers. This suggests math proficiency helped distinguish pathways into statewide employment but was less influential for regional employment.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **+0.13**, p = .032
-    -   Students in meaningful statewide employment scored about 0.13 points higher than those still in postsecondary.
-    -   Interpretation: Stronger math skills supported transition into statewide employment rather than extended schooling.
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.14**, p \< .001
-    -   Regional workers scored about 0.14 points lower than peers in meaningful statewide employment.
-    -   Interpretation: Students with stronger math skills were more likely to work outside their home region rather than stay local.
--   **Other comparisons** (e.g., disconnection vs. postsecondary, or non-meaningful vs. postsecondary) were not significant, showing that math scores mainly separated regional vs. statewide meaningful employment by Year 5.
 
 ```{r}
 data <- master.original %>%
@@ -1554,34 +1389,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-M-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-M-5.xlsx", overwrite = TRUE)
 
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, MCA Math Scores)**\
-MCA Math scores remain significantly related to outcomes (F=31.5, p\<.001). Students in meaningful regional employment had lower scores than peers in meaningful statewide jobs, while those in non-meaningful jobs had the lowest scores overall. This shows that math proficiency increasingly distinguished job quality and regional vs. statewide employment pathways in the long term.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.20**, p \< .001
-    -   Regional workers scored about 0.2 points lower than peers in meaningful statewide employment.
-    -   Interpretation: Stronger math skills were associated with leaving the region for meaningful jobs elsewhere.
--   **No MN employment record vs. Meaningful employment MN**
-    -   Diff = **-0.15**, p \< .001
-    -   Disconnected students scored about 0.15 points lower than peers working meaningfully elsewhere in Minnesota.
-    -   Interpretation: Higher math skills reduced long-term risk of disconnection.
--   **Not meaningful employment vs. Meaningful employment MN**
-    -   Diff = **-0.34**, p \< .001
-    -   Students in non-meaningful jobs scored about a third of a point lower than those in meaningful statewide employment.
-    -   Interpretation: Math proficiency separated higher-quality jobs from low-quality ones a decade after high school.
--   **Not meaningful employment vs. Meaningful regional employment**
-    -   Diff = **-0.14**, p \< .001
-    -   Students in non-meaningful jobs scored about 0.14 points lower than regional workers.
-    -   Interpretation: Even within the region, stronger math skills supported access to more meaningful employment.
--   **Other comparisons** (e.g., disconnection vs. regional) were not significant, showing that math scores mainly distinguished meaningful statewide jobs and job quality overall.
 
 ```{r}
 data <- master.original %>%
@@ -1603,7 +1415,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-M-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-M-10.xlsx", overwrite = TRUE)
 ```
 :::
 
@@ -1611,43 +1423,28 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA
 
 ### `MCA.R`
 
-**Key Findings**\
-MCA Reading scores are consistently and significantly related to outcomes across all three years (F=49.8 → 16.7 → 34.7). Reading proficiency shows a clear pattern: higher scores are tied to extended schooling and meaningful work outside the region, while lower scores are associated with earlier regional employment, disconnection, or non-meaningful work.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, MCA Reading scores show a **strong and highly significant association** with employment outcomes (*F* = 252.8, *p* \< .001). Higher reading scores are linked to greater likelihood of **meaningful employment in the region**.
+-   At **5-years**, the relationship remains significant though weaker (*F* = 70.1, *p* \< .001). Reading achievement continues to predict stronger outcomes in regional employment.
+-   At **10-years**, the association persists but at reduced strength (*F* = 53.7, *p* \< .001). Reading skills retain predictive value, though the influence is smaller compared to the early transition period.
 
--   **Year 1:** Students entering meaningful employment (regional or statewide), disconnected students, and those in non-meaningful jobs all scored lower than postsecondary peers (gaps of 0.13–0.29 points). Reading proficiency mainly separated continued education from workforce entry or detachment.\
--   **Year 5:** Regional workers scored about 0.17 points lower than postsecondary students and 0.14 points lower than statewide peers. Disconnected and non-meaningful workers also scored lower than postsecondary peers, showing that stronger reading skills encouraged staying in school or leaving the region for better opportunities.\
--   **Year 10:** Gaps sharpened. Regional workers scored 0.23 points lower than statewide peers, non-meaningful workers scored 0.31 points lower, and disconnected students scored 0.11 points lower than statewide peers. Reading proficiency increasingly distinguished job quality and geography—pushing stronger readers toward meaningful work outside the region.
+#### Interpretation Over Time
 
-**Conclusion**\
-MCA Reading scores are a durable High School Accomplishment predictor. Higher reading proficiency reduces risk of low-quality or disconnected outcomes but also increases the likelihood of leaving the region for meaningful employment. Lower proficiency anchors students more to the regional labor market but with higher vulnerability to disconnection and weaker job quality.
+Reading achievement provides a **clear early advantage** in entering meaningful employment in the region. While its influence weakens over time, the effect does not vanish: students with stronger reading skills are consistently more likely to anchor into regional employment. This suggests that literacy skills remain relevant not just for immediate employability but also for long-term retention and advancement in the regional workforce.
+
+#### Conclusion
+
+MCA Reading is a **durable predictor** of meaningful regional employment for non-college graduates. Though its predictive power diminishes, the effect remains significant even a decade after high school, highlighting the enduring value of reading and communication skills.
+
+#### Policy Implications
+
+-   **Strengthen literacy supports** in high school, especially for students unlikely to pursue college, as strong reading skills directly improve regional employment outcomes.
+-   **Integrate reading and communication skills into CTE programs**, ensuring students can apply literacy in practical workforce settings.
+-   Since disparities in reading achievement likely reinforce employment gaps, literacy should be prioritized as a **cross-cutting equity and workforce strategy**.
 
 ::: panel-tabset
 #### 1-year after graduating
-
-**Key Takeaways (Year 1, MCA Reading Scores)**\
-MCA Reading scores are strongly related to outcomes (F=49.8, p\<.001). Students in meaningful employment (regional or statewide) and those disconnected or in non-meaningful work all had lower reading scores than peers attending postsecondary. This shows that reading proficiency primarily distinguished students who continued schooling from those who entered the workforce or disconnected.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **-0.13**, p \< .001
-    -   Students in meaningful statewide jobs scored about 0.13 points lower than those still attending postsecondary.
-    -   Interpretation: Higher reading scores encouraged continued schooling rather than workforce entry.
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.18**, p \< .001
-    -   Regional workers scored about 0.18 points lower than postsecondary students.
-    -   Interpretation: Lower reading proficiency tilted students toward early regional employment.
--   **No MN employment record vs. Attending PS**
-    -   Diff = **-0.29**, p \< .001
-    -   Disconnected students scored nearly 0.3 points lower than postsecondary students.
-    -   Interpretation: Weak reading skills increased risk of workforce detachment.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-0.17**, p \< .001
-    -   Students in non-meaningful jobs scored about 0.17 points lower than postsecondary peers.
-    -   Interpretation: Lower reading scores also increased entry into low-quality jobs.
--   **Other comparisons** (e.g., regional vs. statewide meaningful employment) were not significant, indicating that reading scores mainly separated schooling from employment/disconnection, rather than distinguishing between job types.
 
 ```{r}
 data <- master.original %>%
@@ -1669,34 +1466,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-R-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-R-1.xlsx", overwrite = TRUE)
 
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, MCA Reading Scores)**\
-MCA Reading scores remain significantly related to outcomes (F=16.7, p\<.001). By Year 5, differences between groups narrowed, but students in meaningful regional employment, disconnected students, and those in non-meaningful jobs all had lower reading scores than postsecondary peers. Reading proficiency thus continued to separate those who persisted in education from those who transitioned to the workforce, especially into regional or low-quality jobs.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.17**, p \< .001\
-    -   Regional workers scored about 0.17 points lower than postsecondary students.\
-    -   Interpretation: Lower reading scores increased likelihood of staying local for work rather than remaining in school.
--   **No MN employment record vs. Attending PS**
-    -   Diff = **-0.15**, p = .001\
-    -   Disconnected students scored about 0.15 points lower than postsecondary peers.\
-    -   Interpretation: Weaker reading skills raised risk of disconnection five years after graduation.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-0.21**, p \< .001\
-    -   Students in non-meaningful jobs scored about 0.2 points lower than those attending postsecondary.\
-    -   Interpretation: Lower reading scores steered students into lower-quality jobs instead of extended education.
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.14**, p \< .001\
-    -   Regional workers scored about 0.14 points lower than statewide meaningful peers.\
-    -   Interpretation: Higher reading skills increased chances of leaving the region for meaningful jobs elsewhere.
--   **Other comparisons** (e.g., meaningful MN vs. postsecondary) were not significant, suggesting reading scores mattered most in separating schooling from regional work, detachment, and low-quality jobs.
 
 ```{r}
 data <- master.original %>%
@@ -1718,37 +1492,11 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-R-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-R-5.xlsx", overwrite = TRUE)
 
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, MCA Reading Scores)**\
-MCA Reading scores remain strongly related to outcomes (F=34.7, p\<.001). By Year 10, reading proficiency clearly distinguished both job quality and geography: students in meaningful regional jobs scored lower than peers in meaningful statewide employment, while those in non-meaningful work had the lowest scores overall. Stronger reading skills thus increased chances of leaving the region or avoiding low-quality work.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.23**, p \< .001
-    -   Regional workers scored about 0.2 points lower than peers in meaningful statewide jobs.
-    -   Interpretation: Higher reading proficiency was linked to seeking meaningful employment outside the region.
--   **No MN employment record vs. Meaningful employment MN**
-    -   Diff = **-0.11**, p = .002\
-    -   Disconnected students scored about 0.1 points lower than statewide meaningful peers.\
-    -   Interpretation: Stronger reading scores reduced long-term risk of detachment.
--   **Not meaningful employment vs. Meaningful employment MN**
-    -   Diff = **-0.31**, p \< .001\
-    -   Students in non-meaningful jobs scored about 0.3 points lower than statewide meaningful peers.\
-    -   Interpretation: Reading proficiency sharply separated higher-quality from lower-quality employment.
--   **No MN employment record vs. Meaningful regional employment**
-    -   Diff = **+0.11**, p \< .001\
-    -   Disconnected students scored about 0.1 points higher than regional workers.\
-    -   Interpretation: Students with stronger reading skills may have pursued education or opportunities outside the region, resulting in fewer local workforce ties.
--   **Not meaningful employment vs. Meaningful regional employment**
-    -   Diff = **-0.08**, p = .024\
-    -   Students in non-meaningful jobs scored about 0.08 points lower than regional workers.\
-    -   Interpretation: Even within the region, stronger reading scores were linked to more meaningful employment.
 
 ```{r}
 data <- master.original %>%
@@ -1770,7 +1518,7 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-R-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-R-10.xlsx", overwrite = TRUE)
 ```
 :::
 
@@ -1778,43 +1526,28 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA
 
 ### `MCA.S`
 
-**Key Findings**\
-MCA Science scores are consistently and significantly related to outcomes across all three years (F=22.5 → 16.7 → 23.2). The overall pattern is similar to Reading: higher science proficiency is associated with remaining in school or securing meaningful employment outside the region, while lower scores are tied to earlier regional employment, disconnection, or non-meaningful work. Over time, science scores increasingly distinguished job quality and geographic pathways.
+#### Key Findings
 
-**Interpretation Over Time**
+-   At **1-year**, MCA Science scores show a **strong and highly significant association** with employment outcomes (*F* = 170.8, *p* \< .001). Higher science scores are linked to greater likelihood of **meaningful employment in the region**.
+-   At **5-years**, the relationship remains significant though weaker (*F* = 60.9, *p* \< .001). Science achievement continues to predict stronger regional employment outcomes.
+-   At **10-years**, the association persists but at further reduced strength (*F* = 38.8, *p* \< .001). Science skills still carry predictive weight but less so than in the earlier years.
 
--   **Year 1:** Students entering the workforce—regionally, statewide, or in non-meaningful jobs—scored 0.10–0.17 points lower than postsecondary peers. Disconnected students also scored 0.14 points lower. Science proficiency mainly separated schooling from work or disconnection.\
--   **Year 5:** Regional workers scored 0.14 points lower than postsecondary peers and 0.11 points lower than statewide meaningful peers. Students in non-meaningful jobs scored 0.19 points lower than postsecondary students. Science scores distinguished statewide meaningful jobs and education from regional or low-quality work.\
--   **Year 10:** Regional workers scored 0.19 points lower than statewide peers, while non-meaningful workers scored 0.25 points lower. Disconnected students scored 0.12 points higher than regional workers, suggesting that some high-science scorers pursued opportunities outside the local labor market.
+#### Interpretation Over Time
 
-**Conclusion**\
-MCA Science scores are a durable High School Accomplishment predictor. Higher science proficiency reduces the risk of low-quality or disconnected outcomes but also increases the likelihood of leaving the region for meaningful employment. Lower science scores anchor students more to the regional workforce, but with greater vulnerability to disconnection and weaker job quality.
+Science achievement provides an **early advantage** in securing meaningful employment in the region, similar to math and reading. While the effect weakens over time, it never disappears, suggesting that scientific literacy and related skills (problem-solving, technical reasoning) support both immediate and longer-term employability in regional labor markets.
+
+#### Conclusion
+
+MCA Science is a **consistent predictor** of meaningful regional employment among non-college graduates. Its influence diminishes with time but remains statistically significant even at 10 years, reinforcing the long-term value of science competencies for stable regional employment.
+
+#### Policy Implications
+
+-   **Expand access to applied science learning** (e.g., STEM-oriented CTE programs) to strengthen links between science achievement and workforce readiness.
+-   **Bridge academic and technical education** by integrating science skills with regional industry needs (e.g., healthcare, manufacturing, agriculture).
+-   Policymakers should recognize science achievement as part of a **broader academic foundation** that enhances equity and regional employment opportunities for non-college graduates.
 
 ::: panel-tabset
 #### 1-year after graduation
-
-**Key Takeaways (Year 1, MCA Science Scores)**\
-MCA Science scores are significantly related to outcomes (F=22.5, p\<.001). Students in meaningful employment (regional or statewide), disconnected students, and those in non-meaningful jobs all had lower science scores compared to postsecondary peers. This suggests science proficiency primarily distinguished students who continued schooling from those who entered the workforce or disconnected.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful employment MN vs. Attending PS**
-    -   Diff = **-0.10**, p = .014
-    -   Students in meaningful statewide jobs scored about 0.1 points lower than postsecondary peers.
-    -   Interpretation: Higher science proficiency nudged students toward staying in school rather than entering statewide employment.
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.17**, p \< .001
-    -   Regional workers scored about 0.17 points lower than postsecondary peers.
-    -   Interpretation: Lower science proficiency increased likelihood of entering the regional workforce directly after high school.
--   **No MN employment record vs. Attending PS**
-    -   Diff = **-0.14**, p \< .001
-    -   Disconnected students scored about 0.14 points lower than postsecondary peers.
-    -   Interpretation: Weaker science skills raised the risk of detachment from the workforce.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-0.16**, p \< .001
-    -   Students in non-meaningful jobs scored about 0.16 points lower than postsecondary peers.
-    -   Interpretation: Lower science scores were linked to entry into low-quality jobs.
--   **Other comparisons** (e.g., regional vs. statewide meaningful employment) were not significant, indicating science scores mainly separated continued schooling from workforce entry or disconnection, rather than job type.
 
 ```{r}
 data <- master.original %>%
@@ -1836,29 +1569,10 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-S-1.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-S-1.xlsx", overwrite = TRUE)
 ```
 
 #### 5-years after graduation
-
-**Key Takeaways (Year 5, MCA Science Scores)**\
-MCA Science scores remain significantly related to outcomes (F=16.7, p\<.001). Students in meaningful regional jobs and non-meaningful jobs had lower science scores than postsecondary peers, while regional workers also scored lower than peers in meaningful statewide employment. This indicates that science proficiency continued to separate educational persistence and statewide employment from regional or low-quality work.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Attending PS**
-    -   Diff = **-0.14**, p = .008
-    -   Regional workers scored about 0.14 points lower than postsecondary students.
-    -   Interpretation: Lower science scores made students more likely to enter the regional workforce instead of staying in school.
--   **Not meaningful employment vs. Attending PS**
-    -   Diff = **-0.19**, p \< .001
-    -   Students in non-meaningful jobs scored nearly 0.2 points lower than postsecondary peers.
-    -   Interpretation: Lower science skills were linked to entering low-quality jobs.
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.11**, p \< .001
-    -   Regional workers scored about 0.1 points lower than peers employed meaningfully elsewhere in Minnesota.
-    -   Interpretation: Stronger science proficiency was associated with seeking meaningful employment outside the region.
--   **Other comparisons** (e.g., disconnection vs. attending PS) were not significant, showing science scores mainly distinguished schooling and statewide work from regional or non-meaningful employment.
 
 ```{r}
 data <- master.original %>%
@@ -1880,29 +1594,10 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-S-5.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-S-5.xlsx", overwrite = TRUE)
 ```
 
 #### 10-years after graduation
-
-**Key Takeaways (Year 10, MCA Science Scores)**\
-MCA Science scores remain significantly related to outcomes (F=23.2, p\<.001). By Year 10, science proficiency helped distinguish both geography and job quality: students in meaningful regional jobs scored lower than peers in meaningful statewide employment, while those in non-meaningful jobs had the lowest scores overall.
-
-**Significant Comparisons and Interpretation of "Diff"**
-
--   **Meaningful regional employment vs. Meaningful employment MN**
-    -   Diff = **-0.19**, p \< .001
-    -   Regional workers scored about 0.2 points lower than peers in meaningful statewide jobs.
-    -   Interpretation: Students with stronger science skills were more likely to leave the region for meaningful employment.
--   **Not meaningful employment vs. Meaningful employment MN**
-    -   Diff = **-0.25**, p \< .001
-    -   Students in non-meaningful jobs scored about a quarter of a point lower than statewide meaningful peers.
-    -   Interpretation: Higher science proficiency sharply separated quality jobs from low-quality work.
--   **No MN employment record vs. Meaningful regional employment**
-    -   Diff = **+0.12**, p \< .001
-    -   Disconnected students scored about 0.1 points higher than regional workers.
-    -   Interpretation: Some students with stronger science skills may have pursued pathways outside the region that did not connect to local employment.
--   **Other comparisons** (e.g., non-meaningful vs. regional) were not significant, indicating that science scores mainly distinguished meaningful statewide jobs and job quality overall by Year 10.
 
 ```{r}
 data <- master.original %>%
@@ -1924,37 +1619,107 @@ addWorksheet(wb, "ANOVA")
 addWorksheet(wb, "TukeyHSD")
 writeData(wb, "ANOVA", anova_df)
 writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Non-college grads/High school accomplishments/MCA-S-10.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-S-10.xlsx", overwrite = TRUE)
 ```
 :::
 
 <br>
 
-## Overall Summary
+## Grand Synthesis: Relationship Analysis Across All Variable Groups
 
-For non-college graduates in Northeast Minnesota, the central question is whether they secure **meaningful employment in their home region**. The evidence shows that while demographics and local economic conditions play important roles, the most consistent predictors come from students’ **high school accomplishments**.
+### Key Findings
 
-**High school accomplishments** are the strongest drivers of long-term outcomes. Career and Technical Education (CTE) stands out: concentrators/completors and those who took more CTE courses were consistently more likely to secure meaningful regional jobs, with this advantage persisting even 10 years after graduation. Academic achievement (ACT, MCA) shaped pathways in the opposite direction: lower scorers more often transitioned earlier into regional employment, while higher scorers pursued postsecondary education and eventually secured meaningful work outside the region. PSEO participants followed a similar pattern—more likely to remain in school or move into statewide jobs, but less likely to anchor in regional employment.
+-   **Demographics**:
+    -   **Economic status** and **special education status** are the strongest demographic predictors, with disadvantaged students significantly less likely to secure meaningful regional employment, especially in the first year.
+    -   **Gender** and **race/ethnicity** show smaller but persistent effects. Males are more likely to secure regional meaningful employment than females, and students of color remain underrepresented in regional employment compared to White peers.\
+-   **High School Characteristics**:
+    -   **County unemployment rate** strongly predicts early outcomes: graduates from high-unemployment counties are less likely to secure meaningful regional employment, and this effect persists even at 10 years.
+    -   **County wages relative to the state** matter in the short-term but lose significance by 10 years.
+    -   **Rural/urban context** has a consistent but modest effect, with rural students slightly more likely to remain in meaningful regional employment.\
+-   **High School Accomplishments**:
+    -   **CTE achievement and depth of coursework** are among the most powerful and durable predictors, strongly tied to meaningful regional employment at all timepoints.
+    -   **Academic performance (ACT, MCA scores)** is also highly predictive, especially in math and reading. These effects weaken over time but remain significant even at 10 years.
+    -   **PSEO participation** provides a modest but consistent advantage, suggesting exposure to postsecondary opportunities improves early and long-term outcomes.
 
-**Demographics** highlighted persistent disparities. Students in special education were the least likely to secure meaningful regional jobs, instead concentrated in non-meaningful employment or disconnected from the workforce. Economic status also mattered: lower-income students were more likely to be region-bound but also more at risk of disconnection, while higher-income students more often pursued statewide opportunities. Race and ethnicity had small but notable effects, with white graduates slightly more likely to be in regional jobs. Gender was not analyzed for this region.
+### Interpretation Over Time
 
-**High school characteristics** and local context provided important structural boundaries. Rural graduates were somewhat more likely to remain in meaningful regional work, while peers in more urban or mixed settings were more likely to move into statewide employment. County-level economic conditions were also influential: lower unemployment rates and higher relative wages boosted the chances of meaningful regional employment, while weaker counties increased risks of disconnection.
+Across all variable groups, the **first year after graduation** is the most stratified, with large differences in who secures meaningful employment in the region. Economic status, special education, academic scores, and local economic conditions sharply divide early outcomes. By **5 years**, many students improve, but disparities persist. By **10 years**, some factors (like county wages, ACT scores) fade in influence, while others (CTE pathways, math/reading achievement, county unemployment, demographics) remain significant. The persistence of gaps shows that early disadvantages rarely close entirely, even after a decade.
 
-Taken together, the story is clear: **for non-college graduates in Northeast Minnesota, CTE engagement is the most reliable pathway into meaningful regional employment.** By contrast, stronger academic preparation and PSEO open broader opportunities but often outside the region. Demographics underscore where risks of disconnection are greatest, while county conditions reveal how local economies can either anchor graduates in regional jobs or push them away.
+### Conclusion
 
-## Ranked Importance for Regional Employment (Most → Least)
+The relationship analysis reveals that **both individual background and school-based preparation** shape access to meaningful regional employment. Demographics establish baseline inequities, high school context adds structural constraints, and high school accomplishments provide the clearest pathways into stable regional employment. Of these, **CTE and academic achievement** stand out as the most actionable predictors, showing consistent long-term benefits.
 
-1.  **CTE Engagement (Accomplishments: achievement + total courses)** – strongest and most consistent predictor of meaningful regional work.\
-2.  **ACT & MCA Scores (Accomplishments)** – lower scorers more likely to enter and remain in regional jobs; higher scorers more likely to leave.\
-3.  **Special Education Status (Demographic)** – persistent disadvantage, far less likely to secure regional work.\
-4.  **Economic Status (Demographic)** – lower-income grads more region-bound but also more disconnected; higher-income grads more mobile.\
-5.  **PSEO Participation (Accomplishments)** – reduces likelihood of regional employment over time as participants pursue broader opportunities.\
-6.  **Rural/Urban (HS Characteristic)** – rural grads more likely to stay local; urban/town grads more likely to leave.\
-7.  **County Conditions (Unemployment, Wages)** – stronger local economies increase regional employment chances.\
-8.  **Race/Ethnicity (Demographic)** – small but significant effects; white grads slightly more likely to secure regional jobs.\
-9.  **Gender (Demographic)** – not analyzed in this region.
+### Policy Implications
 
-👉 The **headline story** is: *Among non-college graduates in Northeast Minnesota, the most dependable route into meaningful employment in the region is strong CTE engagement. Regional employment is more common for lower scorers, rural students, and those from lower-income backgrounds, while higher scorers, PSEO participants, and higher-income students often pursue opportunities outside the region. Special education status and weaker local economies sharply increase risks of disconnection.*
+-   **Early intervention is critical**: the 1–5 year window after graduation is decisive for securing meaningful regional employment, especially for disadvantaged groups.
+-   **Strengthen CTE programs**: depth of participation and alignment with regional labor markets should be prioritized to sustain long-term employment benefits.
+-   **Bolster academic preparation**: particularly in math and reading, as these skills retain predictive power well beyond high school.
+-   **Address structural inequities**: targeted supports for students from low-income families, students of color, and special education students are needed to close persistent gaps in regional employment.
+-   **Place-based strategies**: support students in high-unemployment counties through workforce development and mobility programs, ensuring local conditions do not permanently limit career pathways.
+
+<br>
+
+## Rankings
+
+### Key Insights Across All Variable Groups
+
+The analysis shows that **who students are (demographics), where they come from (high school characteristics), and what they accomplish in high school (accomplishments)** all shape their chances of securing meaningful employment in the region. Effects are strongest in the **first year after graduation**, narrow somewhat by 5 years, and persist in smaller but significant ways even at 10 years.
+
+------------------------------------------------------------------------
+
+### 1. High School Accomplishments (Most Influential)
+
+-   **CTE Engagement (Courses & Achievement):** The most powerful and consistent predictors. Depth of coursework and concentrator/completor status steadily increase likelihood of regional meaningful employment at 1, 5, and 10 years.
+-   **Academic Readiness (MCA & ACT):** Strong early predictors of employment differences. Math and reading stand out as the most durable indicators, while science and ACT scores also matter but with diminishing power over time. Importantly, higher academic scores also strongly channel students into postsecondary, reducing their presence in the non-college subgroup.
+-   **PSEO Participation:** Provides a smaller but steady advantage, reinforcing the value of early exposure to postsecondary opportunities.
+
+**Takeaway:** CTE provides **direct labor market pathways**, while academic achievement signals **general readiness** and sorts many higher scorers into college. Both matter, but CTE has the clearest and most durable influence for non-college graduates.
+
+### 2. Demographics (Moderately Influential)
+
+-   **Special Education Status:** Largest demographic barrier, strongly reducing chances of regional meaningful employment early on, with gaps persisting through 10 years.
+-   **Economic Status (FRL):** Clear disadvantage at 1 year, with some narrowing but persistent differences by 10 years.
+-   **Gender:** Males show slightly higher regional employment rates, with gaps narrowing at 5 years but re-emerging at 10.
+-   **Race/Ethnicity:** Small but consistent disparities; White students are more likely than peers of color to secure regional meaningful employment.
+
+**Takeaway:** Demographics structure access to regional employment, with special education and poverty as the strongest barriers. These differences never fully close, even over a decade.
+
+### 3. High School Characteristics (Least Influential, but Structurally Important)
+
+-   **County Unemployment Rate:** Strong early predictor—students from high-unemployment counties are less likely to secure regional employment, and the effect persists into mid-career.
+-   **County Wages (Pct. of State Median):** Matters at 1 and 5 years, but fades by 10.
+-   **Rural/Urban Context:** Consistent but weak—rural students are slightly more likely to stay in meaningful regional employment.
+
+**Takeaway:** Place-based conditions shape opportunities at the start, but their effects fade compared to individual accomplishments. Local unemployment is the most durable structural barrier.
+
+------------------------------------------------------------------------
+
+### Overall Ranking of Influence
+
+1.  **CTE Engagement (number of courses, achievement)**
+2.  **MCA Math and Reading**
+3.  **Special Education Status**
+4.  **Economic Status (FRL)**
+5.  **ACT Composite Score**
+6.  **MCA Science**
+7.  **PSEO Participation**
+8.  **County Unemployment Rate**
+9.  **Gender**
+10. **Race/Ethnicity**
+11. **County Wages (short-term only)**
+12. **Rural/Urban Context**
+
+### Conclusion
+
+For non-college graduates, **high school accomplishments—especially CTE and core academic performance—are the most decisive factors** in securing meaningful employment in the region. Demographics establish persistent inequities, while local economic conditions shape early opportunities. Over time, structural and demographic influences remain, but the clearest levers for improving outcomes are **expanding CTE, strengthening math and reading preparation, and providing targeted supports for disadvantaged groups**.
+
+### Policy Implications
+
+-   **Scale CTE depth and concentrator pathways** as the strongest drivers of regional employment.
+-   **Ensure equitable access to rigorous academics**, especially in math and reading, for non-college bound students.
+-   **Target early interventions** for low-income, special education, and students of color, since gaps open immediately and persist.
+-   **Address place-based inequities** by supporting students from high-unemployment counties through job placement, mobility, and workforce development.
+-   Treat **meaningful employment in the region** as the equity benchmark, aligning both educational and economic policy to improve access and retention.
 
 <br>
 
@@ -2047,7 +1812,7 @@ Over time, the drivers of meaningful **regional employment** shift from **local 
 This trajectory suggests that **early local wage conditions set the baseline**, but over time, **academic achievement fuels mobility**, while **CTE continues to anchor students in their regions** as a durable pathway to meaningful work.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|------------------|----------------------------------|---------------------|
+|-------------------|--------------------------------|---------------------|
 | **Year 1** | \- Local wages (% of state)<br>- ACT Composite Score<br>- MCA.R (Reading)<br>- Total CTE courses | **Wages** anchor students regionally; **high ACT/MCA** increase statewide mobility; **CTE engagement** pulls high scorers back toward regional work. |
 | **Year 5** | \- Local wages (% of state)<br>- Unemployment rate<br>- ACT Composite Score<br>- MCA.R (Reading)<br>- CTE achievement (Concentrator/Completer)<br>- Total CTE courses<br>- ACT participation<br>- SpecialEd status | **Economic context + academics** shape outcomes more fully; **high achievers** increasingly mobile; **CTE concentrators** remain anchored regionally; **SpecialEd students** are less anchored and more likely to be statewide. |
 | **Year 10** | \- ACT participation<br>- ACT Composite Score<br>- Unemployment rate<br>- Local wages (% of state)<br>- MCA.R (Reading)<br>- Total CTE courses | **ACT takers with high scores** are most mobile; **CTE course-taking** continues to anchor students regionally; **local wages/unemployment** still matter but are less dominant than academics. |
@@ -2817,7 +2582,7 @@ Across the decade, the divide between **meaningful regional employment** and **N
 This trajectory suggests that while **CTE and strong academics offer protective early pathways**, long-term stability in regional employment is increasingly shaped by **structural disadvantage (low income, SpecialEd needs)**, leaving vulnerable groups at persistent risk of disconnection.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|------------------|----------------------------------|---------------------|
+|-------------------|--------------------------------|---------------------|
 | **Year 1** | \- ACT Composite Score<br>- SpecialEd status<br>- Total CTE courses<br>- Local wages (% of state) | **High ACT scorers (≥26)** are much more likely to find meaningful regional work. **SpecialEd students with low ACT scores** are at highest risk of being Not meaningful. **Heavy CTE engagement (≥9 courses)** can offset weak academics, anchoring students regionally. Higher wages modestly improve outcomes. |
 | **Year 5** | \- SpecialEd status<br>- Total CTE courses<br>- ACT Composite Score<br>- Economic status<br>- Local wages (% of state)<br>- Unemployment rate | **SpecialEd students** are most at risk of disconnection. **CTE engagement (≥3 courses)** anchors students regionally, especially for **higher-income students in higher-wage counties**. **Low ACT scores** and **low income** increase risk. Local unemployment further shifts outcomes. |
 | **Year 10** | \- Economic status<br>- SpecialEd status<br>- MCA.M (Math)<br>- Unemployment rate | **Low-income students** are most likely to be Not meaningful, unless they combine **strong math skills** with residence in **low-unemployment counties**. **SpecialEd students** face barriers even within higher-income groups. **Higher-income, Non-SpecialEd students** are most likely to sustain regional employment. |
@@ -3569,7 +3334,7 @@ Overall, the models show that **predictive strength fades over time** as employm
 Across 1, 5, and 10 years, the clearest story is that **CTE provides the most reliable anchor to meaningful regional employment**, while **SpecialEd needs consistently predict long-term disconnection** from the Minnesota workforce. Academic achievement, especially ACT and reading performance, adds differentiation, and local labor market conditions either reinforce or undermine students’ chances.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|------------------|----------------------------------|---------------------|
+|-------------------|--------------------------------|---------------------|
 | **Year 1** | \- SpecialEd status<br>- Total CTE courses<br>- ACT Composite Score<br>- Local wages (% of state) | **SpecialEd students** most likely to lack MN record. **Heavy CTE course-taking** offsets weak academics. Strong ACT scorers sustain regional jobs; low wages raise disconnection risk. |
 | **Year 5** | \- ACT Composite Score<br>- SpecialEd status<br>- CTE completion<br>- ACT participation | **SpecialEd + low ACT students** face highest disconnection risk. **CTE completion** anchors weaker students regionally. ACT participation adds further stability. |
 | **Year 10** | \- CTE achievement<br>- SpecialEd status<br>- MCA Reading<br>- Unemployment rate<br>- Local wages (% of state)<br>- Economic status | **CTE remains the anchor.** **SpecialEd needs + low reading scores** predict long-term disconnection. **Labor markets and income** shape whether students sustain regional jobs or exit MN employment. |
