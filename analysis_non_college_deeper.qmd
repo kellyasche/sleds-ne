@@ -1778,3 +1778,1321 @@ tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$SpecialEdSt
 :::
 
 <br>
+
+### High School Characteristics
+
+#### Summary
+
+Across all five years after exiting formal education, **high school and county contextual characteristics show consistently weak relationships** with workforce outcomes. While statistically detectable due to large sample sizes, these factors explain **very little of the variation** in whether individuals experience meaningful employment, marginal employment, or labor force detachment.
+
+**District rurality** is weakly associated with workforce categorization across all years, with small and stable effect sizes. Individuals from urban/town/rural mix districts are slightly more likely to be in meaningful employment, while those from entirely rural districts show marginally higher representation in statewide employment and some disconnected categories. However, differences across district types are modest, do not widen or diminish over time, and do not meaningfully differentiate marginal employment from full detachment.
+
+**County unemployment rates** show a negligible relationship with workforce outcomes. Although mean unemployment rates differ slightly across workforce categories, the differences are extremely small and explain less than one percent of total variance in every year examined. Patterns are stable across time and do not meaningfully distinguish meaningful employment from disconnected employment or full labor force detachment.
+
+**County wage levels**, measured as a percentage of the statewide average, also show no substantive relationship with workforce outcomes. Differences in average wages across workforce categories are minimal and consistent across years, indicating that local pay levels do not meaningfully shape early post-exit employment trajectories.
+
+Taken together, these findings indicate that **place-based high school and county economic conditions are not primary drivers of early workforce outcomes**. While geography and local labor markets matter in a broad sense, they do not meaningfully explain why individuals experience sustained meaningful employment, marginal employment, or labor force detachment in the first five years after exiting formal education. This reinforces the importance of **individual-level characteristics and educational pathways**, examined in subsequent sections, for understanding early workforce attachment.
+
+<br>
+
+#### `Dem_Desc`
+
+**Cramér’s V by Year**
+
+| Year After Exit | χ²    | Cramér’s V | Strength / Pattern |
+|-----------------|-------|------------|--------------------|
+| after.ed.1      | 125.2 | 0.064      | Weak               |
+| after.ed.2      | 158.6 | 0.072      | Weak               |
+| after.ed.3      | 132.4 | 0.066      | Weak               |
+| after.ed.4      | 121.6 | 0.063      | Weak               |
+| after.ed.5      | 144.6 | 0.069      | Weak, stable       |
+
+High school district rurality shows a **consistently weak but statistically detectable association** with workforce outcomes across all five years after exit from formal education. Effect sizes remain small and relatively stable over time, indicating that rurality does not become more or less influential as individuals progress through the early post-exit period.
+
+Across all years, individuals from **urban/town/rural mix districts** are slightly more likely to be in meaningful employment—particularly in-region employment—while individuals from **entirely rural districts** are somewhat more likely to be represented in statewide meaningful employment and, in some years, in non-meaningful employment categories. However, differences in the share with **no Minnesota employment record** are modest across district types and track closely together over time.
+
+The most notable distinction is not between rural and urban extremes, but rather the overall similarity of distributions across district types. Patterns of marginal in-region employment, other disconnected employment, and full detachment from the Minnesota labor force vary only slightly by rurality and do not show clear divergence or convergence over time.
+
+Overall, these results indicate that **district rurality is a weak contextual factor** in shaping early workforce outcomes. While statistically significant differences exist, they are small in magnitude and unlikely to be meaningful drivers of workforce attachment or detachment when considered independently of individual characteristics and educational pathways.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$Dem_Desc, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `avg.unemp.rate`
+
+**ANOVA Signal by Year**
+
+| Year After Exit | SS (Between) | Residual SS | Signal Strength | Pattern |
+|-----------------|--------------|-------------|-----------------|---------|
+| after.ed.1      | 57.9         | 27,214.1    | Very weak       | Stable  |
+| after.ed.2      | 138.8        | 27,133.1    | Very weak       | Stable  |
+| after.ed.3      | 154.5        | 27,117.5    | Very weak       | Stable  |
+| after.ed.4      | 115.6        | 27,156.4    | Very weak       | Stable  |
+| after.ed.5      | 133.1        | 27,138.9    | Very weak       | Stable  |
+
+*(Across all years, \<1% of total variance in unemployment rates is explained by workforce category.)*
+
+Average county unemployment rates show a **consistently negligible relationship** with workforce outcomes across all five years after exit from formal education. While ANOVA tests are statistically significant due to large sample size, the **amount of variation explained is trivial**, and differences in mean unemployment rates across workforce categories are very small—generally **a few tenths of a percentage point or less**.
+
+Across all years, individuals in **Meaningful employment in Minnesota (statewide)** are associated with slightly higher average county unemployment rates than those in **Meaningful in-region employment**, while individuals in **Not meaningful (other)** categories also tend to come from marginally higher-unemployment counties. However, individuals with **No Minnesota employment record** do *not* consistently differ from those in meaningful in-region employment, and differences between disconnected categories are small and inconsistent.
+
+Importantly, these patterns are **stable across time**. County unemployment conditions do not become more or less relevant as individuals move further from educational exit, nor do they meaningfully differentiate marginal employment from full detachment.
+
+Overall, these results indicate that **county-level unemployment conditions do not meaningfully shape early workforce trajectories**. Workforce attachment, marginal employment, and labor force detachment appear to be driven by factors other than general local labor market tightness, reinforcing the conclusion that **persistent disconnection is not primarily a place-based unemployment problem**.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+summary <- aov(avg.unemp.rate ~ after.ed.1, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.2
+
+```{r}
+
+summary <- aov(avg.unemp.rate ~ after.ed.2, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.3
+
+```{r}
+summary <- aov(avg.unemp.rate ~ after.ed.3, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.4
+
+```{r}
+summary <- aov(avg.unemp.rate ~ after.ed.4, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.5
+
+```{r}
+summary <- aov(avg.unemp.rate ~ after.ed.5, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+:::
+
+<br>
+
+#### `avg.wages.pct.state`
+
+**ANOVA Signal by Year**
+
+| Year After Exit | SS (Between) | Residual SS | Signal Strength | Pattern |
+|-----------------|--------------|-------------|-----------------|---------|
+| after.ed.1      | 0.375        | 49.460      | Very weak       | Stable  |
+| after.ed.2      | 0.377        | 49.457      | Very weak       | Stable  |
+| after.ed.3      | 0.335        | 49.500      | Very weak       | Stable  |
+| after.ed.4      | 0.262        | 49.572      | Very weak       | Stable  |
+| after.ed.5      | 0.294        | 49.541      | Very weak       | Stable  |
+
+*(Across all years, well under 1% of total variance in county wage levels is explained by workforce category.)*
+
+Average county wage levels, measured as a percentage of the statewide average, show a **consistently negligible relationship** with workforce outcomes across all five years after exit from formal education. Although ANOVA tests are statistically significant in every year, this reflects large sample size rather than substantive differences: **the amount of variation explained is trivial**, and mean differences between workforce categories are extremely small.
+
+Across all years, individuals in **Meaningful in-region employment** tend to come from counties with *slightly higher* average wage levels than those in **Meaningful statewide employment**, while individuals in **not meaningful (other)** categories are associated with marginally lower-wage counties. However, these differences are on the order of **one to two percentage points of the state average or less**, far below any threshold of practical importance.
+
+Individuals with **no Minnesota employment record** do not consistently differ from those in meaningful in-region employment, and differences among disconnected categories are small, inconsistent, and stable over time. Importantly, wage-related patterns do not strengthen or weaken as individuals move further from educational exit.
+
+Overall, these results indicate that **county wage context does not meaningfully shape early workforce outcomes**. Like county unemployment rates and district rurality, average wage levels provide little explanatory power for understanding why individuals experience meaningful employment, marginal employment, or labor force detachment in the years immediately following exit from formal education.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+summary <- aov(avg.wages.pct.state ~ after.ed.1, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.2
+
+```{r}
+summary <- aov(avg.wages.pct.state ~ after.ed.2, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.3
+
+```{r}
+summary <- aov(avg.wages.pct.state ~ after.ed.3, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.4
+
+```{r}
+summary <- aov(avg.wages.pct.state ~ after.ed.4, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.5
+
+```{r}
+summary <- aov(avg.wages.pct.state ~ after.ed.5, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+:::
+
+<br>
+
+### High school academics
+
+#### Summary
+
+**Big takeaway:**\
+High school academic indicators matter, but **none are strong predictors** of workforce outcomes on their own. Across all academic measures, the relationships are **consistent, statistically significant, and substantively modest**. Academic experiences shape *risk gradients*, not deterministic pathways, and their influence is already visible in year 1 and remains stable through year 5.
+
+**Standardized Test Performance (ACT, MCA Math, Reading, Science)**
+
+Across all four assessments, **higher scores are consistently associated with better workforce attachment**, and lower scores with higher likelihood of disconnection—especially **No Minnesota employment record**. However, effect sizes are small (Cramer's V ≈ 0.04–0.12), indicating **broad overlap across categories**.
+
+-   **ACT Composite Score** shows the *strongest* academic signal:
+    -   Individuals with **No MN employment record** have ACT scores roughly **1–1.7 points higher** than those in meaningful in-region employment, reflecting selection into test-taking and postsecondary exposure rather than pure academic skill.
+    -   Differences between meaningful employment categories are modest and stable across years.
+-   **MCA Math, Reading, and Science**:
+    -   Higher proficiency levels (3–4) are modestly overrepresented in **meaningful employment**, especially statewide MN employment.
+    -   Lower proficiency levels (1–2) are more common among **No MN employment record** and marginal employment categories.
+    -   All MCA subjects exhibit **very weak but persistent associations**, with no strengthening or decay over time.
+
+**Postsecondary Exposure Signals (PSEO, Took ACT)**
+
+-   **Took ACT** is one of the clearer academic markers:
+    -   ACT takers are consistently **less likely** to have No MN employment records and **more likely** to be meaningfully employed.
+    -   Effect sizes are modest but stronger than most other academic indicators and stable across all five years.
+-   **PSEO participation** shows a similar but slightly weaker pattern:
+    -   Participants are more likely to be meaningfully employed and less likely to be fully detached.
+    -   Differences are present in year 1 and persist, suggesting early sorting rather than later divergence.
+
+**Career & Technical Education (CTE)**
+
+CTE engagement shows **consistent protective effects**, particularly against full detachment.
+
+-   **CTE Concentrators/Completers** are:
+
+    -   More likely to be in **meaningful in-region or MN employment**
+    -   Less likely to have **No MN employment record**
+
+-   **No CTE** students are overrepresented among disconnected categories across all years.
+
+-   **Number of CTE courses taken**:
+
+    -   Individuals in meaningful employment average **\~0.25–0.55 more CTE courses** than those with no MN employment record.
+    -   Differences are statistically significant but modest and stable over time.
+
+**Interpretation Across the Academic Block**
+
+Taken together, high school academics function as **risk modifiers, not sorting mechanisms**. Stronger academic preparation, postsecondary signaling (ACT, PSEO), and CTE engagement all **reduce the likelihood of complete labor force detachment**, but none sharply separate marginal from stable employment.
+
+Crucially, these academic effects are: - **Visible immediately after exit** - **Stable across five years** - **Weaker than postsecondary attendance effects** - **Stronger than county-level economic conditions**
+
+This reinforces a central conclusion of the broader analysis:\
+**Persistent workforce disconnection is not primarily an academic failure problem**, but academic experiences can meaningfully **buffer against the worst outcomes**, especially full detachment from Minnesota’s labor market.
+
+<br>
+
+#### `pseo.participant`
+
+**Cramér’s V by Year**
+
+| Year After Exit | χ²   | Cramér’s V | Strength / Pattern   |
+|-----------------|------|------------|----------------------|
+| after.ed.1      | 64.5 | 0.079      | Weak–moderate, early |
+| after.ed.2      | 44.0 | 0.065      | Weak                 |
+| after.ed.3      | 31.8 | 0.055      | Weak                 |
+| after.ed.4      | 27.8 | 0.052      | Weak                 |
+| after.ed.5      | 41.0 | 0.063      | Weak, stable         |
+
+Participation in PSEO shows a **modest but consistent association** with workforce outcomes across the first five years after exit from formal education. The relationship is **strongest in the first year after exit** and weakens slightly over time, though it remains statistically detectable in every year.
+
+Across all five years, individuals who participated in PSEO are **less likely to have no Minnesota employment record** and **more likely to be in meaningful employment**, particularly **statewide meaningful employment**, compared to those who did not participate. Differences in in-region meaningful employment are smaller, suggesting that PSEO participation is more strongly associated with **continued labor force attachment and mobility** than with strictly local employment.
+
+PSEO participants are also consistently **less concentrated in marginal in-region employment**, especially in the early post-exit years. Over time, the gap narrows somewhat, indicating that non-PSEO participants gradually improve their workforce attachment, but do not fully close the gap.
+
+Overall, PSEO participation functions as an **early protective factor** against labor force detachment. Its influence appears strongest during the initial transition out of formal education and stabilizes at a lower level in later years, suggesting that early exposure to postsecondary environments helps reduce the risk of immediate disconnection, even among individuals who ultimately do not complete a college credential.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$pseo.participant, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `took.ACT`
+
+**Cramér’s V by Year**
+
+| Year After Exit | χ²    | Cramér’s V | Strength / Pattern   |
+|-----------------|-------|------------|----------------------|
+| after.ed.1      | 174.2 | 0.107      | Moderate, early      |
+| after.ed.2      | 134.6 | 0.094      | Weak–moderate        |
+| after.ed.3      | 115.4 | 0.087      | Weak–moderate        |
+| after.ed.4      | 143.2 | 0.097      | Weak–moderate        |
+| after.ed.5      | 203.2 | 0.116      | Moderate, persistent |
+
+ACT participation shows a **moderate and persistent relationship** with workforce outcomes across all five years after exit from formal education. Unlike PSEO, where effects are strongest early and then attenuate slightly, the association between taking the ACT and workforce outcomes **remains stable and even strengthens modestly by year five**.
+
+Across every year, individuals who took the ACT are **substantially more likely to be in meaningful employment**, particularly **statewide meaningful employment**, and **consistently less likely to have no Minnesota employment record**. By year five, the gap in full labor force detachment between ACT-takers and non-takers is pronounced, indicating that ACT participation is strongly associated with sustained workforce attachment rather than only short-term advantages.
+
+Differences in marginal in-region employment and other disconnected employment are present but secondary. The primary distinction driven by ACT participation is between **being connected to the Minnesota labor market at all versus falling completely out of it**.
+
+Importantly, these patterns persist even though ACT participation is not itself a credential. This suggests that taking the ACT functions as a **signal of academic engagement, planning, or institutional connection**, rather than simply reflecting test performance. ACT participation appears to mark individuals who are better positioned to navigate early workforce transitions, even when they do not complete postsecondary education.
+
+Overall, ACT participation emerges as a **stronger and more durable predictor** of workforce outcomes than PSEO participation and substantially stronger than place-based high school characteristics, reinforcing the importance of **engagement and signaling behaviors during high school**.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$took.ACT, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `cte.achievement`
+
+**Cramér’s V by Year**
+
+| Year After Exit | χ²    | Cramér’s V | Strength / Pattern |
+|-----------------|-------|------------|--------------------|
+| after.ed.1      | 114.9 | 0.062      | Weak               |
+| after.ed.2      | 133.5 | 0.066      | Weak               |
+| after.ed.3      | 138.4 | 0.068      | Weak               |
+| after.ed.4      | 127.5 | 0.065      | Weak               |
+| after.ed.5      | 123.2 | 0.064      | Weak, stable       |
+
+CTE achievement shows a **consistent and stable association** with workforce outcomes across all five years after exit from formal education. While effect sizes are modest, they are **uniform across time**, indicating that the relationship between CTE engagement and workforce outcomes neither fades nor intensifies as individuals move further from educational exit.
+
+Across every year, individuals who are **CTE concentrators or completers** are more likely to be in **meaningful employment**, particularly **in-region employment**, and less likely to have **no Minnesota employment record**, compared to individuals with no CTE experience. CTE participants (who did not reach concentrator or completer status) consistently fall between these two groups, reinforcing a clear **dose–response pattern**: deeper engagement in CTE is associated with stronger workforce attachment.
+
+Differences between CTE groups are most pronounced in **full labor force detachment**, with individuals who have no CTE experience consistently overrepresented in the No Minnesota employment record category. In contrast, differences in marginal in-region employment are smaller, suggesting that CTE achievement primarily affects **whether individuals remain connected to the labor force at all**, rather than only job quality among those already employed.
+
+Overall, CTE achievement functions as a **durable protective factor** against labor force detachment. Although its independent explanatory power is smaller than that of ACT participation or special education status, its stability across time and clear gradient by level of engagement make it one of the **most policy-relevant high school academic variables** in the analysis.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$cte.achievement, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `total.cte.courses.taken`
+
+| Year After Exit | SS (Between) | Residual SS | Signal Strength | Pattern |
+|-----------------|--------------|-------------|-----------------|---------|
+| after.ed.1      | 653.5        | 86,625.0    | Weak–moderate   | Stable  |
+| after.ed.2      | 676.6        | 86,601.9    | Weak–moderate   | Stable  |
+| after.ed.3      | 670.7        | 86,607.8    | Weak–moderate   | Stable  |
+| after.ed.4      | 627.9        | 86,650.6    | Weak–moderate   | Stable  |
+| after.ed.5      | 571.7        | 86,706.7    | Weak–moderate   | Stable  |
+
+(Approximately 0.7–0.8% of total variance in CTE course-taking is explained by workforce category across years.)
+
+Across all five years after exiting formal education, **total CTE courses taken shows a consistent and statistically significant relationship with workforce outcomes**. While the overall share of variance explained is modest, it is **substantially larger and more meaningful** than that observed for county-level labor market conditions.
+
+In every year, individuals in **Meaningful employment (especially in-region)** completed the highest average number of CTE courses in high school. Those in **Meaningful MN employment** generally follow closely behind. Individuals in **Not meaningful employment** completed fewer CTE courses, and those with **No Minnesota employment record** consistently show the **lowest CTE course counts**.
+
+Pairwise comparisons reinforce a clear gradient: the largest and most consistent gaps occur between **Meaningful employment groups and the No MN employment record group**, with differences on the order of **0.4–0.6 fewer CTE courses**. Differences between the two meaningful employment groups are smaller and sometimes not statistically significant, while gaps among disconnected categories are less consistent.
+
+Importantly, this pattern is **remarkably stable over time**. The ordering of group means does not change as individuals move further from educational exit, indicating that **depth of CTE exposure is associated with sustained workforce attachment**, not just short-term placement.
+
+Overall, these results suggest that **the number of CTE courses taken—beyond simple participation—matters for long-run workforce outcomes**. CTE depth appears to function as a durable protective factor against labor force detachment, distinguishing stable employment trajectories from marginal and disconnected ones in ways that local labor market conditions do not.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+summary <- aov(total.cte.courses.taken ~ after.ed.1, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.2
+
+```{r}
+summary <- aov(total.cte.courses.taken ~ after.ed.2, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.3
+
+```{r}
+summary <- aov(total.cte.courses.taken ~ after.ed.3, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.4
+
+```{r}
+summary <- aov(total.cte.courses.taken ~ after.ed.4, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.5
+
+```{r}
+summary <- aov(total.cte.courses.taken ~ after.ed.5, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+:::
+
+<br>
+
+#### `ACTCompositeScore`
+
+| Year After Exit | SS (Between) | Residual SS | Signal Strength | Pattern |
+|-----------------|--------------|-------------|-----------------|---------|
+| after.ed.1      | 2,251.1      | 130,363.6   | Weak–moderate   | Stable  |
+| after.ed.2      | 2,454.7      | 130,160.1   | Weak–moderate   | Stable  |
+| after.ed.3      | 2,496.5      | 130,118.2   | Weak–moderate   | Stable  |
+| after.ed.4      | 2,597.2      | 130,017.5   | Weak–moderate   | Stable  |
+| after.ed.5      | 2,437.7      | 130,177.0   | Weak–moderate   | Stable  |
+
+(Approximately 1.6–2.0% of total variance in ACT scores is explained by workforce category across years.)
+
+ACT Composite Score shows a **consistent and meaningful relationship** with workforce outcomes across all five years after exiting formal education. Unlike county labor market measures, ACT scores clearly differentiate workforce categories, and this differentiation remains stable over time.
+
+Across every year, individuals with **No Minnesota employment record** have the **highest average ACT scores**, followed by those in **Not meaningful employment (other)** and **Not meaningful in-region employment**. Individuals in **Meaningful in-region employment** consistently have the **lowest average ACT scores**, with those in **Meaningful employment in Minnesota** falling in between.
+
+The magnitude of differences is substantive: gaps of roughly **1.0–1.7 ACT points** separate meaningful in-region employment from no-MN-record individuals in every year. These differences are statistically significant and persistent, indicating that academic preparation—as measured by ACT performance—is strongly linked to *where and how* individuals attach to the workforce after leaving education.
+
+Importantly, higher ACT scores do **not** correspond to stronger local attachment. Instead, higher scorers are more likely to be **absent from Minnesota employment records** or in employment that does not register as meaningful locally. This suggests that academic achievement is associated with **greater mobility and exit from local labor markets**, rather than protection against labor force disconnection within the region.
+
+Overall, ACT performance is one of the **strongest individual-level predictors** examined so far in distinguishing post-education workforce pathways, particularly in separating locally attached employment from external or non-recorded employment trajectories.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+summary <- aov(ACTCompositeScore ~ after.ed.1, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.2
+
+```{r}
+summary <- aov(ACTCompositeScore ~ after.ed.2, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.3
+
+```{r}
+summary <- aov(ACTCompositeScore ~ after.ed.3, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.4
+
+```{r}
+summary <- aov(ACTCompositeScore ~ after.ed.4, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+
+##### after.ed.5
+
+```{r}
+summary <- aov(ACTCompositeScore ~ after.ed.5, data = data.analysis)
+
+summary
+
+anova_df <- broom::tidy(summary)
+
+TukeyHSD(summary)
+```
+:::
+
+<br>
+
+#### `MCA.M`
+
+| Year After Exit | χ²    | df  | Cramer's V | Signal Strength | Pattern |
+|-----------------|-------|-----|------------|-----------------|---------|
+| after.ed.1      | 132.3 | 12  | 0.056      | Weak            | Stable  |
+| after.ed.2      | 80.7  | 12  | 0.044      | Weak            | Stable  |
+| after.ed.3      | 76.9  | 12  | 0.043      | Weak            | Stable  |
+| after.ed.4      | 65.5  | 12  | 0.040      | Weak            | Stable  |
+| after.ed.5      | 109.4 | 12  | 0.051      | Weak            | Stable  |
+
+MCA Math performance shows a **statistically significant but weak and highly stable relationship** with workforce outcomes across all five years after exiting formal education. Cramer's V values remain consistently in the **0.04–0.06 range**, indicating that math achievement explains only a small share of variation in early workforce trajectories.
+
+Across all years, higher MCA Math scores (Levels 3–4) are modestly associated with higher shares of **meaningful employment**, particularly in-region and statewide Minnesota employment. Conversely, lower scores (Levels 1–2) are associated with slightly higher representation in **No Minnesota employment records** and other disconnected categories. However, these differences are incremental rather than decisive.
+
+Importantly, the relationship **does not strengthen or weaken over time**. The influence of MCA Math achievement on workforce category placement appears largely front-loaded and stable, with no evidence that math proficiency becomes more predictive as individuals move further from educational exit.
+
+Overall, MCA Math achievement functions as a **background risk indicator rather than a sorting mechanism**. While lower math performance is associated with elevated disconnection risk, it does not sharply distinguish between marginal employment, broader disconnection, and full detachment, reinforcing the broader finding that academic performance alone is insufficient to explain postsecondary workforce outcomes among non-college graduates.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$MCA.M, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$MCA.M, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$MCA.M, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$MCA.M, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$MCA.M, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `MCA.R`
+
+| Year After Exit | χ²      | df  | Cramer's V | Signal Strength | Pattern |
+|-----------------|---------|-----|------------|-----------------|---------|
+| after.ed.1      | 106.831 | 12  | 0.051      | Weak            | Stable  |
+| after.ed.2      | 97.909  | 12  | 0.049      | Weak            | Stable  |
+| after.ed.3      | 88.438  | 12  | 0.046      | Weak            | Stable  |
+| after.ed.4      | 100.781 | 12  | 0.050      | Weak            | Stable  |
+| after.ed.5      | 97.787  | 12  | 0.049      | Weak            | Stable  |
+
+MCA Reading scores show a **consistently weak but statistically significant association** with workforce outcomes in each of the five years following exit from formal education. Across all years, higher reading proficiency (levels 3 and 4) is associated with a **greater likelihood of meaningful employment** (both in-region and statewide), while lower proficiency levels (1 and 2) are associated with a **higher probability of having no Minnesota employment record**.
+
+However, the **magnitude of these differences is modest**. Cramer's V values remain tightly clustered around 0.05 across all five years, indicating that reading proficiency explains only a small portion of the variation in workforce status. Importantly, the pattern is **remarkably stable over time**: the relationship does not strengthen or weaken as individuals move further from educational exit.
+
+Substantively, these results suggest that while reading proficiency is related to early labor market attachment, it functions more as a **background risk factor** than a decisive driver. MCA Reading performance differentiates probabilities at the margins but does not sharply sort individuals into attached versus disconnected workforce trajectories.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$MCA.R, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$MCA.R, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$MCA.R, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$MCA.R, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$MCA.R, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+#### `MCA.S`
+
+| Year After Exit | χ²   | df  | Cramer's V | Signal Strength |
+|-----------------|------|-----|------------|-----------------|
+| after.ed.1      | 58.5 | 12  | 0.043      | Very weak       |
+| after.ed.2      | 80.2 | 12  | 0.050      | Very weak       |
+| after.ed.3      | 52.4 | 12  | 0.041      | Very weak       |
+| after.ed.4      | 86.3 | 12  | 0.052      | Very weak       |
+| after.ed.5      | 88.1 | 12  | 0.053      | Very weak       |
+
+MCA Science performance shows a **statistically detectable but substantively weak relationship** with workforce outcomes across all five years after exiting formal education. Cramer's V values consistently remain around **0.04–0.05**, indicating that science proficiency explains only a very small share of variation in post-exit workforce categorization.
+
+Across all years, higher MCA Science levels (levels 3 and 4) are modestly associated with **greater likelihood of meaningful employment**, particularly Meaningful Employment in Minnesota, while lower scores (levels 1 and 2) are somewhat more concentrated among individuals with **No Minnesota employment record**. However, these gradients are shallow and overlap heavily across categories.
+
+Importantly, the pattern is **stable over time**. The strength of association does not meaningfully increase or decrease from year 1 through year 5, suggesting that MCA Science performance does not become more salient as individuals move further from educational exit.
+
+Overall, MCA Science—like MCA Math and Reading—functions as a **weak stratifier rather than a driver** of early workforce trajectories. While academic proficiency in science is directionally aligned with stronger labor force attachment, it does not meaningfully distinguish between marginal employment, disconnection, or full detachment once individuals leave formal education.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$MCA.S, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$MCA.S, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$MCA.S, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$MCA.S, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$MCA.S, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+### Post-secondary
+
+#### `attended.ps`
+
+| Year After Exit | χ²      | df  | Cramer's V | Signal Strength |
+|-----------------|---------|-----|------------|-----------------|
+| after.ed.1      | 610.928 | 4   | 0.201      | Moderate–Strong |
+| after.ed.2      | 573.470 | 4   | 0.194      | Moderate        |
+| after.ed.3      | 449.584 | 4   | 0.172      | Moderate        |
+| after.ed.4      | 331.040 | 4   | 0.148      | Moderate        |
+| after.ed.5      | 257.307 | 4   | 0.130      | Moderate        |
+
+Post-secondary attendance is **the single strongest predictor** of workforce outcomes in the analysis to date. Across all five years after exiting formal education, whether an individual ever attended post-secondary education is **strongly and consistently associated** with labor force attachment.
+
+Individuals who **attended post-secondary education (but did not graduate)** are substantially more likely to be in **meaningful employment**, both in-region and statewide, and far less likely to have **no Minnesota employment record**. In year 1, non-attenders are nearly **twice as likely** to have no MN employment record compared to attenders (31% vs. 19%), and this gap persists through year 5 (37% vs. 27%).
+
+While the strength of association **gradually declines over time**, it remains substantively large even five years after exit (Cramer's V = 0.130). This attenuation reflects some convergence in outcomes, but not elimination of the initial advantage associated with post-secondary exposure.
+
+Notably, post-secondary attendance does not simply shift individuals from disconnection to marginal employment—it is associated with **clear movement into meaningful employment categories**, particularly **Meaningful Employment in Minnesota**, across all years.
+
+Substantively, these results indicate that **post-secondary exposure itself—independent of completion—functions as a powerful anchoring mechanism** in early labor market trajectories. Compared to demographics, high school characteristics, or academic performance, post-secondary attendance exerts a **larger and more durable influence** on workforce attachment, reinforcing its central role in preventing persistent labor force disconnection.
+
+::: panel-tabset
+##### after.ed.1
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.1, var.col = data.analysis$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.2
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.2, var.col = data.analysis$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.3
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.3, var.col = data.analysis$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.4
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.4, var.col = data.analysis$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+
+##### after.ed.5
+
+```{r}
+tab_xtab(var.row = data.analysis$after.ed.5, var.col = data.analysis$attended.ps, 
+         title = "", 
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         use.viewer = TRUE)
+```
+:::
+
+<br>
+
+### Big-Picture Synthesis: What Actually Matters for Early Workforce Outcomes
+
+This analysis examined four groups of predictors—**Demographics**, **High School Characteristics**, **High School Academics**, and **Post-secondary Attendance**—to understand how strongly each is associated with workforce outcomes in the five years after exiting formal education.
+
+Below is a structured synthesis that cuts through the noise and focuses on **signal strength, consistency over time, and substantive meaning**.
+
+#### Relative Strength of Predictor Groups
+
+| Predictor Group | Typical Cramer's V Range | Signal Strength | Stability Over Time | Takeaway |
+|---------------|---------------|---------------|---------------|---------------|
+| Demographics | \~0.02–0.06 | Very weak | Stable | Minimal explanatory power |
+| High School Characteristics | \~0.05–0.08 | Weak | Stable | Small but consistent |
+| High School Academics | \~0.04–0.12 | Weak to moderate | Stable | Meaningful but limited |
+| Post-secondary Attendance | \~0.13–0.20 | Moderate (strongest) | Gradually declining | Dominant driver |
+
+#### 1. Demographics: Statistically Present, Substantively Thin
+
+Across all demographic variables, associations with workforce outcomes are **consistently weak**. While many results are statistically significant due to large sample sizes, effect sizes are small and do not meaningfully differentiate workforce trajectories.
+
+Demographics do **not** explain why individuals end up in meaningful employment versus marginal attachment or full disconnection. Importantly, these effects also do **not grow over time**, indicating that early demographic differences do not compound into stronger labor market divergence within the first five years.
+
+**Bottom line:** Demographics describe populations, but they do not drive workforce outcomes.
+
+#### 2. High School Characteristics: Marginal Sorting, Not Trajectory Control
+
+High school characteristics (e.g., program participation, structural features) show **slightly stronger signals than demographics**, but still remain weak overall. These variables modestly shift probabilities between meaningful employment and disconnection, but they do not fundamentally alter trajectories.
+
+The most notable pattern is **risk buffering** rather than outcome transformation: certain characteristics slightly reduce the likelihood of having no MN employment record, but do not reliably move individuals into high-quality employment.
+
+**Bottom line:** High school characteristics can nudge outcomes at the margins, but they do not anchor workforce attachment.
+
+#### 3. High School Academics: Real Signal, Clear Ceiling
+
+Academic variables (ACT participation and scores, MCA Math/Reading/Science, PSEO, CTE participation and intensity) consistently outperform demographics and general school characteristics. However, their effects remain **bounded**.
+
+Key patterns across this block: - Higher academic achievement is associated with **lower rates of full disconnection** - Differences are more pronounced between **Meaningful employment vs. No MN record** than between meaningful and marginal employment - Effect sizes are stable but **do not increase with time** - Academic strength alone does **not guarantee** meaningful workforce attachment
+
+Even the strongest academic signals (ACT Composite, ACT-taking, PSEO participation) plateau at **weak-to-moderate association levels**.
+
+**Bottom line:** Academic preparation helps, but it does not determine workforce outcomes on its own.
+
+#### 4. Post-secondary Attendance: The Structural Break
+
+Post-secondary attendance—*even without completion*—is categorically different from every other predictor examined.
+
+Across all five years: - It has the **largest effect size** in the entire analysis - It consistently increases the likelihood of **meaningful employment** - It substantially reduces the risk of **no MN employment record** - Its influence persists, though it gradually attenuates over time
+
+This variable is not merely predictive; it **reorganizes workforce trajectories**. Unlike academic or demographic factors, post-secondary attendance acts as an **institutional bridge** into the labor market.
+
+Importantly, this effect holds even though many attenders do **not** complete a credential.
+
+**Bottom line:** Post-secondary exposure is the single most important differentiator of early workforce outcomes.
+
+#### Core Takeaways
+
+1.  **Most commonly cited predictors are weak.**\
+    Demographics, school characteristics, and even academic performance explain surprisingly little on their own.
+
+2.  **Academic strength matters—but only up to a point.**\
+    High achievement reduces risk but does not reliably produce strong labor market attachment.
+
+3.  **Workforce disconnection is not primarily an academic failure.**\
+    Many disconnected individuals have academic profiles similar to marginally or meaningfully employed peers.
+
+4.  **Post-secondary attendance is the inflection point.**\
+    It is the only factor that consistently and substantially reshapes workforce outcomes across time.
+
+5.  **The policy-relevant distinction is exposure, not completion.**\
+    Access to post-secondary systems—not just credentials—appears to be doing critical structural work.
+
+#### One-Sentence Synthesis
+
+> Early workforce outcomes are weakly shaped by who students are and how they perform in high school, but **strongly shaped by whether they ever cross into post-secondary education**, even briefly.
+
+If you want, the next logical step is to **reframe disconnection as a systems-access problem rather than a preparation problem**—but I’ll stop here unless you ask.
+
+<br>
+
+# Summary of Findings: Non-College Graduates in Northeast Minnesota
+
+This analysis examined non-college graduates in Northeast Minnesota to understand patterns of persistent workforce connection and persistent disconnection in the five years following exit from formal education. The work proceeded in three stages: descriptive profiling, bivariate associations with persistent disconnection, and refined workforce category comparisons by year after exit.
+
+Across all analyses, results consistently show that persistent disconnection is not random, but neither is it driven primarily by local labor market conditions. Instead, patterns reflect a layered structure of individual background characteristics, academic preparation, and postsecondary exposure.
+
+------------------------------------------------------------------------
+
+## 1. Demographics
+
+Demographic variables show **statistically significant but generally modest relationships** with workforce outcomes across all five years.
+
+Economic status, race/ethnicity, and special education status are all associated with workforce category distributions, but effect sizes are small for race/ethnicity and economic status (Cramer’s V typically \~0.04–0.07). These variables modestly differentiate meaningful employment from marginal employment, but they do not sharply distinguish persistent disconnection from weak attachment.
+
+Special education status stands out within this group. Across all five years, individuals with special education status are consistently overrepresented among those with no Minnesota employment record and underrepresented in meaningful employment categories. While still not determinative on its own, special education status shows the strongest and most stable demographic signal related to persistent disconnection.
+
+Importantly, demographic variables alone do not explain why some individuals remain persistently disconnected while others establish durable workforce attachment. They appear to shape **risk**, not destiny.
+
+------------------------------------------------------------------------
+
+## 2. High School Characteristics
+
+High school and place-based characteristics show **very weak relationships** with workforce outcomes.
+
+District rurality (Dem_Desc) is statistically associated with workforce categories across all five years, but effect sizes are small and patterns are gradual rather than decisive. Individuals from entirely rural districts show slightly higher in-region employment and slightly lower out-of-state detachment, but differences narrow over time and do not clearly separate persistently disconnected individuals from others.
+
+County-level labor market conditions—average unemployment rates and average wages as a percent of the state average—explain **less than 1% of total variance** in outcomes. While ANOVA results are statistically significant due to large sample size, differences in mean unemployment or wage context across workforce categories are trivial in magnitude and highly stable over time.
+
+These findings strongly indicate that **persistent workforce disconnection is not primarily a local labor market problem**. Place matters marginally, but it does not drive long-term detachment.
+
+------------------------------------------------------------------------
+
+## 3. High School Academics
+
+High school academic variables show the **clearest and most consistent differentiation** across workforce outcomes.
+
+Participation in PSEO, taking the ACT, CTE achievement, number of CTE courses taken, ACT composite scores, and MCA scores (math, reading, science) all display statistically significant relationships with workforce categories across all five years.
+
+Several consistent patterns emerge: - Individuals with stronger academic indicators are more likely to be in meaningful employment (both in-region and statewide). - Lower academic preparation is associated with higher likelihood of no Minnesota employment record. - These relationships are **graded**, not binary: higher scores or deeper engagement correspond to progressively stronger attachment.
+
+However, effect sizes remain modest overall. Academic variables differentiate **persistent connection vs persistent disconnection more clearly than demographics**, but they still do not produce sharp thresholds. Importantly, many individuals with average or even strong academic preparation still experience weak attachment or disconnection, indicating that academic preparation is necessary but not sufficient for durable workforce outcomes.
+
+CTE engagement deserves special note. CTE concentrators consistently show higher rates of meaningful employment and lower rates of out-of-state detachment than non-CTE peers, but the magnitude of this advantage stabilizes after year three rather than expanding.
+
+------------------------------------------------------------------------
+
+## 4. Post-Secondary Exposure (attended.ps)
+
+Attendance at any postsecondary institution—even without completion—shows the **strongest relationship** with workforce outcomes of any variable examined.
+
+Across all five years, individuals who attended postsecondary education are dramatically more likely to be in meaningful employment and far less likely to have no Minnesota employment record. Cramer’s V values (\~0.13–0.20) are substantially larger than those observed for demographics, academics, or place-based factors.
+
+Two critical points emerge: - Postsecondary attendance strongly protects against persistent disconnection. - The advantage is evident immediately and remains stable over time rather than compounding.
+
+This suggests that postsecondary exposure functions less as skill accumulation alone and more as a **structural connector**—linking individuals to networks, credentials, signaling mechanisms, or institutional supports that facilitate labor market attachment.
+
+------------------------------------------------------------------------
+
+## Overall Conclusions
+
+1.  **Persistent workforce disconnection is not driven primarily by local labor market conditions.** Place-based unemployment and wage context explain very little variation.
+
+2.  **Demographics shape risk but do not determine outcomes.** Their influence is real but modest, with special education status being the most consequential within this group.
+
+3.  **Academic preparation matters, but it does not guarantee connection.** Stronger academics improve odds of meaningful employment but do not eliminate disconnection risk.
+
+4.  **Postsecondary exposure is the single most powerful differentiator.** Even without degree completion, it substantially reduces the likelihood of persistent disconnection and out-of-region labor force exit.
+
+5.  **Persistent disconnection appears structurally embedded rather than episodic.** Individuals who are disconnected early tend to remain so, and transitions out of disconnection are relatively rare without a major structural intervention (such as postsecondary entry).
+
+Taken together, these findings suggest that policy efforts focused solely on local job creation or general academic improvement will have limited impact on persistent disconnection. Interventions that create **early, durable institutional connections—particularly through postsecondary pathways—are most likely to alter long-term workforce trajectories for non-college graduates in Northeast Minnesota.**
+
+## Relative Importance of Variables in Explaining Workforce Attachment (Non-College Grads, NE MN)
+
+| Rank | Variable / Group | Strength of Relationship | Evidence Across 5 Years | Key Interpretation |
+|-------------:|------------------|--------------|--------------|--------------|
+| 1 | **Postsecondary Attendance (attended.ps)** | **Strong** | Very consistent | Largest effect sizes (Cramer’s V \~0.13–0.20). Strongly separates meaningful employment from persistent disconnection and out-of-region exit. |
+| 2 | **ACT Composite Score** | Moderate | Very consistent | Higher scores strongly associated with meaningful employment; no MN employment consistently associated with lowest scores. |
+| 3 | **Special Education Status** | Moderate | Very consistent | Strongest demographic predictor; special ed students disproportionately represented among persistently disconnected. |
+| 4 | **CTE Achievement (Concentrator / Completer)** | Moderate | Consistent | CTE concentrators more likely to be meaningfully employed and less likely to exit MN workforce. |
+| 5 | **ACT Taken (Yes/No)** | Moderate | Consistent | Proxy for academic engagement; consistently differentiates meaningful employment vs no MN employment. |
+| 6 | **PSEO Participation** | Modest–Moderate | Consistent | Participants show higher meaningful employment, but effects smaller than full postsecondary attendance. |
+| 7 | **MCA Math** | Modest | Consistent | Higher performance associated with better attachment, but gradients shallow. |
+| 8 | **MCA Reading** | Modest | Consistent | Similar to MCA Math; incremental differentiation only. |
+| 9 | **MCA Science** | Modest | Consistent | Weakest of MCA subjects, but still systematic. |
+| 10 | **Number of CTE Courses Taken** | Modest | Consistent | Higher course counts associated with attachment, but marginal gains flatten. |
+| 11 | **Economic Status** | Weak–Modest | Consistent | Low-income students more at risk, but does not sharply predict persistent disconnection. |
+| 12 | **Race / Ethnicity** | Weak | Consistent | Statistically significant but small effects; does not explain persistence patterns well. |
+| 13 | **District Rurality (Dem_Desc)** | Weak | Consistent | Slight in-region advantage for rural districts; does not meaningfully affect disconnection. |
+| 14 | **County Unemployment Rate** | Very weak | Very consistent | \<1% variance explained; not substantively meaningful. |
+| 15 | **County Wages (% of State Avg.)** | Very weak | Very consistent | Negligible explanatory power; labor market context not decisive. |
+
+<br>
+
+## Key Takeaways from the Ranking
+
+-   **Structural connection beats background**: Postsecondary attendance overwhelms all other variables.
+-   **Academic preparation matters more than demographics**, but less than postsecondary exposure.
+-   **Place-based labor market explanations perform worst**, despite being common policy assumptions.
+-   **Persistent disconnection is not random**, but it is not well-explained by any single variable short of postsecondary exposure.
+
+This ranking supports a central conclusion of your analysis:\
+**persistent workforce disconnection is primarily a structural attachment problem, not a local labor market or demographic inevitability.**
+
+<br>
+
+## Plain-Language Interpretation and Conclusions
+
+We looked at a wide range of student, school, and post-school characteristics to understand why some non-college graduates stay connected to the local workforce while others remain disconnected or leave the region in the years after high school.
+
+### The single biggest takeaway
+
+**The strongest factor by far is whether someone had any post-secondary exposure at all.**\
+Even attending for a short time is strongly linked to being more likely to work, and especially to work in Minnesota. Non-college graduates who never attended post-secondary education are much more likely to be persistently disconnected from the workforce or to leave the state entirely.
+
+### What matters next (but less)
+
+Academic preparation matters, but it does not determine outcomes on its own.
+
+-   Students with **higher ACT scores or stronger MCA performance** are more likely to be meaningfully employed.
+-   Students who **took the ACT, participated in PSEO, or completed CTE pathways** tend to have better workforce outcomes than those who did not.
+-   These factors help, but they **do not protect everyone** from long-term disconnection.
+
+In other words: stronger academics increase the odds, but they are not a guarantee.
+
+### Who is most at risk
+
+Some groups are clearly at higher risk of long-term disconnection:
+
+-   **Students who received special education services** are much more likely to remain disconnected from the workforce across multiple years.
+-   **Low-income students** are also more likely to struggle, though income alone does not fully explain persistent disconnection.
+
+These patterns are consistent across all five years after leaving school.
+
+### What does *not* explain disconnection very well
+
+Several commonly cited explanations do **not** do much to explain long-term workforce outcomes:
+
+-   **Local unemployment rates** and **average wages** explain almost none of the differences.
+-   **School district rurality** (rural vs mixed vs urban) has only a small effect.
+-   **Race and ethnicity** show statistically detectable differences, but the size of those differences is small compared to education-related factors.
+
+This suggests that persistent disconnection is **not mainly driven by local labor market conditions or geography**.
+
+### What this means overall
+
+Persistent workforce disconnection among non-college graduates in Northeast Minnesota is **not random**, but it is also **not primarily about place**.
+
+It is most strongly associated with: - whether young people ever connect to post-secondary systems, and - how well schools support students with weaker academic preparation or additional learning needs during the transition out of high school.
+
+Simply put: \> **Staying connected to education after high school—even briefly—matters more than where you live or the local job market.**
+
+### Implication for policy and practice
+
+If the goal is to reduce long-term workforce disconnection: - Improving **transitions after high school** is likely more effective than focusing only on job availability. - Supports targeted at **special education students and academically vulnerable students** are critical. - Policies that treat non-college graduates as a single group miss important differences in risk and opportunity.
+
+This analysis points toward **connection, transition, and support** as the levers that matter most.
+
+<br>
+
+# Intervention Levers Informed by the Non-College Graduate Analysis
+
+This section translates observed relationships into plausible intervention points. These are not causal claims, but evidence-informed levers where intervention is most likely to influence workforce attachment outcomes.
+
+------------------------------------------------------------------------
+
+## 1. Post-Secondary Exposure (Even Without Completion)
+
+**Evidence from analysis** - Attending post-secondary education (without completing) is the strongest and most consistent predictor of: - Meaningful employment in-region - Lower likelihood of having no MN employment record - Effect sizes are large and stable across all five years after exit. - This relationship is stronger than most high school academic indicators.
+
+**Interpretation** Post-secondary exposure appears to function as a *protective experience*, even when it does not result in a credential.
+
+**Intervention levers** - Short-term credential and bridge programs - Stackable credentials tied to local employers - Non-credit workforce certificates housed at colleges - “Stop-out” reengagement programs (designed for non-completers) - Career navigation and advising embedded in post-secondary entry points
+
+**What this lever realistically affects** - Increases likelihood of sustained labor force attachment - Reduces long-term detachment from both region and state - Improves access to job networks and employer signaling
+
+------------------------------------------------------------------------
+
+## 2. Special Education Transition Support
+
+**Evidence from analysis** - Special education status shows one of the strongest associations with: - Persistent disconnection - No MN employment record - Effects are consistent across: - Disconnection persistence - All five post-exit workforce years
+
+**Interpretation** This is not about academic ability; it is about *transition failures* between systems.
+
+**Intervention levers** - Strengthened transition planning (IEP → workforce) - Extended transition services beyond high school exit - Supported employment and job coaching - Employer partnerships specifically designed for transition-age youth - Case-managed pathways rather than self-navigation
+
+**What this lever realistically affects** - Reduces persistent disconnection - Improves early attachment, which compounds over time - Prevents drift into long-term detachment immediately after exit
+
+------------------------------------------------------------------------
+
+## 3. Career and Technical Education (CTE) Depth and Quality
+
+**Evidence from analysis** - CTE concentrators/completers consistently show: - Higher rates of meaningful employment - Lower rates of no MN employment record - Number of CTE courses taken shows modest but consistent gradients.
+
+**Interpretation** CTE works best when it is *deep and connected*, not shallow or incidental.
+
+**Intervention levers** - Incentivize completion-level CTE pathways - Align CTE programs directly with regional labor demand - Expand work-based learning and paid placements - Strengthen employer co-design of CTE curricula - Reduce “CTE sampling” without completion
+
+**What this lever realistically affects** - Improves probability of early and stable attachment - Supports in-region employment specifically - Acts as an alternative pathway when post-secondary is not pursued
+
+------------------------------------------------------------------------
+
+## 4. Academic Performance as a Sorting Mechanism (Not a Fix)
+
+**Evidence from analysis** - ACT and MCA scores are associated with workforce outcomes - Effect sizes are modest and stable - Academic measures explain *sorting*, not change
+
+**Interpretation** Raising test scores alone will not materially change workforce attachment patterns for this group.
+
+**Intervention levers** - Use academic indicators for early identification, not remediation-only strategies - Combine academic support with pathway guidance and exposure - Avoid over-investment in test-score-focused workforce policy
+
+**What this lever realistically affects** - Improves targeting of supports - Helps identify who may need more structured pathways - Does not, by itself, solve disconnection
+
+------------------------------------------------------------------------
+
+## 5. Place-Based Labor Market Conditions (Deprioritized Lever)
+
+**Evidence from analysis** - County unemployment rates explain \<1% of variation - County wage levels show trivial differences across categories - Effects are stable and negligible over time
+
+**Interpretation** Persistent disconnection is not driven by local labor market tightness.
+
+**Intervention levers** - Avoid over-reliance on: - Job creation alone - Wage growth alone - Generic “economic development” as a workforce solution
+
+**What this lever realistically affects** - Broad economic health - Not targeted workforce reattachment for this population
+
+------------------------------------------------------------------------
+
+## Strategic Takeaway
+
+The strongest levers are **pathway-based**, not place-based.
+
+The most promising interventions: - Increase exposure to post-secondary systems (even without completion) - Strengthen transition supports for special education students - Deepen and align CTE pathways with regional employers
+
+Efforts focused solely on labor market conditions or generalized economic growth are unlikely to meaningfully reduce persistent workforce disconnection among non-college graduates.
+
+\[Need a description of how attending college helps. Do we have an answer for that?\]
