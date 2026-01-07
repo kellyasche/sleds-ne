@@ -59,8 +59,6 @@ website:
             href: analysis_post_secondary_paths_CART.qmd
           - text: Non-college graduates
             href: analysis_non_post_secondary_graduates.qmd
-          - text: Disconnected
-            href: analysis_disconnected.qmd
           - text: Further analysis on non-college grads
             href: analysis_non_college_deeper.qmd
         

@@ -2792,7 +2792,7 @@ Below is a structured synthesis that cuts through the noise and focuses on **sig
 #### Relative Strength of Predictor Groups
 
 | Predictor Group | Typical Cramer's V Range | Signal Strength | Stability Over Time | Takeaway |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | Demographics | \~0.02–0.06 | Very weak | Stable | Minimal explanatory power |
 | High School Characteristics | \~0.05–0.08 | Weak | Stable | Small but consistent |
 | High School Academics | \~0.04–0.12 | Weak to moderate | Stable | Meaningful but limited |
@@ -2936,7 +2936,7 @@ Taken together, these findings suggest that policy efforts focused solely on loc
 ## Relative Importance of Variables in Explaining Workforce Attachment (Non-College Grads, NE MN)
 
 | Rank | Variable / Group | Strength of Relationship | Evidence Across 5 Years | Key Interpretation |
-|-------------:|------------------|--------------|--------------|--------------|
+|---:|----|----|----|----|
 | 1 | **Postsecondary Attendance (attended.ps)** | **Strong** | Very consistent | Largest effect sizes (Cramer’s V \~0.13–0.20). Strongly separates meaningful employment from persistent disconnection and out-of-region exit. |
 | 2 | **ACT Composite Score** | Moderate | Very consistent | Higher scores strongly associated with meaningful employment; no MN employment consistently associated with lowest scores. |
 | 3 | **Special Education Status** | Moderate | Very consistent | Strongest demographic predictor; special ed students disproportionately represented among persistently disconnected. |
