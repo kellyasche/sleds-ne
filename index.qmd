@@ -665,10 +665,6 @@ This final confirmation analysis demonstrates that even when credential attainme
 
 # The Story
 
-## Thesis
-
-Northeast Minnesota graduates follow distinct educational and workforce pathways shaped by preparation, credential type, and geography — and regional workforce retention is most strongly linked to local postsecondary completion and CTE alignment, while academic intensity is associated with broader geographic mobility.
-
 ## 1. Where Do Northeast Minnesota Graduates Go After High School?
 
 Before examining what shapes workforce outcomes, it is important to understand what actually happens to graduates in the years following high school. Using linked education and employment records, this analysis tracks graduates from Northeast Minnesota at one, five, and ten years after graduation.
