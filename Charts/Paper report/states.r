@@ -117,10 +117,10 @@ counties.regions.1 <- counties.regions %>%
 original <- read_csv("Data/SLEDS/Masters/States/annual-seven-states.csv")
 
 data <- original %>%
-  mutate(states = ifelse(states %in% c("Meaningful emp County", "Meaningful emp EDR"), "Meaningful WF - Northeast", states),
-         states = ifelse(states == "Meaningful emp MN", "Meaningful WF - MN", states),
+  mutate(states = ifelse(states %in% c("Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE", states),
+         states = ifelse(states == "Meaningful emp MN", "Sustained WF - MN", states),
          states = ifelse(states == "No MN emp record, not attending ps", "No MN emp record", states),
-         states = ifelse(states == "Not meaningful, not attending ps", "No meaningful WF", states),
+         states = ifelse(states == "Not meaningful, not attending ps", "Non-sustained WF", states),
          states = as.factor(states)) %>%
   select(grad.year, states) %>%
   filter(states != "After 2023") %>%
@@ -133,7 +133,15 @@ data <- original %>%
   mutate(grad.year = str_sub(grad.year, -2, -1),
          grad.year = str_replace(grad.year, "[.]", ""),
          grad.year = as.numeric(grad.year),
-         states = fct_relevel(states, "Meaningful WF - Northeast", "Meaningful WF - MN", "No MN emp record", "No meaningful WF", "Attending ps"))
+         states = fct_relevel(states, "Sustained WF - NE", "Sustained WF - MN", "No MN emp record", "Non-sustained WF", "Attending ps"),
+         data_id = seq(n())) %>%
+  group_by(grad.year) %>%
+  arrange(desc(states)) %>%
+  mutate(cum.pct = cumsum(share),
+         x.loc = cum.pct - ((cum.pct - lag(cum.pct)) / 2),
+         x.loc = ifelse(states == "Attending ps", cum.pct/2, x.loc),
+         x.loc = ifelse(states == "Non-sustained WF" & is.na(x.loc), cum.pct /2, x.loc)) %>%
+  ungroup()
 
 
 # Create chart ------------------------------------------------------------
@@ -155,3 +163,19 @@ ggsave(filename = "Charts/Paper report/states.pdf", device = cairo_pdf, dpi = "p
 
 ggsave(filename = "Charts/Paper report/states.png", dpi = "print", width = 6, height = 5)
 
+names(data)
+
+ggplot(data, aes(grad.year, share, fill = states, group = states)) +
+  geom_area_interactive(aes(data_id = data_id, tooltip = paste("State: ", states, "\n", percent(share, accuracy = .1), sep = ""))) +
+  geom_label(data = filter(data, grad.year %in% c(1, 5, 7, 10)), aes(y = x.loc, x = grad.year, label = percent(share, accuracy = .1)), show.legend = FALSE) +
+  labs(x="Years after high school", y = "Proportion of high school graduates", color="", title = "Workforce outcomes by years after graduating high school")+
+  scale_y_continuous(labels=scales::percent)+
+  scale_x_continuous(breaks = seq(0, 20, 2)) +
+  theme_bar+
+  scale_fill_manual(values = brewer.pal(n = 7, "RdYlBu"),
+                    guide = guide_legend(ncol = 3)) +
+  theme(legend.position = "bottom")
+
+ggsave(filename = "Charts/Paper report/states.pdf", device = cairo_pdf, dpi = "print", width = 6.5, height = 5)
+
+ggsave(filename = "Charts/Paper report/states.png", dpi = "print", width = 6.5, height = 5)

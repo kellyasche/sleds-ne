@@ -362,7 +362,7 @@ In the demographics section we will examine the relationship between that paths 
 ### Comparative Table of Cramer’s V Across Demographic Variables
 
 | Variable | Year 1 V | Year 5 V | Year 10 V | Peak Strength | Pattern of Change |
-|------------|------------|------------|------------|------------|------------|
+|----|----|----|----|----|----|
 | Gender | 0.109 | 0.078 | 0.051 | Year 1 | Declines steadily over time |
 | Economic Status | 0.238 | 0.140 | 0.096 | Year 1 | Strong early, declines but remains significant |
 | SpecialEdStatus | 0.258 | 0.155 | 0.108 | Year 1 | Strongest early, moderate decline |
@@ -810,7 +810,7 @@ We will take a look at the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|------------|------------|------------|------------|------------|------------|
+|----|----|----|----|----|----|
 | Rural–Urban Context | V = 0.024 | V = 0.054 | V = 0.044 | Year 5 | Weak overall, small uptick at Year 5 |
 | Range School | V = 0.061 | V = 0.043 | V = 0.054 | Year 1 | Weak but consistent, stable across time |
 | Avg. County Unemployment | F(4,46772) = 33.8 | F(4,34678) = 17.6 | F(3,19824) = 6.7 | Year 1 | Significant, declining strength over time |
@@ -1458,7 +1458,7 @@ We are going to analyze the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|------------|------------|------------|------------|------------|------------|
+|----|----|----|----|----|----|
 | PSEO Participation | V = 0.290 | V = 0.132 | V = 0.089 | Year 1 | Very strong at Year 1, steadily weakens over time |
 | Took ACT | V = 0.364 | V = 0.214 | V = 0.142 | Year 1 | Strongest early, gradual decline but remains significant |
 | ACT Composite Score | F(4,46772) = 578.9 | F(4,34678) = 266.2 | F(3,19824) = 158.6 | Year 1 | Strong consistent effect, diminishes over time |
@@ -3043,7 +3043,7 @@ We will analyze the following variables;
 ### Comparative Table of Effect Sizes Across Variables
 
 | Variable | Year 1 | Year 5 | Year 10 | Peak Strength | Pattern of Change |
-|-------------|------------|------------|------------|------------|------------|
+|----|----|----|----|----|----|
 | Attended PS within 1st year | V = 0.542 | V = 0.246 | V = 0.101 | Year 1 | Extremely strong early effect, weakens but persists |
 | Ever Attended PS | V = 0.683 | V = 0.342 | V = 0.137 | Year 1 | Very strong early, declines steadily |
 | Postsecondary Graduation | V = 0.600 | V = 0.378 | V = 0.155 | Year 1 | Strong predictor, declines but remains significant |
@@ -3527,7 +3527,7 @@ This final synthesis combines findings across all four sections: **Demographics,
 ## Comparative Table of Effect Sizes Across Sections
 
 | Section | Strongest Variables (Peak V/F) | Weakest Variables (Peak V/F) | General Pattern |
-|------------------|-------------------|------------------|------------------|
+|----|----|----|----|
 | **Demographics** | SpecialEd Status (V = 0.258, Yr 1); Race/Ethnicity (V = 0.126, Yr 1) | Gender (V = 0.109, Yr 1); English Learner (V = 0.062, Yr 1) | Demographic factors matter, but fade significantly over time; strongest for SpecialEd. |
 | **High School Characteristics** | Avg. Unemployment Rate (F ≈ 53.1, Yr 1); Rural/Urban location (V = 0.094, Yr 1) | Range School (V ≈ 0.03–0.05) | Local economic conditions and geography shape outcomes; strong early signals that diminish with time. |
 | **High School Accomplishments** | Took ACT (V = 0.364, Yr 1); MCA Math (F = 1344.5, Yr 1) | SAT Taken (V ≈ 0.07–0.08) | Clear divide: Academic/college-prep routes push students statewide; CTE anchors students regionally. |

@@ -1,25 +1,25 @@
 n,pct,flow_id,axis,stratum,highlight,cte.achievement
-1329,0.16256880733944953,1,cte.achievement,CTE Concentrator,base,CTE Concentrator
-2999,0.3668501529051988,2,cte.achievement,CTE Concentrator,highlight,CTE Concentrator
-1812,0.22165137614678898,3,cte.achievement,CTE Concentrator,base,CTE Concentrator
-2035,0.2489296636085627,4,cte.achievement,CTE Concentrator,base,CTE Concentrator
-1419,0.182508038585209,5,cte.achievement,CTE Participant,base,CTE Participant
-2535,0.3260450160771704,6,cte.achievement,CTE Participant,highlight,CTE Participant
-1858,0.2389710610932476,7,cte.achievement,CTE Participant,base,CTE Participant
-1963,0.252475884244373,8,cte.achievement,CTE Participant,base,CTE Participant
-2505,0.19021945478016555,9,cte.achievement,No CTE,base,No CTE
-3655,0.2775457513858304,10,cte.achievement,No CTE,highlight,No CTE
-3620,0.2748879945326145,11,cte.achievement,No CTE,base,No CTE
-3389,0.25734679930138965,12,cte.achievement,No CTE,base,No CTE
-1329,0.16256880733944953,1,grad.year.5,Meaningful WF - MN,base,CTE Concentrator
-2999,0.3668501529051988,2,grad.year.5,Meaningful WF - NE,highlight,CTE Concentrator
-1812,0.22165137614678898,3,grad.year.5,No MN employment,base,CTE Concentrator
-2035,0.2489296636085627,4,grad.year.5,Not meaningful,base,CTE Concentrator
-1419,0.182508038585209,5,grad.year.5,Meaningful WF - MN,base,CTE Participant
-2535,0.3260450160771704,6,grad.year.5,Meaningful WF - NE,highlight,CTE Participant
-1858,0.2389710610932476,7,grad.year.5,No MN employment,base,CTE Participant
-1963,0.252475884244373,8,grad.year.5,Not meaningful,base,CTE Participant
-2505,0.19021945478016555,9,grad.year.5,Meaningful WF - MN,base,No CTE
-3655,0.2775457513858304,10,grad.year.5,Meaningful WF - NE,highlight,No CTE
-3620,0.2748879945326145,11,grad.year.5,No MN employment,base,No CTE
-3389,0.25734679930138965,12,grad.year.5,Not meaningful,base,No CTE
+1812,0.22165137614678898,1,cte.achievement,CTE Concentrator,base,CTE Concentrator
+2035,0.2489296636085627,2,cte.achievement,CTE Concentrator,base,CTE Concentrator
+1329,0.16256880733944953,3,cte.achievement,CTE Concentrator,base,CTE Concentrator
+2999,0.3668501529051988,4,cte.achievement,CTE Concentrator,highlight,CTE Concentrator
+1858,0.2389710610932476,5,cte.achievement,CTE Participant,base,CTE Participant
+1963,0.252475884244373,6,cte.achievement,CTE Participant,base,CTE Participant
+1419,0.182508038585209,7,cte.achievement,CTE Participant,base,CTE Participant
+2535,0.3260450160771704,8,cte.achievement,CTE Participant,highlight,CTE Participant
+3620,0.2748879945326145,9,cte.achievement,No CTE,base,No CTE
+3389,0.25734679930138965,10,cte.achievement,No CTE,base,No CTE
+2505,0.19021945478016555,11,cte.achievement,No CTE,base,No CTE
+3655,0.2775457513858304,12,cte.achievement,No CTE,highlight,No CTE
+1812,0.22165137614678898,1,grad.year.5,No MN emp record,base,CTE Concentrator
+2035,0.2489296636085627,2,grad.year.5,Non-sustained WF,base,CTE Concentrator
+1329,0.16256880733944953,3,grad.year.5,Sustained WF - MN,base,CTE Concentrator
+2999,0.3668501529051988,4,grad.year.5,Sustained WF - NE,highlight,CTE Concentrator
+1858,0.2389710610932476,5,grad.year.5,No MN emp record,base,CTE Participant
+1963,0.252475884244373,6,grad.year.5,Non-sustained WF,base,CTE Participant
+1419,0.182508038585209,7,grad.year.5,Sustained WF - MN,base,CTE Participant
+2535,0.3260450160771704,8,grad.year.5,Sustained WF - NE,highlight,CTE Participant
+3620,0.2748879945326145,9,grad.year.5,No MN emp record,base,No CTE
+3389,0.25734679930138965,10,grad.year.5,Non-sustained WF,base,No CTE
+2505,0.19021945478016555,11,grad.year.5,Sustained WF - MN,base,No CTE
+3655,0.2775457513858304,12,grad.year.5,Sustained WF - NE,highlight,No CTE

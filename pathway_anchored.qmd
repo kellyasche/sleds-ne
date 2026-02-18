@@ -3,6 +3,109 @@ title: "Pathway - Anchored"
 editor: visual
 ---
 
+# Anchored Pathway
+
+## Definition: What the Anchored Pathway Represents
+
+The **Anchored pathway** describes individuals who establish **sustained, meaningful employment in the same region as their high school**, reflecting strong alignment between **education pathways, local labor markets, and place**.
+
+Workforce participation outcomes included in the Anchored pathway are: **Sustained employment in Central**
+
+This pathway is **defined by regional attachment**, not by whether an individual attended college. Individuals enter the Anchored pathway through **multiple routes**, but the analysis shows that **regional postsecondary completion—especially at 2-year institutions—is the most reliable mechanism**.
+
+## Characteristics of Individuals in the Anchored Pathway
+
+### Core drivers of anchoring (strong, direct relationships)
+
+Across the MCA, cross-tabulations, and CART analyses, three factors consistently distinguish individuals in the Anchored pathway.
+
+**Regional postsecondary completion**
+
+-   Individuals who **graduate from a postsecondary institution located in the region** are substantially more likely to achieve meaningful employment **in the same region** than those who attend outside the region or do not complete.
+-   The effect is strongest for **2-year college graduates**.
+    -   Roughly **40–45%** of regional **2-year completers** are meaningfully employed **in-region** five years after exit.
+    -   This compares to roughly **25–30%** of regional **4-year completers**, and **15–20%** of individuals who attended postsecondary but did not complete.
+-   Graduates of **4-year institutions** are significantly more likely to sort into **Mobility outcomes**—meaningful employment in Minnesota, but **outside the region**—even when overall employment outcomes are positive.
+
+In short: **college “works” in general, but 2-year regional colleges work best for regional retention.**
+
+**Geography and labor market structure**
+
+-   Region matters even after accounting for education.
+    -   Some EDRs show **meaningful regional employment rates exceeding 25%**, while others fall below **20%**, reflecting differences in employer density, wage structure, and industry mix.
+-   Rural and town-origin students are **much less likely to anchor without a regional education-to-work pipeline**.
+    -   In rural/town contexts, meaningful employment is far more likely to occur **elsewhere in Minnesota** unless individuals pass through a **local 2-year institution or aligned training program**.
+
+**CTE as an alignment mechanism (conditional effect)**
+
+-   CTE participation is associated with anchoring **when it is aligned to regional labor demand**.
+
+-   MCA results show CTE clustering closely with:
+
+    -   2-year college attendance\
+    -   applied credentials\
+    -   earlier and more stable labor market entry
+
+-   However, CTE participation alone is **not sufficient**.
+
+    -   CTE pathways that do **not** connect clearly to local employers or regional postsecondary options show weaker anchoring outcomes.
+
+CTE functions best as **part of a regional pipeline**, not as a standalone intervention.
+
+### Secondary and indirect relationships (how anchoring is produced)
+
+Anchoring most often results from **stacked alignment**, rather than a single decision point.
+
+-   One of the most common anchoring sequences in the data is:
+
+    **CTE participation → regional 2-year college completion → meaningful regional employment**
+
+-   Individuals who **attend postsecondary locally but do not complete** are far less likely to anchor.
+
+    -   Their in-region meaningful employment rates are closer to **15–20%**, compared to **40%+** for completers.
+
+-   Economic disadvantage does not eliminate the possibility of anchoring.
+
+    -   When individuals move through **strong local pipelines**, anchoring rates remain comparatively high, suggesting institutional alignment can partially offset individual risk factors.
+
+### What *breaks* the Anchored pathway
+
+CART results identify several consistent exit points away from anchoring.
+
+-   Attending postsecondary **outside the region**
+
+-   Leaving a regional institution for **non-local labor markets**
+
+-   Entering regions with:
+
+    -   low job density\
+    -   weak wage structures
+
+-   Postsecondary non-completion without a structured transition into employment
+
+These splits reinforce that anchoring is **structurally fragile** and dependent on coordinated systems, not individual motivation alone.
+
+## 3) Policy Implications
+
+The Anchored pathway represents the **clearest regional workforce return** in the analysis.
+
+Key implications for policy and legislative audiences include:
+
+-   **Regional 2-year colleges are the single strongest anchoring institution.**\
+    Completion at a regional 2-year college roughly **doubles** the likelihood of meaningful regional employment compared to postsecondary non-completion.
+
+-   **CTE should be funded and evaluated as a labor-market alignment strategy.**\
+    Participation counts are insufficient; placement into regional employment is the relevant metric.
+
+-   **Completion matters more than access alone.**\
+    Postsecondary attendance without completion consistently shows weaker regional attachment than both completion and some direct-to-work pathways.
+
+-   **Anchoring should be the benchmark outcome for regional workforce policy.**\
+    Mobility reflects individual success but regional loss; weak attachment reflects loss on both dimensions. Anchoring delivers shared returns.
+
+-   **Regional coordination is essential.**\
+    Education, workforce development, and economic development policy must be aligned at the regional level to sustain anchoring pathways.
+
 **Stable, meaningful employment in Northeast Minnesota**
 
 ## Overview
