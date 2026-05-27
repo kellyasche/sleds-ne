@@ -239,50 +239,50 @@ For the variables with continuous values I’ll be using the Wilcoxon two paired
 
 We are going to split up the analysis into two different datasets. The first dataset will combine 3 of the previous states into one.
 
--   Has meaningful employment anywhere in Northeast Minnesota, which combines the following states;
-    -   Meaningful emp County
-    -   Meaningful emp region
+- Has meaningful employment anywhere in Northeast Minnesota, which combines the following states;
+  - Meaningful emp County
+  - Meaningful emp region
 
 The remaining states will stay the same.
 
--   Has meaningful employment in Minnesota, but not in Northeast Minnesota
--   Is attending a post-secondary institution.
--   Has a MN employment record but it's not meaningful, and they are not attending post-secondary.
--   Does not have a MN employment record and is not attending post-secondary.
+- Has meaningful employment in Minnesota, but not in Northeast Minnesota
+- Is attending a post-secondary institution.
+- Has a MN employment record but it's not meaningful, and they are not attending post-secondary.
+- Does not have a MN employment record and is not attending post-secondary.
 
 We have quite a few variables remaining, even after MCA analysis. So let's take a look at how we are going to proceed and group all of this together to see how these relationships work.
 
--   Demographics
-    -   `Gender`
-    -   `grad.year.covid`
-    -   `economic.status`
-    -   `SpecialEdStatus`
-    -   `RaceEthnicity`
-    -   `englisher.learner`
--   High school characteristics
-    -   `Dem_Desc`
-    -   `range.school`
-    -   `avg.unemp.rate`
-    -   `avg.wage.pct.state`
--   High school accomplishments
-    -   `pseo.participant`
-    -   `took.ACT`
-    -   `ACTCompositeScore`
-    -   `ap.exam`
-    -   `sat.taken`
-    -   MCA scores
-        -   `MCA.M`
-        -   `MCA.R`
-        -   `MCA.S`
-    -   `cte.achievement`
-    -   `total.cte.courses.taken`
--   Post-secondary
-    -   `attended.ps.within.first.year.hsgrad`
-    -   `attended.ps`
-    -   `ps.grad`
-    -   `ps.grad.InstitutionSector`
-    -   `highest.cred.level`
-    -   `ps.grad.location`
+- Demographics
+  - `Gender`
+  - `grad.year.covid`
+  - `economic.status`
+  - `SpecialEdStatus`
+  - `RaceEthnicity`
+  - `englisher.learner`
+- High school characteristics
+  - `Dem_Desc`
+  - `range.school`
+  - `avg.unemp.rate`
+  - `avg.wage.pct.state`
+- High school accomplishments
+  - `pseo.participant`
+  - `took.ACT`
+  - `ACTCompositeScore`
+  - `ap.exam`
+  - `sat.taken`
+  - MCA scores
+    - `MCA.M`
+    - `MCA.R`
+    - `MCA.S`
+  - `cte.achievement`
+  - `total.cte.courses.taken`
+- Post-secondary
+  - `attended.ps.within.first.year.hsgrad`
+  - `attended.ps`
+  - `ps.grad`
+  - `ps.grad.InstitutionSector`
+  - `highest.cred.level`
+  - `ps.grad.location`
 
 <br>
 
@@ -347,13 +347,13 @@ Let's examine the variables to see if there are any significant differences in t
 
 In the demographics section we will examine the relationship between that paths taken by individuals and the following variables;
 
--   Demographics
-    -   `Gender`
-    -   `grad.year.covid`
-    -   `economic.status`
-    -   `SpecialEdStatus`
-    -   `RaceEthnicity`
-    -   `englisher.learner`
+- Demographics
+  - `Gender`
+  - `grad.year.covid`
+  - `economic.status`
+  - `SpecialEdStatus`
+  - `RaceEthnicity`
+  - `englisher.learner`
 
 <br>
 
@@ -375,20 +375,20 @@ In the demographics section we will examine the relationship between that paths 
 
 **Strongest Associations**
 
--   **Special Education Status (V = 0.258 at Year 1)** and **Economic Status (V = 0.238 at Year 1)** emerge as the **strongest predictors of post-graduation outcomes**. Both show very large disparities in postsecondary participation and elevated risks of disconnection. In terms of **regional meaningful employment**, SpecialEd students start at parity but fall behind by Year 5 and 10, while higher economic status students consistently hold an edge.
+- **Special Education Status (V = 0.258 at Year 1)** and **Economic Status (V = 0.238 at Year 1)** emerge as the **strongest predictors of post-graduation outcomes**. Both show very large disparities in postsecondary participation and elevated risks of disconnection. In terms of **regional meaningful employment**, SpecialEd students start at parity but fall behind by Year 5 and 10, while higher economic status students consistently hold an edge.
 
 **Moderately Strong Associations**
 
--   **English Learner status (V = 0.188 at Year 1)** also shows a strong early effect, with EL students much less likely to enter postsecondary pathways and far more likely to be disconnected. The disadvantage persists through Year 10, with especially large gaps in meaningful regional employment and disconnection rates.
--   **Gender (V = 0.109 at Year 1)** presents more moderate differences. Males are more likely to enter meaningful employment in the region, while females dominate postsecondary enrollment. These gaps diminish but persist slightly by Year 10.
+- **English Learner status (V = 0.188 at Year 1)** also shows a strong early effect, with EL students much less likely to enter postsecondary pathways and far more likely to be disconnected. The disadvantage persists through Year 10, with especially large gaps in meaningful regional employment and disconnection rates.
+- **Gender (V = 0.109 at Year 1)** presents more moderate differences. Males are more likely to enter meaningful employment in the region, while females dominate postsecondary enrollment. These gaps diminish but persist slightly by Year 10.
 
 **Weakest Associations**
 
--   **Race/Ethnicity (V = 0.067 at Year 1)** shows weaker overall associations but still highlights persistent inequities. White graduates are more likely to secure meaningful regional jobs, while American Indian, Black, Hispanic, and Asian/PI students show consistently lower rates of regional employment and higher disconnection. Although the effect sizes are weaker, the equity implications are substantial.
+- **Race/Ethnicity (V = 0.067 at Year 1)** shows weaker overall associations but still highlights persistent inequities. White graduates are more likely to secure meaningful regional jobs, while American Indian, Black, Hispanic, and Asian/PI students show consistently lower rates of regional employment and higher disconnection. Although the effect sizes are weaker, the equity implications are substantial.
 
 **Overall Insight**
 
--   Among demographic variables, **SpecialEdStatus, Economic Status, and English Learner status** stand out as the **most influential factors** shaping post-graduation outcomes, particularly through disparities in **meaningful employment in the region**. Gender plays a secondary but notable role, while Race/Ethnicity shows weaker statistical association but nonetheless reflects important and persistent disparities in equity and opportunity.
+- Among demographic variables, **SpecialEdStatus, Economic Status, and English Learner status** stand out as the **most influential factors** shaping post-graduation outcomes, particularly through disparities in **meaningful employment in the region**. Gender plays a secondary but notable role, while Race/Ethnicity shows weaker statistical association but nonetheless reflects important and persistent disparities in equity and opportunity.
 
 <br>
 
@@ -398,9 +398,9 @@ In the demographics section we will examine the relationship between that paths 
 
 There is a statistically significant relationship between gender and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **557.79**, Cramer’s V = **0.109**, p \< .001, N = 46,777
--   5 years after graduation: χ²(4) = **213.66**, Cramer’s V = **0.078**, p \< .001, N = 34,683
--   10 years after graduation: χ²(3) = **51.15**, Cramer’s V = **0.051**, p \< .001, N = 19,828
+- 1 year after graduation: χ²(4) = **557.79**, Cramer’s V = **0.109**, p \< .001, N = 46,777
+- 5 years after graduation: χ²(4) = **213.66**, Cramer’s V = **0.078**, p \< .001, N = 34,683
+- 10 years after graduation: χ²(3) = **51.15**, Cramer’s V = **0.051**, p \< .001, N = 19,828
 
 The strength of association is **moderate in the first year** and diminishes over time, though it remains statistically significant. The primary pattern is that **males are more likely to enter meaningful employment in the region**, while **females are more likely to pursue postsecondary pathways in the short term**.
 
@@ -473,7 +473,7 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$Gender,
 
 There is a statistically significant relationship between graduation cohort (pre- vs. post-COVID) and post-graduation outcomes at 1 year:
 
--   **1 year after graduation**: χ² = 202.89, df = 4, Cramer’s V = 0.066, p \< .001
+- **1 year after graduation**: χ² = 202.89, df = 4, Cramer’s V = 0.066, p \< .001
 
 The strength of association is **weak but meaningful**, suggesting that the COVID-19 pandemic had a measurable effect on early post-graduation pathways. **Post-COVID graduates are less likely to be attending postsecondary education** and more likely to be in non-meaningful employment or disconnected outcomes, while **pre-COVID graduates show higher postsecondary enrollment**.
 
@@ -513,11 +513,11 @@ data <- meaningful.emp.ne %>%
 
 There is a statistically significant relationship between economic status and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **2655.85**, Cramer’s V = **0.238**, p \< .001, N = 46,777
+- 1 year after graduation: χ²(4) = **2655.85**, Cramer’s V = **0.238**, p \< .001, N = 46,777
 
--   5 years after graduation: χ²(4) = **678.57**, Cramer’s V = **0.140**, p \< .001, N = 34,683
+- 5 years after graduation: χ²(4) = **678.57**, Cramer’s V = **0.140**, p \< .001, N = 34,683
 
--   10 years after graduation: χ²(3) = **181.08**, Cramer’s V = **0.096**, p \< .001, N = 19,828
+- 10 years after graduation: χ²(3) = **181.08**, Cramer’s V = **0.096**, p \< .001, N = 19,828
 
 The strength of association is **strongest in the first year** and steadily declines over time, though it remains significant. The primary relationship is that **students from lower economic status backgrounds are less likely to attend postsecondary and more likely to appear in not meaningful or disconnected outcomes, while higher economic status students are more likely to pursue education and later show stronger representation in meaningful employment in the region.**
 
@@ -584,9 +584,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$economic.status,
 
 There is a statistically significant relationship between Special Education status and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **3110.70**, Cramer’s V = **0.258**, p \< .001, N = 46,777
--   5 years after graduation: χ²(4) = **829.87**, Cramer’s V = **0.155**, p \< .001, N = 34,683
--   10 years after graduation: χ²(3) = **231.15**, Cramer’s V = **0.108**, p \< .001, N = 19,828
+- 1 year after graduation: χ²(4) = **3110.70**, Cramer’s V = **0.258**, p \< .001, N = 46,777
+- 5 years after graduation: χ²(4) = **829.87**, Cramer’s V = **0.155**, p \< .001, N = 34,683
+- 10 years after graduation: χ²(3) = **231.15**, Cramer’s V = **0.108**, p \< .001, N = 19,828
 
 The strength of association is **strongest in the first year** and weakens over time, but the relationship remains significant. The primary pattern is that **SpecialEd students are less likely to attend postsecondary and more likely to be in not meaningful or disconnected outcomes**. While regional meaningful employment is roughly equal at Year 1, **by Years 5 and 10 non-SpecialEd students pull ahead in meaningful employment in the region**.
 
@@ -654,9 +654,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$SpecialEdStatus,
 
 There is a statistically significant relationship between race/ethnicity and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(16) = **737.61**, Cramer’s V = **0.067**, p \< .001, N = 41,205【435†source】
--   5 years after graduation: χ²(16) = **363.79**, Cramer’s V = **0.051**, p \< .001, N = 34,683【437†source】
--   10 years after graduation: χ²(12) = **198.54**, Cramer’s V = **0.058**, p \< .001, N = 19,828【438†source】
+- 1 year after graduation: χ²(16) = **737.61**, Cramer’s V = **0.067**, p \< .001, N = 41,205【435†source】
+- 5 years after graduation: χ²(16) = **363.79**, Cramer’s V = **0.051**, p \< .001, N = 34,683【437†source】
+- 10 years after graduation: χ²(12) = **198.54**, Cramer’s V = **0.058**, p \< .001, N = 19,828【438†source】
 
 The associations are **weak but consistent across time**, suggesting that while race/ethnicity matters, the effect sizes are smaller compared to other demographic variables. The primary relationship is that **White students are more likely to enter meaningful regional employment and attend postsecondary, while American Indian, Black, and Hispanic students are more often in not meaningful or disconnected outcomes**.
 
@@ -728,9 +728,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$RaceEthnicity,
 
 There is a statistically significant relationship between English Learner (EL) status and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **1649.35**, Cramer’s V = **0.188**, p \< .001, N = 46,777
--   5 years after graduation: χ²(4) = **459.23**, Cramer’s V = **0.115**, p \< .001, N = 34,683
--   10 years after graduation: χ²(3) = **124.44**, Cramer’s V = **0.079**, p \< .001, N = 19,828
+- 1 year after graduation: χ²(4) = **1649.35**, Cramer’s V = **0.188**, p \< .001, N = 46,777
+- 5 years after graduation: χ²(4) = **459.23**, Cramer’s V = **0.115**, p \< .001, N = 34,683
+- 10 years after graduation: χ²(3) = **124.44**, Cramer’s V = **0.079**, p \< .001, N = 19,828
 
 The strength of association is **strongest in the first year** and weakens over time, though the relationship remains significant. The primary relationship is that **English Learner students are much less likely to attend postsecondary and more likely to be disconnected or in not meaningful employment, while non-EL students are more likely to pursue postsecondary and secure meaningful regional employment over time**.
 
@@ -798,10 +798,10 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$english.learner,
 
 We will take a look at the following variables;
 
--   `Dem_Desc`
--   `range.school`
--   `avg.unemp.rate`
--   `avg.wage.pct.state`
+- `Dem_Desc`
+- `range.school`
+- `avg.unemp.rate`
+- `avg.wage.pct.state`
 
 <br>
 
@@ -822,13 +822,13 @@ We will take a look at the following variables;
 
 **Strongest Associations**
 
--   **Range School** stands out among categorical variables, showing a clear though modest pattern: Range graduates are more likely to enter and sustain **meaningful regional employment**, with the gap widening at 10 years (34% vs. 28% for non‑Range).
--   **County Unemployment Rate** demonstrates robust significance in ANOVA tests, with Tukey results showing that **lower‑unemployment counties are consistently tied to higher rates of regional meaningful employment**. This reinforces the importance of local economic conditions.
+- **Range School** stands out among categorical variables, showing a clear though modest pattern: Range graduates are more likely to enter and sustain **meaningful regional employment**, with the gap widening at 10 years (34% vs. 28% for non‑Range).
+- **County Unemployment Rate** demonstrates robust significance in ANOVA tests, with Tukey results showing that **lower‑unemployment counties are consistently tied to higher rates of regional meaningful employment**. This reinforces the importance of local economic conditions.
 
 **Moderate Associations**
 
--   **County Wages (% of State)** shows consistent though modest effects: **regional meaningful employment is concentrated in lower‑wage counties**, while higher‑wage counties are more tied to postsecondary and statewide outcomes. This complements the unemployment findings by showing that stronger regional employment pathways may develop in relatively weaker wage contexts.
--   **Rural–Urban Context** has the weakest effect sizes but reveals consistent differences: students from **urban/town/rural mix** areas are more likely to remain in regional meaningful employment, while those from **entirely rural** schools are more likely to move into statewide work.
+- **County Wages (% of State)** shows consistent though modest effects: **regional meaningful employment is concentrated in lower‑wage counties**, while higher‑wage counties are more tied to postsecondary and statewide outcomes. This complements the unemployment findings by showing that stronger regional employment pathways may develop in relatively weaker wage contexts.
+- **Rural–Urban Context** has the weakest effect sizes but reveals consistent differences: students from **urban/town/rural mix** areas are more likely to remain in regional meaningful employment, while those from **entirely rural** schools are more likely to move into statewide work.
 
 **Overall Insight**\
 High school context variables show **modest but meaningful influences** on post-graduation outcomes. The clearest signals are that **Range schools and lower‑unemployment counties support stronger attachment to meaningful regional employment**, while higher‑wage counties and more rural settings steer students toward education, statewide, or external employment pathways.
@@ -841,9 +841,9 @@ High school context variables show **modest but meaningful influences** on post-
 
 There is a statistically significant relationship between rural–urban context and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(8) = **54.72**, Cramer’s V = **0.024**, p \< .001, N = 46,777【474†source】
--   5 years after graduation: χ²(8) = **201.14**, Cramer’s V = **0.054**, p \< .001, N = 34,683【476†source】
--   10 years after graduation: χ²(6) = **75.40**, Cramer’s V = **0.044**, p \< .001, N = 19,828【477†source】
+- 1 year after graduation: χ²(8) = **54.72**, Cramer’s V = **0.024**, p \< .001, N = 46,777【474†source】
+- 5 years after graduation: χ²(8) = **201.14**, Cramer’s V = **0.054**, p \< .001, N = 34,683【476†source】
+- 10 years after graduation: χ²(6) = **75.40**, Cramer’s V = **0.044**, p \< .001, N = 19,828【477†source】
 
 The associations are **weak but consistent**. The primary pattern is that **students from Urban/town/rural mix areas are most likely to achieve meaningful employment in the region, while those from Entirely rural areas are least likely to do so**, especially by Years 5 and 10.
 
@@ -912,9 +912,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$Dem_Desc,
 
 There is a statistically significant relationship between attending a Range school and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **173.72**, Cramer’s V = **0.061**, p \< .001, N = 46,777\
--   5 years after graduation: χ²(4) = **63.68**, Cramer’s V = **0.043**, p \< .001, N = 34,683【488†source】\
--   10 years after graduation: χ²(3) = **57.03**, Cramer’s V = **0.054**, p \< .001, N = 19,828【489†source】
+- 1 year after graduation: χ²(4) = **173.72**, Cramer’s V = **0.061**, p \< .001, N = 46,777\
+- 5 years after graduation: χ²(4) = **63.68**, Cramer’s V = **0.043**, p \< .001, N = 34,683【488†source】\
+- 10 years after graduation: χ²(3) = **57.03**, Cramer’s V = **0.054**, p \< .001, N = 19,828【489†source】
 
 The strength of association is **weak overall** but consistent. The primary relationship is that **Range school students are more likely to achieve meaningful employment in the region** compared to non‑Range peers, though differences in postsecondary attendance and disconnection are modest.
 
@@ -981,9 +981,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$range.school,
 
 There is a statistically significant relationship between the **county unemployment rate during high school** and post‑graduation outcomes in all three timeframes (ANOVA on unemployment rate across outcome groups):
 
--   **1 year after graduation**: F(4, 46772) = **12.55**, p \< .001\
--   **5 years after graduation**: F(4, 34678) = **13.03**, p \< .001\
--   **10 years after graduation**: F(3, 19745) = **9.69**, p \< .001
+- **1 year after graduation**: F(4, 46772) = **12.55**, p \< .001\
+- **5 years after graduation**: F(4, 34678) = **13.03**, p \< .001\
+- **10 years after graduation**: F(3, 19745) = **9.69**, p \< .001
 
 Effects are **modest but reliable** across years.
 
@@ -991,22 +991,22 @@ Effects are **modest but reliable** across years.
 
 **Year 1:**
 
--   **Attending postsecondary** comes from **higher‑unemployment counties** than **Meaningful employment in the region** (Δ = +0.118, p \< .001).
--   **Not meaningful** and **No MN record** are also higher than **Meaningful region** (Δ ≈ +0.07 to +0.08, both p \< .05).
--   Takeaway: in the first year, **regional meaningful employment is associated with comparatively lower local unemployment** than several alternative pathways.
+- **Attending postsecondary** comes from **higher‑unemployment counties** than **Meaningful employment in the region** (Δ = +0.118, p \< .001).
+- **Not meaningful** and **No MN record** are also higher than **Meaningful region** (Δ ≈ +0.07 to +0.08, both p \< .05).
+- Takeaway: in the first year, **regional meaningful employment is associated with comparatively lower local unemployment** than several alternative pathways.
 
 **Year 5:**
 
--   **Meaningful MN (statewide)** \> **Meaningful region** (Δ = +0.146, p \< .001).
--   **Attending ps** and **No MN record** are **lower** than **Meaningful MN** (Δ ≈ −0.091 and −0.088, both p ≤ .004).
--   Takeaway: by five years out, **statewide meaningful employment** is associated with **higher‑unemployment counties** than regional meaningful jobs, while **continued schooling** and **no record** skew lower than statewide meaningful.
+- **Meaningful MN (statewide)** \> **Meaningful region** (Δ = +0.146, p \< .001).
+- **Attending ps** and **No MN record** are **lower** than **Meaningful MN** (Δ ≈ −0.091 and −0.088, both p ≤ .004).
+- Takeaway: by five years out, **statewide meaningful employment** is associated with **higher‑unemployment counties** than regional meaningful jobs, while **continued schooling** and **no record** skew lower than statewide meaningful.
 
 **Year 10:**
 
--   **Meaningful MN** \> **Meaningful region** (Δ = +0.088, p = .0009).
--   **Not meaningful** \> **Meaningful region** (Δ = +0.067, p = .022).
--   **No MN record** \< **Meaningful MN** and \< **Not meaningful** (Δ = −0.103 and −0.082; p ≤ .002).
--   Takeaway: a decade out, **regional meaningful employment** remains linked to **lower unemployment contexts** than **statewide meaningful** and **not meaningful** routes; those with **no MN record** tend to come from **lower‑unemployment counties** than peers in statewide/not‑meaningful outcomes.
+- **Meaningful MN** \> **Meaningful region** (Δ = +0.088, p = .0009).
+- **Not meaningful** \> **Meaningful region** (Δ = +0.067, p = .022).
+- **No MN record** \< **Meaningful MN** and \< **Not meaningful** (Δ = −0.103 and −0.082; p ≤ .002).
+- Takeaway: a decade out, **regional meaningful employment** remains linked to **lower unemployment contexts** than **statewide meaningful** and **not meaningful** routes; those with **no MN record** tend to come from **lower‑unemployment counties** than peers in statewide/not‑meaningful outcomes.
 
 Overall, the pattern suggests that **students from lower‑unemployment counties are more likely to land in meaningful employment within the region**, whereas **higher‑unemployment origins** are more often associated with **statewide meaningful**, **not meaningful**, or **continued schooling** pathways.
 
@@ -1210,9 +1210,9 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg
 
 There is a statistically significant relationship between **relative county wages** and post‑graduation outcomes in all three timeframes (ANOVA on wage percent across outcome groups):
 
--   **1 year after graduation**: F(4, 46751) = **15.33**, p \< .001
--   **5 years after graduation**: F(4, 34678) = **24.64**, p \< .001
--   **10 years after graduation**: F(3, 19824) = **11.82**, p \< .001
+- **1 year after graduation**: F(4, 46751) = **15.33**, p \< .001
+- **5 years after graduation**: F(4, 34678) = **24.64**, p \< .001
+- **10 years after graduation**: F(3, 19824) = **11.82**, p \< .001
 
 Although effect sizes are small, the relationships are consistent. The primary finding is that **graduates from counties with higher relative wages are more likely to pursue postsecondary education, while those from lower‑wage counties are more likely to be in meaningful regional employment**.
 
@@ -1220,22 +1220,22 @@ Although effect sizes are small, the relationships are consistent. The primary f
 
 **Year 1:**
 
--   **Postsecondary attendees** come from **higher‑wage counties** than nearly all other groups (Δ ≈ +0.009 vs. regional meaningful, p \< .001).
--   **Not meaningful** and **No MN record** are also slightly higher than **regional meaningful** (Δ ≈ +0.006–0.008, p ≤ .05).
--   Takeaway: early on, **regional meaningful employment is linked to lower‑wage counties**, while **education is linked to higher‑wage contexts**.
+- **Postsecondary attendees** come from **higher‑wage counties** than nearly all other groups (Δ ≈ +0.009 vs. regional meaningful, p \< .001).
+- **Not meaningful** and **No MN record** are also slightly higher than **regional meaningful** (Δ ≈ +0.006–0.008, p ≤ .05).
+- Takeaway: early on, **regional meaningful employment is linked to lower‑wage counties**, while **education is linked to higher‑wage contexts**.
 
 **Year 5:**
 
--   **Postsecondary attendees** again come from higher‑wage counties (+0.009 vs. meaningful MN, p \< .001).
--   **Regional meaningful employment** is associated with **lower‑wage contexts** compared to statewide meaningful (Δ = −0.009, p \< .001).
--   **Not meaningful** and **No MN record** are slightly higher than **regional meaningful** (Δ ≈ +0.005–0.006, both p \< .01).
--   Takeaway: **statewide meaningful employment and further schooling** are linked to higher‑wage counties, while **regional meaningful work remains concentrated in lower‑wage areas**.
+- **Postsecondary attendees** again come from higher‑wage counties (+0.009 vs. meaningful MN, p \< .001).
+- **Regional meaningful employment** is associated with **lower‑wage contexts** compared to statewide meaningful (Δ = −0.009, p \< .001).
+- **Not meaningful** and **No MN record** are slightly higher than **regional meaningful** (Δ ≈ +0.005–0.006, both p \< .01).
+- Takeaway: **statewide meaningful employment and further schooling** are linked to higher‑wage counties, while **regional meaningful work remains concentrated in lower‑wage areas**.
 
 **Year 10:**
 
--   **Regional meaningful employment** continues to be tied to **lower‑wage counties** than statewide meaningful (Δ = −0.007, p \< .001).
--   **Not meaningful** (+0.004, p = .008) and **No MN record** (+0.006, p \< .001) are also above regional meaningful.
--   Takeaway: a decade out, the pattern solidifies — **regional meaningful employment is most strongly associated with lower‑wage counties**, while higher‑wage counties are more tied to **education, statewide meaningful, or disconnected pathways**.
+- **Regional meaningful employment** continues to be tied to **lower‑wage counties** than statewide meaningful (Δ = −0.007, p \< .001).
+- **Not meaningful** (+0.004, p = .008) and **No MN record** (+0.006, p \< .001) are also above regional meaningful.
+- Takeaway: a decade out, the pattern solidifies — **regional meaningful employment is most strongly associated with lower‑wage counties**, while higher‑wage counties are more tied to **education, statewide meaningful, or disconnected pathways**.
 
 Overall, the wage context shows a consistent divide: **regional meaningful jobs are concentrated in lower‑wage counties, whereas higher‑wage counties foster postsecondary and statewide pathways**.
 
@@ -1439,17 +1439,17 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school characteristics/avg
 
 We are going to analyze the following variables;
 
--   `pseo.participant`
--   `took.ACT`
--   `ACTCompositeScore`
--   `ap.exam`
--   `sat.taken`
--   MCA scores
-    -   `MCA.M`
-    -   `MCA.R`
-    -   `MCA.S`
--   `cte.achievement`
--   `total.cte.courses.taken`
+- `pseo.participant`
+- `took.ACT`
+- `ACTCompositeScore`
+- `ap.exam`
+- `sat.taken`
+- MCA scores
+  - `MCA.M`
+  - `MCA.R`
+  - `MCA.S`
+- `cte.achievement`
+- `total.cte.courses.taken`
 
 <br>
 
@@ -1476,22 +1476,22 @@ We are going to analyze the following variables;
 
 **Strongest Associations**
 
--   **Took ACT** and **PSEO Participation** show the **strongest categorical associations**, with very high Cramer’s V values in Year 1 (0.36 and 0.29 respectively). Both sharply differentiate pathways: **ACT and PSEO participants move into postsecondary and statewide work**, while non‑participants are more likely to remain in **regional meaningful employment**.
--   **MCA Math** demonstrates the strongest continuous predictor effect, with extremely high F‑values. Higher scores are tied to **education and statewide jobs**, while lower scores are tied to **regional employment and weaker outcomes**.
+- **Took ACT** and **PSEO Participation** show the **strongest categorical associations**, with very high Cramer’s V values in Year 1 (0.36 and 0.29 respectively). Both sharply differentiate pathways: **ACT and PSEO participants move into postsecondary and statewide work**, while non‑participants are more likely to remain in **regional meaningful employment**.
+- **MCA Math** demonstrates the strongest continuous predictor effect, with extremely high F‑values. Higher scores are tied to **education and statewide jobs**, while lower scores are tied to **regional employment and weaker outcomes**.
 
 **Moderate Associations**
 
--   **MCA Reading and MCA Science** show very strong Year 1 effects that taper over time. The pattern mirrors MCA Math but with slightly smaller magnitudes. Again, **higher achievement sorts students into education and statewide outcomes**, while **lower achievement is tied to regional jobs and disconnection**.
--   **ACT Composite Score** follows a similar trajectory, reinforcing how standardized test performance channels students into distinct pathways.
+- **MCA Reading and MCA Science** show very strong Year 1 effects that taper over time. The pattern mirrors MCA Math but with slightly smaller magnitudes. Again, **higher achievement sorts students into education and statewide outcomes**, while **lower achievement is tied to regional jobs and disconnection**.
+- **ACT Composite Score** follows a similar trajectory, reinforcing how standardized test performance channels students into distinct pathways.
 
 **Weaker but Consistent Associations**
 
--   **AP Exam participation** shows moderate effects, consistently distinguishing students who pursue **postsecondary and statewide employment** from those in regional work.
--   **SAT participation** shows small but notable effects, primarily identifying a mobile subgroup less tied to regional outcomes.
+- **AP Exam participation** shows moderate effects, consistently distinguishing students who pursue **postsecondary and statewide employment** from those in regional work.
+- **SAT participation** shows small but notable effects, primarily identifying a mobile subgroup less tied to regional outcomes.
 
 **Regional Employment Predictors**
 
--   **CTE pathways stand out as the clearest predictors of regional meaningful employment.** CTE Concentrators/Completers and students with heavier CTE course loads are consistently more likely to enter and remain in **regional meaningful jobs**. This contrasts strongly with academic achievement and college‑prep measures, which steer students toward postsecondary and statewide employment.
+- **CTE pathways stand out as the clearest predictors of regional meaningful employment.** CTE Concentrators/Completers and students with heavier CTE course loads are consistently more likely to enter and remain in **regional meaningful jobs**. This contrasts strongly with academic achievement and college‑prep measures, which steer students toward postsecondary and statewide employment.
 
 **Overall Insight**\
 High school accomplishments reveal two broad patterns:
@@ -1509,9 +1509,9 @@ This split highlights the **dual pathways** of high school preparation: **colleg
 
 There is a statistically significant relationship between **PSEO participation** and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **3076.21**, Cramer’s V = **0.290**, p \< .001, N = 36,625【542†source】
--   5 years after graduation: χ²(4) = **430.00**, Cramer’s V = **0.132**, p \< .001, N = 24,531【543†source】
--   10 years after graduation: χ²(3) = **77.28**, Cramer’s V = **0.089**, p \< .001, N = 9,676【544†source】
+- 1 year after graduation: χ²(4) = **3076.21**, Cramer’s V = **0.290**, p \< .001, N = 36,625【542†source】
+- 5 years after graduation: χ²(4) = **430.00**, Cramer’s V = **0.132**, p \< .001, N = 24,531【543†source】
+- 10 years after graduation: χ²(3) = **77.28**, Cramer’s V = **0.089**, p \< .001, N = 9,676【544†source】
 
 The strength of association is **very strong in the first year** but weakens considerably over time. The primary relationship is that **PSEO participants are much more likely to pursue postsecondary education, while non‑participants are more likely to enter meaningful regional employment early on**.
 
@@ -1581,9 +1581,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$pseo.participant,
 
 There is a statistically significant relationship between **taking the ACT** and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **6187.26**, Cramer’s V = **0.364**, p \< .001, N = 46,777【554†source】
--   5 years after graduation: χ²(4) = **1583.75**, Cramer’s V = **0.214**, p \< .001, N = 34,683【555†source】
--   10 years after graduation: χ²(3) = **397.81**, Cramer’s V = **0.142**, p \< .001, N = 19,828【556†source】
+- 1 year after graduation: χ²(4) = **6187.26**, Cramer’s V = **0.364**, p \< .001, N = 46,777【554†source】
+- 5 years after graduation: χ²(4) = **1583.75**, Cramer’s V = **0.214**, p \< .001, N = 34,683【555†source】
+- 10 years after graduation: χ²(3) = **397.81**, Cramer’s V = **0.142**, p \< .001, N = 19,828【556†source】
 
 The strength of association is **very strong in the first year** and declines over time, but remains statistically significant. The key pattern is that **ACT takers are much more likely to pursue postsecondary education, while non‑takers are more likely to enter meaningful employment in the region**.
 
@@ -1657,9 +1657,9 @@ data <- meaningful.emp.ne %>%
 
 There is a statistically significant relationship between **ACT Composite Score** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
 
--   **1 year after graduation**: F(4, 27079) = **387.39**, p \< .001
--   **5 years after graduation**: F(4, 20617) = **159.11**, p \< .001
--   **10 years after graduation**: F(3, 10486) = **119.50**, p \< .001
+- **1 year after graduation**: F(4, 27079) = **387.39**, p \< .001
+- **5 years after graduation**: F(4, 20617) = **159.11**, p \< .001
+- **10 years after graduation**: F(3, 10486) = **119.50**, p \< .001
 
 The results show a **clear and consistent pattern**: students with **higher ACT scores are more likely to attend postsecondary and later secure meaningful statewide employment**, while students with **lower ACT scores are more concentrated in regional meaningful jobs, not meaningful employment, or disconnected outcomes**.
 
@@ -1667,21 +1667,21 @@ The results show a **clear and consistent pattern**: students with **higher ACT 
 
 **Year 1:**
 
--   **Postsecondary attendees** have ACT scores \~2.8 points higher than those in **regional meaningful employment** (p \< .001).
--   **Not meaningful** (+0.88) and **No MN record** (+1.43) also score above **regional meaningful** (both p \< .001).
--   Takeaway: **regional meaningful employment is tied to lower ACT scores**, while higher scores track into education and other categories.
+- **Postsecondary attendees** have ACT scores \~2.8 points higher than those in **regional meaningful employment** (p \< .001).
+- **Not meaningful** (+0.88) and **No MN record** (+1.43) also score above **regional meaningful** (both p \< .001).
+- Takeaway: **regional meaningful employment is tied to lower ACT scores**, while higher scores track into education and other categories.
 
 **Year 5:**
 
--   **Postsecondary** (+1.87), **statewide meaningful** (+1.84), and **No MN record** (+1.69) all score significantly above **regional meaningful** (p \< .001).
--   **Not meaningful** is \~0.62 higher than regional meaningful (p \< .001).
--   Takeaway: by five years, **regional meaningful employment continues to come from lower ACT backgrounds**, while higher scores predict broader education and statewide employment.
+- **Postsecondary** (+1.87), **statewide meaningful** (+1.84), and **No MN record** (+1.69) all score significantly above **regional meaningful** (p \< .001).
+- **Not meaningful** is \~0.62 higher than regional meaningful (p \< .001).
+- Takeaway: by five years, **regional meaningful employment continues to come from lower ACT backgrounds**, while higher scores predict broader education and statewide employment.
 
 **Year 10:**
 
--   **Statewide meaningful** (+1.64) and **No MN record** (+1.75) have higher ACT scores than **regional meaningful** (p \< .001).
--   **Not meaningful** (+0.43) is also above **regional meaningful** (p = .005).
--   Takeaway: a decade out, **regional meaningful employment is consistently tied to lower ACT scores**, while **higher scores are associated with statewide employment or exit from tracked MN employment**.
+- **Statewide meaningful** (+1.64) and **No MN record** (+1.75) have higher ACT scores than **regional meaningful** (p \< .001).
+- **Not meaningful** (+0.43) is also above **regional meaningful** (p = .005).
+- Takeaway: a decade out, **regional meaningful employment is consistently tied to lower ACT scores**, while **higher scores are associated with statewide employment or exit from tracked MN employment**.
 
 Overall, the ACT Composite Score reinforces a strong sorting effect: **higher scores steer students toward education and statewide jobs, while regional meaningful employment is more common among lower scorers**.
 
@@ -1895,9 +1895,9 @@ data <- meaningful.emp.ne %>%
 
 There is a statistically significant relationship between **AP exam participation** and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **822.44**, Cramer’s V = **0.133**, p \< .001, N = 46,777【581†source】
--   5 years after graduation: χ²(4) = **301.32**, Cramer’s V = **0.093**, p \< .001, N = 34,683【582†source】
--   10 years after graduation: χ²(3) = **113.60**, Cramer’s V = **0.076**, p \< .001, N = 19,828【583†source】
+- 1 year after graduation: χ²(4) = **822.44**, Cramer’s V = **0.133**, p \< .001, N = 46,777【581†source】
+- 5 years after graduation: χ²(4) = **301.32**, Cramer’s V = **0.093**, p \< .001, N = 34,683【582†source】
+- 10 years after graduation: χ²(3) = **113.60**, Cramer’s V = **0.076**, p \< .001, N = 19,828【583†source】
 
 The strength of association is **strongest in the first year** and declines over time, though remains statistically significant. The primary relationship is that **AP exam participants are much more likely to attend postsecondary, while non‑participants are more likely to enter meaningful regional employment**.
 
@@ -1966,9 +1966,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ap.exam,
 
 There is a statistically significant relationship between **taking the SAT** and post-graduation outcomes in all three timeframes:
 
--   1 year after graduation: χ²(4) = **228.74**, Cramer’s V = **0.070**, p \< .001, N = 46,777【595†source】
--   5 years after graduation: χ²(4) = **188.76**, Cramer’s V = **0.074**, p \< .001, N = 34,683【596†source】
--   10 years after graduation: χ²(3) = **99.99**, Cramer’s V = **0.071**, p \< .001, N = 19,828【597†source】
+- 1 year after graduation: χ²(4) = **228.74**, Cramer’s V = **0.070**, p \< .001, N = 46,777【595†source】
+- 5 years after graduation: χ²(4) = **188.76**, Cramer’s V = **0.074**, p \< .001, N = 34,683【596†source】
+- 10 years after graduation: χ²(3) = **99.99**, Cramer’s V = **0.071**, p \< .001, N = 19,828【597†source】
 
 The effect sizes are **small but consistent**. The key pattern is that **SAT takers are far more likely to attend postsecondary education**, while **non‑takers are more likely to enter meaningful employment in the region**.
 
@@ -2037,9 +2037,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$sat.taken,
 
 There is a statistically significant relationship between **MCA Reading scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
 
--   **1 year after graduation**: F(4, 42500) = **689.45**, p \< .001
--   **5 years after graduation**: F(4, 31013) = **119.45**, p \< .001
--   **10 years after graduation**: F(3, 17590) = **237.15**, p \< .001
+- **1 year after graduation**: F(4, 42500) = **689.45**, p \< .001
+- **5 years after graduation**: F(4, 31013) = **119.45**, p \< .001
+- **10 years after graduation**: F(3, 17590) = **237.15**, p \< .001
 
 The results show a **very strong early effect** that remains significant over time. The primary pattern is that **higher MCA Reading scores are associated with postsecondary enrollment and statewide meaningful employment, while lower scores are more tied to regional meaningful employment or not meaningful/disconnected outcomes**.
 
@@ -2047,21 +2047,21 @@ The results show a **very strong early effect** that remains significant over ti
 
 **Year 1:**
 
--   **Postsecondary attendees** score about **+0.26 higher** than regional meaningful workers (p \< .001).
--   **Not meaningful** (+0.09) and **No MN record** (+0.14) also score higher than regional meaningful (p ≤ .02).
--   Takeaway: **regional meaningful employment is linked to lower reading scores**, while higher scores track into postsecondary and other categories.
+- **Postsecondary attendees** score about **+0.26 higher** than regional meaningful workers (p \< .001).
+- **Not meaningful** (+0.09) and **No MN record** (+0.14) also score higher than regional meaningful (p ≤ .02).
+- Takeaway: **regional meaningful employment is linked to lower reading scores**, while higher scores track into postsecondary and other categories.
 
 **Year 5:**
 
--   **Postsecondary** (+0.21), **statewide meaningful** (+0.17), and **No MN record** (+0.08) all score above **regional meaningful** (p \< .001).
--   **Not meaningful** scores slightly below regional meaningful (−0.17, p \< .001).
--   Takeaway: by five years, **regional meaningful employment sits lower on the MCA-R spectrum**, while postsecondary and statewide jobs skew higher.
+- **Postsecondary** (+0.21), **statewide meaningful** (+0.17), and **No MN record** (+0.08) all score above **regional meaningful** (p \< .001).
+- **Not meaningful** scores slightly below regional meaningful (−0.17, p \< .001).
+- Takeaway: by five years, **regional meaningful employment sits lower on the MCA-R spectrum**, while postsecondary and statewide jobs skew higher.
 
 **Year 10:**
 
--   **Statewide meaningful** (+0.18) and **No MN record** (+0.14) are significantly above **regional meaningful** (p \< .001).
--   **Not meaningful** scores considerably lower (−0.25, p \< .001).
--   Takeaway: a decade out, **regional meaningful employment remains tied to lower MCA-R scores**, with higher scores concentrated in statewide meaningful employment or outside tracked records.
+- **Statewide meaningful** (+0.18) and **No MN record** (+0.14) are significantly above **regional meaningful** (p \< .001).
+- **Not meaningful** scores considerably lower (−0.25, p \< .001).
+- Takeaway: a decade out, **regional meaningful employment remains tied to lower MCA-R scores**, with higher scores concentrated in statewide meaningful employment or outside tracked records.
 
 Overall, MCA Reading reinforces that **academic achievement predicts longer-term educational and statewide work pathways**, while **lower scores are associated with stronger regional attachment but also greater risk of not meaningful outcomes**.
 
@@ -2268,9 +2268,9 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA
 
 There is a statistically significant relationship between **MCA Science scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
 
--   **1 year after graduation**: F(4, 37501) = **544.02**, p \< .001
--   **5 years after graduation**: F(4, 26050) = **160.29**, p \< .001
--   **10 years after graduation**: F(3, 11879) = **81.74**, p \< .001
+- **1 year after graduation**: F(4, 37501) = **544.02**, p \< .001
+- **5 years after graduation**: F(4, 26050) = **160.29**, p \< .001
+- **10 years after graduation**: F(3, 11879) = **81.74**, p \< .001
 
 The results show a **very strong early effect** that remains significant through 10 years. The key pattern is that **higher MCA Science scores are associated with postsecondary education and statewide meaningful employment, while lower scores are tied to regional meaningful employment or not meaningful outcomes**.
 
@@ -2278,23 +2278,23 @@ The results show a **very strong early effect** that remains significant through
 
 **Year 1:**
 
--   Postsecondary attendees score substantially higher than **regional meaningful** (+0.38, p \< .001).
--   **Statewide meaningful** (+0.07) also scores higher than regional meaningful (p = .025).
--   **Not meaningful** (−0.07) and **No MN record** (−0.12) score below **postsecondary**.
--   Takeaway: early on, **regional meaningful work is tied to lower MCA-S scores**, while **education and statewide jobs are tied to higher scores**.
+- Postsecondary attendees score substantially higher than **regional meaningful** (+0.38, p \< .001).
+- **Statewide meaningful** (+0.07) also scores higher than regional meaningful (p = .025).
+- **Not meaningful** (−0.07) and **No MN record** (−0.12) score below **postsecondary**.
+- Takeaway: early on, **regional meaningful work is tied to lower MCA-S scores**, while **education and statewide jobs are tied to higher scores**.
 
 **Year 5:**
 
--   **Statewide meaningful (+0.25)** and **postsecondary (+0.32)** are far above **regional meaningful** (p \< .001).
--   **No MN record (+0.11)** is also higher.
--   **Not meaningful (−0.04)** is slightly below regional meaningful (p = .044).
--   Takeaway: by 5 years, the **gap widens**, with statewide and postsecondary pathways clearly tied to higher MCA-S scores, while regional meaningful remains lower.
+- **Statewide meaningful (+0.25)** and **postsecondary (+0.32)** are far above **regional meaningful** (p \< .001).
+- **No MN record (+0.11)** is also higher.
+- **Not meaningful (−0.04)** is slightly below regional meaningful (p = .044).
+- Takeaway: by 5 years, the **gap widens**, with statewide and postsecondary pathways clearly tied to higher MCA-S scores, while regional meaningful remains lower.
 
 **Year 10:**
 
--   **Statewide meaningful (+0.27)** and **No MN record (+0.18)** score above **regional meaningful** (p \< .001).
--   **Not meaningful (−0.31)** scores well below regional meaningful (p \< .001).
--   Takeaway: a decade out, **regional meaningful employment remains linked to lower MCA-S scores**, while higher scores push students into statewide jobs or out of tracked MN employment.
+- **Statewide meaningful (+0.27)** and **No MN record (+0.18)** score above **regional meaningful** (p \< .001).
+- **Not meaningful (−0.31)** scores well below regional meaningful (p \< .001).
+- Takeaway: a decade out, **regional meaningful employment remains linked to lower MCA-S scores**, while higher scores push students into statewide jobs or out of tracked MN employment.
 
 Overall, MCA Science mirrors the MCA Reading pattern: **academic achievement is strongly tied to educational and statewide pathways, while lower achievement is associated with stronger regional attachment or risk of weaker employment outcomes**.
 
@@ -2499,9 +2499,9 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA
 
 There is a statistically significant relationship between **MCA Math scores** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
 
--   **1 year after graduation**: F(4, 42550) = **1344.53**, p \< .001
--   **5 years after graduation**: F(4, 33107) = **152.39**, p \< .001
--   **10 years after graduation**: F(3, 18728) = **94.98**, p \< .001
+- **1 year after graduation**: F(4, 42550) = **1344.53**, p \< .001
+- **5 years after graduation**: F(4, 33107) = **152.39**, p \< .001
+- **10 years after graduation**: F(3, 18728) = **94.98**, p \< .001
 
 The results show an **especially strong relationship in the first year**, with effects tapering but still significant through Year 10. The key pattern is that **higher MCA Math scores are linked to postsecondary enrollment and statewide meaningful employment, while lower scores are tied to regional meaningful employment and weaker outcomes**.
 
@@ -2509,23 +2509,23 @@ The results show an **especially strong relationship in the first year**, with e
 
 **Year 1:**
 
--   **Postsecondary attendees** score much higher than **regional meaningful** (+0.58, p \< .001).
--   **Statewide meaningful** is also above **regional meaningful** (+0.07, p = .026).
--   **Not meaningful (−0.06)** and **No MN record (−0.17)** score lower than **regional meaningful** (p ≤ .001).
--   Takeaway: early on, **regional meaningful employment is positioned between low‑scoring disconnected outcomes and high‑scoring education pathways**.
+- **Postsecondary attendees** score much higher than **regional meaningful** (+0.58, p \< .001).
+- **Statewide meaningful** is also above **regional meaningful** (+0.07, p = .026).
+- **Not meaningful (−0.06)** and **No MN record (−0.17)** score lower than **regional meaningful** (p ≤ .001).
+- Takeaway: early on, **regional meaningful employment is positioned between low‑scoring disconnected outcomes and high‑scoring education pathways**.
 
 **Year 5:**
 
--   **Postsecondary (+0.28)** and **statewide meaningful (+0.27)** both score significantly above **regional meaningful** (p \< .001).
--   **Not meaningful (−0.08)** and **No MN record (−0.24)** score below regional meaningful (p \< .001).
--   Takeaway: by five years, **regional meaningful work is associated with lower scores relative to statewide and postsecondary**, but still stronger than disconnected categories.
+- **Postsecondary (+0.28)** and **statewide meaningful (+0.27)** both score significantly above **regional meaningful** (p \< .001).
+- **Not meaningful (−0.08)** and **No MN record (−0.24)** score below regional meaningful (p \< .001).
+- Takeaway: by five years, **regional meaningful work is associated with lower scores relative to statewide and postsecondary**, but still stronger than disconnected categories.
 
 **Year 10:**
 
--   **Statewide meaningful** (+0.29) remains higher than **regional meaningful** (p \< .001).
--   **No MN record** shows a mixed pattern: one contrast indicates higher scores (+0.13, p \< .001) while another shows lower scores (−0.15, p \< .001), reflecting sub‑patterns in this group.
--   **Not meaningful (−0.10 to −0.38)** scores consistently lower than regional meaningful (p \< .001).
--   Takeaway: a decade out, **regional meaningful jobs remain linked to mid‑range math scores**, lower than statewide/postsecondary but higher than disconnected outcomes.
+- **Statewide meaningful** (+0.29) remains higher than **regional meaningful** (p \< .001).
+- **No MN record** shows a mixed pattern: one contrast indicates higher scores (+0.13, p \< .001) while another shows lower scores (−0.15, p \< .001), reflecting sub‑patterns in this group.
+- **Not meaningful (−0.10 to −0.38)** scores consistently lower than regional meaningful (p \< .001).
+- Takeaway: a decade out, **regional meaningful jobs remain linked to mid‑range math scores**, lower than statewide/postsecondary but higher than disconnected outcomes.
 
 Overall, MCA Math reinforces the trend seen in other MCA measures: **higher achievement channels students into education and statewide employment, while regional meaningful employment is associated with lower but not the lowest scores, positioning it as a middle pathway**.
 
@@ -2731,9 +2731,9 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/MCA
 
 There is a statistically significant relationship between **CTE achievement** (Concentrator/Completer, Participant, No CTE) and post‑graduation outcomes across all three timeframes:
 
--   **1 year after graduation**: χ²(8) = **508.14**, Cramer’s V = **0.074**, p \< .001, N = 46,777【663†source】
--   **5 years after graduation**: χ²(8) = **307.50**, Cramer’s V = **0.067**, p \< .001, N = 34,683【664†source】
--   **10 years after graduation**: χ²(6) = **174.53**, Cramer’s V = **0.066**, p \< .001, N = 19,828【665†source】
+- **1 year after graduation**: χ²(8) = **508.14**, Cramer’s V = **0.074**, p \< .001, N = 46,777【663†source】
+- **5 years after graduation**: χ²(8) = **307.50**, Cramer’s V = **0.067**, p \< .001, N = 34,683【664†source】
+- **10 years after graduation**: χ²(6) = **174.53**, Cramer’s V = **0.066**, p \< .001, N = 19,828【665†source】
 
 The associations are modest but consistent. The clearest relationship is that **CTE Concentrators/Completers are more likely to enter meaningful employment in the region**, while students with no CTE are more likely to be in postsecondary or outside regional attachment.
 
@@ -2802,9 +2802,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$cte.achievement,
 
 There is a statistically significant relationship between the **number of CTE courses taken** and post‑graduation outcomes in all three timeframes (ANOVA across outcome groups):
 
--   **1 year after graduation**: F(4, 45696) = **232.40**, p \< .001
--   **5 years after graduation**: F(4, 33828) = **104.15**, p \< .001
--   **10 years after graduation**: F(3, 19320) = **36.17**, p \< .001
+- **1 year after graduation**: F(4, 45696) = **232.40**, p \< .001
+- **5 years after graduation**: F(4, 33828) = **104.15**, p \< .001
+- **10 years after graduation**: F(3, 19320) = **36.17**, p \< .001
 
 The results show a consistent pattern: **students who took more CTE courses are more likely to enter meaningful regional employment**, while students with fewer CTE courses lean toward postsecondary, statewide, or disconnected pathways.
 
@@ -2812,20 +2812,20 @@ The results show a consistent pattern: **students who took more CTE courses are 
 
 **Year 1:**
 
--   Regional meaningful employment is associated with **higher CTE course counts** compared to postsecondary (−0.72, p \< .001), not meaningful (−0.21, p \< .001), and no MN record (−0.37, p \< .001).
--   Postsecondary students have the lowest CTE course counts, confirming that **heavier CTE load ties directly into early regional work**.
+- Regional meaningful employment is associated with **higher CTE course counts** compared to postsecondary (−0.72, p \< .001), not meaningful (−0.21, p \< .001), and no MN record (−0.37, p \< .001).
+- Postsecondary students have the lowest CTE course counts, confirming that **heavier CTE load ties directly into early regional work**.
 
 **Year 5:**
 
--   Regional meaningful again shows **higher CTE courses** than postsecondary (−0.61, p \< .001), meaningful MN (−0.44, p \< .001), not meaningful (−0.33, p \< .001), and no MN record (−0.45, p \< .001).
--   Postsecondary and statewide workers come from lower CTE course backgrounds.
--   Takeaway: at five years, **regional meaningful work is strongly linked to CTE engagement**, while those with fewer CTE courses are dispersed across statewide or disconnected outcomes.
+- Regional meaningful again shows **higher CTE courses** than postsecondary (−0.61, p \< .001), meaningful MN (−0.44, p \< .001), not meaningful (−0.33, p \< .001), and no MN record (−0.45, p \< .001).
+- Postsecondary and statewide workers come from lower CTE course backgrounds.
+- Takeaway: at five years, **regional meaningful work is strongly linked to CTE engagement**, while those with fewer CTE courses are dispersed across statewide or disconnected outcomes.
 
 **Year 10:**
 
--   Regional meaningful still has higher CTE courses compared to statewide meaningful (−0.31, p \< .001) and no MN record (−0.31, p \< .001).
--   Not meaningful outcomes also show slightly higher CTE courses than regional (+0.21, p \< .001), reflecting a mixed subgroup.
--   Takeaway: a decade out, **regional meaningful employment is still concentrated among heavier CTE participants**, reinforcing CTE as a strong predictor of regional attachment.
+- Regional meaningful still has higher CTE courses compared to statewide meaningful (−0.31, p \< .001) and no MN record (−0.31, p \< .001).
+- Not meaningful outcomes also show slightly higher CTE courses than regional (+0.21, p \< .001), reflecting a mixed subgroup.
+- Takeaway: a decade out, **regional meaningful employment is still concentrated among heavier CTE participants**, reinforcing CTE as a strong predictor of regional attachment.
 
 Overall, total CTE course load demonstrates that **increased CTE participation anchors students more firmly in regional employment**, while lighter CTE engagement is linked to education and broader employment pathways.
 
@@ -3029,12 +3029,12 @@ saveWorkbook(wb, "Data/ChatGPT/Meaningful emp ct/High school accomplishments/tot
 
 We will analyze the following variables;
 
--   `attended.ps.within.first.year.hsgrad`
--   `attended.ps`
--   `ps.grad`
--   `ps.grad.InstitutionSector`
--   `highest.cred.level`
--   `ps.grad.location`
+- `attended.ps.within.first.year.hsgrad`
+- `attended.ps`
+- `ps.grad`
+- `ps.grad.InstitutionSector`
+- `highest.cred.level`
+- `ps.grad.location`
 
 <br>
 
@@ -3057,18 +3057,18 @@ We will analyze the following variables;
 
 **Strongest Associations**
 
--   The **attendance variables** (attended within 1st year, ever attended) and **postsecondary graduation** have the **strongest early associations**, with Cramer’s V values above 0.5–0.6 at Year 1. These measures clearly separate students who pursue higher education from those who do not, with PS attenders/graduates far less likely to enter immediate regional work but more likely to gain stable employment outcomes over time.
--   **Highest credential level** also shows strong early differentiation, with higher credentials linked to delayed workforce entry and eventual statewide mobility, while lower or mid‑level credentials tie more closely to regional jobs.
+- The **attendance variables** (attended within 1st year, ever attended) and **postsecondary graduation** have the **strongest early associations**, with Cramer’s V values above 0.5–0.6 at Year 1. These measures clearly separate students who pursue higher education from those who do not, with PS attenders/graduates far less likely to enter immediate regional work but more likely to gain stable employment outcomes over time.
+- **Highest credential level** also shows strong early differentiation, with higher credentials linked to delayed workforce entry and eventual statewide mobility, while lower or mid‑level credentials tie more closely to regional jobs.
 
 **Moderate Associations**
 
--   **PS graduation location** and **institution sector** matter less than attendance or graduation itself but still provide meaningful distinctions. **Regional PS graduates** are far more likely to remain in local employment, while **graduates from 4‑year universities or from outside the region** show greater statewide mobility.
+- **PS graduation location** and **institution sector** matter less than attendance or graduation itself but still provide meaningful distinctions. **Regional PS graduates** are far more likely to remain in local employment, while **graduates from 4‑year universities or from outside the region** show greater statewide mobility.
 
 **Regional Employment Predictors**
 
--   Non‑attenders and non‑graduates are consistently more likely to enter **regional meaningful employment** early, but they also carry much higher risks of disconnection in the long run.
--   **CTE‑like pathways within postsecondary (2‑year institutions, Associate degrees, regional institutions)** show the strongest alignment with long‑term regional workforce attachment.
--   **Bachelor’s+ degrees, 4‑year universities, and graduation outside MN** are consistently tied to statewide employment and mobility, reducing regional anchoring.
+- Non‑attenders and non‑graduates are consistently more likely to enter **regional meaningful employment** early, but they also carry much higher risks of disconnection in the long run.
+- **CTE‑like pathways within postsecondary (2‑year institutions, Associate degrees, regional institutions)** show the strongest alignment with long‑term regional workforce attachment.
+- **Bachelor’s+ degrees, 4‑year universities, and graduation outside MN** are consistently tied to statewide employment and mobility, reducing regional anchoring.
 
 **Overall Insight**\
 Postsecondary experiences draw a clear line between **regional anchoring vs. statewide mobility**.
@@ -3085,9 +3085,9 @@ Postsecondary experiences draw a clear line between **regional anchoring vs. sta
 
 There is a statistically significant relationship between **attending postsecondary within the first year after high school** and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(8) = **27,442.69**, Cramer’s V = **0.542**, p \< .001, N = 46,777【712†source】
--   **5 years after graduation**: χ²(8) = **4,207.23**, Cramer’s V = **0.246**, p \< .001, N = 34,683【713†source】
--   **10 years after graduation**: χ²(6) = **408.26**, Cramer’s V = **0.101**, p \< .001, N = 19,828【714†source】
+- **1 year after graduation**: χ²(8) = **27,442.69**, Cramer’s V = **0.542**, p \< .001, N = 46,777【712†source】
+- **5 years after graduation**: χ²(8) = **4,207.23**, Cramer’s V = **0.246**, p \< .001, N = 34,683【713†source】
+- **10 years after graduation**: χ²(6) = **408.26**, Cramer’s V = **0.101**, p \< .001, N = 19,828【714†source】
 
 The effect is **extremely strong in the first year** and weakens over time, though it remains statistically significant. The main pattern is that **students who attend PS within the first year are much less likely to be in regional meaningful employment, while those who do not attend are far more likely to start working in the region**.
 
@@ -3154,9 +3154,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps.within.first.ye
 
 There is a statistically significant relationship between **ever attending postsecondary** and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(4) = **21,822.13**, Cramer’s V = **0.683**, p \< .001, N = 46,777【724†source】
--   **5 years after graduation**: χ²(4) = **4,066.08**, Cramer’s V = **0.342**, p \< .001, N = 34,683【725†source】
--   **10 years after graduation**: χ²(3) = **372.88**, Cramer’s V = **0.137**, p \< .001, N = 19,828【726†source】
+- **1 year after graduation**: χ²(4) = **21,822.13**, Cramer’s V = **0.683**, p \< .001, N = 46,777【724†source】
+- **5 years after graduation**: χ²(4) = **4,066.08**, Cramer’s V = **0.342**, p \< .001, N = 34,683【725†source】
+- **10 years after graduation**: χ²(3) = **372.88**, Cramer’s V = **0.137**, p \< .001, N = 19,828【726†source】
 
 The effect is **extremely strong in the first year** but declines steadily over time. The central pattern is that **students who attended postsecondary are far less likely to be in regional meaningful employment early on, though they become more evenly distributed between regional and statewide employment later**.
 
@@ -3225,9 +3225,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$attended.ps,
 
 There is a statistically significant relationship between **postsecondary graduation** and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(4) = **15,285.21**, Cramer’s V = **0.600**, p \< .001, N = 42,459【736†source】
--   **5 years after graduation**: χ²(4) = **4,882.22**, Cramer’s V = **0.378**, p \< .001, N = 34,144【737†source】
--   **10 years after graduation**: χ²(3) = **476.15**, Cramer’s V = **0.155**, p \< .001, N = 19,828【738†source】
+- **1 year after graduation**: χ²(4) = **15,285.21**, Cramer’s V = **0.600**, p \< .001, N = 42,459【736†source】
+- **5 years after graduation**: χ²(4) = **4,882.22**, Cramer’s V = **0.378**, p \< .001, N = 34,144【737†source】
+- **10 years after graduation**: χ²(3) = **476.15**, Cramer’s V = **0.155**, p \< .001, N = 19,828【738†source】
 
 The effect is **very strong in the first year**, moderate by year 5, and still significant though weaker at year 10. The pattern shows that **graduates are initially concentrated in continued postsecondary enrollment**, but over time they transition into **statewide meaningful employment** and maintain somewhat stronger outcomes than non‑graduates.
 
@@ -3299,9 +3299,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad,
 
 There is a statistically significant relationship between the **sector of postsecondary graduation** (4‑year public, 2‑year public, other) and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(12) = **1313.46**, Cramer’s V = **0.138**, p \< .001, N = 22,962【748†source】
--   **5 years after graduation**: χ²(12) = **1181.64**, Cramer’s V = **0.152**, p \< .001, N = 17,154【749†source】
--   **10 years after graduation**: χ²(6) = **498.68**, Cramer’s V = **0.160**, p \< .001, N = 9,691【750†source】
+- **1 year after graduation**: χ²(12) = **1313.46**, Cramer’s V = **0.138**, p \< .001, N = 22,962【748†source】
+- **5 years after graduation**: χ²(12) = **1181.64**, Cramer’s V = **0.152**, p \< .001, N = 17,154【749†source】
+- **10 years after graduation**: χ²(6) = **498.68**, Cramer’s V = **0.160**, p \< .001, N = 9,691【750†source】
 
 The relationship is **moderate but consistent**, strengthening slightly by year 10. The main divide is between **4‑year and 2‑year graduates**, with different propensities toward statewide vs. regional employment.
 
@@ -3376,9 +3376,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$ps.grad.InstitutionSector,
 
 There is a statistically significant relationship between **highest credential earned** and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(20) = **25,119.08**, Cramer’s V = **0.366**, p \< .001, N = 46,777【760†source】
--   **5 years after graduation**: χ²(20) = **7,371.79**, Cramer’s V = **0.231**, p \< .001, N = 34,683【761†source】
--   **10 years after graduation**: χ²(12) = **1,030.86**, Cramer’s V = **0.132**, p \< .001, N = 19,828【762†source】
+- **1 year after graduation**: χ²(20) = **25,119.08**, Cramer’s V = **0.366**, p \< .001, N = 46,777【760†source】
+- **5 years after graduation**: χ²(20) = **7,371.79**, Cramer’s V = **0.231**, p \< .001, N = 34,683【761†source】
+- **10 years after graduation**: χ²(12) = **1,030.86**, Cramer’s V = **0.132**, p \< .001, N = 19,828【762†source】
 
 The association is **strong in the first year**, moderates by year 5, and weakens further by year 10, though it remains significant. The key distinction is that **higher credentials (Bachelor’s or above) delay regional employment but lead to stronger statewide employment later**, while **lower or mid‑level credentials (Associate, less than Associate) are more tied to early and sustained regional employment**.
 
@@ -3447,9 +3447,9 @@ tab_xtab(var.row = data$grad.year.10, var.col = data$highest.cred.level,
 
 There is a statistically significant relationship between **location of postsecondary graduation** and post‑graduation outcomes across all timeframes:
 
--   **1 year after graduation**: χ²(9) = **2713.62**, Cramer’s V = **0.197**, p \< .001, N = 23,341【772†source】\
--   **5 years after graduation**: χ²(9) = **3699.62**, Cramer’s V = **0.207**, p \< .001, N = 28,840【773†source】\
--   **10 years after graduation**: χ²(9) = **1609.04**, Cramer’s V =**0.164**, p \< .001, N = 19,827【774†source】
+- **1 year after graduation**: χ²(9) = **2713.62**, Cramer’s V = **0.197**, p \< .001, N = 23,341【772†source】\
+- **5 years after graduation**: χ²(9) = **3699.62**, Cramer’s V = **0.207**, p \< .001, N = 28,840【773†source】\
+- **10 years after graduation**: χ²(9) = **1609.04**, Cramer’s V =**0.164**, p \< .001, N = 19,827【774†source】
 
 The association is **moderate in years 1 and 5** and slightly weaker by year 10. The central divide is that **regional PS graduates are consistently more likely to work in the region**, while **graduates outside MN or at MN institutions outside the region are more likely to pursue statewide or out‑of‑state pathways**.
 
@@ -3539,29 +3539,29 @@ This final synthesis combines findings across all four sections: **Demographics,
 
 ### Demographics
 
--   **SpecialEd Status** and **Race/Ethnicity** stand out as the strongest demographic predictors, particularly in shaping early outcomes.
--   Gender, Economic Status, and English Learner status show weaker associations that fade quickly.
--   Overall, demographics set context but are less determinative compared to later factors.
+- **SpecialEd Status** and **Race/Ethnicity** stand out as the strongest demographic predictors, particularly in shaping early outcomes.
+- Gender, Economic Status, and English Learner status show weaker associations that fade quickly.
+- Overall, demographics set context but are less determinative compared to later factors.
 
 ### High School Characteristics
 
--   **Local context (rural/urban, unemployment, wage levels)** influences early pathways, especially pushing some students into immediate work.
--   These effects diminish with time, suggesting that **structural local factors matter most at the point of high school exit**, but individual choices and credentials overtake them later.
+- **Local context (rural/urban, unemployment, wage levels)** influences early pathways, especially pushing some students into immediate work.
+- These effects diminish with time, suggesting that **structural local factors matter most at the point of high school exit**, but individual choices and credentials overtake them later.
 
 ### High School Accomplishments
 
--   Clear **split between academic and technical tracks**:
-    -   **College-prep measures (ACT, PSEO, MCA, AP, SAT)** → lead to postsecondary and statewide employment, reducing regional attachment.
-    -   **CTE measures (CTE achievement, total courses)** → tie directly to **regional meaningful employment**, with effects persisting 10 years out.
--   MCA Math in particular emerges as the strongest achievement predictor across all accomplishment variables.
+- Clear **split between academic and technical tracks**:
+  - **College-prep measures (ACT, PSEO, MCA, AP, SAT)** → lead to postsecondary and statewide employment, reducing regional attachment.
+  - **CTE measures (CTE achievement, total courses)** → tie directly to **regional meaningful employment**, with effects persisting 10 years out.
+- MCA Math in particular emerges as the strongest achievement predictor across all accomplishment variables.
 
 ### Postsecondary Experiences
 
--   This is the **most powerful section overall**. Postsecondary attendance and completion dominate long-term outcomes.
--   **Attenders and graduates** show stronger statewide and stable employment, while **non-attenders and non-graduates** enter regional jobs early but face greater disconnection risk long-term.
--   **Institution type, credential level, and location** add nuance:
-    -   **Regional and 2-year pathways** → strengthen regional attachment.
-    -   **4-year and out-of-state pathways** → expand statewide opportunities but reduce regional ties.
+- This is the **most powerful section overall**. Postsecondary attendance and completion dominate long-term outcomes.
+- **Attenders and graduates** show stronger statewide and stable employment, while **non-attenders and non-graduates** enter regional jobs early but face greater disconnection risk long-term.
+- **Institution type, credential level, and location** add nuance:
+  - **Regional and 2-year pathways** → strengthen regional attachment.
+  - **4-year and out-of-state pathways** → expand statewide opportunities but reduce regional ties.
 
 ------------------------------------------------------------------------
 
@@ -3569,9 +3569,9 @@ This final synthesis combines findings across all four sections: **Demographics,
 
 Across all sections, a consistent theme emerges:
 
--   **Regional meaningful employment** is most strongly predicted by **career/technical education in high school** and **regional/2-year postsecondary pathways**.
--   **Statewide meaningful employment and mobility** are driven by **academic achievement, 4-year college pathways, and higher credentials**.
--   **Disconnection** is most common among **non-attenders, non-graduates, and those with weaker academic/CTE preparation**, compounded by local economic stressors.
+- **Regional meaningful employment** is most strongly predicted by **career/technical education in high school** and **regional/2-year postsecondary pathways**.
+- **Statewide meaningful employment and mobility** are driven by **academic achievement, 4-year college pathways, and higher credentials**.
+- **Disconnection** is most common among **non-attenders, non-graduates, and those with weaker academic/CTE preparation**, compounded by local economic stressors.
 
 In sum, the evidence highlights **two diverging but equally important pathways**:
 
@@ -3594,14 +3594,14 @@ Below is a structured list by section.
 
 **Keep / Prioritize**
 
--   **SpecialEd Status** (strongest demographic predictor)
--   **Race/Ethnicity** (moderate strength, important equity covariate)
--   Economic Status (moderate but weaker compared to later predictors; may retain as a control if needed)
+- **SpecialEd Status** (strongest demographic predictor)
+- **Race/Ethnicity** (moderate strength, important equity covariate)
+- **Economic Status** (moderate but weaker compared to later predictors; may retain as a control if needed)
+- **Gender**
 
 **Drop / Deprioritize**
 
--   Gender (weak, V ≈ .05–.10, fades over time)
--   English Learner (very weak, V \< .07, small group sizes)
+- English Learner (very weak, V \< .07, small group sizes)
 
 ------------------------------------------------------------------------
 
@@ -3609,13 +3609,13 @@ Below is a structured list by section.
 
 **Keep / Prioritize**
 
--   Dem_Desc (Rural/Urban) – moderate, useful contextual control
--   Avg. Unemployment – strong early F-values, local context matters
--   Avg. Wages % State – strong F-values, economic environment indicator
+- Dem_Desc (Rural/Urban) – moderate, useful contextual control
+- Avg. Unemployment – strong early F-values, local context matters
+- Avg. Wages % State – strong F-values, economic environment indicator
 
 **Drop / Deprioritize**
 
--   Range School (very weak effect, V ≈ .03–.05)
+- Range School (very weak effect, V ≈ .03–.05)
 
 ------------------------------------------------------------------------
 
@@ -3623,16 +3623,16 @@ Below is a structured list by section.
 
 **Keep / Prioritize**
 
--   ACT (took ACT, ACT Composite Score) – strong, differentiates pathways
--   MCA (Math strongest, Reading & Science secondary) – critical academic predictors
--   CTE Achievement – anchors to regional meaningful employment
--   Total CTE Courses Taken – consistent predictor of regional attachment
--   PSEO Participation – strong early differentiator of statewide vs regional pathways
+- ACT (took ACT, ACT Composite Score) – strong, differentiates pathways
+- MCA (Math strongest, Reading & Science secondary) – critical academic predictors
+- CTE Achievement – anchors to regional meaningful employment
+- Total CTE Courses Taken – consistent predictor of regional attachment
+- PSEO Participation – strong early differentiator of statewide vs regional pathways
 
 **Drop / Deprioritize**
 
--   SAT Taken (consistently weak, V ≈ .07, redundant with ACT)
--   AP Exam (moderate, but less powerful than ACT/MCA; may be dropped if multicollinearity is high)
+- SAT Taken (consistently weak, V ≈ .07, redundant with ACT)
+- AP Exam (moderate, but less powerful than ACT/MCA; may be dropped if multicollinearity is high)
 
 ------------------------------------------------------------------------
 
@@ -3640,22 +3640,22 @@ Below is a structured list by section.
 
 **Keep / Prioritize**
 
--   Attended Postsecondary Within First Year – strongest early effect (V \> .5)
--   Ever Attended Postsecondary – very strong differentiator (V \> .6)
--   Postsecondary Graduation – critical predictor of long-term stability
--   Highest Credential Level – strong differentiator between statewide vs regional pathways
--   Graduation Location – strong anchor for regional vs statewide attachment
+- Attended Postsecondary Within First Year – strongest early effect (V \> .5)
+- Ever Attended Postsecondary – very strong differentiator (V \> .6)
+- Postsecondary Graduation – critical predictor of long-term stability
+- Highest Credential Level – strong differentiator between statewide vs regional pathways
+- Graduation Location – strong anchor for regional vs statewide attachment
 
 **Drop / Deprioritize**
 
--   Institution Sector – moderate only (V ≈ .14–.16); may be redundant with credential level & location
+- Institution Sector – moderate only (V ≈ .14–.16); may be redundant with credential level & location
 
 ------------------------------------------------------------------------
 
 ## Overall Guidance
 
--   **Drop:** Gender, English Learner, Range School, SAT Taken, possibly AP Exam, possibly Institution Sector\
--   **Keep:** All others, with focus on SpecialEd, Race/Ethnicity, local economic indicators, ACT/MCA, CTE, and Postsecondary attendance/graduation/credentials.
+- **Drop:** English Learner, Range School, SAT Taken, possibly AP Exam, possibly Institution Sector\
+- **Keep:** All others, with focus on SpecialEd, Race/Ethnicity, local economic indicators, ACT/MCA, CTE, and Postsecondary attendance/graduation/credentials.
 
 This balances **parsimony** (leaner model) with **coverage** (keeping conceptually important drivers of outcomes).
 
@@ -3663,7 +3663,7 @@ This balances **parsimony** (leaner model) with **coverage** (keeping conceptual
 
 ```{r create new master after analysis}
 master.after.ct <- meaningful.emp.ne %>%
-  select(-Gender, -english.learner, -range.school, -sat.taken, -ap.exam, ps.grad.InstitutionSector)
+  select(-english.learner, -range.school, -sat.taken, -ap.exam, ps.grad.InstitutionSector)
 
 write_csv(master.after.ct, "Data/SLEDS/Masters/After analysis/Master-after-ct.csv")
 ```

@@ -2,16 +2,13 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.36">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>Dependent Variables States – Pathways taken after high school - Northeast</title>
 <style>
-/* Default styles provided by pandoc.
-** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
-*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -24,9 +21,8 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
-html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -37,7 +33,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -68,16 +64,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -109,12 +104,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
 <link href="site_libs/ggiraphjs-0.9.4/girafe.css" rel="stylesheet">
 <script src="site_libs/ggiraphjs-0.9.4/girafe.js"></script>
-<script src="site_libs/girafe-binding-0.9.4/girafe.js"></script>
+<script src="site_libs/girafe-binding-0.9.6/girafe.js"></script>
+<link href="site_libs/liberation-sans-0.5.1/css/liberation-sans.css" rel="stylesheet">
+<link href="site_libs/liberation-serif-0.5.1/css/liberation-serif.css" rel="stylesheet">
+<link href="site_libs/liberation-mono-0.5.1/css/liberation-mono.css" rel="stylesheet">
 
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -311,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>master.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/After analysis/Master-final-after-mca.csv"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>master.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/After analysis/Master-final-after-mca.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p><br></p>
 <p>There are many paths in which an individual can take after graduating high school. What we are most concerned with is whether an individual has “meaningful” employment, when and where this employment takes place, and are there any variables that are associated with each of these pathways.</p>
@@ -331,7 +329,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>We have already created the employment states for each year.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>master.emp.states.yearly <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/Master-emp-states-each-year.csv"</span>) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>master.emp.states.yearly <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/Master-emp-states-each-year.csv"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">grad.year =</span> <span class="fu">fct_relevel</span>(grad.year, <span class="st">"grad.year.0"</span>, <span class="st">"grad.year.1"</span>, <span class="st">"grad.year.2"</span>, <span class="st">"grad.year.3"</span>, <span class="st">"grad.year.4"</span>, <span class="st">"grad.year.5"</span>, <span class="st">"grad.year.6"</span>, <span class="st">"grad.year.7"</span>, <span class="st">"grad.year.8"</span>, <span class="st">"grad.year.9"</span>, <span class="st">"grad.year.10"</span>, <span class="st">"grad.year.11"</span>, <span class="st">"grad.year.12"</span>, <span class="st">"grad.year.13"</span>, <span class="st">"grad.year.14"</span>, <span class="st">"grad.year.15"</span>),</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">county.match =</span> <span class="fu">fct_relevel</span>(county.match, <span class="st">"Meaningful emp - match"</span>, <span class="st">"Meaningful emp - no match"</span>, <span class="st">"MN emp record - not meaningful"</span>, <span class="st">"No MN emp record"</span>, <span class="st">"After 2023"</span>),</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">edr.match =</span> <span class="fu">fct_relevel</span>(edr.match, <span class="st">"Meaningful emp - match"</span>, <span class="st">"Meaningful emp - no match"</span>, <span class="st">"MN emp record - not meaningful"</span>, <span class="st">"No MN emp record"</span>, <span class="st">"After 2023"</span>),</span>
@@ -339,7 +337,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>         <span class="at">Dem_Desc.match =</span> <span class="fu">fct_relevel</span>(Dem_Desc.match, <span class="st">"Meaningful emp - match"</span>, <span class="st">"Meaningful emp - no match"</span>, <span class="st">"MN emp record - not meaningful"</span>, <span class="st">"No MN emp record"</span>, <span class="st">"After 2023"</span>),</span>
 <span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">state.match =</span> <span class="fu">fct_relevel</span>(state.match, <span class="st">"Meaningful emp - match"</span>, <span class="st">"MN emp record - not meaningful"</span>, <span class="st">"No MN emp record"</span>, <span class="st">"After 2023"</span>))</span>
 <span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(master.emp.states.yearly))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(master.emp.states.yearly))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -428,7 +426,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(master.emp.states.yearly))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(master.emp.states.yearly))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -484,7 +482,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Okay, lets check out the National Student Clearinghouse enrollment data.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grads <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters//After analysis/Master-final-after-mca.csv"</span>) <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>grads <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters//After analysis/Master-final-after-mca.csv"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID)</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>nsc.enrollment.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/NSCEnrollment/NSC_Enrollments.csv'</span>) <span class="sc">%&gt;%</span></span>
@@ -495,7 +493,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(OPEID) <span class="sc">%&gt;%</span></span>
 <span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">right_join</span>(grads, <span class="at">by =</span> <span class="st">"PersonID"</span>)</span>
 <span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(nsc.enrollment.original))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(nsc.enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -568,7 +566,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(nsc.enrollment.original))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(nsc.enrollment.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -627,7 +625,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>For the unique year, it won’t matter how many semesters they were attending. If an individual attended half a year, then worked full-time, my meaningful employment definition should pick it up and transfer it into that category. Otherwise, they will be in the category - attending post-secondary with no meaningful employment or no MN employment record.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ps.attend.year <span class="ot">&lt;-</span> nsc.enrollment.original <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ps.attend.year <span class="ot">&lt;-</span> nsc.enrollment.original <span class="sc">%&gt;%</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(EnrollmentStatus <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"F"</span>, <span class="st">"H"</span>, <span class="st">"Q"</span>, <span class="st">"L"</span>, <span class="st">"NULL"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">begin.year =</span> <span class="fu">str_sub</span>(EnrollmentBeginTimeID, <span class="dv">1</span>,<span class="dv">4</span>),</span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">end.year =</span> <span class="fu">str_sub</span>(EnrollmentEndTimeID, <span class="dv">1</span>, <span class="dv">4</span>)) <span class="sc">%&gt;%</span></span>
@@ -638,7 +636,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">ps.attend.year =</span> year) <span class="sc">%&gt;%</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ps.attend =</span> <span class="st">"ps.attend"</span>)</span>
 <span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.attend.year))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.attend.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -682,7 +680,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.attend.year))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.attend.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -709,7 +707,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now we want to filter out any PersonID that are not in our primary dataset and to align the the years they attended post-secondary with the grad.year.x variable.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ps.grad.year <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ps.grad.year <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, hs.grad.year, grad.year) <span class="sc">%&gt;%</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(grad.year, PersonID) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
@@ -720,7 +718,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">ps.attend =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ps.attend), <span class="st">"ps.not.attend"</span>, ps.attend)) <span class="sc">%&gt;%</span></span>
 <span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, grad.year, ps.attend)</span>
 <span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.grad.year))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.grad.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -764,7 +762,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.grad.year))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.grad.year))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -791,10 +789,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now we can join this together with the employment states dataset.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ps.emp.states <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>ps.emp.states <span class="ot">&lt;-</span> master.emp.states.yearly <span class="sc">%&gt;%</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(ps.grad.year, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"PersonID"</span>, <span class="st">"grad.year"</span>))</span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.emp.states))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(ps.emp.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -891,7 +889,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.emp.states))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(ps.emp.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -951,7 +949,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Let’s first build a new dataset where each PersonID has one of these seven states for each grad.year.x.</p>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>seven.states <span class="ot">&lt;-</span> ps.emp.states <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>seven.states <span class="ot">&lt;-</span> ps.emp.states <span class="sc">%&gt;%</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">states =</span> <span class="fu">ifelse</span>(county.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">1</span>, <span class="dv">99</span>),</span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(edr.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> county.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">2</span>, states),</span>
 <span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">ifelse</span>(region.match <span class="sc">==</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> county.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span> <span class="sc">&amp;</span> edr.match <span class="sc">!=</span> <span class="st">"Meaningful emp - match"</span>, <span class="dv">3</span>, states),</span>
@@ -972,7 +970,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">as.factor</span>(states),</span>
 <span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a>         <span class="at">states =</span> <span class="fu">fct_relevel</span>(states, <span class="st">"Meaningful emp County"</span>, <span class="st">"Meaningful emp region"</span>, <span class="st">"Meaningful emp MN"</span>, <span class="st">"Attending ps"</span>, <span class="st">"Not meaningful, not attending ps"</span>, <span class="st">"No MN emp record, not attending ps"</span>, <span class="st">"After 2023"</span>))</span>
 <span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(seven.states))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(seven.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -1077,7 +1075,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(seven.states))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(seven.states))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -1141,7 +1139,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ol>
 <p><br></p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prop.states <span class="ot">&lt;-</span> seven.states <span class="sc">%&gt;%</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>prop.states <span class="ot">&lt;-</span> seven.states <span class="sc">%&gt;%</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(states <span class="sc">!=</span> <span class="st">"After 2023"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(grad.year, states) <span class="sc">%&gt;%</span></span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
@@ -1172,10 +1170,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a><span class="fu">girafe</span>(<span class="at">ggobj =</span> seven.states.plot, <span class="at">width_svg =</span> <span class="dv">10</span>, <span class="at">height_svg =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">girafe_options</span>(<span class="fu">opts_selection</span>(<span class="at">type =</span> <span class="st">"none"</span>),</span>
-<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">opts_sizing</span>(<span class="at">rescale =</span> <span class="cn">FALSE</span>))      </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">opts_sizing</span>(<span class="at">rescale =</span> <span class="cn">FALSE</span>))      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div class="girafe html-widget html-fill-item" id="htmlwidget-5589c93ab2711eab9277" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-5589c93ab2711eab9277">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_cc9861ee945bf175' viewBox='0 0 720 720'>\n <defs id='svg_cc9861ee945bf175_defs'>\n  <clipPath id='svg_cc9861ee945bf175_c1'>\n   <rect x='0' y='0' width='720' height='720'/>\n  <\/clipPath>\n  <clipPath id='svg_cc9861ee945bf175_c2'>\n   <rect x='63.91' y='30.97' width='650.61' height='583.49'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_cc9861ee945bf175_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_cc9861ee945bf175_c1)'>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_cc9861ee945bf175_c2)'>\n   <rect x='63.91' y='30.97' width='650.61' height='583.49' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <polyline points='63.91,587.94 714.52,587.94' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,455.33 714.52,455.33' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,322.71 714.52,322.71' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,190.10 714.52,190.10' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,57.49 714.52,57.49' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='94.07,614.46 94.07,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='172.78,614.46 172.78,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='251.48,614.46 251.48,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='330.19,614.46 330.19,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='408.89,614.46 408.89,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='487.59,614.46 487.59,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='566.30,614.46 566.30,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='645.00,614.46 645.00,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polygon id='svg_cc9861ee945bf175_e1' points='94.07,57.49 94.66,57.49 132.83,57.49 133.42,57.49 134.01,57.49 172.19,57.49 172.78,57.49 173.37,57.49 211.54,57.49 212.13,57.49 212.72,57.49 250.89,57.49 251.48,57.49 252.07,57.49 290.24,57.49 290.83,57.49 291.42,57.49 329.59,57.49 330.19,57.49 330.78,57.49 368.95,57.49 369.54,57.49 370.13,57.49 408.30,57.49 408.89,57.49 409.48,57.49 447.65,57.49 448.24,57.49 448.83,57.63 487.00,57.49 487.59,57.49 488.19,57.49 526.36,57.49 526.95,57.49 527.54,57.49 565.71,57.49 566.30,57.49 566.89,57.49 605.06,57.49 605.65,57.49 606.24,57.49 644.41,57.49 645.00,57.49 645.59,57.49 683.77,57.49 684.36,57.49 684.95,587.94 684.36,168.90 683.77,168.92 645.59,170.36 645.00,170.38 644.41,170.40 606.24,171.81 605.65,171.83 605.06,171.81 566.89,170.00 566.30,169.97 565.71,170.03 527.54,173.64 526.95,173.69 526.36,173.71 488.19,175.18 487.59,175.20 487.00,175.21 448.83,175.95 448.24,175.82 447.65,175.82 409.48,175.41 408.89,175.40 408.30,175.41 370.13,175.69 369.54,175.69 368.95,175.65 330.78,172.88 330.19,172.84 329.59,172.75 291.42,166.90 290.83,166.81 290.24,166.65 252.07,156.11 251.48,155.95 250.89,155.83 212.72,148.29 212.13,148.17 211.54,148.05 173.37,140.29 172.78,140.17 172.19,139.96 134.01,126.64 133.42,126.44 132.83,125.92 94.66,92.46 94.07,91.95 93.48,587.94' fill='#D73027' fill-opacity='1' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;6.5%'/>\n   <polyline id='svg_cc9861ee945bf175_e2' points='94.07,57.49 94.66,57.49 132.83,57.49 133.42,57.49 134.01,57.49 172.19,57.49 172.78,57.49 173.37,57.49 211.54,57.49 212.13,57.49 212.72,57.49 250.89,57.49 251.48,57.49 252.07,57.49 290.24,57.49 290.83,57.49 291.42,57.49 329.59,57.49 330.19,57.49 330.78,57.49 368.95,57.49 369.54,57.49 370.13,57.49 408.30,57.49 408.89,57.49 409.48,57.49 447.65,57.49 448.24,57.49 448.83,57.63 487.00,57.49 487.59,57.49 488.19,57.49 526.36,57.49 526.95,57.49 527.54,57.49 565.71,57.49 566.30,57.49 566.89,57.49 605.06,57.49 605.65,57.49 606.24,57.49 644.41,57.49 645.00,57.49 645.59,57.49 683.77,57.49 684.36,57.49' fill='none' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;6.5%'/>\n   <polygon id='svg_cc9861ee945bf175_e3' points='94.07,91.95 94.66,92.46 132.83,125.92 133.42,126.44 134.01,126.64 172.19,139.96 172.78,140.17 173.37,140.29 211.54,148.05 212.13,148.17 212.72,148.29 250.89,155.83 251.48,155.95 252.07,156.11 290.24,166.65 290.83,166.81 291.42,166.90 329.59,172.75 330.19,172.84 330.78,172.88 368.95,175.65 369.54,175.69 370.13,175.69 408.30,175.41 408.89,175.40 409.48,175.41 447.65,175.82 448.24,175.82 448.83,175.95 487.00,175.21 487.59,175.20 488.19,175.18 526.36,173.71 526.95,173.69 527.54,173.64 565.71,170.03 566.30,169.97 566.89,170.00 605.06,171.81 605.65,171.83 606.24,171.81 644.41,170.40 645.00,170.38 645.59,170.36 683.77,168.92 684.36,168.90 684.95,587.94 684.36,200.21 683.77,200.28 645.59,204.84 645.00,204.91 644.41,204.99 606.24,210.03 605.65,210.10 605.06,210.05 566.89,206.39 566.30,206.33 565.71,206.39 527.54,210.51 526.95,210.57 526.36,210.60 488.19,212.57 487.59,212.60 487.00,212.62 448.83,213.80 448.24,213.68 447.65,213.67 409.48,212.84 408.89,212.83 408.30,212.81 370.13,211.95 369.54,211.94 368.95,211.86 330.78,207.07 330.19,207.00 329.59,206.86 291.42,198.16 290.83,198.03 290.24,197.79 252.07,182.53 251.48,182.30 250.89,182.10 212.72,169.46 212.13,169.27 211.54,169.09 173.37,157.43 172.78,157.25 172.19,156.98 134.01,139.14 133.42,138.87 132.83,138.23 94.66,97.16 94.07,96.53 93.48,587.94' fill='#FC8D59' fill-opacity='1' stroke='none' data-id='2' title='State: Meaningful emp region&amp;lt;br/&amp;gt;0.9%'/>\n   <polyline id='svg_cc9861ee945bf175_e4' points='94.07,91.95 94.66,92.46 132.83,125.92 133.42,126.44 134.01,126.64 172.19,139.96 172.78,140.17 173.37,140.29 211.54,148.05 212.13,148.17 212.72,148.29 250.89,155.83 251.48,155.95 252.07,156.11 290.24,166.65 290.83,166.81 291.42,166.90 329.59,172.75 330.19,172.84 330.78,172.88 368.95,175.65 369.54,175.69 370.13,175.69 408.30,175.41 408.89,175.40 409.48,175.41 447.65,175.82 448.24,175.82 448.83,175.95 487.00,175.21 487.59,175.20 488.19,175.18 526.36,173.71 526.95,173.69 527.54,173.64 565.71,170.03 566.30,169.97 566.89,170.00 605.06,171.81 605.65,171.83 606.24,171.81 644.41,170.40 645.00,170.38 645.59,170.36 683.77,168.92 684.36,168.90' fill='none' stroke='none' data-id='2' title='State: Meaningful emp region&amp;lt;br/&amp;gt;0.9%'/>\n   <polygon id='svg_cc9861ee945bf175_e5' points='94.07,96.53 94.66,97.16 132.83,138.23 133.42,138.87 134.01,139.14 172.19,156.98 172.78,157.25 173.37,157.43 211.54,169.09 212.13,169.27 212.72,169.46 250.89,182.10 251.48,182.30 252.07,182.53 290.24,197.79 290.83,198.03 291.42,198.16 329.59,206.86 330.19,207.00 330.78,207.07 368.95,211.86 369.54,211.94 370.13,211.95 408.30,212.81 408.89,212.83 409.48,212.84 447.65,213.67 448.24,213.68 448.83,213.80 487.00,212.62 487.59,212.60 488.19,212.57 526.36,210.60 526.95,210.57 527.54,210.51 565.71,206.39 566.30,206.33 566.89,206.39 605.06,210.05 605.65,210.10 606.24,210.03 644.41,204.99 645.00,204.91 645.59,204.84 683.77,200.28 684.36,200.21 684.95,587.94 684.36,304.78 683.77,304.82 645.59,307.63 645.00,307.67 644.41,307.72 606.24,310.85 605.65,310.90 605.06,310.87 566.89,309.03 566.30,309.01 565.71,309.06 527.54,312.78 526.95,312.83 526.36,312.88 488.19,315.48 487.59,315.52 487.00,315.55 448.83,317.42 448.24,317.31 447.65,317.24 409.48,312.47 408.89,312.40 408.30,312.33 370.13,308.15 369.54,308.09 368.95,307.90 330.78,295.87 330.19,295.68 329.59,295.42 291.42,278.63 290.83,278.37 290.24,277.82 252.07,242.03 251.48,241.47 250.89,241.05 212.72,213.89 212.13,213.47 211.54,213.11 173.37,189.91 172.78,189.56 172.19,189.14 134.01,162.00 133.42,161.58 132.83,160.73 94.66,105.81 94.07,104.96 93.48,587.94' fill='#FEE090' fill-opacity='1' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;1.6%'/>\n   <polyline id='svg_cc9861ee945bf175_e6' points='94.07,96.53 94.66,97.16 132.83,138.23 133.42,138.87 134.01,139.14 172.19,156.98 172.78,157.25 173.37,157.43 211.54,169.09 212.13,169.27 212.72,169.46 250.89,182.10 251.48,182.30 252.07,182.53 290.24,197.79 290.83,198.03 291.42,198.16 329.59,206.86 330.19,207.00 330.78,207.07 368.95,211.86 369.54,211.94 370.13,211.95 408.30,212.81 408.89,212.83 409.48,212.84 447.65,213.67 448.24,213.68 448.83,213.80 487.00,212.62 487.59,212.60 488.19,212.57 526.36,210.60 526.95,210.57 527.54,210.51 565.71,206.39 566.30,206.33 566.89,206.39 605.06,210.05 605.65,210.10 606.24,210.03 644.41,204.99 645.00,204.91 645.59,204.84 683.77,200.28 684.36,200.21' fill='none' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;1.6%'/>\n   <polygon id='svg_cc9861ee945bf175_e7' points='94.07,104.96 94.66,105.81 132.83,160.73 133.42,161.58 134.01,162.00 172.19,189.14 172.78,189.56 173.37,189.91 211.54,213.11 212.13,213.47 212.72,213.89 250.89,241.05 251.48,241.47 252.07,242.03 290.24,277.82 290.83,278.37 291.42,278.63 329.59,295.42 330.19,295.68 330.78,295.87 368.95,307.90 369.54,308.09 370.13,308.15 408.30,312.33 408.89,312.40 409.48,312.47 447.65,317.24 448.24,317.31 448.83,317.42 448.24,317.45 447.65,317.90 409.48,346.83 408.89,347.28 408.30,347.43 370.13,357.14 369.54,357.29 368.95,357.28 330.78,357.04 330.19,357.04 329.59,357.14 291.42,363.37 290.83,363.47 290.24,363.81 252.07,386.25 251.48,386.59 250.89,386.72 212.72,394.74 212.13,394.87 211.54,395.03 173.37,405.89 172.78,406.06 172.19,406.19 134.01,414.78 133.42,414.91 132.83,414.28 94.66,373.06 94.07,372.42 93.48,587.94' fill='#FFFFBF' fill-opacity='1' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;50.4%'/>\n   <polyline id='svg_cc9861ee945bf175_e8' points='94.07,104.96 94.66,105.81 132.83,160.73 133.42,161.58 134.01,162.00 172.19,189.14 172.78,189.56 173.37,189.91 211.54,213.11 212.13,213.47 212.72,213.89 250.89,241.05 251.48,241.47 252.07,242.03 290.24,277.82 290.83,278.37 291.42,278.63 329.59,295.42 330.19,295.68 330.78,295.87 368.95,307.90 369.54,308.09 370.13,308.15 408.30,312.33 408.89,312.40 409.48,312.47 447.65,317.24 448.24,317.31' fill='none' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;50.4%'/>\n   <polygon id='svg_cc9861ee945bf175_e9' points='94.07,372.42 94.66,373.06 132.83,414.28 133.42,414.91 134.01,414.78 172.19,406.19 172.78,406.06 173.37,405.89 211.54,395.03 212.13,394.87 212.72,394.74 250.89,386.72 251.48,386.59 252.07,386.25 290.24,363.81 290.83,363.47 291.42,363.37 329.59,357.14 330.19,357.04 330.78,357.04 368.95,357.28 369.54,357.29 370.13,357.14 408.30,347.43 408.89,347.28 409.48,346.83 447.65,317.90 448.24,317.45 448.83,317.42 487.00,315.55 487.59,315.52 488.19,315.48 526.36,312.88 526.95,312.83 527.54,312.78 565.71,309.06 566.30,309.01 566.89,309.03 605.06,310.87 605.65,310.90 606.24,310.85 644.41,307.72 645.00,307.67 645.59,307.63 683.77,304.82 684.36,304.78 684.95,587.94 684.36,384.58 683.77,384.70 645.59,392.58 645.00,392.70 644.41,392.78 606.24,397.86 605.65,397.94 605.06,398.01 566.89,403.13 566.30,403.21 565.71,403.32 527.54,410.88 526.95,411.00 526.36,411.07 488.19,415.82 487.59,415.89 487.00,415.98 448.83,421.51 448.24,421.59 447.65,421.94 409.48,444.50 408.89,444.85 408.30,445.00 370.13,454.89 369.54,455.05 368.95,455.20 330.78,464.89 330.19,465.04 329.59,465.21 291.42,476.27 290.83,476.44 290.24,476.74 252.07,495.95 251.48,496.24 250.89,496.40 212.72,506.54 212.13,506.69 211.54,506.86 173.37,517.43 172.78,517.60 172.19,517.72 134.01,525.77 133.42,525.90 132.83,525.88 94.66,524.97 94.07,524.96 93.48,587.94' fill='#E0F3F8' fill-opacity='1' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;28.8%'/>\n   <polyline id='svg_cc9861ee945bf175_e10' points='94.07,372.42 94.66,373.06 132.83,414.28 133.42,414.91 134.01,414.78 172.19,406.19 172.78,406.06 173.37,405.89 211.54,395.03 212.13,394.87 212.72,394.74 250.89,386.72 251.48,386.59 252.07,386.25 290.24,363.81 290.83,363.47 291.42,363.37 329.59,357.14 330.19,357.04 330.78,357.04 368.95,357.28 369.54,357.29 370.13,357.14 408.30,347.43 408.89,347.28 409.48,346.83 447.65,317.90 448.24,317.45 448.83,317.42 487.00,315.55 487.59,315.52 488.19,315.48 526.36,312.88 526.95,312.83 527.54,312.78 565.71,309.06 566.30,309.01 566.89,309.03 605.06,310.87 605.65,310.90 606.24,310.85 644.41,307.72 645.00,307.67 645.59,307.63 683.77,304.82 684.36,304.78' fill='none' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;28.8%'/>\n   <polygon id='svg_cc9861ee945bf175_e11' points='94.07,524.96 94.66,524.97 132.83,525.88 133.42,525.90 134.01,525.77 172.19,517.72 172.78,517.60 173.37,517.43 211.54,506.86 212.13,506.69 212.72,506.54 250.89,496.40 251.48,496.24 252.07,495.95 290.24,476.74 290.83,476.44 291.42,476.27 329.59,465.21 330.19,465.04 330.78,464.89 368.95,455.20 369.54,455.05 370.13,454.89 408.30,445.00 408.89,444.85 409.48,444.50 447.65,421.94 448.24,421.59 448.83,421.51 487.00,415.98 487.59,415.89 488.19,415.82 526.36,411.07 526.95,411.00 527.54,410.88 565.71,403.32 566.30,403.21 566.89,403.13 605.06,398.01 605.65,397.94 606.24,397.86 644.41,392.78 645.00,392.70 645.59,392.58 683.77,384.70 684.36,384.58 684.95,587.94 684.36,587.94 683.77,587.94 645.59,587.94 645.00,587.94 644.41,587.94 606.24,587.94 605.65,587.94 605.06,587.94 566.89,587.94 566.30,587.94 565.71,587.94 527.54,587.94 526.95,587.94 526.36,587.94 488.19,587.94 487.59,587.94 487.00,587.94 448.83,587.94 448.24,587.94 447.65,587.94 409.48,587.94 408.89,587.94 408.30,587.94 370.13,587.94 369.54,587.94 368.95,587.94 330.78,587.94 330.19,587.94 329.59,587.94 291.42,587.94 290.83,587.94 290.24,587.94 252.07,587.94 251.48,587.94 250.89,587.94 212.72,587.94 212.13,587.94 211.54,587.94 173.37,587.94 172.78,587.94 172.19,587.94 134.01,587.94 133.42,587.94 132.83,587.94 94.66,587.94 94.07,587.94 93.48,587.94' fill='#91BFDB' fill-opacity='1' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;11.9%'/>\n   <polyline id='svg_cc9861ee945bf175_e12' points='94.07,524.96 94.66,524.97 132.83,525.88 133.42,525.90 134.01,525.77 172.19,517.72 172.78,517.60 173.37,517.43 211.54,506.86 212.13,506.69 212.72,506.54 250.89,496.40 251.48,496.24 252.07,495.95 290.24,476.74 290.83,476.44 291.42,476.27 329.59,465.21 330.19,465.04 330.78,464.89 368.95,455.20 369.54,455.05 370.13,454.89 408.30,445.00 408.89,444.85 409.48,444.50 447.65,421.94 448.24,421.59 448.83,421.51 487.00,415.98 487.59,415.89 488.19,415.82 526.36,411.07 526.95,411.00 527.54,410.88 565.71,403.32 566.30,403.21 566.89,403.13 605.06,398.01 605.65,397.94 606.24,397.86 644.41,392.78 645.00,392.70 645.59,392.58 683.77,384.70 684.36,384.58' fill='none' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;11.9%'/>\n   <line x1='99.71' y1='111.07' x2='94.6' y2='101.71' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='122.92' y1='88.6' x2='95.25' y2='94.01' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='334.28' y1='180.96' x2='330.64' y2='188.92' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='99.51' y1='65.74' x2='94.65' y2='73.77' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='326.97' y1='123.98' x2='329.81' y2='116.19' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polygon points='85.67,551.82 147.42,551.82 147.33,551.82 147.68,551.80 148.02,551.74 148.34,551.61 148.64,551.44 148.91,551.22 149.14,550.96 149.33,550.66 149.47,550.34 149.55,550.01 149.58,549.66 149.58,549.66 149.58,522.97 149.58,522.97 149.55,522.62 149.47,522.29 149.33,521.97 149.14,521.67 148.91,521.41 148.64,521.19 148.34,521.02 148.02,520.90 147.68,520.83 147.42,520.81 85.67,520.81 85.93,520.83 85.58,520.81 85.24,520.85 84.90,520.95 84.59,521.10 84.30,521.30 84.05,521.54 83.85,521.82 83.68,522.12 83.57,522.45 83.52,522.80 83.51,522.97 83.51,549.66 83.52,549.49 83.52,549.83 83.57,550.18 83.68,550.51 83.85,550.81 84.05,551.09 84.30,551.33 84.59,551.53 84.90,551.68 85.24,551.78 85.58,551.82' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='87.11' y='532.32' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='99.37' y='548.22' font-size='8.28pt' font-family='Helvetica'> 11.9%<\/text>\n   <polygon points='276.80,562.21 338.55,562.21 338.46,562.21 338.81,562.19 339.15,562.12 339.48,562.00 339.78,561.82 340.05,561.60 340.28,561.34 340.46,561.05 340.60,560.73 340.68,560.39 340.71,560.05 340.71,560.05 340.71,533.36 340.71,533.36 340.68,533.01 340.60,532.67 340.46,532.35 340.28,532.06 340.05,531.80 339.78,531.58 339.48,531.41 339.15,531.28 338.81,531.21 338.55,531.20 276.80,531.20 277.06,531.21 276.71,531.20 276.37,531.24 276.04,531.34 275.72,531.49 275.44,531.68 275.19,531.92 274.98,532.20 274.81,532.51 274.70,532.84 274.65,533.18 274.64,533.36 274.64,560.05 274.65,559.87 274.65,560.22 274.70,560.56 274.81,560.89 274.98,561.20 275.19,561.48 275.44,561.72 275.72,561.92 276.04,562.07 276.37,562.16 276.71,562.21' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.24' y='542.71' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='290.5' y='558.61' font-size='8.28pt' font-family='Helvetica'> 23.2%<\/text>\n   <polygon points='515.50,494.82 583.38,494.82 583.29,494.82 583.64,494.81 583.98,494.74 584.30,494.61 584.60,494.44 584.87,494.22 585.10,493.96 585.29,493.66 585.43,493.34 585.51,493.01 585.54,492.66 585.54,492.66 585.54,465.97 585.54,465.97 585.51,465.62 585.43,465.29 585.29,464.97 585.10,464.67 584.87,464.41 584.60,464.19 584.30,464.02 583.98,463.90 583.64,463.83 583.38,463.81 515.50,463.81 515.76,463.83 515.41,463.81 515.06,463.85 514.73,463.95 514.42,464.10 514.13,464.30 513.88,464.54 513.67,464.82 513.51,465.12 513.40,465.45 513.34,465.80 513.34,465.97 513.34,492.66 513.34,492.49 513.34,492.83 513.40,493.18 513.51,493.51 513.67,493.82 513.88,494.09 514.13,494.33 514.42,494.53 514.73,494.68 515.06,494.78 515.41,494.82' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='516.94' y='475.32' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='532.26' y='491.22' font-size='8.28pt' font-family='Helvetica'> 33.4%<\/text>\n   <polygon points='88.50,444.00 150.24,444.00 150.16,444.00 150.51,443.99 150.85,443.92 151.17,443.80 151.47,443.62 151.74,443.40 151.97,443.14 152.16,442.85 152.29,442.53 152.38,442.19 152.40,441.84 152.40,441.84 152.40,415.15 152.40,415.15 152.38,414.81 152.29,414.47 152.16,414.15 151.97,413.86 151.74,413.60 151.47,413.38 151.17,413.20 150.85,413.08 150.51,413.01 150.24,412.99 88.50,412.99 88.76,413.01 88.41,413.00 88.07,413.04 87.73,413.13 87.42,413.28 87.13,413.48 86.88,413.72 86.67,414.00 86.51,414.31 86.40,414.64 86.34,414.98 86.34,415.15 86.34,441.84 86.34,441.67 86.34,442.02 86.40,442.36 86.51,442.69 86.67,443.00 86.88,443.28 87.13,443.52 87.42,443.71 87.73,443.86 88.07,443.96 88.41,444.00' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='89.94' y='424.51' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='102.2' y='440.4' font-size='8.28pt' font-family='Helvetica'> 28.8%<\/text>\n   <polygon points='276.89,446.68 338.64,446.68 338.55,446.68 338.90,446.66 339.24,446.59 339.56,446.47 339.86,446.30 340.13,446.08 340.36,445.82 340.55,445.52 340.68,445.20 340.77,444.86 340.80,444.52 340.80,444.52 340.80,417.83 340.80,417.83 340.77,417.48 340.68,417.14 340.55,416.82 340.36,416.53 340.13,416.27 339.86,416.05 339.56,415.88 339.24,415.75 338.90,415.68 338.64,415.67 276.89,415.67 277.15,415.68 276.80,415.67 276.46,415.71 276.12,415.81 275.81,415.96 275.52,416.15 275.27,416.40 275.06,416.67 274.90,416.98 274.79,417.31 274.73,417.65 274.73,417.83 274.73,444.52 274.73,444.34 274.73,444.69 274.79,445.03 274.90,445.36 275.06,445.67 275.27,445.95 275.52,446.19 275.81,446.39 276.12,446.54 276.46,446.63 276.80,446.68' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.33' y='427.18' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='290.59' y='443.08' font-size='8.28pt' font-family='Helvetica'> 20.4%<\/text>\n   <polygon points='515.47,357.28 583.36,357.28 583.27,357.28 583.62,357.26 583.96,357.19 584.28,357.07 584.58,356.90 584.85,356.68 585.08,356.41 585.27,356.12 585.40,355.80 585.49,355.46 585.52,355.12 585.52,355.12 585.52,328.43 585.52,328.43 585.49,328.08 585.40,327.74 585.27,327.42 585.08,327.13 584.85,326.87 584.58,326.65 584.28,326.48 583.96,326.35 583.62,326.28 583.36,326.27 515.47,326.27 515.73,326.28 515.39,326.27 515.04,326.31 514.71,326.41 514.39,326.56 514.11,326.75 513.86,327.00 513.65,327.27 513.49,327.58 513.38,327.91 513.32,328.25 513.31,328.43 513.31,355.12 513.32,354.94 513.32,355.29 513.38,355.63 513.49,355.96 513.65,356.27 513.86,356.55 514.11,356.79 514.39,356.99 514.71,357.14 515.04,357.23 515.39,357.28' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='516.91' y='337.78' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='532.24' y='353.68' font-size='8.28pt' font-family='Helvetica'> 18.5%<\/text>\n   <polygon points='100.98,267.70 162.73,267.70 162.64,267.70 162.99,267.68 163.33,267.61 163.65,267.49 163.95,267.32 164.22,267.10 164.45,266.84 164.64,266.54 164.78,266.22 164.86,265.89 164.89,265.54 164.89,265.54 164.89,238.85 164.89,238.85 164.86,238.50 164.78,238.16 164.64,237.84 164.45,237.55 164.22,237.29 163.95,237.07 163.65,236.90 163.33,236.77 162.99,236.70 162.73,236.69 100.98,236.69 101.24,236.70 100.89,236.69 100.55,236.73 100.21,236.83 99.90,236.98 99.61,237.18 99.36,237.42 99.16,237.69 98.99,238.00 98.88,238.33 98.83,238.67 98.82,238.85 98.82,265.54 98.83,265.36 98.83,265.71 98.88,266.06 98.99,266.39 99.16,266.69 99.36,266.97 99.61,267.21 99.90,267.41 100.21,267.56 100.55,267.65 100.89,267.70' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='102.42' y='248.2' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='114.68' y='264.1' font-size='8.28pt' font-family='Helvetica'> 50.4%<\/text>\n   <polygon points='276.79,362.04 338.53,362.04 338.45,362.04 338.80,362.03 339.14,361.96 339.46,361.83 339.76,361.66 340.03,361.44 340.26,361.18 340.45,360.89 340.58,360.57 340.67,360.23 340.69,359.88 340.69,359.88 340.69,333.19 340.69,333.19 340.67,332.85 340.58,332.51 340.45,332.19 340.26,331.90 340.03,331.64 339.76,331.42 339.46,331.24 339.14,331.12 338.80,331.05 338.53,331.03 276.79,331.03 277.05,331.05 276.70,331.04 276.36,331.08 276.02,331.17 275.71,331.32 275.42,331.52 275.17,331.76 274.96,332.04 274.80,332.35 274.69,332.68 274.63,333.02 274.63,333.19 274.63,359.88 274.63,359.71 274.63,360.06 274.69,360.40 274.80,360.73 274.96,361.04 275.17,361.32 275.42,361.56 275.71,361.75 276.02,361.90 276.36,362.00 276.70,362.04' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.23' y='342.55' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='290.49' y='358.44' font-size='8.28pt' font-family='Helvetica'> 11.6%<\/text>\n   <polygon points='69.67,142.08 131.41,142.08 131.33,142.08 131.67,142.07 132.02,142.00 132.34,141.87 132.64,141.70 132.91,141.48 133.14,141.22 133.33,140.92 133.46,140.61 133.55,140.27 133.57,139.92 133.57,139.92 133.57,113.23 133.57,113.23 133.55,112.88 133.46,112.55 133.33,112.23 133.14,111.93 132.91,111.67 132.64,111.45 132.34,111.28 132.02,111.16 131.67,111.09 131.41,111.07 69.67,111.07 69.93,111.09 69.58,111.07 69.23,111.11 68.90,111.21 68.59,111.36 68.30,111.56 68.05,111.80 67.84,112.08 67.68,112.38 67.57,112.71 67.51,113.06 67.51,113.23 67.51,139.92 67.51,139.75 67.51,140.09 67.57,140.44 67.68,140.77 67.84,141.08 68.05,141.35 68.30,141.59 68.59,141.79 68.90,141.94 69.23,142.04 69.58,142.08' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='71.11' y='122.58' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='86.44' y='138.48' font-size='8.28pt' font-family='Helvetica'> 1.6%<\/text>\n   <polygon points='321.73,246.72 383.48,246.72 383.39,246.72 383.74,246.71 384.08,246.64 384.41,246.51 384.71,246.34 384.98,246.12 385.21,245.86 385.39,245.57 385.53,245.25 385.61,244.91 385.64,244.56 385.64,244.56 385.64,217.87 385.64,217.87 385.61,217.53 385.53,217.19 385.39,216.87 385.21,216.58 384.98,216.32 384.71,216.10 384.41,215.92 384.08,215.80 383.74,215.73 383.48,215.71 321.73,215.71 321.99,215.73 321.65,215.71 321.30,215.76 320.97,215.85 320.65,216.00 320.37,216.20 320.12,216.44 319.91,216.72 319.75,217.03 319.64,217.36 319.58,217.70 319.57,217.87 319.57,244.56 319.58,244.39 319.58,244.74 319.64,245.08 319.75,245.41 319.91,245.72 320.12,246.00 320.37,246.24 320.65,246.43 320.97,246.58 321.30,246.68 321.65,246.72' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='323.17' y='227.23' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='335.44' y='243.12' font-size='8.28pt' font-family='Helvetica'> 16.7%<\/text>\n   <polygon points='470.53,297.35 538.41,297.35 538.32,297.35 538.67,297.34 539.01,297.27 539.34,297.14 539.64,296.97 539.91,296.75 540.14,296.49 540.32,296.20 540.46,295.88 540.54,295.54 540.57,295.19 540.57,295.19 540.57,268.50 540.57,268.50 540.54,268.16 540.46,267.82 540.32,267.50 540.14,267.20 539.91,266.94 539.64,266.72 539.34,266.55 539.01,266.43 538.67,266.36 538.41,266.34 470.53,266.34 470.79,266.36 470.44,266.34 470.10,266.39 469.76,266.48 469.45,266.63 469.16,266.83 468.91,267.07 468.70,267.35 468.54,267.66 468.43,267.99 468.38,268.33 468.37,268.50 468.37,295.19 468.38,295.02 468.38,295.37 468.43,295.71 468.54,296.04 468.70,296.35 468.91,296.62 469.16,296.87 469.45,297.06 469.76,297.21 470.10,297.31 470.44,297.35' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='471.97' y='277.85' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='487.3' y='293.75' font-size='8.28pt' font-family='Helvetica'> 19.3%<\/text>\n   <polygon points='125.08,103.96 186.83,103.96 186.74,103.96 187.09,103.95 187.43,103.88 187.75,103.76 188.05,103.58 188.32,103.36 188.55,103.10 188.74,102.81 188.88,102.49 188.96,102.15 188.99,101.80 188.99,101.80 188.99,75.12 188.99,75.12 188.96,74.77 188.88,74.43 188.74,74.11 188.55,73.82 188.32,73.56 188.05,73.34 187.75,73.16 187.43,73.04 187.09,72.97 186.83,72.96 125.08,72.96 125.34,72.97 124.99,72.96 124.65,73.00 124.31,73.10 124.00,73.24 123.71,73.44 123.46,73.68 123.25,73.96 123.09,74.27 122.98,74.60 122.93,74.94 122.92,75.12 122.92,101.80 122.93,101.63 122.93,101.98 122.98,102.32 123.09,102.65 123.25,102.96 123.46,103.24 123.71,103.48 124.00,103.68 124.31,103.82 124.65,103.92 124.99,103.96' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='126.52' y='84.47' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='141.85' y='100.36' font-size='8.28pt' font-family='Helvetica'> 0.9%<\/text>\n   <polygon points='336.44,185.39 398.18,185.39 398.10,185.39 398.44,185.38 398.78,185.31 399.11,185.18 399.41,185.01 399.68,184.79 399.91,184.53 400.10,184.24 400.23,183.92 400.31,183.58 400.34,183.23 400.34,183.23 400.34,156.54 400.34,156.54 400.31,156.20 400.23,155.86 400.10,155.54 399.91,155.25 399.68,154.99 399.41,154.77 399.11,154.59 398.78,154.47 398.44,154.40 398.18,154.38 336.44,154.38 336.70,154.40 336.35,154.38 336.00,154.43 335.67,154.52 335.36,154.67 335.07,154.87 334.82,155.11 334.61,155.39 334.45,155.70 334.34,156.03 334.28,156.37 334.28,156.54 334.28,183.23 334.28,183.06 334.28,183.41 334.34,183.75 334.45,184.08 334.61,184.39 334.82,184.67 335.07,184.91 335.36,185.10 335.67,185.25 336.00,185.35 336.35,185.39' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='337.88' y='165.9' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='353.2' y='181.79' font-size='8.28pt' font-family='Helvetica'> 6.4%<\/text>\n   <polygon points='470.54,227.78 538.42,227.78 538.34,227.78 538.68,227.76 539.02,227.69 539.35,227.57 539.65,227.40 539.92,227.18 540.15,226.92 540.34,226.62 540.47,226.30 540.56,225.97 540.58,225.62 540.58,225.62 540.58,198.93 540.58,198.93 540.56,198.58 540.47,198.25 540.34,197.93 540.15,197.63 539.92,197.37 539.65,197.15 539.35,196.98 539.02,196.86 538.68,196.79 538.42,196.77 470.54,196.77 470.80,196.79 470.45,196.77 470.11,196.81 469.78,196.91 469.46,197.06 469.18,197.26 468.92,197.50 468.72,197.78 468.55,198.08 468.44,198.41 468.39,198.76 468.38,198.93 468.38,225.62 468.39,225.45 468.39,225.79 468.44,226.14 468.55,226.47 468.72,226.77 468.92,227.05 469.18,227.29 469.46,227.49 469.78,227.64 470.11,227.74 470.45,227.78' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='471.98' y='208.28' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='490.38' y='224.18' font-size='8.28pt' font-family='Helvetica'> 7.0%<\/text>\n   <polygon points='69.67,65.74 131.41,65.74 131.33,65.74 131.67,65.72 132.02,65.65 132.34,65.53 132.64,65.36 132.91,65.14 133.14,64.88 133.33,64.58 133.46,64.26 133.55,63.92 133.57,63.58 133.57,63.58 133.57,36.89 133.57,36.89 133.55,36.54 133.46,36.20 133.33,35.88 133.14,35.59 132.91,35.33 132.64,35.11 132.34,34.94 132.02,34.81 131.67,34.74 131.41,34.73 69.67,34.73 69.93,34.74 69.58,34.73 69.23,34.77 68.90,34.87 68.59,35.02 68.30,35.21 68.05,35.46 67.84,35.73 67.68,36.04 67.57,36.37 67.51,36.71 67.51,36.89 67.51,63.58 67.51,63.40 67.51,63.75 67.57,64.09 67.68,64.42 67.84,64.73 68.05,65.01 68.30,65.25 68.59,65.45 68.90,65.60 69.23,65.69 69.58,65.74' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='71.11' y='46.24' font-size='8.28pt' font-family='Helvetica'>grad.year.0 <\/text>\n   <text x='86.44' y='62.14' font-size='8.28pt' font-family='Helvetica'> 6.5%<\/text>\n   <polygon points='263.06,150.83 324.81,150.83 324.73,150.83 325.07,150.81 325.41,150.74 325.74,150.62 326.04,150.45 326.31,150.23 326.54,149.97 326.72,149.67 326.86,149.35 326.94,149.01 326.97,148.67 326.97,148.67 326.97,121.98 326.97,121.98 326.94,121.63 326.86,121.29 326.72,120.97 326.54,120.68 326.31,120.42 326.04,120.20 325.74,120.03 325.41,119.90 325.07,119.83 324.81,119.82 263.06,119.82 263.33,119.83 262.98,119.82 262.63,119.86 262.30,119.96 261.98,120.11 261.70,120.30 261.45,120.55 261.24,120.82 261.08,121.13 260.97,121.46 260.91,121.80 260.90,121.98 260.90,148.67 260.91,148.49 260.91,148.84 260.97,149.18 261.08,149.51 261.24,149.82 261.45,150.10 261.70,150.34 261.98,150.54 262.30,150.69 262.63,150.78 262.98,150.83' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='264.5' y='131.33' font-size='8.28pt' font-family='Helvetica'>grad.year.6 <\/text>\n   <text x='276.77' y='147.23' font-size='8.28pt' font-family='Helvetica'> 21.7%<\/text>\n   <polygon points='515.47,110.95 583.36,110.95 583.27,110.95 583.62,110.94 583.96,110.87 584.28,110.74 584.58,110.57 584.85,110.35 585.08,110.09 585.27,109.80 585.40,109.48 585.49,109.14 585.52,108.79 585.52,108.79 585.52,82.10 585.52,82.10 585.49,81.76 585.40,81.42 585.27,81.10 585.08,80.81 584.85,80.55 584.58,80.33 584.28,80.15 583.96,80.03 583.62,79.96 583.36,79.94 515.47,79.94 515.73,79.96 515.39,79.95 515.04,79.99 514.71,80.08 514.39,80.23 514.11,80.43 513.86,80.67 513.65,80.95 513.49,81.26 513.38,81.59 513.32,81.93 513.31,82.10 513.31,108.79 513.32,108.62 513.32,108.97 513.38,109.31 513.49,109.64 513.65,109.95 513.86,110.23 514.11,110.47 514.39,110.66 514.71,110.81 515.04,110.91 515.39,110.95' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='516.91' y='91.46' font-size='8.28pt' font-family='Helvetica'>grad.year.11 <\/text>\n   <text x='532.24' y='107.35' font-size='8.28pt' font-family='Helvetica'> 21.9%<\/text>\n  <\/g>\n  <g clip-path='url(#svg_cc9861ee945bf175_c1)'>\n   <text x='40.91' y='593.09' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0%<\/text>\n   <text x='32.91' y='460.48' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>25%<\/text>\n   <text x='32.91' y='327.87' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>50%<\/text>\n   <text x='32.91' y='195.25' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>75%<\/text>\n   <text x='24.9' y='62.64' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>100%<\/text>\n   <text x='90.07' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0<\/text>\n   <text x='168.77' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>2<\/text>\n   <text x='247.48' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>4<\/text>\n   <text x='326.18' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>6<\/text>\n   <text x='404.89' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>8<\/text>\n   <text x='479.59' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>10<\/text>\n   <text x='558.29' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>12<\/text>\n   <text x='637' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>14<\/text>\n   <text x='348.68' y='645.61' font-size='13.5pt' font-family='Arial'>Grad Year<\/text>\n   <text transform='translate(18.37,418.76) rotate(-90.00)' font-size='13.5pt' font-family='Arial'>Proportion of individuals<\/text>\n   <rect x='178.06' y='660.36' width='422.3' height='54.16' fill='none' stroke='none'/>\n   <rect x='178.06' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='661.07' width='12.98' height='12.98' fill='#D73027' fill-opacity='1' stroke='none'/>\n   <rect x='178.06' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='680.95' width='12.98' height='12.98' fill='#FC8D59' fill-opacity='1' stroke='none'/>\n   <rect x='178.06' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='700.83' width='12.98' height='12.98' fill='#FEE090' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='661.07' width='12.98' height='12.98' fill='#FFFFBF' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='680.95' width='12.98' height='12.98' fill='#E0F3F8' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='700.83' width='12.98' height='12.98' fill='#91BFDB' fill-opacity='1' stroke='none'/>\n   <text x='194.46' y='672.71' font-size='10.8pt' font-family='Arial'>Meaningful emp County<\/text>\n   <text x='194.46' y='692.59' font-size='10.8pt' font-family='Arial'>Meaningful emp region<\/text>\n   <text x='194.46' y='712.47' font-size='10.8pt' font-family='Arial'>Meaningful emp MN<\/text>\n   <text x='368.35' y='672.71' font-size='10.8pt' font-family='Arial'>Attending ps<\/text>\n   <text x='368.35' y='692.59' font-size='10.8pt' font-family='Arial'>Not meaningful, not attending ps<\/text>\n   <text x='368.35' y='712.47' font-size='10.8pt' font-family='Arial'>No MN emp record, not attending ps<\/text>\n   <text x='5.48' y='20.94' font-size='16.2pt' font-weight='bold' font-family='Arial'>Percent share of path by grad year X<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_cc9861ee945bf175","ratio":1,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:9999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_data_SVGID_ { stroke:none;fill:red; }\ncircle.select_data_SVGID_ { fill:red;stroke:black; }\nline.select_data_SVGID_, polyline.select_data_SVGID_ { fill:none;stroke:red; }\nrect.select_data_SVGID_, polygon.select_data_SVGID_, path.select_data_SVGID_ { fill:red;stroke:none; }\nimage.select_data_SVGID_ { stroke:red; }","type":"none","only_shiny":true,"selected":[]},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300,"default_on":false},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":false,"width":1}}},"evals":[],"jsHooks":[]}</script>
+<div class="girafe html-widget html-fill-item" id="htmlwidget-31f035a861664480c003" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-31f035a861664480c003">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_48f8fa39672d1461' viewBox='0 0 720 720'>\n <defs id='svg_48f8fa39672d1461_defs'>\n  <clipPath id='svg_48f8fa39672d1461_c1'>\n   <rect x='0' y='0' width='720' height='720'/>\n  <\/clipPath>\n  <clipPath id='svg_48f8fa39672d1461_c2'>\n   <rect x='63.91' y='30.97' width='650.61' height='583.49'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_48f8fa39672d1461_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_48f8fa39672d1461_c1)'>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n   <rect x='0' y='0' width='720' height='720' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_48f8fa39672d1461_c2)'>\n   <rect x='63.91' y='30.97' width='650.61' height='583.49' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <polyline points='63.91,587.94 714.52,587.94' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,455.33 714.52,455.33' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,322.71 714.52,322.71' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,190.10 714.52,190.10' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='63.91,57.49 714.52,57.49' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='94.07,614.46 94.07,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='172.78,614.46 172.78,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='251.48,614.46 251.48,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='330.19,614.46 330.19,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='408.89,614.46 408.89,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='487.59,614.46 487.59,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='566.30,614.46 566.30,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polyline points='645.00,614.46 645.00,30.97' fill='none' stroke='#B3B3B3' stroke-opacity='1' stroke-width='0.21' stroke-linejoin='round' stroke-linecap='butt'/>\n   <polygon id='svg_48f8fa39672d1461_e1' points='94.07,57.49 94.66,57.49 132.83,57.49 133.42,57.49 134.01,57.49 172.19,57.49 172.78,57.49 173.37,57.49 211.54,57.49 212.13,57.49 212.72,57.49 250.89,57.49 251.48,57.49 252.07,57.49 290.24,57.49 290.83,57.49 291.42,57.49 329.59,57.49 330.19,57.49 330.78,57.49 368.95,57.49 369.54,57.49 370.13,57.49 408.30,57.49 408.89,57.49 409.48,57.49 447.65,57.49 448.24,57.49 448.83,57.63 487.00,57.49 487.59,57.49 488.19,57.49 526.36,57.49 526.95,57.49 527.54,57.49 565.71,57.49 566.30,57.49 566.89,57.49 605.06,57.49 605.65,57.49 606.24,57.49 644.41,57.49 645.00,57.49 645.59,57.49 683.77,57.49 684.36,57.49 684.95,587.94 684.36,168.90 683.77,168.92 645.59,170.36 645.00,170.38 644.41,170.40 606.24,171.81 605.65,171.83 605.06,171.81 566.89,170.00 566.30,169.97 565.71,170.03 527.54,173.64 526.95,173.69 526.36,173.71 488.19,175.18 487.59,175.20 487.00,175.21 448.83,175.95 448.24,175.82 447.65,175.82 409.48,175.41 408.89,175.40 408.30,175.41 370.13,175.69 369.54,175.69 368.95,175.65 330.78,172.88 330.19,172.84 329.59,172.75 291.42,166.90 290.83,166.81 290.24,166.65 252.07,156.11 251.48,155.95 250.89,155.83 212.72,148.29 212.13,148.17 211.54,148.05 173.37,140.29 172.78,140.17 172.19,139.96 134.01,126.64 133.42,126.44 132.83,125.92 94.66,92.46 94.07,91.95 93.48,587.94' fill='#D73027' fill-opacity='1' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;6.5%'/>\n   <polyline id='svg_48f8fa39672d1461_e2' points='94.07,57.49 94.66,57.49 132.83,57.49 133.42,57.49 134.01,57.49 172.19,57.49 172.78,57.49 173.37,57.49 211.54,57.49 212.13,57.49 212.72,57.49 250.89,57.49 251.48,57.49 252.07,57.49 290.24,57.49 290.83,57.49 291.42,57.49 329.59,57.49 330.19,57.49 330.78,57.49 368.95,57.49 369.54,57.49 370.13,57.49 408.30,57.49 408.89,57.49 409.48,57.49 447.65,57.49 448.24,57.49 448.83,57.63 487.00,57.49 487.59,57.49 488.19,57.49 526.36,57.49 526.95,57.49 527.54,57.49 565.71,57.49 566.30,57.49 566.89,57.49 605.06,57.49 605.65,57.49 606.24,57.49 644.41,57.49 645.00,57.49 645.59,57.49 683.77,57.49 684.36,57.49' fill='none' stroke='none' data-id='1' title='State: Meaningful emp County&amp;lt;br/&amp;gt;6.5%'/>\n   <polygon id='svg_48f8fa39672d1461_e3' points='94.07,91.95 94.66,92.46 132.83,125.92 133.42,126.44 134.01,126.64 172.19,139.96 172.78,140.17 173.37,140.29 211.54,148.05 212.13,148.17 212.72,148.29 250.89,155.83 251.48,155.95 252.07,156.11 290.24,166.65 290.83,166.81 291.42,166.90 329.59,172.75 330.19,172.84 330.78,172.88 368.95,175.65 369.54,175.69 370.13,175.69 408.30,175.41 408.89,175.40 409.48,175.41 447.65,175.82 448.24,175.82 448.83,175.95 487.00,175.21 487.59,175.20 488.19,175.18 526.36,173.71 526.95,173.69 527.54,173.64 565.71,170.03 566.30,169.97 566.89,170.00 605.06,171.81 605.65,171.83 606.24,171.81 644.41,170.40 645.00,170.38 645.59,170.36 683.77,168.92 684.36,168.90 684.95,587.94 684.36,200.21 683.77,200.28 645.59,204.84 645.00,204.91 644.41,204.99 606.24,210.03 605.65,210.10 605.06,210.05 566.89,206.39 566.30,206.33 565.71,206.39 527.54,210.51 526.95,210.57 526.36,210.60 488.19,212.57 487.59,212.60 487.00,212.62 448.83,213.80 448.24,213.68 447.65,213.67 409.48,212.84 408.89,212.83 408.30,212.81 370.13,211.95 369.54,211.94 368.95,211.86 330.78,207.07 330.19,207.00 329.59,206.86 291.42,198.16 290.83,198.03 290.24,197.79 252.07,182.53 251.48,182.30 250.89,182.10 212.72,169.46 212.13,169.27 211.54,169.09 173.37,157.43 172.78,157.25 172.19,156.98 134.01,139.14 133.42,138.87 132.83,138.23 94.66,97.16 94.07,96.53 93.48,587.94' fill='#FC8D59' fill-opacity='1' stroke='none' data-id='2' title='State: Meaningful emp region&amp;lt;br/&amp;gt;0.9%'/>\n   <polyline id='svg_48f8fa39672d1461_e4' points='94.07,91.95 94.66,92.46 132.83,125.92 133.42,126.44 134.01,126.64 172.19,139.96 172.78,140.17 173.37,140.29 211.54,148.05 212.13,148.17 212.72,148.29 250.89,155.83 251.48,155.95 252.07,156.11 290.24,166.65 290.83,166.81 291.42,166.90 329.59,172.75 330.19,172.84 330.78,172.88 368.95,175.65 369.54,175.69 370.13,175.69 408.30,175.41 408.89,175.40 409.48,175.41 447.65,175.82 448.24,175.82 448.83,175.95 487.00,175.21 487.59,175.20 488.19,175.18 526.36,173.71 526.95,173.69 527.54,173.64 565.71,170.03 566.30,169.97 566.89,170.00 605.06,171.81 605.65,171.83 606.24,171.81 644.41,170.40 645.00,170.38 645.59,170.36 683.77,168.92 684.36,168.90' fill='none' stroke='none' data-id='2' title='State: Meaningful emp region&amp;lt;br/&amp;gt;0.9%'/>\n   <polygon id='svg_48f8fa39672d1461_e5' points='94.07,96.53 94.66,97.16 132.83,138.23 133.42,138.87 134.01,139.14 172.19,156.98 172.78,157.25 173.37,157.43 211.54,169.09 212.13,169.27 212.72,169.46 250.89,182.10 251.48,182.30 252.07,182.53 290.24,197.79 290.83,198.03 291.42,198.16 329.59,206.86 330.19,207.00 330.78,207.07 368.95,211.86 369.54,211.94 370.13,211.95 408.30,212.81 408.89,212.83 409.48,212.84 447.65,213.67 448.24,213.68 448.83,213.80 487.00,212.62 487.59,212.60 488.19,212.57 526.36,210.60 526.95,210.57 527.54,210.51 565.71,206.39 566.30,206.33 566.89,206.39 605.06,210.05 605.65,210.10 606.24,210.03 644.41,204.99 645.00,204.91 645.59,204.84 683.77,200.28 684.36,200.21 684.95,587.94 684.36,304.78 683.77,304.82 645.59,307.63 645.00,307.67 644.41,307.72 606.24,310.85 605.65,310.90 605.06,310.87 566.89,309.03 566.30,309.01 565.71,309.06 527.54,312.78 526.95,312.83 526.36,312.88 488.19,315.48 487.59,315.52 487.00,315.55 448.83,317.42 448.24,317.31 447.65,317.24 409.48,312.47 408.89,312.40 408.30,312.33 370.13,308.15 369.54,308.09 368.95,307.90 330.78,295.87 330.19,295.68 329.59,295.42 291.42,278.63 290.83,278.37 290.24,277.82 252.07,242.03 251.48,241.47 250.89,241.05 212.72,213.89 212.13,213.47 211.54,213.11 173.37,189.91 172.78,189.56 172.19,189.14 134.01,162.00 133.42,161.58 132.83,160.73 94.66,105.81 94.07,104.96 93.48,587.94' fill='#FEE090' fill-opacity='1' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;1.6%'/>\n   <polyline id='svg_48f8fa39672d1461_e6' points='94.07,96.53 94.66,97.16 132.83,138.23 133.42,138.87 134.01,139.14 172.19,156.98 172.78,157.25 173.37,157.43 211.54,169.09 212.13,169.27 212.72,169.46 250.89,182.10 251.48,182.30 252.07,182.53 290.24,197.79 290.83,198.03 291.42,198.16 329.59,206.86 330.19,207.00 330.78,207.07 368.95,211.86 369.54,211.94 370.13,211.95 408.30,212.81 408.89,212.83 409.48,212.84 447.65,213.67 448.24,213.68 448.83,213.80 487.00,212.62 487.59,212.60 488.19,212.57 526.36,210.60 526.95,210.57 527.54,210.51 565.71,206.39 566.30,206.33 566.89,206.39 605.06,210.05 605.65,210.10 606.24,210.03 644.41,204.99 645.00,204.91 645.59,204.84 683.77,200.28 684.36,200.21' fill='none' stroke='none' data-id='3' title='State: Meaningful emp MN&amp;lt;br/&amp;gt;1.6%'/>\n   <polygon id='svg_48f8fa39672d1461_e7' points='94.07,104.96 94.66,105.81 132.83,160.73 133.42,161.58 134.01,162.00 172.19,189.14 172.78,189.56 173.37,189.91 211.54,213.11 212.13,213.47 212.72,213.89 250.89,241.05 251.48,241.47 252.07,242.03 290.24,277.82 290.83,278.37 291.42,278.63 329.59,295.42 330.19,295.68 330.78,295.87 368.95,307.90 369.54,308.09 370.13,308.15 408.30,312.33 408.89,312.40 409.48,312.47 447.65,317.24 448.24,317.31 448.83,317.42 448.24,317.45 447.65,317.90 409.48,346.83 408.89,347.28 408.30,347.43 370.13,357.14 369.54,357.29 368.95,357.28 330.78,357.04 330.19,357.04 329.59,357.14 291.42,363.37 290.83,363.47 290.24,363.81 252.07,386.25 251.48,386.59 250.89,386.72 212.72,394.74 212.13,394.87 211.54,395.03 173.37,405.89 172.78,406.06 172.19,406.19 134.01,414.78 133.42,414.91 132.83,414.28 94.66,373.06 94.07,372.42 93.48,587.94' fill='#FFFFBF' fill-opacity='1' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;50.4%'/>\n   <polyline id='svg_48f8fa39672d1461_e8' points='94.07,104.96 94.66,105.81 132.83,160.73 133.42,161.58 134.01,162.00 172.19,189.14 172.78,189.56 173.37,189.91 211.54,213.11 212.13,213.47 212.72,213.89 250.89,241.05 251.48,241.47 252.07,242.03 290.24,277.82 290.83,278.37 291.42,278.63 329.59,295.42 330.19,295.68 330.78,295.87 368.95,307.90 369.54,308.09 370.13,308.15 408.30,312.33 408.89,312.40 409.48,312.47 447.65,317.24 448.24,317.31' fill='none' stroke='none' data-id='4' title='State: Attending ps&amp;lt;br/&amp;gt;50.4%'/>\n   <polygon id='svg_48f8fa39672d1461_e9' points='94.07,372.42 94.66,373.06 132.83,414.28 133.42,414.91 134.01,414.78 172.19,406.19 172.78,406.06 173.37,405.89 211.54,395.03 212.13,394.87 212.72,394.74 250.89,386.72 251.48,386.59 252.07,386.25 290.24,363.81 290.83,363.47 291.42,363.37 329.59,357.14 330.19,357.04 330.78,357.04 368.95,357.28 369.54,357.29 370.13,357.14 408.30,347.43 408.89,347.28 409.48,346.83 447.65,317.90 448.24,317.45 448.83,317.42 487.00,315.55 487.59,315.52 488.19,315.48 526.36,312.88 526.95,312.83 527.54,312.78 565.71,309.06 566.30,309.01 566.89,309.03 605.06,310.87 605.65,310.90 606.24,310.85 644.41,307.72 645.00,307.67 645.59,307.63 683.77,304.82 684.36,304.78 684.95,587.94 684.36,384.58 683.77,384.70 645.59,392.58 645.00,392.70 644.41,392.78 606.24,397.86 605.65,397.94 605.06,398.01 566.89,403.13 566.30,403.21 565.71,403.32 527.54,410.88 526.95,411.00 526.36,411.07 488.19,415.82 487.59,415.89 487.00,415.98 448.83,421.51 448.24,421.59 447.65,421.94 409.48,444.50 408.89,444.85 408.30,445.00 370.13,454.89 369.54,455.05 368.95,455.20 330.78,464.89 330.19,465.04 329.59,465.21 291.42,476.27 290.83,476.44 290.24,476.74 252.07,495.95 251.48,496.24 250.89,496.40 212.72,506.54 212.13,506.69 211.54,506.86 173.37,517.43 172.78,517.60 172.19,517.72 134.01,525.77 133.42,525.90 132.83,525.88 94.66,524.97 94.07,524.96 93.48,587.94' fill='#E0F3F8' fill-opacity='1' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;28.8%'/>\n   <polyline id='svg_48f8fa39672d1461_e10' points='94.07,372.42 94.66,373.06 132.83,414.28 133.42,414.91 134.01,414.78 172.19,406.19 172.78,406.06 173.37,405.89 211.54,395.03 212.13,394.87 212.72,394.74 250.89,386.72 251.48,386.59 252.07,386.25 290.24,363.81 290.83,363.47 291.42,363.37 329.59,357.14 330.19,357.04 330.78,357.04 368.95,357.28 369.54,357.29 370.13,357.14 408.30,347.43 408.89,347.28 409.48,346.83 447.65,317.90 448.24,317.45 448.83,317.42 487.00,315.55 487.59,315.52 488.19,315.48 526.36,312.88 526.95,312.83 527.54,312.78 565.71,309.06 566.30,309.01 566.89,309.03 605.06,310.87 605.65,310.90 606.24,310.85 644.41,307.72 645.00,307.67 645.59,307.63 683.77,304.82 684.36,304.78' fill='none' stroke='none' data-id='5' title='State: Not meaningful, not attending ps&amp;lt;br/&amp;gt;28.8%'/>\n   <polygon id='svg_48f8fa39672d1461_e11' points='94.07,524.96 94.66,524.97 132.83,525.88 133.42,525.90 134.01,525.77 172.19,517.72 172.78,517.60 173.37,517.43 211.54,506.86 212.13,506.69 212.72,506.54 250.89,496.40 251.48,496.24 252.07,495.95 290.24,476.74 290.83,476.44 291.42,476.27 329.59,465.21 330.19,465.04 330.78,464.89 368.95,455.20 369.54,455.05 370.13,454.89 408.30,445.00 408.89,444.85 409.48,444.50 447.65,421.94 448.24,421.59 448.83,421.51 487.00,415.98 487.59,415.89 488.19,415.82 526.36,411.07 526.95,411.00 527.54,410.88 565.71,403.32 566.30,403.21 566.89,403.13 605.06,398.01 605.65,397.94 606.24,397.86 644.41,392.78 645.00,392.70 645.59,392.58 683.77,384.70 684.36,384.58 684.95,587.94 684.36,587.94 683.77,587.94 645.59,587.94 645.00,587.94 644.41,587.94 606.24,587.94 605.65,587.94 605.06,587.94 566.89,587.94 566.30,587.94 565.71,587.94 527.54,587.94 526.95,587.94 526.36,587.94 488.19,587.94 487.59,587.94 487.00,587.94 448.83,587.94 448.24,587.94 447.65,587.94 409.48,587.94 408.89,587.94 408.30,587.94 370.13,587.94 369.54,587.94 368.95,587.94 330.78,587.94 330.19,587.94 329.59,587.94 291.42,587.94 290.83,587.94 290.24,587.94 252.07,587.94 251.48,587.94 250.89,587.94 212.72,587.94 212.13,587.94 211.54,587.94 173.37,587.94 172.78,587.94 172.19,587.94 134.01,587.94 133.42,587.94 132.83,587.94 94.66,587.94 94.07,587.94 93.48,587.94' fill='#91BFDB' fill-opacity='1' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;11.9%'/>\n   <polyline id='svg_48f8fa39672d1461_e12' points='94.07,524.96 94.66,524.97 132.83,525.88 133.42,525.90 134.01,525.77 172.19,517.72 172.78,517.60 173.37,517.43 211.54,506.86 212.13,506.69 212.72,506.54 250.89,496.40 251.48,496.24 252.07,495.95 290.24,476.74 290.83,476.44 291.42,476.27 329.59,465.21 330.19,465.04 330.78,464.89 368.95,455.20 369.54,455.05 370.13,454.89 408.30,445.00 408.89,444.85 409.48,444.50 447.65,421.94 448.24,421.59 448.83,421.51 487.00,415.98 487.59,415.89 488.19,415.82 526.36,411.07 526.95,411.00 527.54,410.88 565.71,403.32 566.30,403.21 566.89,403.13 605.06,398.01 605.65,397.94 606.24,397.86 644.41,392.78 645.00,392.70 645.59,392.58 683.77,384.70 684.36,384.58' fill='none' stroke='none' data-id='6' title='State: No MN emp record, not attending ps&amp;lt;br/&amp;gt;11.9%'/>\n   <line x1='98.84' y1='440.64' x2='94.61' y2='447.77' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='99.43' y1='110.45' x2='94.59' y2='101.68' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='122.84' y1='88.07' x2='95.11' y2='94.01' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <line x1='99.38' y1='65.37' x2='94.6' y2='73.79' stroke='#000000' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polygon points='85.87,551.75 147.01,551.75 146.92,551.74 147.27,551.73 147.61,551.66 147.94,551.54 148.24,551.36 148.51,551.14 148.74,550.88 148.92,550.59 149.06,550.27 149.14,549.93 149.17,549.59 149.17,549.59 149.17,523.22 149.17,523.22 149.14,522.87 149.06,522.54 148.92,522.22 148.74,521.92 148.51,521.66 148.24,521.44 147.94,521.27 147.61,521.15 147.27,521.08 147.01,521.06 85.87,521.06 86.13,521.08 85.79,521.06 85.44,521.10 85.11,521.20 84.79,521.35 84.51,521.55 84.26,521.79 84.05,522.07 83.89,522.37 83.78,522.70 83.72,523.05 83.71,523.22 83.71,549.59 83.72,549.41 83.72,549.76 83.78,550.10 83.89,550.43 84.05,550.74 84.26,551.02 84.51,551.26 84.79,551.46 85.11,551.61 85.44,551.70 85.79,551.74' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='87.31' y='532.25' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='99.68' y='548.15' font-size='8.28pt' font-family='Liberation Sans'> 11.9%<\/text>\n   <polygon points='277.31,561.85 338.45,561.85 338.36,561.85 338.71,561.84 339.05,561.77 339.37,561.64 339.68,561.47 339.94,561.25 340.18,560.99 340.36,560.70 340.50,560.38 340.58,560.04 340.61,559.69 340.61,559.69 340.61,533.33 340.61,533.33 340.58,532.98 340.50,532.64 340.36,532.32 340.18,532.03 339.94,531.77 339.68,531.55 339.37,531.37 339.05,531.25 338.71,531.18 338.45,531.17 277.31,531.17 277.57,531.18 277.23,531.17 276.88,531.21 276.55,531.31 276.23,531.46 275.95,531.65 275.70,531.89 275.49,532.17 275.33,532.48 275.22,532.81 275.16,533.15 275.15,533.33 275.15,559.69 275.16,559.52 275.16,559.87 275.22,560.21 275.33,560.54 275.49,560.85 275.70,561.12 275.95,561.36 276.23,561.56 276.55,561.71 276.88,561.81 277.23,561.85' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.75' y='542.35' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='290.71' y='558.25' font-size='8.28pt' font-family='Liberation Sans'> 23.2%<\/text>\n   <polygon points='516.11,494.73 582.56,494.73 582.48,494.72 582.82,494.71 583.16,494.64 583.49,494.52 583.79,494.34 584.06,494.12 584.29,493.86 584.48,493.57 584.61,493.25 584.70,492.91 584.72,492.57 584.72,492.57 584.72,466.20 584.72,466.20 584.70,465.85 584.61,465.52 584.48,465.20 584.29,464.90 584.06,464.64 583.79,464.42 583.49,464.25 583.16,464.13 582.82,464.06 582.56,464.04 516.11,464.04 516.38,464.06 516.03,464.04 515.68,464.08 515.35,464.18 515.03,464.33 514.75,464.53 514.50,464.77 514.29,465.05 514.13,465.35 514.02,465.68 513.96,466.03 513.95,466.20 513.95,492.57 513.96,492.39 513.96,492.74 514.02,493.08 514.13,493.41 514.29,493.72 514.50,494.00 514.75,494.24 515.03,494.44 515.35,494.59 515.68,494.68 516.03,494.72' fill='#91BFDB' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='517.55' y='475.23' font-size='8.28pt' font-family='Liberation Sans'>grad.year.11 <\/text>\n   <text x='532.17' y='491.13' font-size='8.28pt' font-family='Liberation Sans'> 33.4%<\/text>\n   <polygon points='101.00,445.06 162.13,445.06 162.04,445.06 162.39,445.05 162.73,444.98 163.06,444.85 163.36,444.68 163.63,444.46 163.86,444.20 164.04,443.91 164.18,443.59 164.26,443.25 164.29,442.90 164.29,442.90 164.29,416.54 164.29,416.54 164.26,416.19 164.18,415.85 164.04,415.53 163.86,415.24 163.63,414.98 163.36,414.76 163.06,414.58 162.73,414.46 162.39,414.39 162.13,414.38 101.00,414.38 101.26,414.39 100.91,414.38 100.56,414.42 100.23,414.52 99.92,414.66 99.63,414.86 99.38,415.10 99.17,415.38 99.01,415.69 98.90,416.02 98.84,416.36 98.84,416.54 98.84,442.90 98.84,442.73 98.84,443.08 98.90,443.42 99.01,443.75 99.17,444.06 99.38,444.33 99.63,444.57 99.92,444.77 100.23,444.92 100.56,445.02 100.91,445.06' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='102.44' y='425.56' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='114.39' y='441.46' font-size='8.28pt' font-family='Liberation Sans'> 28.8%<\/text>\n   <polygon points='277.34,446.34 338.48,446.34 338.39,446.34 338.74,446.32 339.08,446.25 339.40,446.13 339.70,445.96 339.97,445.74 340.20,445.48 340.39,445.18 340.52,444.86 340.61,444.53 340.64,444.18 340.64,444.18 340.64,417.81 340.64,417.81 340.61,417.47 340.52,417.13 340.39,416.81 340.20,416.52 339.97,416.26 339.70,416.04 339.40,415.86 339.08,415.74 338.74,415.67 338.48,415.65 277.34,415.65 277.60,415.67 277.25,415.66 276.91,415.70 276.57,415.79 276.26,415.94 275.97,416.14 275.72,416.38 275.51,416.66 275.35,416.97 275.24,417.30 275.19,417.64 275.18,417.81 275.18,444.18 275.19,444.01 275.19,444.35 275.24,444.70 275.35,445.03 275.51,445.33 275.72,445.61 275.97,445.85 276.26,446.05 276.57,446.20 276.91,446.30 277.25,446.34' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.78' y='426.84' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='290.74' y='442.74' font-size='8.28pt' font-family='Liberation Sans'> 20.4%<\/text>\n   <polygon points='471.41,397.27 537.86,397.27 537.77,397.27 538.12,397.26 538.46,397.19 538.79,397.06 539.09,396.89 539.36,396.67 539.59,396.41 539.77,396.11 539.91,395.79 539.99,395.46 540.02,395.11 540.02,395.11 540.02,368.74 540.02,368.74 539.99,368.40 539.91,368.06 539.77,367.74 539.59,367.45 539.36,367.19 539.09,366.97 538.79,366.79 538.46,366.67 538.12,366.60 537.86,366.58 471.41,366.58 471.67,366.60 471.33,366.59 470.98,366.63 470.65,366.73 470.33,366.87 470.05,367.07 469.80,367.31 469.59,367.59 469.43,367.90 469.32,368.23 469.26,368.57 469.25,368.74 469.25,395.11 469.26,394.94 469.26,395.28 469.32,395.63 469.43,395.96 469.59,396.27 469.80,396.54 470.05,396.78 470.33,396.98 470.65,397.13 470.98,397.23 471.33,397.27' fill='#E0F3F8' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='472.85' y='377.77' font-size='8.28pt' font-family='Liberation Sans'>grad.year.11 <\/text>\n   <text x='487.46' y='393.67' font-size='8.28pt' font-family='Liberation Sans'> 18.5%<\/text>\n   <polygon points='100.95,247.40 162.08,247.40 162.00,247.40 162.34,247.38 162.68,247.31 163.01,247.19 163.31,247.02 163.58,246.80 163.81,246.54 164.00,246.24 164.13,245.92 164.22,245.59 164.24,245.24 164.24,245.24 164.24,218.87 164.24,218.87 164.22,218.53 164.13,218.19 164.00,217.87 163.81,217.58 163.58,217.32 163.31,217.10 163.01,216.92 162.68,216.80 162.34,216.73 162.08,216.71 100.95,216.71 101.21,216.73 100.86,216.72 100.52,216.76 100.18,216.85 99.87,217.00 99.58,217.20 99.33,217.44 99.12,217.72 98.96,218.03 98.85,218.36 98.80,218.70 98.79,218.87 98.79,245.24 98.80,245.07 98.80,245.41 98.85,245.76 98.96,246.09 99.12,246.39 99.33,246.67 99.58,246.91 99.87,247.11 100.18,247.26 100.52,247.36 100.86,247.40' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='102.39' y='227.9' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='114.34' y='243.8' font-size='8.28pt' font-family='Liberation Sans'> 50.4%<\/text>\n   <polygon points='277.26,361.74 338.39,361.74 338.30,361.74 338.65,361.72 338.99,361.65 339.32,361.53 339.62,361.36 339.89,361.14 340.12,360.88 340.30,360.58 340.44,360.26 340.52,359.93 340.55,359.58 340.55,359.58 340.55,333.21 340.55,333.21 340.52,332.87 340.44,332.53 340.30,332.21 340.12,331.92 339.89,331.66 339.62,331.44 339.32,331.26 338.99,331.14 338.65,331.07 338.39,331.05 277.26,331.05 277.52,331.07 277.17,331.05 276.82,331.10 276.49,331.19 276.18,331.34 275.89,331.54 275.64,331.78 275.43,332.06 275.27,332.37 275.16,332.70 275.10,333.04 275.10,333.21 275.10,359.58 275.10,359.41 275.10,359.75 275.16,360.10 275.27,360.43 275.43,360.73 275.64,361.01 275.89,361.25 276.18,361.45 276.49,361.60 276.82,361.70 277.17,361.74' fill='#FFFFBF' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.7' y='342.24' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='291.06' y='358.14' font-size='8.28pt' font-family='Liberation Sans'> 11.6%<\/text>\n   <polygon points='69.67,141.13 130.80,141.13 130.72,141.13 131.06,141.12 131.40,141.05 131.73,140.92 132.03,140.75 132.30,140.53 132.53,140.27 132.71,139.98 132.85,139.66 132.93,139.32 132.96,138.97 132.96,138.97 132.96,112.61 132.96,112.61 132.93,112.26 132.85,111.92 132.71,111.60 132.53,111.31 132.30,111.05 132.03,110.83 131.73,110.66 131.40,110.53 131.06,110.46 130.80,110.45 69.67,110.45 69.93,110.46 69.58,110.45 69.23,110.49 68.90,110.59 68.59,110.74 68.30,110.93 68.05,111.17 67.84,111.45 67.68,111.76 67.57,112.09 67.51,112.43 67.51,112.61 67.51,138.97 67.51,138.80 67.51,139.15 67.57,139.49 67.68,139.82 67.84,140.13 68.05,140.41 68.30,140.65 68.59,140.84 68.90,140.99 69.23,141.09 69.58,141.13' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='71.11' y='121.64' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='86.13' y='137.53' font-size='8.28pt' font-family='Liberation Sans'> 1.6%<\/text>\n   <polygon points='277.33,286.66 338.47,286.66 338.38,286.65 338.73,286.64 339.07,286.57 339.39,286.45 339.69,286.27 339.96,286.05 340.19,285.79 340.38,285.50 340.51,285.18 340.60,284.84 340.63,284.50 340.63,284.50 340.63,258.13 340.63,258.13 340.60,257.78 340.51,257.45 340.38,257.13 340.19,256.83 339.96,256.57 339.69,256.35 339.39,256.18 339.07,256.06 338.73,255.99 338.47,255.97 277.33,255.97 277.59,255.99 277.24,255.97 276.90,256.01 276.56,256.11 276.25,256.26 275.96,256.46 275.71,256.70 275.50,256.98 275.34,257.28 275.23,257.61 275.18,257.96 275.17,258.13 275.17,284.50 275.18,284.32 275.18,284.67 275.23,285.01 275.34,285.34 275.50,285.65 275.71,285.93 275.96,286.17 276.25,286.37 276.56,286.52 276.90,286.61 277.24,286.65' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.77' y='267.16' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='290.73' y='283.06' font-size='8.28pt' font-family='Liberation Sans'> 16.7%<\/text>\n   <polygon points='471.46,297.00 537.91,297.00 537.82,297.00 538.17,296.98 538.51,296.91 538.83,296.79 539.13,296.62 539.40,296.40 539.63,296.14 539.82,295.84 539.96,295.52 540.04,295.19 540.07,294.84 540.07,294.84 540.07,268.47 540.07,268.47 540.04,268.13 539.96,267.79 539.82,267.47 539.63,267.18 539.40,266.92 539.13,266.70 538.83,266.52 538.51,266.40 538.17,266.33 537.91,266.31 471.46,266.31 471.72,266.33 471.37,266.31 471.03,266.36 470.69,266.45 470.38,266.60 470.09,266.80 469.84,267.04 469.63,267.32 469.47,267.63 469.36,267.96 469.31,268.30 469.30,268.47 469.30,294.84 469.31,294.67 469.31,295.01 469.36,295.36 469.47,295.69 469.63,295.99 469.84,296.27 470.09,296.51 470.38,296.71 470.69,296.86 471.03,296.96 471.37,297.00' fill='#FEE090' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='472.9' y='277.5' font-size='8.28pt' font-family='Liberation Sans'>grad.year.11 <\/text>\n   <text x='487.51' y='293.4' font-size='8.28pt' font-family='Liberation Sans'> 19.3%<\/text>\n   <polygon points='125.00,103.23 186.14,103.23 186.05,103.23 186.40,103.22 186.74,103.15 187.07,103.03 187.37,102.85 187.64,102.63 187.87,102.37 188.05,102.08 188.19,101.76 188.27,101.42 188.30,101.07 188.30,101.07 188.30,74.71 188.30,74.71 188.27,74.36 188.19,74.02 188.05,73.70 187.87,73.41 187.64,73.15 187.37,72.93 187.07,72.76 186.74,72.63 186.40,72.56 186.14,72.55 125.00,72.55 125.26,72.56 124.92,72.55 124.57,72.59 124.24,72.69 123.92,72.84 123.64,73.03 123.39,73.28 123.18,73.55 123.02,73.86 122.91,74.19 122.85,74.53 122.84,74.71 122.84,101.07 122.85,100.90 122.85,101.25 122.91,101.59 123.02,101.92 123.18,102.23 123.39,102.51 123.64,102.75 123.92,102.94 124.24,103.09 124.57,103.19 124.92,103.23' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='126.44' y='83.74' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='141.47' y='99.63' font-size='8.28pt' font-family='Liberation Sans'> 0.9%<\/text>\n   <polygon points='277.31,225.28 338.45,225.28 338.36,225.28 338.71,225.26 339.05,225.19 339.37,225.07 339.68,224.89 339.95,224.68 340.18,224.41 340.36,224.12 340.50,223.80 340.58,223.46 340.61,223.12 340.61,223.12 340.61,196.75 340.61,196.75 340.58,196.40 340.50,196.07 340.36,195.75 340.18,195.45 339.95,195.19 339.68,194.97 339.37,194.80 339.05,194.68 338.71,194.61 338.45,194.59 277.31,194.59 277.57,194.61 277.23,194.59 276.88,194.64 276.55,194.73 276.23,194.88 275.95,195.08 275.70,195.32 275.49,195.60 275.33,195.90 275.22,196.23 275.16,196.58 275.15,196.75 275.15,223.12 275.16,222.94 275.16,223.29 275.22,223.63 275.33,223.96 275.49,224.27 275.70,224.55 275.95,224.79 276.23,224.99 276.55,225.14 276.88,225.23 277.23,225.28' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='278.75' y='205.78' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='293.78' y='221.68' font-size='8.28pt' font-family='Liberation Sans'> 6.4%<\/text>\n   <polygon points='471.45,227.43 537.89,227.43 537.81,227.42 538.15,227.41 538.50,227.34 538.82,227.22 539.12,227.04 539.39,226.82 539.62,226.56 539.81,226.27 539.94,225.95 540.03,225.61 540.05,225.27 540.05,225.27 540.05,198.90 540.05,198.90 540.03,198.55 539.94,198.22 539.81,197.90 539.62,197.60 539.39,197.34 539.12,197.12 538.82,196.95 538.50,196.83 538.15,196.76 537.89,196.74 471.45,196.74 471.71,196.76 471.36,196.74 471.01,196.78 470.68,196.88 470.37,197.03 470.08,197.23 469.83,197.47 469.62,197.75 469.46,198.05 469.35,198.38 469.29,198.73 469.29,198.90 469.29,225.27 469.29,225.09 469.29,225.44 469.35,225.78 469.46,226.11 469.62,226.42 469.83,226.70 470.08,226.94 470.37,227.14 470.68,227.29 471.01,227.38 471.36,227.42' fill='#FC8D59' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='472.89' y='207.93' font-size='8.28pt' font-family='Liberation Sans'>grad.year.11 <\/text>\n   <text x='490.56' y='223.83' font-size='8.28pt' font-family='Liberation Sans'> 7.0%<\/text>\n   <polygon points='69.67,65.37 130.80,65.37 130.72,65.37 131.06,65.36 131.40,65.29 131.73,65.16 132.03,64.99 132.30,64.77 132.53,64.51 132.71,64.22 132.85,63.90 132.93,63.56 132.96,63.21 132.96,63.21 132.96,36.85 132.96,36.85 132.93,36.50 132.85,36.16 132.71,35.84 132.53,35.55 132.30,35.29 132.03,35.07 131.73,34.89 131.40,34.77 131.06,34.70 130.80,34.69 69.67,34.69 69.93,34.70 69.58,34.69 69.23,34.73 68.90,34.83 68.59,34.98 68.30,35.17 68.05,35.41 67.84,35.69 67.68,36.00 67.57,36.33 67.51,36.67 67.51,36.85 67.51,63.21 67.51,63.04 67.51,63.39 67.57,63.73 67.68,64.06 67.84,64.37 68.05,64.64 68.30,64.88 68.59,65.08 68.90,65.23 69.23,65.33 69.58,65.37' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='71.11' y='45.87' font-size='8.28pt' font-family='Liberation Sans'>grad.year.0 <\/text>\n   <text x='86.13' y='61.77' font-size='8.28pt' font-family='Liberation Sans'> 6.5%<\/text>\n   <polygon points='321.91,110.54 383.04,110.54 382.95,110.54 383.30,110.52 383.64,110.45 383.97,110.33 384.27,110.16 384.54,109.94 384.77,109.68 384.95,109.38 385.09,109.06 385.17,108.73 385.20,108.38 385.20,108.38 385.20,82.01 385.20,82.01 385.17,81.67 385.09,81.33 384.95,81.01 384.77,80.72 384.54,80.46 384.27,80.24 383.97,80.06 383.64,79.94 383.30,79.87 383.04,79.85 321.91,79.85 322.17,79.87 321.82,79.86 321.47,79.90 321.14,79.99 320.83,80.14 320.54,80.34 320.29,80.58 320.08,80.86 319.92,81.17 319.81,81.50 319.75,81.84 319.75,82.01 319.75,108.38 319.75,108.21 319.75,108.55 319.81,108.90 319.92,109.23 320.08,109.53 320.29,109.81 320.54,110.05 320.83,110.25 321.14,110.40 321.47,110.50 321.82,110.54' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='323.35' y='91.04' font-size='8.28pt' font-family='Liberation Sans'>grad.year.6 <\/text>\n   <text x='335.3' y='106.94' font-size='8.28pt' font-family='Liberation Sans'> 21.7%<\/text>\n   <polygon points='471.35,151.02 537.80,151.02 537.71,151.01 538.06,151.00 538.40,150.93 538.72,150.81 539.03,150.63 539.29,150.41 539.52,150.15 539.71,149.86 539.85,149.54 539.93,149.20 539.96,148.86 539.96,148.86 539.96,122.49 539.96,122.49 539.93,122.14 539.85,121.81 539.71,121.49 539.52,121.19 539.29,120.93 539.03,120.71 538.72,120.54 538.40,120.41 538.06,120.35 537.80,120.33 471.35,120.33 471.61,120.35 471.26,120.33 470.92,120.37 470.58,120.47 470.27,120.62 469.98,120.82 469.73,121.06 469.52,121.33 469.36,121.64 469.25,121.97 469.20,122.32 469.19,122.49 469.19,148.86 469.20,148.68 469.20,149.03 469.25,149.37 469.36,149.70 469.52,150.01 469.73,150.29 469.98,150.53 470.27,150.73 470.58,150.87 470.92,150.97 471.26,151.01' fill='#D73027' fill-opacity='1' stroke='#000000' stroke-opacity='1' stroke-width='0.53' stroke-linejoin='round' stroke-linecap='round'/>\n   <text x='472.79' y='131.52' font-size='8.28pt' font-family='Liberation Sans'>grad.year.11 <\/text>\n   <text x='487.4' y='147.42' font-size='8.28pt' font-family='Liberation Sans'> 21.9%<\/text>\n  <\/g>\n  <g clip-path='url(#svg_48f8fa39672d1461_c1)'>\n   <text x='40.91' y='593.09' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0%<\/text>\n   <text x='32.91' y='460.48' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>25%<\/text>\n   <text x='32.91' y='327.87' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>50%<\/text>\n   <text x='32.91' y='195.25' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>75%<\/text>\n   <text x='24.9' y='62.64' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>100%<\/text>\n   <text x='90.07' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>0<\/text>\n   <text x='168.77' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>2<\/text>\n   <text x='247.48' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>4<\/text>\n   <text x='326.18' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>6<\/text>\n   <text x='404.89' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>8<\/text>\n   <text x='479.59' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>10<\/text>\n   <text x='558.29' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>12<\/text>\n   <text x='637' y='626.96' font-size='10.8pt' font-weight='bold' font-family='Arial' fill='#4D4D4D' fill-opacity='1'>14<\/text>\n   <text x='348.68' y='645.61' font-size='13.5pt' font-family='Arial'>Grad Year<\/text>\n   <text transform='translate(18.37,418.76) rotate(-90.00)' font-size='13.5pt' font-family='Arial'>Proportion of individuals<\/text>\n   <rect x='178.06' y='660.36' width='422.3' height='54.16' fill='none' stroke='none'/>\n   <rect x='178.06' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='661.07' width='12.98' height='12.98' fill='#D73027' fill-opacity='1' stroke='none'/>\n   <rect x='178.06' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='680.95' width='12.98' height='12.98' fill='#FC8D59' fill-opacity='1' stroke='none'/>\n   <rect x='178.06' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='178.77' y='700.83' width='12.98' height='12.98' fill='#FEE090' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='660.36' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='661.07' width='12.98' height='12.98' fill='#FFFFBF' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='680.24' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='680.95' width='12.98' height='12.98' fill='#E0F3F8' fill-opacity='1' stroke='none'/>\n   <rect x='351.96' y='700.12' width='14.4' height='14.4' fill='none' stroke='none'/>\n   <rect x='352.67' y='700.83' width='12.98' height='12.98' fill='#91BFDB' fill-opacity='1' stroke='none'/>\n   <text x='194.46' y='672.71' font-size='10.8pt' font-family='Arial'>Meaningful emp County<\/text>\n   <text x='194.46' y='692.59' font-size='10.8pt' font-family='Arial'>Meaningful emp region<\/text>\n   <text x='194.46' y='712.47' font-size='10.8pt' font-family='Arial'>Meaningful emp MN<\/text>\n   <text x='368.35' y='672.71' font-size='10.8pt' font-family='Arial'>Attending ps<\/text>\n   <text x='368.35' y='692.59' font-size='10.8pt' font-family='Arial'>Not meaningful, not attending ps<\/text>\n   <text x='368.35' y='712.47' font-size='10.8pt' font-family='Arial'>No MN emp record, not attending ps<\/text>\n   <text x='5.48' y='20.94' font-size='16.2pt' font-weight='bold' font-family='Arial'>Percent share of path by grad year X<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_48f8fa39672d1461","ratio":1,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:9999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null,"linked":false},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_data_SVGID_ { stroke:none;fill:red; }\ncircle.select_data_SVGID_ { fill:red;stroke:black; }\nline.select_data_SVGID_, polyline.select_data_SVGID_ { fill:none;stroke:red; }\nrect.select_data_SVGID_, polygon.select_data_SVGID_, path.select_data_SVGID_ { fill:red;stroke:none; }\nimage.select_data_SVGID_ { stroke:red; }","type":"none","only_shiny":true,"selected":[],"linked":false},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300,"default_on":false},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":false,"width":1}}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
@@ -1184,243 +1182,239 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-  window.document.addEventListener("DOMContentLoaded", function (event) {
-    const icon = "";
-    const anchorJS = new window.AnchorJS();
-    anchorJS.options = {
-      placement: 'right',
-      icon: icon
-    };
-    anchorJS.add('.anchored');
-    const isCodeAnnotation = (el) => {
-      for (const clz of el.classList) {
-        if (clz.startsWith('code-annotation-')) {                     
-          return true;
-        }
-      }
-      return false;
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
     }
-    const onCopySuccess = function(e) {
-      // button target
-      const button = e.trigger;
-      // don't keep focus
-      button.blur();
-      // flash "checked"
-      button.classList.add('code-copy-button-checked');
-      var currentTitle = button.getAttribute("title");
-      button.setAttribute("title", "Copied!");
-      let tooltip;
-      if (window.bootstrap) {
-        button.setAttribute("data-bs-toggle", "tooltip");
-        button.setAttribute("data-bs-placement", "left");
-        button.setAttribute("data-bs-title", "Copied!");
-        tooltip = new bootstrap.Tooltip(button, 
-          { trigger: "manual", 
-            customClass: "code-copy-button-tooltip",
-            offset: [0, -8]});
-        tooltip.show();    
-      }
-      setTimeout(function() {
-        if (tooltip) {
-          tooltip.hide();
-          button.removeAttribute("data-bs-title");
-          button.removeAttribute("data-bs-toggle");
-          button.removeAttribute("data-bs-placement");
-        }
-        button.setAttribute("title", currentTitle);
-        button.classList.remove('code-copy-button-checked');
-      }, 1000);
-      // clear code selection
-      e.clearSelection();
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
     }
-    const getTextToCopy = function(trigger) {
-      const outerScaffold = trigger.parentElement.cloneNode(true);
-      const codeEl = outerScaffold.querySelector('code');
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-    }
-    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-      text: getTextToCopy
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
     });
-    clipboard.on('success', onCopySuccess);
-    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-        text: getTextToCopy,
-        container: window.document.getElementById('quarto-embedded-source-code-modal')
-      });
-      clipboardModal.on('success', onCopySuccess);
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
     }
-      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-      var mailtoRegex = new RegExp(/^mailto:/);
-        var filterRegex = new RegExp('/' + window.location.host + '/');
-      var isInternal = (href) => {
-          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
-      }
-      // Inspect non-navigation links and adorn them if external
-     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-      for (var i=0; i<links.length; i++) {
-        const link = links[i];
-        if (!isInternal(link.href)) {
-          // undo the damage that might have been done by quarto-nav.js in the case of
-          // links that we want to consider external
-          if (link.dataset.originalHref !== undefined) {
-            link.href = link.dataset.originalHref;
-          }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
         }
       }
-    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-      const config = {
-        allowHTML: true,
-        maxWidth: 500,
-        delay: 100,
-        arrow: false,
-        appendTo: function(el) {
-            return el.parentElement;
-        },
-        interactive: true,
-        interactiveBorder: 10,
-        theme: 'quarto',
-        placement: 'bottom-start',
-      };
-      if (contentFn) {
-        config.content = contentFn;
-      }
-      if (onTriggerFn) {
-        config.onTrigger = onTriggerFn;
-      }
-      if (onUntriggerFn) {
-        config.onUntrigger = onUntriggerFn;
-      }
-      window.tippy(el, config); 
     }
-    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-    for (var i=0; i<noterefs.length; i++) {
-      const ref = noterefs[i];
-      tippyHover(ref, function() {
-        // use id or data attribute instead here
-        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-        try { href = new URL(href).hash; } catch {}
-        const id = href.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note) {
-          return note.innerHTML;
-        } else {
-          return "";
-        }
-      });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
     }
-    const xrefs = window.document.querySelectorAll('a.quarto-xref');
-    const processXRef = (id, note) => {
-      // Strip column container classes
-      const stripColumnClz = (el) => {
-        el.classList.remove("page-full", "page-columns");
-        if (el.children) {
-          for (const child of el.children) {
-            stripColumnClz(child);
-          }
-        }
-      }
-      stripColumnClz(note)
-      if (id === null || id.startsWith('sec-')) {
-        // Special case sections, only their first couple elements
-        const container = document.createElement("div");
-        if (note.children && note.children.length > 2) {
-          container.appendChild(note.children[0].cloneNode(true));
-          for (let i = 1; i < note.children.length; i++) {
-            const child = note.children[i];
-            if (child.tagName === "P" && child.innerText === "") {
-              continue;
-            } else {
-              container.appendChild(child.cloneNode(true));
-              break;
-            }
-          }
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(container);
-          }
-          return container.innerHTML
-        } else {
-          if (window.Quarto?.typesetMath) {
-            window.Quarto.typesetMath(note);
-          }
-          return note.innerHTML;
-        }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
       } else {
-        // Remove any anchor links if they are present
-        const anchorLink = note.querySelector('a.anchorjs-link');
-        if (anchorLink) {
-          anchorLink.remove();
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
         }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        if (note.classList.contains("callout")) {
-          return note.outerHTML;
-        } else {
-          return note.innerHTML;
-        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
       }
     }
-    for (var i=0; i<xrefs.length; i++) {
-      const xref = xrefs[i];
-      tippyHover(xref, undefined, function(instance) {
-        instance.disable();
-        let url = xref.getAttribute('href');
-        let hash = undefined; 
-        if (url.startsWith('#')) {
-          hash = url;
-        } else {
-          try { hash = new URL(url).hash; } catch {}
-        }
-        if (hash) {
-          const id = hash.replace(/^#\/?/, "");
-          const note = window.document.getElementById(id);
-          if (note !== null) {
-            try {
-              const html = processXRef(id, note.cloneNode(true));
-              instance.setContent(html);
-            } finally {
-              instance.enable();
-              instance.show();
-            }
-          } else {
-            // See if we can fetch this
-            fetch(url.split('#')[0])
-            .then(res => res.text())
-            .then(html => {
-              const parser = new DOMParser();
-              const htmlDoc = parser.parseFromString(html, "text/html");
-              const note = htmlDoc.getElementById(id);
-              if (note !== null) {
-                const html = processXRef(id, note);
-                instance.setContent(html);
-              } 
-            }).finally(() => {
-              instance.enable();
-              instance.show();
-            });
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
           }
         } else {
-          // See if we can fetch a full url (with no hash to target)
-          // This is a special case and we should probably do some content thinning / targeting
-          fetch(url)
+          // See if we can fetch this
+          fetch(url.split('#')[0])
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.querySelector('main.content');
+            const note = htmlDoc.getElementById(id);
             if (note !== null) {
-              // This should only happen for chapter cross references
-              // (since there is no id in the URL)
-              // remove the first header
-              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-                note.children[0].remove();
-              }
-              const html = processXRef(null, note);
+              const html = processXRef(id, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1428,161 +1422,185 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
             instance.show();
           });
         }
-      }, function(instance) {
-      });
-    }
-        let selectedAnnoteEl;
-        const selectorForAnnotation = ( cell, annotation) => {
-          let cellAttr = 'data-code-cell="' + cell + '"';
-          let lineAttr = 'data-code-annotation="' +  annotation + '"';
-          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-          return selector;
-        }
-        const selectCodeLines = (annoteEl) => {
-          const doc = window.document;
-          const targetCell = annoteEl.getAttribute("data-target-cell");
-          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-          const lineIds = lines.map((line) => {
-            return targetCell + "-" + line;
-          })
-          let top = null;
-          let height = null;
-          let parent = null;
-          if (lineIds.length > 0) {
-              //compute the position of the single el (top and bottom and make a div)
-              const el = window.document.getElementById(lineIds[0]);
-              top = el.offsetTop;
-              height = el.offsetHeight;
-              parent = el.parentElement.parentElement;
-            if (lineIds.length > 1) {
-              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-              height = bottom - top;
-            }
-            if (top !== null && height !== null && parent !== null) {
-              // cook up a div (if necessary) and position it 
-              let div = window.document.getElementById("code-annotation-line-highlight");
-              if (div === null) {
-                div = window.document.createElement("div");
-                div.setAttribute("id", "code-annotation-line-highlight");
-                div.style.position = 'absolute';
-                parent.appendChild(div);
-              }
-              div.style.top = top - 2 + "px";
-              div.style.height = height + 4 + "px";
-              div.style.left = 0;
-              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-              if (gutterDiv === null) {
-                gutterDiv = window.document.createElement("div");
-                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-                gutterDiv.style.position = 'absolute';
-                const codeCell = window.document.getElementById(targetCell);
-                const gutter = codeCell.querySelector('.code-annotation-gutter');
-                gutter.appendChild(gutterDiv);
-              }
-              gutterDiv.style.top = top - 2 + "px";
-              gutterDiv.style.height = height + 4 + "px";
-            }
-            selectedAnnoteEl = annoteEl;
-          }
-        };
-        const unselectCodeLines = () => {
-          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-          elementsIds.forEach((elId) => {
-            const div = window.document.getElementById(elId);
-            if (div) {
-              div.remove();
-            }
-          });
-          selectedAnnoteEl = undefined;
-        };
-          // Handle positioning of the toggle
-      window.addEventListener(
-        "resize",
-        throttle(() => {
-          elRect = undefined;
-          if (selectedAnnoteEl) {
-            selectCodeLines(selectedAnnoteEl);
-          }
-        }, 10)
-      );
-      function throttle(fn, ms) {
-      let throttle = false;
-      let timer;
-        return (...args) => {
-          if(!throttle) { // first call gets through
-              fn.apply(this, args);
-              throttle = true;
-          } else { // all the others get throttled
-              if(timer) clearTimeout(timer); // cancel #2
-              timer = setTimeout(() => {
-                fn.apply(this, args);
-                timer = throttle = false;
-              }, ms);
-          }
-        };
-      }
-        // Attach click handler to the DT
-        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-        for (const annoteDlNode of annoteDls) {
-          annoteDlNode.addEventListener('click', (event) => {
-            const clickedEl = event.target;
-            if (clickedEl !== selectedAnnoteEl) {
-              unselectCodeLines();
-              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-              if (activeEl) {
-                activeEl.classList.remove('code-annotation-active');
-              }
-              selectCodeLines(clickedEl);
-              clickedEl.classList.add('code-annotation-active');
-            } else {
-              // Unselect the line
-              unselectCodeLines();
-              clickedEl.classList.remove('code-annotation-active');
-            }
-          });
-        }
-    const findCites = (el) => {
-      const parentEl = el.parentElement;
-      if (parentEl) {
-        const cites = parentEl.dataset.cites;
-        if (cites) {
-          return {
-            el,
-            cites: cites.split(' ')
-          };
-        } else {
-          return findCites(el.parentElement)
-        }
       } else {
-        return undefined;
-      }
-    };
-    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-    for (var i=0; i<bibliorefs.length; i++) {
-      const ref = bibliorefs[i];
-      const citeInfo = findCites(ref);
-      if (citeInfo) {
-        tippyHover(citeInfo.el, function() {
-          var popup = window.document.createElement('div');
-          citeInfo.cites.forEach(function(cite) {
-            var citeDiv = window.document.createElement('div');
-            citeDiv.classList.add('hanging-indent');
-            citeDiv.classList.add('csl-entry');
-            var biblioDiv = window.document.getElementById('ref-' + cite);
-            if (biblioDiv) {
-              citeDiv.innerHTML = biblioDiv.innerHTML;
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
             }
-            popup.appendChild(citeDiv);
-          });
-          return popup.innerHTML;
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
         });
       }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
     }
-  });
-  </script>
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
 </div> <!-- /content -->
 
 

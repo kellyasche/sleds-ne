@@ -264,26 +264,26 @@ Since we provided the descriptive statistics above, we now need to analyze which
 
 For exploring the relationships we will do the following;
 
--   For **categorical predictors** (e.g., Race/Ethnicity, Economic status, CTE achievement, PSEO participation), use cross-tabs with Cramer’s V and chi-square.
--   For **continuous predictors** (e.g., ACT, MCA scores, total CTE courses, county-level variables), use ANOVA to compare means across the employment states.
--   Run these analyses separately for grad.year.1, grad.year.5, grad.year.10 to see how relationships shift over time.
+- For **categorical predictors** (e.g., Race/Ethnicity, Economic status, CTE achievement, PSEO participation), use cross-tabs with Cramer’s V and chi-square.
+- For **continuous predictors** (e.g., ACT, MCA scores, total CTE courses, county-level variables), use ANOVA to compare means across the employment states.
+- Run these analyses separately for grad.year.1, grad.year.5, grad.year.10 to see how relationships shift over time.
 
 For building the predictive model, we will do the following;
 
--   Identify important predictors
-    -   Focus on effect sizes rather than just significance (since large N will make almost everything significant).
-    -   Highlight **which variables consistently show moderate-to-strong associations** with employment outcomes.
-    -   These become the candidates for inclusion in CART modeling.
--   For each year (1, 5, 10), run CART where the dependent variable is a **binary comparison with “Meaningful emp region”** as the reference:
-    -   Meaningful emp region vs. Meaningful emp MN
-    -   Meaningful emp region vs. Not meaningful, not attending ps
-    -   Meaningful emp region vs. No MN emp record, not attending ps
+- Identify important predictors
+  - Focus on effect sizes rather than just significance (since large N will make almost everything significant).
+  - Highlight **which variables consistently show moderate-to-strong associations** with employment outcomes.
+  - These become the candidates for inclusion in CART modeling.
+- For each year (1, 5, 10), run CART where the dependent variable is a **binary comparison with “Meaningful emp region”** as the reference:
+  - Meaningful emp region vs. Meaningful emp MN
+  - Meaningful emp region vs. Not meaningful, not attending ps
+  - Meaningful emp region vs. No MN emp record, not attending ps
 
 This will:
 
--   Show **which factors distinguish students who stay employed meaningfully in their region** from those in other outcomes.
--   Provide **clear decision rules** (e.g., *“Non-college grads with high ACT scores and PSEO experience are far more likely to achieve meaningful regional employment.”*).
--   Feed directly into actionable insights for policymakers.
+- Show **which factors distinguish students who stay employed meaningfully in their region** from those in other outcomes.
+- Provide **clear decision rules** (e.g., *“Non-college grads with high ACT scores and PSEO experience are far more likely to achieve meaningful regional employment.”*).
+- Feed directly into actionable insights for policymakers.
 
 <br>
 
@@ -291,9 +291,9 @@ This will:
 
 We are going to continue using the variables that we have used throughout this project.
 
--   **Demographic:** `RaceEthnicity`, `economic.status`, `SpecialEdStatus`, `Gender`
--   **High school characteristics:** `Dem_Desc`, `avg.unemp.rate`, `avg.wages.pct.state`
--   **High school accomplishments:** `pseo.participant`, `cte.achievement`, `total.cte.courses.taken`, `ACTCompositeScore`, `MCA.M`, `MCA.R`, `MCA.S`
+- **Demographic:** `RaceEthnicity`, `economic.status`, `SpecialEdStatus`, `Gender`
+- **High school characteristics:** `Dem_Desc`, `avg.unemp.rate`, `avg.wages.pct.state`
+- **High school accomplishments:** `pseo.participant`, `cte.achievement`, `total.cte.courses.taken`, `ACTCompositeScore`, `MCA.M`, `MCA.R`, `MCA.S`
 
 <br>
 
@@ -307,10 +307,10 @@ We will first explore the relationships between the independent variables and th
 
 #### Key Findings
 
--   **Economic Status**: The strongest and most consistent demographic factor. At 1 year, low-income students are notably less likely to be in **meaningful employment in the region** (Cramer’s V = 0.115, *p* \< .001). While disparities weaken at 5 and 10 years, gaps in regional meaningful employment remain.
--   **Special Education Status**: Also a strong differentiator. At 1 year, students with special education needs are substantially less likely to achieve meaningful regional employment (Cramer’s V = 0.176, *p* \< .001). Although the association weakens over time, regional employment gaps persist through year 10.
--   **Gender**: Displays a modest but consistent influence. Males are more likely to secure meaningful employment in the region, with gaps narrowing at 5 years but re-emerging by 10 years (Cramer’s V ≈ 0.06–0.08, *p* \< .001).
--   **Race/Ethnicity**: Shows a small but persistent association (Cramer’s V ≈ 0.05, *p* \< .001). White students are more likely to be in meaningful regional employment, while students of color are more often in weaker outcomes. The disparity remains stable over time.
+- **Economic Status**: The strongest and most consistent demographic factor. At 1 year, low-income students are notably less likely to be in **meaningful employment in the region** (Cramer’s V = 0.115, *p* \< .001). While disparities weaken at 5 and 10 years, gaps in regional meaningful employment remain.
+- **Special Education Status**: Also a strong differentiator. At 1 year, students with special education needs are substantially less likely to achieve meaningful regional employment (Cramer’s V = 0.176, *p* \< .001). Although the association weakens over time, regional employment gaps persist through year 10.
+- **Gender**: Displays a modest but consistent influence. Males are more likely to secure meaningful employment in the region, with gaps narrowing at 5 years but re-emerging by 10 years (Cramer’s V ≈ 0.06–0.08, *p* \< .001).
+- **Race/Ethnicity**: Shows a small but persistent association (Cramer’s V ≈ 0.05, *p* \< .001). White students are more likely to be in meaningful regional employment, while students of color are more often in weaker outcomes. The disparity remains stable over time.
 
 #### Interpretation Over Time
 
@@ -322,10 +322,10 @@ For non-college graduates, **demographics matter most in the early transition** 
 
 #### Policy Implications
 
--   **Early Intervention is Critical**: Programs supporting disadvantaged students in the first 1–2 years after high school are most likely to reduce long-term disparities in regional meaningful employment.
--   **Target Regional Employment Pipelines**: Connecting low-income students, students of color, women, and special education students to local employers and career ladders can address inequities at their source.
--   **Retention and Advancement Strategies**: Since gaps persist into the 10-year mark, interventions cannot stop at initial placement—long-term supports are needed to sustain equity in regional employment.
--   **Equity Benchmarking**: Meaningful employment in the region should be treated as a key benchmark for equity policy, as it is both the most desirable outcome and the one where disparities are most evident.
+- **Early Intervention is Critical**: Programs supporting disadvantaged students in the first 1–2 years after high school are most likely to reduce long-term disparities in regional meaningful employment.
+- **Target Regional Employment Pipelines**: Connecting low-income students, students of color, women, and special education students to local employers and career ladders can address inequities at their source.
+- **Retention and Advancement Strategies**: Since gaps persist into the 10-year mark, interventions cannot stop at initial placement—long-term supports are needed to sustain equity in regional employment.
+- **Equity Benchmarking**: Meaningful employment in the region should be treated as a key benchmark for equity policy, as it is both the most desirable outcome and the one where disparities are most evident.
 
 <br>
 
@@ -333,8 +333,8 @@ For non-college graduates, **demographics matter most in the early transition** 
 
 #### Key Findings
 
--   At **1-year**, race/ethnicity shows a statistically significant but weak association with employment outcomes (*p* \< .001, **Cramer's V = 0.053**). Students of color are **less likely to be in meaningful employment in the region** and more likely in “not meaningful” or “no MN employment record.”
--   At **5- and 10-years**, the association remains significant (*p* \< .001) with nearly identical effect sizes (**Cramer's V ≈ 0.052–0.053**). Racial gaps in meaningful regional employment persist over time, though they do not appear to widen.
+- At **1-year**, race/ethnicity shows a statistically significant but weak association with employment outcomes (*p* \< .001, **Cramer's V = 0.053**). Students of color are **less likely to be in meaningful employment in the region** and more likely in “not meaningful” or “no MN employment record.”
+- At **5- and 10-years**, the association remains significant (*p* \< .001) with nearly identical effect sizes (**Cramer's V ≈ 0.052–0.053**). Racial gaps in meaningful regional employment persist over time, though they do not appear to widen.
 
 #### Interpretation Over Time
 
@@ -346,9 +346,9 @@ Race/ethnicity has a **modest but enduring influence** on non-college grads’ a
 
 #### Policy Implications
 
--   **Equity in regional employment pathways** should be a priority, with targeted support for students of color in the early years after high school.
--   Expanding **regional employer partnerships** and mentorship opportunities could help address underrepresentation in meaningful regional employment.
--   Because disparities persist over the long run, **policy should focus on dismantling barriers to entry into regional employment**, not just early transition supports.
+- **Equity in regional employment pathways** should be a priority, with targeted support for students of color in the early years after high school.
+- Expanding **regional employer partnerships** and mentorship opportunities could help address underrepresentation in meaningful regional employment.
+- Because disparities persist over the long run, **policy should focus on dismantling barriers to entry into regional employment**, not just early transition supports.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -422,9 +422,9 @@ master.original %>%
 
 #### Key Findings
 
--   At **1-year**, economic status (FRL qualification) has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.115**). Economically disadvantaged non-college grads are **less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
--   At **5-years**, the association weakens (*p* \< .001, **Cramer's V = 0.079**), but disadvantaged students still lag in securing meaningful regional employment, even as overall shares in the region rise.
--   At **10-years**, the association is smaller but still present (*p* \< .001, **Cramer's V = 0.076**). While many low-income students improve their outcomes, gaps in regional meaningful employment remain.
+- At **1-year**, economic status (FRL qualification) has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.115**). Economically disadvantaged non-college grads are **less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
+- At **5-years**, the association weakens (*p* \< .001, **Cramer's V = 0.079**), but disadvantaged students still lag in securing meaningful regional employment, even as overall shares in the region rise.
+- At **10-years**, the association is smaller but still present (*p* \< .001, **Cramer's V = 0.076**). While many low-income students improve their outcomes, gaps in regional meaningful employment remain.
 
 #### Interpretation Over Time
 
@@ -436,10 +436,10 @@ Economic status strongly shapes the likelihood of securing **regional meaningful
 
 #### Policy Implications
 
--   **Focus on regional employment pipelines**: Strengthen direct connections between disadvantaged students and regional employers, especially in industries offering long-term stability.
--   **First-job interventions matter**: Ensuring that low-income non-college grads enter meaningful regional work within 1–2 years could reduce long-term disparities.
--   **Retention supports**: Programs that help disadvantaged workers remain in the region and advance within local employment could help close the persistent 10-year gap.
--   Policymakers should treat **meaningful regional employment as the key equity benchmark** for non-college grads, since disparities concentrate in this outcome even more than in overall employment.
+- **Focus on regional employment pipelines**: Strengthen direct connections between disadvantaged students and regional employers, especially in industries offering long-term stability.
+- **First-job interventions matter**: Ensuring that low-income non-college grads enter meaningful regional work within 1–2 years could reduce long-term disparities.
+- **Retention supports**: Programs that help disadvantaged workers remain in the region and advance within local employment could help close the persistent 10-year gap.
+- Policymakers should treat **meaningful regional employment as the key equity benchmark** for non-college grads, since disparities concentrate in this outcome even more than in overall employment.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -506,9 +506,9 @@ master.original %>%
 
 #### Key Findings
 
--   At **1-year**, special education status shows a **moderate association** with employment outcomes (*p* \< .001, **Cramer's V = 0.176**). Students with special education needs are **substantially less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or disconnected categories.
--   At **5-years**, the association remains significant but weaker (*p* \< .001, **Cramer's V = 0.113**). Some catch-up occurs, but students with special education needs are still underrepresented in regional meaningful employment.
--   At **10-years**, the association is smaller but persists (*p* \< .001, **Cramer's V = 0.084**), indicating that while disparities narrow, a lasting gap remains in access to meaningful regional employment.
+- At **1-year**, special education status shows a **moderate association** with employment outcomes (*p* \< .001, **Cramer's V = 0.176**). Students with special education needs are **substantially less likely to be in meaningful employment in the region** and more likely to be in “not meaningful” or disconnected categories.
+- At **5-years**, the association remains significant but weaker (*p* \< .001, **Cramer's V = 0.113**). Some catch-up occurs, but students with special education needs are still underrepresented in regional meaningful employment.
+- At **10-years**, the association is smaller but persists (*p* \< .001, **Cramer's V = 0.084**), indicating that while disparities narrow, a lasting gap remains in access to meaningful regional employment.
 
 #### Interpretation Over Time
 
@@ -520,10 +520,10 @@ Special education status is a **strong barrier to meaningful regional employment
 
 #### Policy Implications
 
--   **Early transition supports are critical**: Programs that directly connect special education students to regional employers in their first 1–2 years could help close the largest gap.
--   **Workforce preparation tailored to regional industries** may improve long-term outcomes, especially when aligned with local employer needs.
--   **Sustained supports** beyond high school are necessary, since disparities in regional employment persist even after 10 years.
--   Policymakers should view meaningful regional employment as a **key equity target** for students with special education needs, ensuring both access and retention within the local labor market.
+- **Early transition supports are critical**: Programs that directly connect special education students to regional employers in their first 1–2 years could help close the largest gap.
+- **Workforce preparation tailored to regional industries** may improve long-term outcomes, especially when aligned with local employer needs.
+- **Sustained supports** beyond high school are necessary, since disparities in regional employment persist even after 10 years.
+- Policymakers should view meaningful regional employment as a **key equity target** for students with special education needs, ensuring both access and retention within the local labor market.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -592,9 +592,9 @@ master.original %>%
 
 #### Key Findings
 
--   **Dem_Desc (Rural/Urban Context)**: Shows a small but consistent association with employment outcomes (Cramer’s V ≈ 0.03–0.04, *p* \< .001). Rural graduates are **slightly more likely to secure meaningful employment in the region**, while urban students are more often in non-MN or non-meaningful outcomes.
--   **Average County Unemployment Rate**: A strong differentiator, especially at 1 year (*F* = 110.8, *p* \< .001). Students from high-unemployment counties are less likely to achieve meaningful regional employment. The effect weakens but remains significant at 5 and 10 years.
--   **Average County Wages (Pct. of State Median)**: Significant at 1 year (*F* = 12.3, *p* \< .001) and 5 years (*F* = 9.8, *p* \< .001), with higher-wage counties modestly increasing access to meaningful regional employment. By 10 years, the association disappears (*p* = .329).
+- **Dem_Desc (Rural/Urban Context)**: Shows a small but consistent association with employment outcomes (Cramer’s V ≈ 0.03–0.04, *p* \< .001). Rural graduates are **slightly more likely to secure meaningful employment in the region**, while urban students are more often in non-MN or non-meaningful outcomes.
+- **Average County Unemployment Rate**: A strong differentiator, especially at 1 year (*F* = 110.8, *p* \< .001). Students from high-unemployment counties are less likely to achieve meaningful regional employment. The effect weakens but remains significant at 5 and 10 years.
+- **Average County Wages (Pct. of State Median)**: Significant at 1 year (*F* = 12.3, *p* \< .001) and 5 years (*F* = 9.8, *p* \< .001), with higher-wage counties modestly increasing access to meaningful regional employment. By 10 years, the association disappears (*p* = .329).
 
 #### Interpretation Over Time
 
@@ -606,10 +606,10 @@ High school characteristics exert their strongest influence on regional meaningf
 
 #### Policy Implications
 
--   **Place-based supports** are critical: students in high-unemployment or lower-wage counties need targeted programs to connect them to regional employment.
--   **Rural strengths can be leveraged**: replicating strong employer pipelines in rural areas for urban students may help reduce disparities in regional employment outcomes.
--   **Early career interventions** (within 1–5 years) are most impactful, as local wage and unemployment contexts influence outcomes most strongly in this period.
--   **Long-term strategies** should focus on strengthening county labor markets themselves, since structural conditions leave lasting imprints even beyond individual differences.
+- **Place-based supports** are critical: students in high-unemployment or lower-wage counties need targeted programs to connect them to regional employment.
+- **Rural strengths can be leveraged**: replicating strong employer pipelines in rural areas for urban students may help reduce disparities in regional employment outcomes.
+- **Early career interventions** (within 1–5 years) are most impactful, as local wage and unemployment contexts influence outcomes most strongly in this period.
+- **Long-term strategies** should focus on strengthening county labor markets themselves, since structural conditions leave lasting imprints even beyond individual differences.
 
 <br>
 
@@ -617,9 +617,9 @@ High school characteristics exert their strongest influence on regional meaningf
 
 #### Key Findings
 
--   At **1-year**, rural-urban context shows a **statistically significant but weak association** with employment outcomes (*p* \< .001, **Cramer's V = 0.035**). Rural students are somewhat **more likely to enter meaningful employment in the region**, while urban students are more represented in postsecondary attendance or non-meaningful categories.
--   At **5-years**, the association remains weak but significant (*p* \< .001, **Cramer's V = 0.038**). Rural students retain a stronger presence in regional meaningful employment, though overall disparities remain small.
--   At **10-years**, the association persists at a similarly weak level (*p* \< .001, **Cramer's V = 0.032**). Regional meaningful employment continues to lean toward rural students, but the effect is minimal.
+- At **1-year**, rural-urban context shows a **statistically significant but weak association** with employment outcomes (*p* \< .001, **Cramer's V = 0.035**). Rural students are somewhat **more likely to enter meaningful employment in the region**, while urban students are more represented in postsecondary attendance or non-meaningful categories.
+- At **5-years**, the association remains weak but significant (*p* \< .001, **Cramer's V = 0.038**). Rural students retain a stronger presence in regional meaningful employment, though overall disparities remain small.
+- At **10-years**, the association persists at a similarly weak level (*p* \< .001, **Cramer's V = 0.032**). Regional meaningful employment continues to lean toward rural students, but the effect is minimal.
 
 #### Interpretation Over Time
 
@@ -631,9 +631,9 @@ Rural context modestly increases the likelihood of **meaningful regional employm
 
 #### Policy Implications
 
--   **Rural advantage in regional employment** suggests that local labor market connections are stronger outside urban areas. Policymakers should seek to replicate these pathways for urban graduates who may lack similar networks.
--   **Regional employer partnerships** could be expanded in urban and mixed settings to improve access to meaningful regional employment.
--   Because disparities are small, **rural-urban differences should be viewed as complementary to other equity dimensions** (economic status, special education, etc.), rather than as a major independent driver of outcomes.
+- **Rural advantage in regional employment** suggests that local labor market connections are stronger outside urban areas. Policymakers should seek to replicate these pathways for urban graduates who may lack similar networks.
+- **Regional employer partnerships** could be expanded in urban and mixed settings to improve access to meaningful regional employment.
+- Because disparities are small, **rural-urban differences should be viewed as complementary to other equity dimensions** (economic status, special education, etc.), rather than as a major independent driver of outcomes.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -700,9 +700,9 @@ master.original %>%
 
 #### Key Findings
 
--   At **1-year**, ANOVA results show a **strong, statistically significant difference** in average county unemployment rates across employment outcomes (*F* = 110.8, *p* \< .001). Students from higher-unemployment counties are **less likely to secure meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
--   At **5-years**, the association remains significant but weaker (*F* = 31.2, *p* \< .001). The influence of local unemployment on regional meaningful employment is reduced but still present.
--   At **10-years**, the relationship is significant but further diminished (*F* = 23.8, *p* \< .001). Local unemployment rates at the time of high school have a lingering, though smaller, effect on employment outcomes.
+- At **1-year**, ANOVA results show a **strong, statistically significant difference** in average county unemployment rates across employment outcomes (*F* = 110.8, *p* \< .001). Students from higher-unemployment counties are **less likely to secure meaningful employment in the region** and more likely to be in “not meaningful” or “no MN employment record.”
+- At **5-years**, the association remains significant but weaker (*F* = 31.2, *p* \< .001). The influence of local unemployment on regional meaningful employment is reduced but still present.
+- At **10-years**, the relationship is significant but further diminished (*F* = 23.8, *p* \< .001). Local unemployment rates at the time of high school have a lingering, though smaller, effect on employment outcomes.
 
 #### Interpretation Over Time
 
@@ -714,9 +714,9 @@ The local economic environment matters: high county unemployment significantly r
 
 #### Policy Implications
 
--   **Place-based strategies** are essential: Supporting non-college grads in high-unemployment counties with targeted job placement, apprenticeships, and training linked to local industries could reduce early gaps in regional meaningful employment.
--   **Mobility supports** (transportation, housing assistance, job relocation programs) may help students from weaker labor markets access regional employment opportunities elsewhere.
--   Policymakers should recognize that **county-level economic conditions leave long-lasting imprints** on employment trajectories, meaning interventions should target both individuals and the structural health of local economies.
+- **Place-based strategies** are essential: Supporting non-college grads in high-unemployment counties with targeted job placement, apprenticeships, and training linked to local industries could reduce early gaps in regional meaningful employment.
+- **Mobility supports** (transportation, housing assistance, job relocation programs) may help students from weaker labor markets access regional employment opportunities elsewhere.
+- Policymakers should recognize that **county-level economic conditions leave long-lasting imprints** on employment trajectories, meaning interventions should target both individuals and the structural health of local economies.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -803,9 +803,9 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-un
 
 #### Key Findings
 
--   At **1-year**, ANOVA results show a **statistically significant difference** across employment outcomes (*F* = 12.3, *p* \< .001). Students from counties with relatively higher wages are somewhat more likely to enter **meaningful employment in the region**.
--   At **5-years**, the relationship remains significant though weaker (*F* = 9.8, *p* \< .001). The local wage environment continues to influence who secures meaningful regional employment, but the effect diminishes.
--   At **10-years**, the association is no longer significant (*F* = 1.1, *p* = .329). The impact of local wage levels on employment outcomes fades entirely by this stage.
+- At **1-year**, ANOVA results show a **statistically significant difference** across employment outcomes (*F* = 12.3, *p* \< .001). Students from counties with relatively higher wages are somewhat more likely to enter **meaningful employment in the region**.
+- At **5-years**, the relationship remains significant though weaker (*F* = 9.8, *p* \< .001). The local wage environment continues to influence who secures meaningful regional employment, but the effect diminishes.
+- At **10-years**, the association is no longer significant (*F* = 1.1, *p* = .329). The impact of local wage levels on employment outcomes fades entirely by this stage.
 
 #### Interpretation Over Time
 
@@ -817,9 +817,9 @@ Local wage environments play a role in shaping **early access to meaningful regi
 
 #### Policy Implications
 
--   **Boosting wage environments locally**—through industry development and employer partnerships—can support early transitions into meaningful regional employment.
--   **Bridging supports** in lower-wage counties (internships, job placement, wage supplements) may help offset disadvantages in the first 5 years.
--   Since effects vanish by 10 years, policies should prioritize the **early career window** when wage context matters most for anchoring graduates into regional employment.
+- **Boosting wage environments locally**—through industry development and employer partnerships—can support early transitions into meaningful regional employment.
+- **Bridging supports** in lower-wage counties (internships, job placement, wage supplements) may help offset disadvantages in the first 5 years.
+- Since effects vanish by 10 years, policies should prioritize the **early career window** when wage context matters most for anchoring graduates into regional employment.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -909,13 +909,13 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS characteristics/avg-wa
 
 #### Key Findings
 
--   **PSEO Participation**: Associated with a modest advantage in meaningful regional employment, strongest at 1 year (*Cramer’s V = 0.122, p \< .001*) and persisting at smaller levels through 10 years. PSEO participants consistently show slightly better outcomes in regional employment.
--   **CTE Achievement**: A durable predictor. CTE concentrators/completors are more likely to secure meaningful regional employment, with associations stable across 1, 5, and 10 years (*Cramer’s V ≈ 0.09–0.10, p \< .001*).
--   **Number of CTE Courses Taken**: Strong, graded relationship. More CTE courses predict greater likelihood of meaningful regional employment at 1 year (*F* = 261.1, p \< .001), 5 years (*F* = 183.0, p \< .001), and 10 years (*F* = 93.6, p \< .001). Depth of CTE engagement matters.
--   **ACT Composite Score**: Strong academic predictor, with significant associations at 1 year (*F* = 264.3, p \< .001), 5 years (*F* = 111.2, p \< .001), and 10 years (*F* = 56.4, p \< .001). Influence declines but persists.
--   **MCA Math**: Highly significant predictor, strong at 1 year (*F* = 132.0, p \< .001), still meaningful at 5 and 10 years. Math achievement is one of the most durable academic indicators of regional employment success.
--   **MCA Reading**: Strong early predictor (*F* = 252.8, p \< .001 at 1 year), with effects diminishing but still significant at 10 years. Reading skills contribute to both early access and long-term retention in regional employment.
--   **MCA Science**: Also a significant predictor across time (*F* = 170.8 at 1 year; *F* = 38.8 at 10 years, p \< .001). Science achievement provides lasting though weaker advantages in securing regional employment.
+- **PSEO Participation**: Associated with a modest advantage in meaningful regional employment, strongest at 1 year (*Cramer’s V = 0.122, p \< .001*) and persisting at smaller levels through 10 years. PSEO participants consistently show slightly better outcomes in regional employment.
+- **CTE Achievement**: A durable predictor. CTE concentrators/completors are more likely to secure meaningful regional employment, with associations stable across 1, 5, and 10 years (*Cramer’s V ≈ 0.09–0.10, p \< .001*).
+- **Number of CTE Courses Taken**: Strong, graded relationship. More CTE courses predict greater likelihood of meaningful regional employment at 1 year (*F* = 261.1, p \< .001), 5 years (*F* = 183.0, p \< .001), and 10 years (*F* = 93.6, p \< .001). Depth of CTE engagement matters.
+- **ACT Composite Score**: Strong academic predictor, with significant associations at 1 year (*F* = 264.3, p \< .001), 5 years (*F* = 111.2, p \< .001), and 10 years (*F* = 56.4, p \< .001). Influence declines but persists.
+- **MCA Math**: Highly significant predictor, strong at 1 year (*F* = 132.0, p \< .001), still meaningful at 5 and 10 years. Math achievement is one of the most durable academic indicators of regional employment success.
+- **MCA Reading**: Strong early predictor (*F* = 252.8, p \< .001 at 1 year), with effects diminishing but still significant at 10 years. Reading skills contribute to both early access and long-term retention in regional employment.
+- **MCA Science**: Also a significant predictor across time (*F* = 170.8 at 1 year; *F* = 38.8 at 10 years, p \< .001). Science achievement provides lasting though weaker advantages in securing regional employment.
 
 #### Interpretation Over Time
 
@@ -932,10 +932,10 @@ High school accomplishments are **among the strongest predictors** of meaningful
 
 #### Policy Implications
 
--   **Expand CTE programs and encourage depth of participation**, as they are the most reliable foundation for long-term regional employment success.
--   **Strengthen academic preparation in math and reading**, even for non-college bound students, since these skills retain predictive power well into adulthood.
--   **Promote PSEO participation** as a supplemental strategy, particularly for students unlikely to pursue higher education, to provide exposure and readiness benefits.
--   Policymakers should view **high school accomplishments as central levers** for workforce equity, ensuring disadvantaged students have access to both strong CTE programs and robust academic preparation.
+- **Expand CTE programs and encourage depth of participation**, as they are the most reliable foundation for long-term regional employment success.
+- **Strengthen academic preparation in math and reading**, even for non-college bound students, since these skills retain predictive power well into adulthood.
+- **Promote PSEO participation** as a supplemental strategy, particularly for students unlikely to pursue higher education, to provide exposure and readiness benefits.
+- Policymakers should view **high school accomplishments as central levers** for workforce equity, ensuring disadvantaged students have access to both strong CTE programs and robust academic preparation.
 
 <br>
 
@@ -943,9 +943,9 @@ High school accomplishments are **among the strongest predictors** of meaningful
 
 #### Key Findings
 
--   At **1-year**, participation in PSEO has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.122**). PSEO participants are **more likely to be in meaningful employment in the region** compared to non-participants.
--   At **5-years**, the relationship weakens but remains significant (*p* \< .001, **Cramer's V = 0.052**). The regional employment advantage for PSEO participants narrows, though it does not disappear.
--   At **10-years**, the association is still small but significant (*p* \< .001, **Cramer's V = 0.059**). Participants retain a slight edge in meaningful regional employment.
+- At **1-year**, participation in PSEO has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.122**). PSEO participants are **more likely to be in meaningful employment in the region** compared to non-participants.
+- At **5-years**, the relationship weakens but remains significant (*p* \< .001, **Cramer's V = 0.052**). The regional employment advantage for PSEO participants narrows, though it does not disappear.
+- At **10-years**, the association is still small but significant (*p* \< .001, **Cramer's V = 0.059**). Participants retain a slight edge in meaningful regional employment.
 
 #### Interpretation Over Time
 
@@ -957,9 +957,9 @@ PSEO participation is associated with a **higher likelihood of meaningful region
 
 #### Policy Implications
 
--   **Expand access to PSEO** for non-college bound students, as it appears to support stronger transitions into meaningful regional employment.
--   **Leverage PSEO as a workforce readiness tool**, not only as a pathway into higher education, by connecting participants with local employers.
--   Since the effect persists at 10 years, PSEO could be framed as an **early intervention strategy** to improve long-term employment stability among non-college graduates.
+- **Expand access to PSEO** for non-college bound students, as it appears to support stronger transitions into meaningful regional employment.
+- **Leverage PSEO as a workforce readiness tool**, not only as a pathway into higher education, by connecting participants with local employers.
+- Since the effect persists at 10 years, PSEO could be framed as an **early intervention strategy** to improve long-term employment stability among non-college graduates.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -1029,9 +1029,9 @@ master.original %>%
 
 #### Key Findings
 
--   At **1-year**, CTE achievement has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.096**). CTE concentrators/completors are **more likely to secure meaningful employment in the region** than non-CTE peers.
--   At **5-years**, the relationship remains almost identical in strength (*p* \< .001, **Cramer's V = 0.095**). The regional employment advantage for CTE students persists steadily.
--   At **10-years**, the association remains significant but slightly weaker (*p* \< .001, **Cramer's V = 0.088**). CTE concentrators/completors continue to show higher presence in meaningful regional employment.
+- At **1-year**, CTE achievement has a **modest but significant association** with employment outcomes (*p* \< .001, **Cramer's V = 0.096**). CTE concentrators/completors are **more likely to secure meaningful employment in the region** than non-CTE peers.
+- At **5-years**, the relationship remains almost identical in strength (*p* \< .001, **Cramer's V = 0.095**). The regional employment advantage for CTE students persists steadily.
+- At **10-years**, the association remains significant but slightly weaker (*p* \< .001, **Cramer's V = 0.088**). CTE concentrators/completors continue to show higher presence in meaningful regional employment.
 
 #### Interpretation Over Time
 
@@ -1043,9 +1043,9 @@ CTE achievement is one of the most reliable predictors of **regional meaningful 
 
 #### Policy Implications
 
--   **Strengthen and expand CTE pathways** as a proven mechanism for boosting meaningful regional employment among non-college grads.
--   **Deepen employer partnerships** tied to CTE programs to reinforce the long-term advantage observed in regional employment outcomes.
--   Since effects remain significant even at 10 years, CTE should be positioned as a **cornerstone of workforce development policy** for students unlikely to pursue higher education.
+- **Strengthen and expand CTE pathways** as a proven mechanism for boosting meaningful regional employment among non-college grads.
+- **Deepen employer partnerships** tied to CTE programs to reinforce the long-term advantage observed in regional employment outcomes.
+- Since effects remain significant even at 10 years, CTE should be positioned as a **cornerstone of workforce development policy** for students unlikely to pursue higher education.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -1116,9 +1116,9 @@ master.original %>%
 
 #### Key Findings
 
--   At **1-year**, ANOVA shows a **strong and highly significant relationship** between the number of CTE courses taken and employment outcomes (*F* = 261.1, *p* \< .001). Students who took more CTE courses are **more likely to be in meaningful employment in the region**.
--   At **5-years**, the relationship remains strong (*F* = 183.0, *p* \< .001). The number of CTE courses continues to predict higher rates of meaningful regional employment.
--   At **10-years**, the relationship is still significant (*F* = 93.6, *p* \< .001), though weaker than at earlier stages. The effect persists, showing that greater CTE exposure contributes to long-term regional employment stability.
+- At **1-year**, ANOVA shows a **strong and highly significant relationship** between the number of CTE courses taken and employment outcomes (*F* = 261.1, *p* \< .001). Students who took more CTE courses are **more likely to be in meaningful employment in the region**.
+- At **5-years**, the relationship remains strong (*F* = 183.0, *p* \< .001). The number of CTE courses continues to predict higher rates of meaningful regional employment.
+- At **10-years**, the relationship is still significant (*F* = 93.6, *p* \< .001), though weaker than at earlier stages. The effect persists, showing that greater CTE exposure contributes to long-term regional employment stability.
 
 #### Interpretation Over Time
 
@@ -1130,9 +1130,9 @@ A higher number of CTE courses taken is consistently linked with greater likelih
 
 #### Policy Implications
 
--   **Encourage greater CTE course-taking**, not just participation, as deeper engagement provides stronger and more lasting advantages in regional employment.
--   **Align CTE curricula with regional labor market needs**, ensuring that course sequences translate into meaningful employment pathways.
--   **Support equitable access to multiple CTE courses**, especially for students from disadvantaged backgrounds, to close gaps in regional employment opportunities.
+- **Encourage greater CTE course-taking**, not just participation, as deeper engagement provides stronger and more lasting advantages in regional employment.
+- **Align CTE curricula with regional labor market needs**, ensuring that course sequences translate into meaningful employment pathways.
+- **Support equitable access to multiple CTE courses**, especially for students from disadvantaged backgrounds, to close gaps in regional employment opportunities.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -1219,9 +1219,9 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/total-
 
 #### Key Findings
 
--   At **1-year**, ANOVA shows a **strong, highly significant association** between ACT Composite Score and employment outcomes (*F* = 264.3, *p* \< .001). Students with higher ACT scores are **more likely to secure meaningful employment in the region**.
--   At **5-years**, the relationship remains significant though weaker (*F* = 111.2, *p* \< .001). ACT scores continue to predict higher rates of meaningful regional employment, but the gap narrows as work experience accumulates.
--   At **10-years**, the association is still statistically significant (*F* = 56.4, *p* \< .001) but smaller in magnitude. ACT scores retain predictive value, but their impact is less pronounced compared to the early years.
+- At **1-year**, ANOVA shows a **strong, highly significant association** between ACT Composite Score and employment outcomes (*F* = 264.3, *p* \< .001). Students with higher ACT scores are **more likely to secure meaningful employment in the region**.
+- At **5-years**, the relationship remains significant though weaker (*F* = 111.2, *p* \< .001). ACT scores continue to predict higher rates of meaningful regional employment, but the gap narrows as work experience accumulates.
+- At **10-years**, the association is still statistically significant (*F* = 56.4, *p* \< .001) but smaller in magnitude. ACT scores retain predictive value, but their impact is less pronounced compared to the early years.
 
 #### Interpretation Over Time
 
@@ -1233,9 +1233,9 @@ ACT scores strongly shape the likelihood of securing **meaningful regional emplo
 
 #### Policy Implications
 
--   **Career readiness interventions** should not rely solely on academic test scores, since long-term outcomes for non-college grads are shaped more by skills and labor market connections than by ACT performance.
--   Students with lower ACT scores may need **targeted early support** to secure meaningful regional employment, as they face greater risk of falling into weaker outcomes.
--   Policymakers should focus on **balancing academic and technical pathways**, ensuring that students with varied academic profiles can still access strong regional employment opportunities.
+- **Career readiness interventions** should not rely solely on academic test scores, since long-term outcomes for non-college grads are shaped more by skills and labor market connections than by ACT performance.
+- Students with lower ACT scores may need **targeted early support** to secure meaningful regional employment, as they face greater risk of falling into weaker outcomes.
+- Policymakers should focus on **balancing academic and technical pathways**, ensuring that students with varied academic profiles can still access strong regional employment opportunities.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -1322,9 +1322,9 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/ACTCom
 
 #### Key Findings
 
--   At **1-year**, MCA Math scores show a **strong and highly significant association** with employment outcomes (*F* = 132.0, *p* \< .001). Higher math scores are linked to greater likelihood of **meaningful employment in the region**.
--   At **5-years**, the relationship remains significant though weaker (*F* = 58.5, *p* \< .001). Math proficiency continues to support access to regional meaningful employment, but the effect has diminished.
--   At **10-years**, the association is still strong and statistically significant (*F* = 60.9, *p* \< .001). Math achievement remains a durable predictor of regional employment outcomes even a decade after high school.
+- At **1-year**, MCA Math scores show a **strong and highly significant association** with employment outcomes (*F* = 132.0, *p* \< .001). Higher math scores are linked to greater likelihood of **meaningful employment in the region**.
+- At **5-years**, the relationship remains significant though weaker (*F* = 58.5, *p* \< .001). Math proficiency continues to support access to regional meaningful employment, but the effect has diminished.
+- At **10-years**, the association is still strong and statistically significant (*F* = 60.9, *p* \< .001). Math achievement remains a durable predictor of regional employment outcomes even a decade after high school.
 
 #### Interpretation Over Time
 
@@ -1336,9 +1336,9 @@ Math achievement, as measured by MCA scores, is a **long-term predictor** of mea
 
 #### Policy Implications
 
--   **Strengthen math proficiency supports** in high school, especially for students unlikely to attend college, as it directly enhances long-term regional employability.
--   **Integrate applied math into CTE programs**, reinforcing the link between academic skills and workforce readiness.
--   Since math achievement has enduring effects, policymakers should treat it as a **core equity lever**, ensuring all students—particularly disadvantaged groups—receive adequate preparation.
+- **Strengthen math proficiency supports** in high school, especially for students unlikely to attend college, as it directly enhances long-term regional employability.
+- **Integrate applied math into CTE programs**, reinforcing the link between academic skills and workforce readiness.
+- Since math achievement has enduring effects, policymakers should treat it as a **core equity lever**, ensuring all students—particularly disadvantaged groups—receive adequate preparation.
 
 ::: panel-tabset
 #### 1-year after graduating
@@ -1425,9 +1425,9 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-M-
 
 #### Key Findings
 
--   At **1-year**, MCA Reading scores show a **strong and highly significant association** with employment outcomes (*F* = 252.8, *p* \< .001). Higher reading scores are linked to greater likelihood of **meaningful employment in the region**.
--   At **5-years**, the relationship remains significant though weaker (*F* = 70.1, *p* \< .001). Reading achievement continues to predict stronger outcomes in regional employment.
--   At **10-years**, the association persists but at reduced strength (*F* = 53.7, *p* \< .001). Reading skills retain predictive value, though the influence is smaller compared to the early transition period.
+- At **1-year**, MCA Reading scores show a **strong and highly significant association** with employment outcomes (*F* = 252.8, *p* \< .001). Higher reading scores are linked to greater likelihood of **meaningful employment in the region**.
+- At **5-years**, the relationship remains significant though weaker (*F* = 70.1, *p* \< .001). Reading achievement continues to predict stronger outcomes in regional employment.
+- At **10-years**, the association persists but at reduced strength (*F* = 53.7, *p* \< .001). Reading skills retain predictive value, though the influence is smaller compared to the early transition period.
 
 #### Interpretation Over Time
 
@@ -1439,9 +1439,9 @@ MCA Reading is a **durable predictor** of meaningful regional employment for non
 
 #### Policy Implications
 
--   **Strengthen literacy supports** in high school, especially for students unlikely to pursue college, as strong reading skills directly improve regional employment outcomes.
--   **Integrate reading and communication skills into CTE programs**, ensuring students can apply literacy in practical workforce settings.
--   Since disparities in reading achievement likely reinforce employment gaps, literacy should be prioritized as a **cross-cutting equity and workforce strategy**.
+- **Strengthen literacy supports** in high school, especially for students unlikely to pursue college, as strong reading skills directly improve regional employment outcomes.
+- **Integrate reading and communication skills into CTE programs**, ensuring students can apply literacy in practical workforce settings.
+- Since disparities in reading achievement likely reinforce employment gaps, literacy should be prioritized as a **cross-cutting equity and workforce strategy**.
 
 ::: panel-tabset
 #### 1-year after graduating
@@ -1528,9 +1528,9 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-R-
 
 #### Key Findings
 
--   At **1-year**, MCA Science scores show a **strong and highly significant association** with employment outcomes (*F* = 170.8, *p* \< .001). Higher science scores are linked to greater likelihood of **meaningful employment in the region**.
--   At **5-years**, the relationship remains significant though weaker (*F* = 60.9, *p* \< .001). Science achievement continues to predict stronger regional employment outcomes.
--   At **10-years**, the association persists but at further reduced strength (*F* = 38.8, *p* \< .001). Science skills still carry predictive weight but less so than in the earlier years.
+- At **1-year**, MCA Science scores show a **strong and highly significant association** with employment outcomes (*F* = 170.8, *p* \< .001). Higher science scores are linked to greater likelihood of **meaningful employment in the region**.
+- At **5-years**, the relationship remains significant though weaker (*F* = 60.9, *p* \< .001). Science achievement continues to predict stronger regional employment outcomes.
+- At **10-years**, the association persists but at further reduced strength (*F* = 38.8, *p* \< .001). Science skills still carry predictive weight but less so than in the earlier years.
 
 #### Interpretation Over Time
 
@@ -1542,9 +1542,9 @@ MCA Science is a **consistent predictor** of meaningful regional employment amon
 
 #### Policy Implications
 
--   **Expand access to applied science learning** (e.g., STEM-oriented CTE programs) to strengthen links between science achievement and workforce readiness.
--   **Bridge academic and technical education** by integrating science skills with regional industry needs (e.g., healthcare, manufacturing, agriculture).
--   Policymakers should recognize science achievement as part of a **broader academic foundation** that enhances equity and regional employment opportunities for non-college graduates.
+- **Expand access to applied science learning** (e.g., STEM-oriented CTE programs) to strengthen links between science achievement and workforce readiness.
+- **Bridge academic and technical education** by integrating science skills with regional industry needs (e.g., healthcare, manufacturing, agriculture).
+- Policymakers should recognize science achievement as part of a **broader academic foundation** that enhances equity and regional employment opportunities for non-college graduates.
 
 ::: panel-tabset
 #### 1-year after graduation
@@ -1629,17 +1629,17 @@ saveWorkbook(wb, "Data/ChatGPT/Non-college grads ct/CT/HS accomplishments/MCA-S-
 
 ### Key Findings
 
--   **Demographics**:
-    -   **Economic status** and **special education status** are the strongest demographic predictors, with disadvantaged students significantly less likely to secure meaningful regional employment, especially in the first year.
-    -   **Gender** and **race/ethnicity** show smaller but persistent effects. Males are more likely to secure regional meaningful employment than females, and students of color remain underrepresented in regional employment compared to White peers.\
--   **High School Characteristics**:
-    -   **County unemployment rate** strongly predicts early outcomes: graduates from high-unemployment counties are less likely to secure meaningful regional employment, and this effect persists even at 10 years.
-    -   **County wages relative to the state** matter in the short-term but lose significance by 10 years.
-    -   **Rural/urban context** has a consistent but modest effect, with rural students slightly more likely to remain in meaningful regional employment.\
--   **High School Accomplishments**:
-    -   **CTE achievement and depth of coursework** are among the most powerful and durable predictors, strongly tied to meaningful regional employment at all timepoints.
-    -   **Academic performance (ACT, MCA scores)** is also highly predictive, especially in math and reading. These effects weaken over time but remain significant even at 10 years.
-    -   **PSEO participation** provides a modest but consistent advantage, suggesting exposure to postsecondary opportunities improves early and long-term outcomes.
+- **Demographics**:
+  - **Economic status** and **special education status** are the strongest demographic predictors, with disadvantaged students significantly less likely to secure meaningful regional employment, especially in the first year.
+  - **Gender** and **race/ethnicity** show smaller but persistent effects. Males are more likely to secure regional meaningful employment than females, and students of color remain underrepresented in regional employment compared to White peers.\
+- **High School Characteristics**:
+  - **County unemployment rate** strongly predicts early outcomes: graduates from high-unemployment counties are less likely to secure meaningful regional employment, and this effect persists even at 10 years.
+  - **County wages relative to the state** matter in the short-term but lose significance by 10 years.
+  - **Rural/urban context** has a consistent but modest effect, with rural students slightly more likely to remain in meaningful regional employment.\
+- **High School Accomplishments**:
+  - **CTE achievement and depth of coursework** are among the most powerful and durable predictors, strongly tied to meaningful regional employment at all timepoints.
+  - **Academic performance (ACT, MCA scores)** is also highly predictive, especially in math and reading. These effects weaken over time but remain significant even at 10 years.
+  - **PSEO participation** provides a modest but consistent advantage, suggesting exposure to postsecondary opportunities improves early and long-term outcomes.
 
 ### Interpretation Over Time
 
@@ -1651,11 +1651,11 @@ The relationship analysis reveals that **both individual background and school-b
 
 ### Policy Implications
 
--   **Early intervention is critical**: the 1–5 year window after graduation is decisive for securing meaningful regional employment, especially for disadvantaged groups.
--   **Strengthen CTE programs**: depth of participation and alignment with regional labor markets should be prioritized to sustain long-term employment benefits.
--   **Bolster academic preparation**: particularly in math and reading, as these skills retain predictive power well beyond high school.
--   **Address structural inequities**: targeted supports for students from low-income families, students of color, and special education students are needed to close persistent gaps in regional employment.
--   **Place-based strategies**: support students in high-unemployment counties through workforce development and mobility programs, ensuring local conditions do not permanently limit career pathways.
+- **Early intervention is critical**: the 1–5 year window after graduation is decisive for securing meaningful regional employment, especially for disadvantaged groups.
+- **Strengthen CTE programs**: depth of participation and alignment with regional labor markets should be prioritized to sustain long-term employment benefits.
+- **Bolster academic preparation**: particularly in math and reading, as these skills retain predictive power well beyond high school.
+- **Address structural inequities**: targeted supports for students from low-income families, students of color, and special education students are needed to close persistent gaps in regional employment.
+- **Place-based strategies**: support students in high-unemployment counties through workforce development and mobility programs, ensuring local conditions do not permanently limit career pathways.
 
 <br>
 
@@ -1669,26 +1669,26 @@ The analysis shows that **who students are (demographics), where they come from 
 
 ### 1. High School Accomplishments (Most Influential)
 
--   **CTE Engagement (Courses & Achievement):** The most powerful and consistent predictors. Depth of coursework and concentrator/completor status steadily increase likelihood of regional meaningful employment at 1, 5, and 10 years.
--   **Academic Readiness (MCA & ACT):** Strong early predictors of employment differences. Math and reading stand out as the most durable indicators, while science and ACT scores also matter but with diminishing power over time. Importantly, higher academic scores also strongly channel students into postsecondary, reducing their presence in the non-college subgroup.
--   **PSEO Participation:** Provides a smaller but steady advantage, reinforcing the value of early exposure to postsecondary opportunities.
+- **CTE Engagement (Courses & Achievement):** The most powerful and consistent predictors. Depth of coursework and concentrator/completor status steadily increase likelihood of regional meaningful employment at 1, 5, and 10 years.
+- **Academic Readiness (MCA & ACT):** Strong early predictors of employment differences. Math and reading stand out as the most durable indicators, while science and ACT scores also matter but with diminishing power over time. Importantly, higher academic scores also strongly channel students into postsecondary, reducing their presence in the non-college subgroup.
+- **PSEO Participation:** Provides a smaller but steady advantage, reinforcing the value of early exposure to postsecondary opportunities.
 
 **Takeaway:** CTE provides **direct labor market pathways**, while academic achievement signals **general readiness** and sorts many higher scorers into college. Both matter, but CTE has the clearest and most durable influence for non-college graduates.
 
 ### 2. Demographics (Moderately Influential)
 
--   **Special Education Status:** Largest demographic barrier, strongly reducing chances of regional meaningful employment early on, with gaps persisting through 10 years.
--   **Economic Status (FRL):** Clear disadvantage at 1 year, with some narrowing but persistent differences by 10 years.
--   **Gender:** Males show slightly higher regional employment rates, with gaps narrowing at 5 years but re-emerging at 10.
--   **Race/Ethnicity:** Small but consistent disparities; White students are more likely than peers of color to secure regional meaningful employment.
+- **Special Education Status:** Largest demographic barrier, strongly reducing chances of regional meaningful employment early on, with gaps persisting through 10 years.
+- **Economic Status (FRL):** Clear disadvantage at 1 year, with some narrowing but persistent differences by 10 years.
+- **Gender:** Males show slightly higher regional employment rates, with gaps narrowing at 5 years but re-emerging at 10.
+- **Race/Ethnicity:** Small but consistent disparities; White students are more likely than peers of color to secure regional meaningful employment.
 
 **Takeaway:** Demographics structure access to regional employment, with special education and poverty as the strongest barriers. These differences never fully close, even over a decade.
 
 ### 3. High School Characteristics (Least Influential, but Structurally Important)
 
--   **County Unemployment Rate:** Strong early predictor—students from high-unemployment counties are less likely to secure regional employment, and the effect persists into mid-career.
--   **County Wages (Pct. of State Median):** Matters at 1 and 5 years, but fades by 10.
--   **Rural/Urban Context:** Consistent but weak—rural students are slightly more likely to stay in meaningful regional employment.
+- **County Unemployment Rate:** Strong early predictor—students from high-unemployment counties are less likely to secure regional employment, and the effect persists into mid-career.
+- **County Wages (Pct. of State Median):** Matters at 1 and 5 years, but fades by 10.
+- **Rural/Urban Context:** Consistent but weak—rural students are slightly more likely to stay in meaningful regional employment.
 
 **Takeaway:** Place-based conditions shape opportunities at the start, but their effects fade compared to individual accomplishments. Local unemployment is the most durable structural barrier.
 
@@ -1715,11 +1715,11 @@ For non-college graduates, **high school accomplishments—especially CTE and co
 
 ### Policy Implications
 
--   **Scale CTE depth and concentrator pathways** as the strongest drivers of regional employment.
--   **Ensure equitable access to rigorous academics**, especially in math and reading, for non-college bound students.
--   **Target early interventions** for low-income, special education, and students of color, since gaps open immediately and persist.
--   **Address place-based inequities** by supporting students from high-unemployment counties through job placement, mobility, and workforce development.
--   Treat **meaningful employment in the region** as the equity benchmark, aligning both educational and economic policy to improve access and retention.
+- **Scale CTE depth and concentrator pathways** as the strongest drivers of regional employment.
+- **Ensure equitable access to rigorous academics**, especially in math and reading, for non-college bound students.
+- **Target early interventions** for low-income, special education, and students of color, since gaps open immediately and persist.
+- **Address place-based inequities** by supporting students from high-unemployment counties through job placement, mobility, and workforce development.
+- Treat **meaningful employment in the region** as the equity benchmark, aligning both educational and economic policy to improve access and retention.
 
 <br>
 
@@ -1731,37 +1731,37 @@ These variables showed the strongest and most consistent predictive power for me
 
 **High School Accomplishments (Strongest Predictors)**
 
--   **cte.achievement** – strong, consistent predictor; concentrators/completors more likely to secure meaningful regional work.
--   **total.cte.courses.taken** – reinforces CTE achievement; more courses linked to stronger regional attachment.
--   **ACTCompositeScore** – strongest continuous academic predictor; higher scores tied to meaningful work outside the region, lower scores to local jobs.
--   **took.ACT** – powerful early divider between college-prep vs. workforce entry; moderate effect over time.
--   **MCA scores (Math, Reading, Science)** – consistently significant; lower scorers more likely in regional jobs or disconnected, higher scorers more likely outside the region.
--   **pseo.participant** – significant at all years; participants more likely to pursue statewide opportunities, less likely to remain in regional employment.
+- **cte.achievement** – strong, consistent predictor; concentrators/completors more likely to secure meaningful regional work.
+- **total.cte.courses.taken** – reinforces CTE achievement; more courses linked to stronger regional attachment.
+- **ACTCompositeScore** – strongest continuous academic predictor; higher scores tied to meaningful work outside the region, lower scores to local jobs.
+- **took.ACT** – powerful early divider between college-prep vs. workforce entry; moderate effect over time.
+- **MCA scores (Math, Reading, Science)** – consistently significant; lower scorers more likely in regional jobs or disconnected, higher scorers more likely outside the region.
+- **pseo.participant** – significant at all years; participants more likely to pursue statewide opportunities, less likely to remain in regional employment.
 
 **High School Characteristics**
 
--   **avg.unemp.rate** – one of the strongest contextual predictors; high-unemployment counties increase risk of disconnection.
--   **avg.wages.pct.state** – similar to unemployment; higher relative wages boost regional employment.
--   **Dem_Desc (rural/urban mix)** – weaker than county-level measures but still meaningful for geography of work.
+- **avg.unemp.rate** – one of the strongest contextual predictors; high-unemployment counties increase risk of disconnection.
+- **avg.wages.pct.state** – similar to unemployment; higher relative wages boost regional employment.
+- **Dem_Desc (rural/urban mix)** – weaker than county-level measures but still meaningful for geography of work.
 
 **Demographics**
 
--   **SpecialEdStatus** – strongest demographic variable; consistently disadvantaged in regional outcomes.
--   **economic.status** – moderate effect; lower-income grads somewhat more region-bound but at higher risk of disconnection.
--   **Race/Ethnicity** – weaker than SpecialEd or Economic, but statistically significant differences persist.
+- **SpecialEdStatus** – strongest demographic variable; consistently disadvantaged in regional outcomes.
+- **economic.status** – moderate effect; lower-income grads somewhat more region-bound but at higher risk of disconnection.
+- **Race/Ethnicity** – weaker than SpecialEd or Economic, but statistically significant differences persist.
 
 ## Variables to Consider Dropping (Weaker Predictors)
 
 These variables showed smaller or inconsistent effects and may add noise or redundancy to the model:
 
--   **Race/Ethnicity** – effects are small (V ≈ 0.05–0.06) compared to other predictors; may be retained only if subgroup patterns are of interest.
--   **Dem_Desc (rural/urban mix)** – weak predictor (V ≈ 0.03–0.06), less important than county-level economic conditions.
--   **MCA Science** – weakest of the MCA subjects; may be dropped if multicollinearity across MCA scores is an issue.
+- **Race/Ethnicity** – effects are small (V ≈ 0.05–0.06) compared to other predictors; may be retained only if subgroup patterns are of interest.
+- **Dem_Desc (rural/urban mix)** – weak predictor (V ≈ 0.03–0.06), less important than county-level economic conditions.
+- **MCA Science** – weakest of the MCA subjects; may be dropped if multicollinearity across MCA scores is an issue.
 
 ## Recommendation
 
--   **Keep as core predictors:** CTE achievement + total CTE courses, ACTCompositeScore, took.ACT, MCA Math & Reading, PSEO, county unemployment, county wages, SpecialEdStatus, economic status.
--   **Drop:** Race/Ethnicity, rural/urban (Dem_Desc), MCA Science.\
+- **Keep as core predictors:** CTE achievement + total CTE courses, ACTCompositeScore, took.ACT, MCA Math & Reading, PSEO, county unemployment, county wages, SpecialEdStatus, economic status.
+- **Drop:** Race/Ethnicity, rural/urban (Dem_Desc), MCA Science.\
 
 👉 This ensures the CART model highlights the most powerful drivers (CTE, ACT, MCA, local economy, SpecialEd) while keeping weaker predictors optional.
 
@@ -1777,51 +1777,51 @@ These variables showed smaller or inconsistent effects and may add noise or redu
 
 [**Model Performance**]{.underline}
 
--   **Year 1:** Accuracy = 78.3% (baseline = 77.5%). Tree added modest improvement.
--   **Year 5:** Accuracy = 66.8% (baseline = 67.6%). Model slightly underperformed baseline but revealed nuanced subgroup patterns.
--   **Year 10:** Accuracy = 62.1% (baseline = 62.1%). Model matched baseline, serving primarily as an interpretive tool.
+- **Year 1:** Accuracy = 78.3% (baseline = 77.5%). Tree added modest improvement.
+- **Year 5:** Accuracy = 66.8% (baseline = 67.6%). Model slightly underperformed baseline but revealed nuanced subgroup patterns.
+- **Year 10:** Accuracy = 62.1% (baseline = 62.1%). Model matched baseline, serving primarily as an interpretive tool.
 
 Overall, predictive strength declines over time as employment outcomes diversify, but the models provide insight into which factors shape **regional vs. statewide employment** at each stage.
 
 [**Variable Importance Over Time**]{.underline}
 
--   **Local economic context (wages, unemployment):** Central at every stage. Low wages and high unemployment consistently push students toward statewide employment.
--   **Academic performance (ACT, MCA scores):** Becomes increasingly important over time. By Year 10, ACT participation and high scores are the strongest markers of mobility.
--   **CTE engagement (courses, concentrator status):** A consistent anchor across all years, tying students to regional employment even when academics or labor markets encourage mobility.
--   **SpecialEd status:** Emerges in Year 5, showing that students who **needed SpecialEd** are less likely to remain in regional employment and more likely to appear in statewide employment.
+- **Local economic context (wages, unemployment):** Central at every stage. Low wages and high unemployment consistently push students toward statewide employment.
+- **Academic performance (ACT, MCA scores):** Becomes increasingly important over time. By Year 10, ACT participation and high scores are the strongest markers of mobility.
+- **CTE engagement (courses, concentrator status):** A consistent anchor across all years, tying students to regional employment even when academics or labor markets encourage mobility.
+- **SpecialEd status:** Emerges in Year 5, showing that students who **needed SpecialEd** are less likely to remain in regional employment and more likely to appear in statewide employment.
 
 [**Interpretation Across Years**]{.underline}
 
--   **Year 1 (Early career launch)**\
-    Regional employment is shaped mainly by **local wage levels**. Low-wage counties push students toward statewide work, while higher wages combined with strong academic performance (ACT, MCA) nudge some toward leaving their regions. **CTE engagement** supports regional attachment even among high scorers.
+- **Year 1 (Early career launch)**\
+  Regional employment is shaped mainly by **local wage levels**. Low-wage counties push students toward statewide work, while higher wages combined with strong academic performance (ACT, MCA) nudge some toward leaving their regions. **CTE engagement** supports regional attachment even among high scorers.
 
--   **Year 5 (Mid-career sorting)**\
-    A broader set of factors enters the picture: **local wages, unemployment, ACT, MCA, CTE, and SpecialEd** all shape outcomes. High academic performers increasingly pursue statewide jobs, while **CTE concentrators in stable wage contexts** remain in regional work. **SpecialEd students** are less likely to be regionally employed, signaling barriers to long-term anchoring.
+- **Year 5 (Mid-career sorting)**\
+  A broader set of factors enters the picture: **local wages, unemployment, ACT, MCA, CTE, and SpecialEd** all shape outcomes. High academic performers increasingly pursue statewide jobs, while **CTE concentrators in stable wage contexts** remain in regional work. **SpecialEd students** are less likely to be regionally employed, signaling barriers to long-term anchoring.
 
--   **Year 10 (Long-run outcomes)**\
-    Employment pathways diverge more clearly. **ACT participation and high scores** become the most consistent indicators of statewide mobility, especially in low-wage or high-unemployment counties. Yet, **CTE engagement remains a strong anchor**, keeping even academically strong students tied to their regions when they have multiple CTE courses. Regional employment also persists among non-ACT takers and those in higher-wage counties.
+- **Year 10 (Long-run outcomes)**\
+  Employment pathways diverge more clearly. **ACT participation and high scores** become the most consistent indicators of statewide mobility, especially in low-wage or high-unemployment counties. Yet, **CTE engagement remains a strong anchor**, keeping even academically strong students tied to their regions when they have multiple CTE courses. Regional employment also persists among non-ACT takers and those in higher-wage counties.
 
 [**Overall Narrative**]{.underline}
 
 Over time, the drivers of meaningful **regional employment** shift from **local economic context (Year 1)** to a more complex interplay of **academics, CTE, and economic conditions (Year 5)**, and finally to **academic markers of mobility vs. CTE anchors (Year 10)**.
 
--   **Regional pathways** are strongest among students with **CTE engagement, lower academic scores, non-SpecialEd status, or residence in higher-wage counties**.
--   **Statewide pathways** are most common among **ACT takers with high scores**, particularly when combined with **low wages or high unemployment** in their home counties.
--   **SpecialEd students** are less likely to sustain regional employment and more likely to show statewide mobility, underscoring barriers to remaining anchored locally.
+- **Regional pathways** are strongest among students with **CTE engagement, lower academic scores, non-SpecialEd status, or residence in higher-wage counties**.
+- **Statewide pathways** are most common among **ACT takers with high scores**, particularly when combined with **low wages or high unemployment** in their home counties.
+- **SpecialEd students** are less likely to sustain regional employment and more likely to show statewide mobility, underscoring barriers to remaining anchored locally.
 
 This trajectory suggests that **early local wage conditions set the baseline**, but over time, **academic achievement fuels mobility**, while **CTE continues to anchor students in their regions** as a durable pathway to meaningful work.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|-------------------|--------------------------------|---------------------|
+|----|----|----|
 | **Year 1** | \- Local wages (% of state)<br>- ACT Composite Score<br>- MCA.R (Reading)<br>- Total CTE courses | **Wages** anchor students regionally; **high ACT/MCA** increase statewide mobility; **CTE engagement** pulls high scorers back toward regional work. |
 | **Year 5** | \- Local wages (% of state)<br>- Unemployment rate<br>- ACT Composite Score<br>- MCA.R (Reading)<br>- CTE achievement (Concentrator/Completer)<br>- Total CTE courses<br>- ACT participation<br>- SpecialEd status | **Economic context + academics** shape outcomes more fully; **high achievers** increasingly mobile; **CTE concentrators** remain anchored regionally; **SpecialEd students** are less anchored and more likely to be statewide. |
 | **Year 10** | \- ACT participation<br>- ACT Composite Score<br>- Unemployment rate<br>- Local wages (% of state)<br>- MCA.R (Reading)<br>- Total CTE courses | **ACT takers with high scores** are most mobile; **CTE course-taking** continues to anchor students regionally; **local wages/unemployment** still matter but are less dominant than academics. |
 
 #### Summary
 
--   **Local economic context** drives outcomes most strongly at Year 1.
--   By **Year 5**, outcomes reflect a **blend of academics, labor markets, and CTE engagement**, with **SpecialEd students less anchored regionally**.
--   By **Year 10**, **academic achievement (especially ACT participation and high scores)** is the clearest marker of statewide mobility, while **CTE remains the durable anchor to regional employment**.
+- **Local economic context** drives outcomes most strongly at Year 1.
+- By **Year 5**, outcomes reflect a **blend of academics, labor markets, and CTE engagement**, with **SpecialEd students less anchored regionally**.
+- By **Year 10**, **academic achievement (especially ACT participation and high scores)** is the clearest marker of statewide mobility, while **CTE remains the durable anchor to regional employment**.
 
 <br>
 
@@ -1898,17 +1898,17 @@ printcp(meaningful.emp.mn.grad.year.1.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 70.8%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0095
-    -   cp: 0.00211640
-    -   Splits: 6
--   **Total splits**: 132
+- **Accuracy**: 70.8%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0095
+  - cp: 0.00211640
+  - Splits: 6
+- **Total splits**: 132
 
 <br>
 
@@ -1916,10 +1916,10 @@ printcp(meaningful.emp.mn.grad.year.1.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)).
--   minbucket: round(minsplit / 3).
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)).
+- minbucket: round(minsplit / 3).
+- cp = 0
 
 This provided 0 splits so I adjusted.
 
@@ -1947,17 +1947,17 @@ printcp(meaningful.emp.mn.grad.year.1.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 70.8% -\> 78.1%
--   **Variables used:** 6 total,
-    -   Demographics: 0/2 - economic status
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 4/7 - CTE, ACT and MCA
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0148
-    -   cp: 0.0014815
-    -   Splits: 5
--   **Total splits**: 10
+- **Accuracy**: 70.8% -\> 78.1%
+- **Variables used:** 6 total,
+  - Demographics: 0/2 - economic status
+  - High school characteristics: 2/2
+  - High school accomplishments: 4/7 - CTE, ACT and MCA
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0148
+  - cp: 0.0014815
+  - Splits: 5
+- **Total splits**: 10
 
 <br>
 
@@ -2001,23 +2001,23 @@ printcp(meaningful.emp.mn.grad.year.1.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 78.1% -\> 78.3%
--   **Variables used:** 4 total,
-    -   Demographics: 0/2 - economic status
-    -   High school characteristics: 1/2 - wages
-    -   High school accomplishments: 3/7 - ACT, CTE, MCA
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0148
-    -   cp: 0.0014815
-    -   Splits: 5
--   **Total splits**: 5
+- **Accuracy**: 78.1% -\> 78.3%
+- **Variables used:** 4 total,
+  - Demographics: 0/2 - economic status
+  - High school characteristics: 1/2 - wages
+  - High school accomplishments: 3/7 - ACT, CTE, MCA
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0148
+  - cp: 0.0014815
+  - Splits: 5
+- **Total splits**: 5
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a much simpler model - 5 splits instead of pre-pruned’s 10 splits - while also giving better accuracy. I will use the pre-pruned model.
 
@@ -2032,36 +2032,36 @@ rpart.plot(meaningful.emp.mn.grad.year.1.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 78.3% (baseline was 77.5% regional, so the tree is only slightly above baseline but provides interpretable structure).
--   **Root error:** 22.9% (matches the proportion in meaningful MN, since “regional” is the majority).
--   **Pruning:** Post-pruned to a 5-split tree (cp = 0.0015), balancing accuracy with simplicity.
+- **Accuracy:** 78.3% (baseline was 77.5% regional, so the tree is only slightly above baseline but provides interpretable structure).
+- **Root error:** 22.9% (matches the proportion in meaningful MN, since “regional” is the majority).
+- **Pruning:** Post-pruned to a 5-split tree (cp = 0.0015), balancing accuracy with simplicity.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **four predictors**:
 
--   **avg.wages.pct.state** (county wages relative to state average)
--   **ACTCompositeScore**
--   **MCA.R** (reading assessment)
--   **total.cte.courses.taken**
+- **avg.wages.pct.state** (county wages relative to state average)
+- **ACTCompositeScore**
+- **MCA.R** (reading assessment)
+- **total.cte.courses.taken**
 
 Other variables tested (e.g., economic status, MCA math/science, CTE achievement) did not survive pruning at Year 1.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Local Wages (Top Split)**
-    -   The strongest initial divide is whether county wages are **below 71% of the state average**.
-    -   **Low-wage counties (\<71%)** anchor students more strongly in **regional employment**.
-    -   **Higher-wage counties (≥71%)** are more mixed, with further sorting based on academics and CTE.
+    - The strongest initial divide is whether county wages are **below 71% of the state average**.
+    - **Low-wage counties (\<71%)** anchor students more strongly in **regional employment**.
+    - **Higher-wage counties (≥71%)** are more mixed, with further sorting based on academics and CTE.
 2.  **ACT Composite Score**
-    -   Among students in higher-wage counties, an **ACT ≥ 23** tilts them toward meaningful employment **outside the region (MN-wide)**.
-    -   Students with lower ACT scores are more likely to remain in **regional employment**.
+    - Among students in higher-wage counties, an **ACT ≥ 23** tilts them toward meaningful employment **outside the region (MN-wide)**.
+    - Students with lower ACT scores are more likely to remain in **regional employment**.
 3.  **Reading MCA (MCA.R)**
-    -   Within the ACT ≥ 23 group, **low reading scores (\<3)** push students back toward regional employment.
-    -   Students with stronger reading scores are more mobile and more likely to find employment outside their home region.
+    - Within the ACT ≥ 23 group, **low reading scores (\<3)** push students back toward regional employment.
+    - Students with stronger reading scores are more mobile and more likely to find employment outside their home region.
 4.  **CTE Course-Taking**
-    -   Among higher ACT, higher reading students, the number of **CTE courses** still matters.
-    -   **Fewer than 6 CTE courses** nudges some toward statewide employment, while **2+ CTE courses** softens that effect and pulls them back toward regional work.
+    - Among higher ACT, higher reading students, the number of **CTE courses** still matters.
+    - **Fewer than 6 CTE courses** nudges some toward statewide employment, while **2+ CTE courses** softens that effect and pulls them back toward regional work.
 
 [**Overall Narrative**]{.underline}
 
@@ -2129,17 +2129,17 @@ printcp(meaningful.emp.mn.grad.year.5.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 62.9%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 0.96976
-    -   cp: 0.00300300
-    -   Splits: 1
--   **Total splits**: 205
+- **Accuracy**: 62.9%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 0.96976
+  - cp: 0.00300300
+  - Splits: 1
+- **Total splits**: 205
 
 <br>
 
@@ -2147,10 +2147,10 @@ printcp(meaningful.emp.mn.grad.year.5.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)).
--   minbucket: round(minsplit / 3).
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)).
+- minbucket: round(minsplit / 3).
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -2176,17 +2176,17 @@ printcp(meaningful.emp.mn.grad.year.5.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 62.9% -\> 66.8%
--   **Variables used:** 8 total,
-    -   Demographics: 1/2
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 5/7 - CTE, ACT, MCA
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 0.96976
-    -   cp: 0.0036465
-    -   Splits: 1
--   **Total splits**: 12
+- **Accuracy**: 62.9% -\> 66.8%
+- **Variables used:** 8 total,
+  - Demographics: 1/2
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 5/7 - CTE, ACT, MCA
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 0.96976
+  - cp: 0.0036465
+  - Splits: 1
+- **Total splits**: 12
 
 <br>
 
@@ -2229,23 +2229,23 @@ printcp(meaningful.emp.mn.grad.year.5.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 66.8% -\> 68.6%
--   **Variables used:** 1 total,
-    -   Demographics: 0/2
-    -   High school characteristics: 1/3 - wages
-    -   High school accomplishments: 0/7
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 0.96976
-    -   cp: 0.0036465
-    -   Splits: 1
--   **Total splits**: 1
+- **Accuracy**: 66.8% -\> 68.6%
+- **Variables used:** 1 total,
+  - Demographics: 0/2
+  - High school characteristics: 1/3 - wages
+  - High school accomplishments: 0/7
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 0.96976
+  - cp: 0.0036465
+  - Splits: 1
+- **Total splits**: 1
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model only provides 1 split, but the accuracy is two percentage points better. The pre-pruned model has a lot of splits - 12.
 
@@ -2260,48 +2260,48 @@ rpart.plot(meaningful.emp.mn.grad.year.5.model.preprun, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 66.8% (baseline was 67.6%, so the model performs just below baseline but provides interpretable structure).
--   **Root error:** 32.7% (matches the proportion in meaningful MN, since “regional” is the majority).
--   **Pruning:** Pre-pruned model with 12 splits retained, capturing subgroup complexity.
+- **Accuracy:** 66.8% (baseline was 67.6%, so the model performs just below baseline but provides interpretable structure).
+- **Root error:** 32.7% (matches the proportion in meaningful MN, since “regional” is the majority).
+- **Pruning:** Pre-pruned model with 12 splits retained, capturing subgroup complexity.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **eight predictors**:
 
--   **avg.wages.pct.state** (county wages relative to state average)
--   **avg.unemp.rate** (county unemployment rate)
--   **ACTCompositeScore**
--   **MCA.R** (reading assessment)
--   **total.cte.courses.taken**
--   **cte.achievement** (CTE concentrator/completer vs. not)
--   **took.ACT** (ACT participation)
--   **SpecialEdStatus**
+- **avg.wages.pct.state** (county wages relative to state average)
+- **avg.unemp.rate** (county unemployment rate)
+- **ACTCompositeScore**
+- **MCA.R** (reading assessment)
+- **total.cte.courses.taken**
+- **cte.achievement** (CTE concentrator/completer vs. not)
+- **took.ACT** (ACT participation)
+- **SpecialEdStatus**
 
 This broader set of predictors reflects the many factors shaping outcomes by Year 5.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Local Wages (Top Split)**
-    -   **Low-wage counties (\<69% of state average)** produce the strongest shift toward **Meaningful employment outside the region**.
-    -   **Higher-wage counties (≥69%)** anchor more students regionally, though academics and CTE matter.
+    - **Low-wage counties (\<69% of state average)** produce the strongest shift toward **Meaningful employment outside the region**.
+    - **Higher-wage counties (≥69%)** anchor more students regionally, though academics and CTE matter.
 2.  **Academic Performance**
-    -   Within higher-wage counties, **taking the ACT and scoring ≥26** increases the likelihood of statewide employment.
-    -   In low-wage counties, **strong MCA reading scores (≥3.5)** also push students toward statewide jobs.
+    - Within higher-wage counties, **taking the ACT and scoring ≥26** increases the likelihood of statewide employment.
+    - In low-wage counties, **strong MCA reading scores (≥3.5)** also push students toward statewide jobs.
 3.  **CTE Engagement**
-    -   **CTE concentrators/completers** remain much more likely to sustain **regional employment**, even when their academic scores are high.
-    -   Students with **low CTE coursework (\<6)** are more mobile and more likely to leave.
+    - **CTE concentrators/completers** remain much more likely to sustain **regional employment**, even when their academic scores are high.
+    - Students with **low CTE coursework (\<6)** are more mobile and more likely to leave.
 4.  **Special Education Status**
-    -   Among students in higher-wage, low-unemployment contexts, **those who needed SpecialEd (SpecialEdStatus = 1)** are less likely to remain regionally employed.
-    -   **Non-SpecialEd students (SpecialEdStatus = 0)** are more likely to sustain regional work.
+    - Among students in higher-wage, low-unemployment contexts, **those who needed SpecialEd (SpecialEdStatus = 1)** are less likely to remain regionally employed.
+    - **Non-SpecialEd students (SpecialEdStatus = 0)** are more likely to sustain regional work.
 
 [**Overall Narrative**]{.underline}
 
 At **5 years after graduation**, non-college grads’ outcomes reflect a balance between **economic push factors, academic pull factors, and CTE anchors**:
 
--   **Low local wages** drive mobility into statewide jobs.
--   **High academic achievers** (high ACT, strong MCA) are more mobile and more likely to leave.
--   **CTE concentrators/completers** sustain regional ties, counteracting the mobility of strong academics.
--   **SpecialEd students** are less likely to remain in regional employment, suggesting barriers to long-term attachment to local labor markets.
+- **Low local wages** drive mobility into statewide jobs.
+- **High academic achievers** (high ACT, strong MCA) are more mobile and more likely to leave.
+- **CTE concentrators/completers** sustain regional ties, counteracting the mobility of strong academics.
+- **SpecialEd students** are less likely to remain in regional employment, suggesting barriers to long-term attachment to local labor markets.
 
 In short, **mobility at Year 5 is shaped by both local wages and academic achievement, while CTE strongly reinforces regional attachment. SpecialEd students, however, face greater risks of statewide employment or disconnection, underscoring inequities in long-term stability.**
 
@@ -2365,17 +2365,17 @@ printcp(meaningful.emp.mn.grad.year.10.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 57.8%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 4
-    -   xerror: 0.96786
-    -   cp: 0.00642792
-    -   Splits: 5
--   **Total splits**: 136
+- **Accuracy**: 57.8%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 4
+  - xerror: 0.96786
+  - cp: 0.00642792
+  - Splits: 5
+- **Total splits**: 136
 
 <br>
 
@@ -2383,10 +2383,10 @@ printcp(meaningful.emp.mn.grad.year.10.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)) which is 183.
--   minbucket: round(minsplit / 3) which is 61.
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)) which is 183.
+- minbucket: round(minsplit / 3) which is 61.
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -2412,17 +2412,17 @@ printcp(meaningful.emp.mn.grad.year.10.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 57.8% -\> 62.2%
--   **Variables used:** 7 total,
-    -   Demographics: 0/2
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 5/7 - CTE, ACT, Reading
--   **Lowest cross-validation error:**
-    -   Step: 5
-    -   xerror: 0.97704
-    -   cp: 0.00367309
-    -   Splits: 7
--   **Total splits**: 12
+- **Accuracy**: 57.8% -\> 62.2%
+- **Variables used:** 7 total,
+  - Demographics: 0/2
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 5/7 - CTE, ACT, Reading
+- **Lowest cross-validation error:**
+  - Step: 5
+  - xerror: 0.97704
+  - cp: 0.00367309
+  - Splits: 7
+- **Total splits**: 12
 
 <br>
 
@@ -2465,23 +2465,23 @@ printcp(meaningful.emp.mn.grad.year.10.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 62.2% -\> 62.1%
--   **Variables used:** 6 total,
-    -   Demographics: 0/2
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 4/7 - ACT, reading, CTE
--   **Lowest cross-validation error:**
-    -   Step: 5
-    -   xerror: 0.97704
-    -   cp: 0.0036731
-    -   Splits: 7
--   **Total splits**: 10
+- **Accuracy**: 62.2% -\> 62.1%
+- **Variables used:** 6 total,
+  - Demographics: 0/2
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 4/7 - ACT, reading, CTE
+- **Lowest cross-validation error:**
+  - Step: 5
+  - xerror: 0.97704
+  - cp: 0.0036731
+  - Splits: 7
+- **Total splits**: 10
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a simpler model - 10 splits instead of pre-pruned’s 12 splits - while also giving the same accuracy. I will use the post-pruned model.
 
@@ -2496,48 +2496,48 @@ rpart.plot(meaningful.emp.mn.grad.year.10.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 62.1% (equal to the baseline of 62.1% regional, so the model does not improve predictive power but provides structure for interpretation).
--   **Root error:** 37.5% (matches the proportion in meaningful MN, since “regional” is the majority).
--   **Pruning:** Post-pruned to a 10-split tree (cp = 0.0037), balancing interpretability with moderate complexity.
+- **Accuracy:** 62.1% (equal to the baseline of 62.1% regional, so the model does not improve predictive power but provides structure for interpretation).
+- **Root error:** 37.5% (matches the proportion in meaningful MN, since “regional” is the majority).
+- **Pruning:** Post-pruned to a 10-split tree (cp = 0.0037), balancing interpretability with moderate complexity.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **six predictors**:
 
--   **took.ACT** (whether the student took the ACT)
--   **avg.unemp.rate** (county unemployment rate)
--   **avg.wages.pct.state** (county wages relative to state average)
--   **ACTCompositeScore**
--   **MCA.R** (reading assessment)
--   **total.cte.courses.taken**
+- **took.ACT** (whether the student took the ACT)
+- **avg.unemp.rate** (county unemployment rate)
+- **avg.wages.pct.state** (county wages relative to state average)
+- **ACTCompositeScore**
+- **MCA.R** (reading assessment)
+- **total.cte.courses.taken**
 
 This represents both academic achievement and local economic context, with CTE engagement continuing to play a role.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **ACT Participation (Top Split)**
-    -   The first divide is whether a student **took the ACT**.
-    -   **ACT takers** are more mobile, with further splits driven by unemployment rates and ACT scores.
-    -   **Non-ACT takers** are more likely to remain in regional employment, though wages and CTE course-taking still shape outcomes.
+    - The first divide is whether a student **took the ACT**.
+    - **ACT takers** are more mobile, with further splits driven by unemployment rates and ACT scores.
+    - **Non-ACT takers** are more likely to remain in regional employment, though wages and CTE course-taking still shape outcomes.
 2.  **Local Unemployment and ACT Scores**
-    -   For ACT takers, **higher unemployment (≥8.3%)** increases the likelihood of **statewide employment**.
-    -   Within these contexts, **higher ACT scores (≥18 and ≥26)** further tilt students toward meaningful employment outside their region.
-    -   However, **CTE course-taking** softens this effect, pulling some high scorers back toward regional jobs.
+    - For ACT takers, **higher unemployment (≥8.3%)** increases the likelihood of **statewide employment**.
+    - Within these contexts, **higher ACT scores (≥18 and ≥26)** further tilt students toward meaningful employment outside their region.
+    - However, **CTE course-taking** softens this effect, pulling some high scorers back toward regional jobs.
 3.  **Local Wages and CTE Course-Taking**
-    -   Among non-ACT takers, students in **low-wage counties (\<70% of state average)** are more likely to find work statewide.
-    -   Those in higher-wage counties with **fewer than 2 CTE courses** also tend toward statewide employment.
-    -   In contrast, **greater CTE engagement (≥4 courses)** anchors even high academic performers in regional jobs.
+    - Among non-ACT takers, students in **low-wage counties (\<70% of state average)** are more likely to find work statewide.
+    - Those in higher-wage counties with **fewer than 2 CTE courses** also tend toward statewide employment.
+    - In contrast, **greater CTE engagement (≥4 courses)** anchors even high academic performers in regional jobs.
 4.  **Reading MCA Performance**
-    -   In some higher-wage contexts, **strong reading performance (MCA.R ≥4)** tilts students back toward regional employment.
-    -   Lower reading scores leave students more likely to take statewide opportunities.
+    - In some higher-wage contexts, **strong reading performance (MCA.R ≥4)** tilts students back toward regional employment.
+    - Lower reading scores leave students more likely to take statewide opportunities.
 
 [**Overall Narrative**]{.underline}
 
 At **10 years after graduation**, meaningful employment patterns reflect the long-term interplay of **academic preparation, CTE engagement, and local labor market conditions**.
 
--   **ACT participation and high scores** are strong markers of statewide mobility, particularly in counties with higher unemployment or lower wages.
--   **CTE engagement remains a powerful anchor**, keeping even academically strong students tied to their regions when they have completed multiple courses.
--   **Reading achievement and wage context** provide additional nuance, reinforcing regional ties in higher-wage counties for students with strong MCA scores.
+- **ACT participation and high scores** are strong markers of statewide mobility, particularly in counties with higher unemployment or lower wages.
+- **CTE engagement remains a powerful anchor**, keeping even academically strong students tied to their regions when they have completed multiple courses.
+- **Reading achievement and wage context** provide additional nuance, reinforcing regional ties in higher-wage counties for students with strong MCA scores.
 
 In short, **by Year 10, statewide employment becomes most common among ACT takers with high scores, especially in low-wage or high-unemployment counties. Regional employment persists most strongly among non-ACT takers, students in higher-wage counties, and those with sustained CTE engagement.**
 
@@ -2547,51 +2547,51 @@ In short, **by Year 10, statewide employment becomes most common among ACT taker
 
 [**Model Performance**]{.underline}
 
--   **Year 1:** Accuracy = 65.7% (baseline = 64.6%). The tree improves modestly, highlighting academic and CTE pathways.
--   **Year 5:** Accuracy = 54.7% (baseline = 50.9%). Model adds interpretive value despite weaker predictive lift.
--   **Year 10:** Accuracy = 55.5% (baseline = 53.6%). Model provides subgroup insights rather than strong predictive power.
+- **Year 1:** Accuracy = 65.7% (baseline = 64.6%). The tree improves modestly, highlighting academic and CTE pathways.
+- **Year 5:** Accuracy = 54.7% (baseline = 50.9%). Model adds interpretive value despite weaker predictive lift.
+- **Year 10:** Accuracy = 55.5% (baseline = 53.6%). Model provides subgroup insights rather than strong predictive power.
 
 Overall, predictive strength is limited, but the models clearly surface which subgroups are most at risk of falling into the **Not meaningful** category across time.
 
 [**Variable Importance Over Time**]{.underline}
 
--   **Academic performance (ACT, MCA):** The dominant predictor early on, with ACT scores shaping Year 1 outcomes and math (MCA.M) carrying weight at Year 10.
--   **SpecialEd status:** Emerges consistently as a risk factor — students who needed SpecialEd are more likely to fall into Not meaningful outcomes.
--   **CTE engagement:** Heavy course-taking (≥9) anchors regional employment early; by Year 5, ≥3 courses remain protective, especially for higher-income students.
--   **Economic status:** By Year 5 and especially Year 10, low income drives long-term vulnerability to Not meaningful outcomes.
--   **Local labor markets (wages, unemployment):** Provide additional context — higher wages and lower unemployment support regional employment, while weaker conditions reinforce disconnection.
+- **Academic performance (ACT, MCA):** The dominant predictor early on, with ACT scores shaping Year 1 outcomes and math (MCA.M) carrying weight at Year 10.
+- **SpecialEd status:** Emerges consistently as a risk factor — students who needed SpecialEd are more likely to fall into Not meaningful outcomes.
+- **CTE engagement:** Heavy course-taking (≥9) anchors regional employment early; by Year 5, ≥3 courses remain protective, especially for higher-income students.
+- **Economic status:** By Year 5 and especially Year 10, low income drives long-term vulnerability to Not meaningful outcomes.
+- **Local labor markets (wages, unemployment):** Provide additional context — higher wages and lower unemployment support regional employment, while weaker conditions reinforce disconnection.
 
 [**Interpretation Across Years**]{.underline}
 
--   **Year 1 (Early career launch):**\
-    Outcomes are shaped most strongly by **ACT performance**. Students with high scores (≥26) are much more likely to find meaningful regional work. **SpecialEd students with low ACT scores** are at greatest risk of disconnection. For non-SpecialEd, low scorers, **heavy CTE course-taking (≥9)** is the critical counterweight keeping them regionally employed.
+- **Year 1 (Early career launch):**\
+  Outcomes are shaped most strongly by **ACT performance**. Students with high scores (≥26) are much more likely to find meaningful regional work. **SpecialEd students with low ACT scores** are at greatest risk of disconnection. For non-SpecialEd, low scorers, **heavy CTE course-taking (≥9)** is the critical counterweight keeping them regionally employed.
 
--   **Year 5 (Mid-career sorting):**\
-    A more complex picture emerges. **SpecialEd status** is the strongest risk factor, with these students far more likely to be disconnected. **CTE engagement (≥3 courses)** anchors students regionally, but the benefit is strongest for **higher-income students** in high-wage counties. **Low-income and low ACT scorers** remain at elevated risk, with unemployment further shaping outcomes.
+- **Year 5 (Mid-career sorting):**\
+  A more complex picture emerges. **SpecialEd status** is the strongest risk factor, with these students far more likely to be disconnected. **CTE engagement (≥3 courses)** anchors students regionally, but the benefit is strongest for **higher-income students** in high-wage counties. **Low-income and low ACT scorers** remain at elevated risk, with unemployment further shaping outcomes.
 
--   **Year 10 (Long-run outcomes):**\
-    **Economic status dominates**. Low-income students face the highest risk of being Not meaningful, unless they combine **solid math skills** with residence in **low-unemployment counties**. **SpecialEd students** continue to face barriers, even within higher-income groups. Non-SpecialEd, higher-income students remain most stably anchored in regional work.
+- **Year 10 (Long-run outcomes):**\
+  **Economic status dominates**. Low-income students face the highest risk of being Not meaningful, unless they combine **solid math skills** with residence in **low-unemployment counties**. **SpecialEd students** continue to face barriers, even within higher-income groups. Non-SpecialEd, higher-income students remain most stably anchored in regional work.
 
 [**Overall Narrative**]{.underline}
 
 Across the decade, the divide between **meaningful regional employment** and **Not meaningful outcomes** evolves from early **academic sorting (Year 1)** to a blend of **SpecialEd needs, CTE engagement, and income background (Year 5)**, and ultimately to entrenched differences driven by **economic status, math skills, and local labor markets (Year 10)**.
 
--   **Regional pathways** are sustained by **high ACT/math performance, strong CTE engagement, higher income, and Non-SpecialEd status**, especially in supportive wage and unemployment contexts.
--   **Not meaningful pathways** are most common among **SpecialEd students, low-income students, weak academic performers, and those in weaker labor markets**, with risks compounding over time.
+- **Regional pathways** are sustained by **high ACT/math performance, strong CTE engagement, higher income, and Non-SpecialEd status**, especially in supportive wage and unemployment contexts.
+- **Not meaningful pathways** are most common among **SpecialEd students, low-income students, weak academic performers, and those in weaker labor markets**, with risks compounding over time.
 
 This trajectory suggests that while **CTE and strong academics offer protective early pathways**, long-term stability in regional employment is increasingly shaped by **structural disadvantage (low income, SpecialEd needs)**, leaving vulnerable groups at persistent risk of disconnection.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|-------------------|--------------------------------|---------------------|
+|----|----|----|
 | **Year 1** | \- ACT Composite Score<br>- SpecialEd status<br>- Total CTE courses<br>- Local wages (% of state) | **High ACT scorers (≥26)** are much more likely to find meaningful regional work. **SpecialEd students with low ACT scores** are at highest risk of being Not meaningful. **Heavy CTE engagement (≥9 courses)** can offset weak academics, anchoring students regionally. Higher wages modestly improve outcomes. |
 | **Year 5** | \- SpecialEd status<br>- Total CTE courses<br>- ACT Composite Score<br>- Economic status<br>- Local wages (% of state)<br>- Unemployment rate | **SpecialEd students** are most at risk of disconnection. **CTE engagement (≥3 courses)** anchors students regionally, especially for **higher-income students in higher-wage counties**. **Low ACT scores** and **low income** increase risk. Local unemployment further shifts outcomes. |
 | **Year 10** | \- Economic status<br>- SpecialEd status<br>- MCA.M (Math)<br>- Unemployment rate | **Low-income students** are most likely to be Not meaningful, unless they combine **strong math skills** with residence in **low-unemployment counties**. **SpecialEd students** face barriers even within higher-income groups. **Higher-income, Non-SpecialEd students** are most likely to sustain regional employment. |
 
 #### Summary
 
--   **Year 1:** Outcomes hinge on **ACT performance** and **SpecialEd status**, with **intensive CTE engagement** the key pathway for low scorers.
--   **Year 5:** Risks broaden — **SpecialEd needs and low income** amplify vulnerability, while **CTE engagement and strong academics** provide protection.
--   **Year 10:** **Socioeconomic status dominates** long-term outcomes, with **math skills and labor market context** shaping whether low-income students can remain regionally employed.
+- **Year 1:** Outcomes hinge on **ACT performance** and **SpecialEd status**, with **intensive CTE engagement** the key pathway for low scorers.
+- **Year 5:** Risks broaden — **SpecialEd needs and low income** amplify vulnerability, while **CTE engagement and strong academics** provide protection.
+- **Year 10:** **Socioeconomic status dominates** long-term outcomes, with **math skills and labor market context** shaping whether low-income students can remain regionally employed.
 
 Overall, the models show that **academics and CTE drive early outcomes**, while **SpecialEd needs and low income create persistent long-term barriers** to sustaining meaningful regional employment.
 
@@ -2655,17 +2655,17 @@ printcp(not.meaningful.grad.year.1.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 58.8%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 3
-    -   xerror: 1.0279
-    -   cp: 1.0856e-03
-    -   Splits: 36
--   **Total splits**: 448
+- **Accuracy**: 58.8%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 3
+  - xerror: 1.0279
+  - cp: 1.0856e-03
+  - Splits: 36
+- **Total splits**: 448
 
 <br>
 
@@ -2673,10 +2673,10 @@ printcp(not.meaningful.grad.year.1.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)) which is 478.
--   minbucket: round(minsplit / 3) which is 159.
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)) which is 478.
+- minbucket: round(minsplit / 3) which is 159.
+- cp = 0
 
 Unfortunately, this gave us a decision tree with 0 splits. So we will rework the parameters.
 
@@ -2704,17 +2704,17 @@ printcp(not.meaningful.grad.year.1.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 58.8% -\> 65.2%
--   **Variables used:** 6 total,
-    -   Demographics: 2/2 - economic status, special education
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 2/7 - CTE and ACT
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0065
-    -   cp: 0.00093052
-    -   Splits: 5
--   **Total splits**: 8
+- **Accuracy**: 58.8% -\> 65.2%
+- **Variables used:** 6 total,
+  - Demographics: 2/2 - economic status, special education
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 2/7 - CTE and ACT
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0065
+  - cp: 0.00093052
+  - Splits: 5
+- **Total splits**: 8
 
 <br>
 
@@ -2757,23 +2757,23 @@ printcp(not.meaningful.grad.year.1.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 65.2% -\> 65.7%
--   **Variables used:** 4 total,
-    -   Demographics: 1/2 - special ed
-    -   High school characteristics: 1/2 - wages
-    -   High school accomplishments: 2/7 - ACT and CTE
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0065
-    -   cp: 0.0010000
-    -   Splits: 5
--   **Total splits**: 5
+- **Accuracy**: 65.2% -\> 65.7%
+- **Variables used:** 4 total,
+  - Demographics: 1/2 - special ed
+  - High school characteristics: 1/2 - wages
+  - High school accomplishments: 2/7 - ACT and CTE
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0065
+  - cp: 0.0010000
+  - Splits: 5
+- **Total splits**: 5
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a simpler model - 5 splits while also giving better accuracy. I will use the post-pruned model.
 
@@ -2788,46 +2788,46 @@ rpart.plot(not.meaningful.grad.year.1.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 65.7% (baseline = 64.6%). The model improves slightly over baseline while surfacing important subgroup dynamics.
--   **Root error:** 35.8% (matches the proportion in meaningful regional employment, since “Not meaningful” is the majority).
--   **Pruning:** Post-pruned to a 5-split tree (cp = 0.0010), balancing simplicity with interpretability.
+- **Accuracy:** 65.7% (baseline = 64.6%). The model improves slightly over baseline while surfacing important subgroup dynamics.
+- **Root error:** 35.8% (matches the proportion in meaningful regional employment, since “Not meaningful” is the majority).
+- **Pruning:** Post-pruned to a 5-split tree (cp = 0.0010), balancing simplicity with interpretability.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **four predictors**:
 
--   **ACTCompositeScore**
--   **SpecialEdStatus**
--   **total.cte.courses.taken**
--   **avg.wages.pct.state**
+- **ACTCompositeScore**
+- **SpecialEdStatus**
+- **total.cte.courses.taken**
+- **avg.wages.pct.state**
 
 These combine **academic performance, SpecialEd status, CTE coursework, and local wages** to explain early labor market outcomes.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Academic Performance (Top Split)**
-    -   The strongest initial divide is **ACTCompositeScore \< 26**.
-    -   **Low ACT scorers (\<26)** are much more likely to be in the **Not meaningful** group.
-    -   Students scoring ≥26 are more likely to be regionally employed.
+    - The strongest initial divide is **ACTCompositeScore \< 26**.
+    - **Low ACT scorers (\<26)** are much more likely to be in the **Not meaningful** group.
+    - Students scoring ≥26 are more likely to be regionally employed.
 2.  **Special Education Status**
-    -   Among **low ACT scorers**, the next split is **SpecialEdStatus**.
-    -   **SpecialEd students (1)** are even more likely to fall into the **Not meaningful** group.
-    -   **Non-SpecialEd students (0)** still face elevated risk, but additional factors (CTE, wages) can improve outcomes.
+    - Among **low ACT scorers**, the next split is **SpecialEdStatus**.
+    - **SpecialEd students (1)** are even more likely to fall into the **Not meaningful** group.
+    - **Non-SpecialEd students (0)** still face elevated risk, but additional factors (CTE, wages) can improve outcomes.
 3.  **CTE Engagement**
-    -   For non-SpecialEd, low-ACT students, taking at least **3 CTE courses** provides some counterbalance.
-    -   However, only students with very high CTE course-taking (≥9 courses) break meaningfully toward **regional employment**.
+    - For non-SpecialEd, low-ACT students, taking at least **3 CTE courses** provides some counterbalance.
+    - However, only students with very high CTE course-taking (≥9 courses) break meaningfully toward **regional employment**.
 4.  **Local Wages**
-    -   Within moderate CTE course-taking (3–8 courses), **higher local wages (≥79% of state average)** modestly improve the chance of regional employment.
-    -   In lower-wage counties, these students remain more likely to fall into the Not meaningful category.
+    - Within moderate CTE course-taking (3–8 courses), **higher local wages (≥79% of state average)** modestly improve the chance of regional employment.
+    - In lower-wage counties, these students remain more likely to fall into the Not meaningful category.
 
 [**Overall Narrative**]{.underline}
 
 At **1 year after graduation**, whether non-college grads sustain **meaningful regional employment** or fall into **Not meaningful, not attending postsecondary** is driven primarily by **academic performance**.
 
--   **High ACT scorers (≥26)** are much more likely to be employed regionally.
--   **SpecialEd students** with low ACT scores are at the highest risk of being in the Not meaningful group.
--   For other low scorers, **heavy CTE course-taking (≥9 courses)** is the key factor that can offset weak academics and improve chances of regional employment.
--   **Local wage levels** provide additional support for moderate CTE students but are not strong enough alone to overcome weak academic performance.
+- **High ACT scorers (≥26)** are much more likely to be employed regionally.
+- **SpecialEd students** with low ACT scores are at the highest risk of being in the Not meaningful group.
+- For other low scorers, **heavy CTE course-taking (≥9 courses)** is the key factor that can offset weak academics and improve chances of regional employment.
+- **Local wage levels** provide additional support for moderate CTE students but are not strong enough alone to overcome weak academic performance.
 
 In short, **Year 1 outcomes are shaped most by ACT performance and SpecialEd status**, with **intensive CTE engagement** as the critical pathway for lower-achieving students to sustain meaningful regional employment.
 
@@ -2891,17 +2891,17 @@ printcp(not.meaningful.grad.year.5.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 52.8%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 16
-    -   xerror: 0.94493
-    -   cp: 0.00130361
-    -   Splits: 40
--   **Total splits**: 377
+- **Accuracy**: 52.8%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 16
+  - xerror: 0.94493
+  - cp: 0.00130361
+  - Splits: 40
+- **Total splits**: 377
 
 <br>
 
@@ -2909,10 +2909,10 @@ printcp(not.meaningful.grad.year.5.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)) which is 310.
--   minbucket: round(minsplit / 3) which is 103.
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)) which is 310.
+- minbucket: round(minsplit / 3) which is 103.
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -2938,17 +2938,17 @@ printcp(not.meaningful.grad.year.5.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 52.8% -\> 55.2%
--   **Variables used:** 10 total,
-    -   Demographics: 2/2 - economic status and special ed
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 6/7 - CTE, ACT MCA - reading and math
--   **Lowest cross-validation error:**
-    -   Step: 11
-    -   xerror: 0.93392
-    -   cp: 0
-    -   Splits: 19
--   **Total splits**: 19
+- **Accuracy**: 52.8% -\> 55.2%
+- **Variables used:** 10 total,
+  - Demographics: 2/2 - economic status and special ed
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 6/7 - CTE, ACT MCA - reading and math
+- **Lowest cross-validation error:**
+  - Step: 11
+  - xerror: 0.93392
+  - cp: 0
+  - Splits: 19
+- **Total splits**: 19
 
 <br>
 
@@ -2991,23 +2991,23 @@ printcp(not.meaningful.grad.year.5.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.2% -\> 54.7%
--   **Variables used:** 6 total,
-    -   Demographics: 2/2 - economic status and special ed
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 2/7 - ACT and CTE
--   **Lowest cross-validation error:**
-    -   Step: 6
-    -   xerror: 0.93833
-    -   cp: 0.0031466
-    -   Splits: 8
--   **Total splits**: 8
+- **Accuracy**: 55.2% -\> 54.7%
+- **Variables used:** 6 total,
+  - Demographics: 2/2 - economic status and special ed
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 2/7 - ACT and CTE
+- **Lowest cross-validation error:**
+  - Step: 6
+  - xerror: 0.93833
+  - cp: 0.0031466
+  - Splits: 8
+- **Total splits**: 8
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a much simpler model - 8 splits instead of pre-pruned’s 19 splits - while also giving nearly the same accuracy. I will use the post-pruned model.
 
@@ -3022,47 +3022,47 @@ rpart.plot(not.meaningful.grad.year.5.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 54.7% (baseline = 50.9%). The model modestly improves over baseline, highlighting subgroup dynamics despite weaker predictive strength.
--   **Root error:** 48.6% (matches the proportion in meaningful regional employment).
--   **Pruning:** Post-pruned to an 8-split tree (cp = 0.0031), balancing interpretability with complexity.
+- **Accuracy:** 54.7% (baseline = 50.9%). The model modestly improves over baseline, highlighting subgroup dynamics despite weaker predictive strength.
+- **Root error:** 48.6% (matches the proportion in meaningful regional employment).
+- **Pruning:** Post-pruned to an 8-split tree (cp = 0.0031), balancing interpretability with complexity.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **six predictors**:
 
--   **SpecialEdStatus**
--   **total.cte.courses.taken**
--   **ACTCompositeScore**
--   **economic.status** (low vs. higher income)
--   **avg.wages.pct.state** (county wages vs. state average)
--   **avg.unemp.rate** (county unemployment rate)
+- **SpecialEdStatus**
+- **total.cte.courses.taken**
+- **ACTCompositeScore**
+- **economic.status** (low vs. higher income)
+- **avg.wages.pct.state** (county wages vs. state average)
+- **avg.unemp.rate** (county unemployment rate)
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Special Education Status (Top Split)**
-    -   Students who **needed SpecialEd (1)** are most likely to be in the **Not meaningful** group.
-    -   Students who did **not** need SpecialEd (0) are more likely to sustain **regional employment**, but other factors matter.
+    - Students who **needed SpecialEd (1)** are most likely to be in the **Not meaningful** group.
+    - Students who did **not** need SpecialEd (0) are more likely to sustain **regional employment**, but other factors matter.
 2.  **CTE Course-Taking**
-    -   For Non-SpecialEd students, taking **≥3 CTE courses** increases the likelihood of regional employment.
-    -   Those with fewer CTE courses are at higher risk of being in the Not meaningful group unless academics or economic factors intervene.
+    - For Non-SpecialEd students, taking **≥3 CTE courses** increases the likelihood of regional employment.
+    - Those with fewer CTE courses are at higher risk of being in the Not meaningful group unless academics or economic factors intervene.
 3.  **Economic Status & Local Wages**
-    -   **Higher-income students (0)** in **higher-wage counties (≥82% of state average)** are more likely to sustain regional employment.
-    -   **Low-income students (1)** are more vulnerable to Not meaningful outcomes, even with CTE engagement.
+    - **Higher-income students (0)** in **higher-wage counties (≥82% of state average)** are more likely to sustain regional employment.
+    - **Low-income students (1)** are more vulnerable to Not meaningful outcomes, even with CTE engagement.
 4.  **ACT Performance**
-    -   Students with **ACTCompositeScore \< 20** are more likely to be in the Not meaningful group.
-    -   Higher scorers are more likely to remain in regional employment.
+    - Students with **ACTCompositeScore \< 20** are more likely to be in the Not meaningful group.
+    - Higher scorers are more likely to remain in regional employment.
 5.  **Unemployment Rate**
-    -   In some subgroups, **higher unemployment (≥6%)** pushes students toward Not meaningful outcomes.
-    -   Lower unemployment supports regional attachment.
+    - In some subgroups, **higher unemployment (≥6%)** pushes students toward Not meaningful outcomes.
+    - Lower unemployment supports regional attachment.
 
 [**Overall Narrative**]{.underline}
 
 At **5 years after graduation**, the strongest risk factor is **SpecialEd status** — those who needed SpecialEd are much more likely to be disconnected from meaningful regional employment.
 
--   **CTE engagement (≥3 courses)** anchors students to regional work, especially for higher-income students in strong local wage contexts.
--   **Low-income students** remain vulnerable, even when engaged in CTE.
--   **Low ACT scorers** continue to face higher risks of falling into the Not meaningful category.
--   **Labor market conditions** (local wages, unemployment) further shape outcomes, with weak labor markets reinforcing disconnection.
+- **CTE engagement (≥3 courses)** anchors students to regional work, especially for higher-income students in strong local wage contexts.
+- **Low-income students** remain vulnerable, even when engaged in CTE.
+- **Low ACT scorers** continue to face higher risks of falling into the Not meaningful category.
+- **Labor market conditions** (local wages, unemployment) further shape outcomes, with weak labor markets reinforcing disconnection.
 
 In short, by Year 5, **SpecialEd status and income background amplify risks**, while **CTE engagement and strong academics** provide protective pathways into regional employment.
 
@@ -3126,17 +3126,17 @@ printcp(not.meaningful.grad.year.10.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 51.5%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 5
-    -   xerror: 0.90413
-    -   cp: 0.00507937
-    -   Splits: 4
--   **Total splits**: 211
+- **Accuracy**: 51.5%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 5
+  - xerror: 0.90413
+  - cp: 0.00507937
+  - Splits: 4
+- **Total splits**: 211
 
 <br>
 
@@ -3144,10 +3144,10 @@ printcp(not.meaningful.grad.year.10.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)) which is 183.
--   minbucket: round(minsplit / 3) which is 61.
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)) which is 183.
+- minbucket: round(minsplit / 3) which is 61.
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -3173,17 +3173,17 @@ printcp(not.meaningful.grad.year.10.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 51.5% -\> 55.2%
--   **Variables used:** 9 total,
-    -   Demographics: 2/2 - economic status and special ed
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 5/7 - CTE, ACT and MCA reading and math
--   **Lowest cross-validation error:**
-    -   Step: 5
-    -   xerror: 0.90286
-    -   cp: 0.00507937
-    -   Splits: 4
--   **Total splits**: 16
+- **Accuracy**: 51.5% -\> 55.2%
+- **Variables used:** 9 total,
+  - Demographics: 2/2 - economic status and special ed
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 5/7 - CTE, ACT and MCA reading and math
+- **Lowest cross-validation error:**
+  - Step: 5
+  - xerror: 0.90286
+  - cp: 0.00507937
+  - Splits: 4
+- **Total splits**: 16
 
 <br>
 
@@ -3227,23 +3227,23 @@ printcp(not.meaningful.grad.year.10.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.2% -\> 55.5%
--   **Variables used:** 4 total,
-    -   Demographics: 2/2 - economic.status, special ed
-    -   High school characteristics: 1/2 - unemployment
-    -   High school accomplishments: 1/7 - MCA Math
--   **Lowest cross-validation error:**
-    -   Step: 5
-    -   xerror: 0.90286
-    -   cp: 0.0050794
-    -   Splits: 4
--   **Total splits**: 4
+- **Accuracy**: 55.2% -\> 55.5%
+- **Variables used:** 4 total,
+  - Demographics: 2/2 - economic.status, special ed
+  - High school characteristics: 1/2 - unemployment
+  - High school accomplishments: 1/7 - MCA Math
+- **Lowest cross-validation error:**
+  - Step: 5
+  - xerror: 0.90286
+  - cp: 0.0050794
+  - Splits: 4
+- **Total splits**: 4
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a much simpler model - 4 splits instead of pre-pruned’s 16 splits - while also giving a better accuracy. I will use the post-pruned model.
 
@@ -3258,42 +3258,42 @@ rpart.plot(not.meaningful.grad.year.10.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 55.5% (baseline = 53.6%). Model modestly improves over baseline, serving primarily as an interpretive tool.
--   **Root error:** 46.8% (matches the proportion in Not meaningful, since meaningful regional is the majority).
--   **Pruning:** Post-pruned to a 4-split tree (cp = 0.0051), yielding a compact model.
+- **Accuracy:** 55.5% (baseline = 53.6%). Model modestly improves over baseline, serving primarily as an interpretive tool.
+- **Root error:** 46.8% (matches the proportion in Not meaningful, since meaningful regional is the majority).
+- **Pruning:** Post-pruned to a 4-split tree (cp = 0.0051), yielding a compact model.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **four predictors**:
 
--   **economic.status** (low vs. higher income)
--   **SpecialEdStatus**
--   **MCA.M** (math assessment)
--   **avg.unemp.rate** (county unemployment rate)
+- **economic.status** (low vs. higher income)
+- **SpecialEdStatus**
+- **MCA.M** (math assessment)
+- **avg.unemp.rate** (county unemployment rate)
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Economic Status (Top Split)**
-    -   The first divide is **low vs. higher income**.
-    -   **Higher-income students (0)** are more likely to sustain **meaningful regional employment**.
-    -   **Low-income students (1)** are more likely to be in the **Not meaningful** group.
+    - The first divide is **low vs. higher income**.
+    - **Higher-income students (0)** are more likely to sustain **meaningful regional employment**.
+    - **Low-income students (1)** are more likely to be in the **Not meaningful** group.
 2.  **SpecialEd Status**
-    -   Among higher-income students, those who **needed SpecialEd (1)** are at higher risk of being in the Not meaningful group.
-    -   **Non-SpecialEd students (0)** are more likely to stay regionally employed.
+    - Among higher-income students, those who **needed SpecialEd (1)** are at higher risk of being in the Not meaningful group.
+    - **Non-SpecialEd students (0)** are more likely to stay regionally employed.
 3.  **Math Achievement (MCA.M)**
-    -   For low-income students, **strong math scores (≥2)** improve chances of regional employment.
-    -   Weak math skills reinforce risk of being in the Not meaningful group.
+    - For low-income students, **strong math scores (≥2)** improve chances of regional employment.
+    - Weak math skills reinforce risk of being in the Not meaningful group.
 4.  **Local Unemployment**
-    -   Within the low-income, stronger math subgroup, **lower unemployment (\<8.4%)** increases chances of regional employment.
-    -   Higher unemployment pushes students back toward Not meaningful outcomes.
+    - Within the low-income, stronger math subgroup, **lower unemployment (\<8.4%)** increases chances of regional employment.
+    - Higher unemployment pushes students back toward Not meaningful outcomes.
 
 [**Overall Narrative**]{.underline}
 
 At **10 years after graduation**, long-term outcomes are driven most by **socioeconomic status, SpecialEd needs, math achievement, and local unemployment**.
 
--   **Higher-income, Non-SpecialEd students** are the most likely to sustain meaningful regional employment.
--   **Low-income students** remain at high risk of not finding meaningful work, unless they combine **solid math performance** with residence in **low-unemployment counties**.
--   **SpecialEd students** continue to face barriers, even within higher-income groups.
+- **Higher-income, Non-SpecialEd students** are the most likely to sustain meaningful regional employment.
+- **Low-income students** remain at high risk of not finding meaningful work, unless they combine **solid math performance** with residence in **low-unemployment counties**.
+- **SpecialEd students** continue to face barriers, even within higher-income groups.
 
 In short, by Year 10, **economic status and SpecialEd needs are decisive**, with **math skills and local labor markets** providing additional leverage for low-income students to remain connected to meaningful regional work.
 
@@ -3305,46 +3305,46 @@ In short, by Year 10, **economic status and SpecialEd needs are decisive**, with
 
 [**Model Performance**]{.underline}
 
--   **Year 1:** Accuracy = 62.3% (baseline = 52.1%). Strong gain over baseline; tree captures clear early risk factors.
--   **Year 5:** Accuracy = 57.7% (baseline = 53.0%). Moderate gain over baseline; highlights interplay of CTE completion and SpecialEd needs.
--   **Year 10:** Accuracy = 59.3% (baseline = 59.0%). Model only slightly above baseline, serving mainly as an interpretive tool.
+- **Year 1:** Accuracy = 62.3% (baseline = 52.1%). Strong gain over baseline; tree captures clear early risk factors.
+- **Year 5:** Accuracy = 57.7% (baseline = 53.0%). Moderate gain over baseline; highlights interplay of CTE completion and SpecialEd needs.
+- **Year 10:** Accuracy = 59.3% (baseline = 59.0%). Model only slightly above baseline, serving mainly as an interpretive tool.
 
 Overall, the models show that **predictive strength fades over time** as employment histories diversify, but they provide clear insight into which factors anchor students regionally or push them out of Minnesota’s labor market.
 
 [**Variable Importance Over Time**]{.underline}
 
--   **SpecialEd status:** A central factor across all years. Students with SpecialEd needs are consistently more likely to lack an MN employment record.
--   **CTE engagement:** Appears in every model as a critical anchor, especially **CTE completion/participation**, which provides long-term stability in regional employment.
--   **Academic performance:** ACT and MCA scores refine outcomes, with low scorers at higher risk of disconnection. Reading scores become more prominent by Year 10.
--   **Socioeconomic & economic context:** Local wages, unemployment rates, and family income add nuance, shaping whether weaker students remain tied to the region or disconnect.
+- **SpecialEd status:** A central factor across all years. Students with SpecialEd needs are consistently more likely to lack an MN employment record.
+- **CTE engagement:** Appears in every model as a critical anchor, especially **CTE completion/participation**, which provides long-term stability in regional employment.
+- **Academic performance:** ACT and MCA scores refine outcomes, with low scorers at higher risk of disconnection. Reading scores become more prominent by Year 10.
+- **Socioeconomic & economic context:** Local wages, unemployment rates, and family income add nuance, shaping whether weaker students remain tied to the region or disconnect.
 
 [**Interpretation Across Years**]{.underline}
 
--   **Year 1 (Early career launch)**\
-    SpecialEd needs are the strongest predictor: students with SpecialEd are much more likely to have no MN employment record. Among Non-SpecialEd students, **CTE course-taking (≥2, especially ≥9)** and strong ACT scores anchor them regionally, while weak academics and low wages increase disconnection risk.
+- **Year 1 (Early career launch)**\
+  SpecialEd needs are the strongest predictor: students with SpecialEd are much more likely to have no MN employment record. Among Non-SpecialEd students, **CTE course-taking (≥2, especially ≥9)** and strong ACT scores anchor them regionally, while weak academics and low wages increase disconnection risk.
 
--   **Year 5 (Mid-career sorting)**\
-    The risk of disconnection persists for **SpecialEd students with low ACT scores**. For others, **CTE completion** emerges as the strongest protective factor, keeping students employed regionally even when academics are weaker. ACT participation adds another layer, with test takers better positioned regionally than peers who did not test.
+- **Year 5 (Mid-career sorting)**\
+  The risk of disconnection persists for **SpecialEd students with low ACT scores**. For others, **CTE completion** emerges as the strongest protective factor, keeping students employed regionally even when academics are weaker. ACT participation adds another layer, with test takers better positioned regionally than peers who did not test.
 
--   **Year 10 (Long-run outcomes)**\
-    **CTE engagement** remains the main anchor. However, **SpecialEd needs and low reading scores** are enduring barriers. Labor market context (high unemployment, low wages) shifts outcomes, sometimes anchoring low-income students regionally while pushing higher-income peers out. The model shows that long-term employment stability depends on both **educational preparation and local economic conditions**.
+- **Year 10 (Long-run outcomes)**\
+  **CTE engagement** remains the main anchor. However, **SpecialEd needs and low reading scores** are enduring barriers. Labor market context (high unemployment, low wages) shifts outcomes, sometimes anchoring low-income students regionally while pushing higher-income peers out. The model shows that long-term employment stability depends on both **educational preparation and local economic conditions**.
 
 [**Overall Narrative**]{.underline}
 
 Across 1, 5, and 10 years, the clearest story is that **CTE provides the most reliable anchor to meaningful regional employment**, while **SpecialEd needs consistently predict long-term disconnection** from the Minnesota workforce. Academic achievement, especially ACT and reading performance, adds differentiation, and local labor market conditions either reinforce or undermine students’ chances.
 
 | Year | Most Important Predictors | Role in Outcomes |
-|-------------------|--------------------------------|---------------------|
+|----|----|----|
 | **Year 1** | \- SpecialEd status<br>- Total CTE courses<br>- ACT Composite Score<br>- Local wages (% of state) | **SpecialEd students** most likely to lack MN record. **Heavy CTE course-taking** offsets weak academics. Strong ACT scorers sustain regional jobs; low wages raise disconnection risk. |
 | **Year 5** | \- ACT Composite Score<br>- SpecialEd status<br>- CTE completion<br>- ACT participation | **SpecialEd + low ACT students** face highest disconnection risk. **CTE completion** anchors weaker students regionally. ACT participation adds further stability. |
 | **Year 10** | \- CTE achievement<br>- SpecialEd status<br>- MCA Reading<br>- Unemployment rate<br>- Local wages (% of state)<br>- Economic status | **CTE remains the anchor.** **SpecialEd needs + low reading scores** predict long-term disconnection. **Labor markets and income** shape whether students sustain regional jobs or exit MN employment. |
 
 #### Summary
 
--   **SpecialEd status** is the most consistent predictor of disconnection across all years.
--   **CTE engagement** is the strongest long-term anchor to meaningful regional employment.
--   **Academics** (ACT, MCA) refine outcomes, especially for differentiating mobility vs. disconnection.
--   **Economic context** (wages, unemployment, income) increasingly moderates long-run outcomes.
+- **SpecialEd status** is the most consistent predictor of disconnection across all years.
+- **CTE engagement** is the strongest long-term anchor to meaningful regional employment.
+- **Academics** (ACT, MCA) refine outcomes, especially for differentiating mobility vs. disconnection.
+- **Economic context** (wages, unemployment, income) increasingly moderates long-run outcomes.
 
 Together, the findings highlight that **CTE and academic preparation can buffer against early risks**, but **SpecialEd needs and weak reading skills create persistent barriers** to sustaining regional employment a decade after graduation.
 
@@ -3408,17 +3408,17 @@ printcp(no.mn.emp.grad.year.1.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 60.0%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 11
-    -   xerror: 0.79190
-    -   cp: 0.00146474
-    -   Splits: 20
--   **Total splits**: 331
+- **Accuracy**: 60.0%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 11
+  - xerror: 0.79190
+  - cp: 0.00146474
+  - Splits: 20
+- **Total splits**: 331
 
 <br>
 
@@ -3426,10 +3426,10 @@ printcp(no.mn.emp.grad.year.1.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)) which is 478.
--   minbucket: round(minsplit / 3) which is 159.
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)) which is 478.
+- minbucket: round(minsplit / 3) which is 159.
+- cp = 0
 
 Unfortunately, this gave us a decision tree with 0 splits. So we will rework the parameters.
 
@@ -3457,17 +3457,17 @@ printcp(no.mn.emp.grad.year.1.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 60.0% -\> 62.8%
--   **Variables used:** 11 total
-    -   Demographics: 2/2 - economic status, special ed
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 8
-    -   xerror: 0.79033
-    -   cp: 0.00156937
-    -   Splits: 13
--   **Total splits**: 17
+- **Accuracy**: 60.0% -\> 62.8%
+- **Variables used:** 11 total
+  - Demographics: 2/2 - economic status, special ed
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 8
+  - xerror: 0.79033
+  - cp: 0.00156937
+  - Splits: 13
+- **Total splits**: 17
 
 <br>
 
@@ -3511,23 +3511,23 @@ printcp(no.mn.emp.grad.year.1.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 62.8% -\> 62.3%
--   **Variables used:** 9 total,
-    -   Demographics: 2/2 - special education & economic.status
-    -   High school characteristics: 1/2 - wages
-    -   High school accomplishments: 6/7 - CTE, ACT, Math, Reading, PSEO
--   **Lowest cross-validation error:**
-    -   Step: 7
-    -   xerror: 0.79159
-    -   cp: 0.0031387
-    -   Splits: 11
--   **Total splits**: 11
+- **Accuracy**: 62.8% -\> 62.3%
+- **Variables used:** 9 total,
+  - Demographics: 2/2 - special education & economic.status
+  - High school characteristics: 1/2 - wages
+  - High school accomplishments: 6/7 - CTE, ACT, Math, Reading, PSEO
+- **Lowest cross-validation error:**
+  - Step: 7
+  - xerror: 0.79159
+  - cp: 0.0031387
+  - Splits: 11
+- **Total splits**: 11
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a simpler model - 11 splits while also giving the same accuracy. I will use the post-pruned model.
 
@@ -3542,52 +3542,52 @@ rpart.plot(no.mn.emp.grad.year.1.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 62.3% (baseline = 52.1%). The tree improves substantially over baseline, offering strong subgroup insight.
--   **Root error:** 47.9% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
--   **Pruning:** Post-pruned to an 11-split tree (cp = 0.0031), capturing complexity while limiting overfitting.
+- **Accuracy:** 62.3% (baseline = 52.1%). The tree improves substantially over baseline, offering strong subgroup insight.
+- **Root error:** 47.9% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
+- **Pruning:** Post-pruned to an 11-split tree (cp = 0.0031), capturing complexity while limiting overfitting.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **nine predictors**:
 
--   **SpecialEdStatus**
--   **total.cte.courses.taken**
--   **ACTCompositeScore**
--   **economic.status**
--   **avg.wages.pct.state** (county wages vs. state average)
--   **MCA.M (Math)**
--   **MCA.R (Reading)**
--   **took.ACT** (ACT participation)
--   **pseo.participant**
+- **SpecialEdStatus**
+- **total.cte.courses.taken**
+- **ACTCompositeScore**
+- **economic.status**
+- **avg.wages.pct.state** (county wages vs. state average)
+- **MCA.M (Math)**
+- **MCA.R (Reading)**
+- **took.ACT** (ACT participation)
+- **pseo.participant**
 
 This reflects a **broad set of academic, socioeconomic, programmatic, and local economic factors** shaping Year 1 outcomes.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Special Education Status (Top Split)**
-    -   The first and strongest divide is **SpecialEd status**.
-    -   Students who **needed SpecialEd (1)** are far more likely to appear in the **No MN employment record** group.
-    -   Students who did **not** need SpecialEd (0) are more likely to sustain **meaningful regional employment**, provided they have academic or CTE supports.
+    - The first and strongest divide is **SpecialEd status**.
+    - Students who **needed SpecialEd (1)** are far more likely to appear in the **No MN employment record** group.
+    - Students who did **not** need SpecialEd (0) are more likely to sustain **meaningful regional employment**, provided they have academic or CTE supports.
 2.  **CTE Course-Taking**
-    -   For Non-SpecialEd students, taking **≥2 CTE courses** substantially increases the likelihood of meaningful regional employment.
-    -   Those with little or no CTE engagement remain at higher risk of no employment record.
+    - For Non-SpecialEd students, taking **≥2 CTE courses** substantially increases the likelihood of meaningful regional employment.
+    - Those with little or no CTE engagement remain at higher risk of no employment record.
 3.  **Academic Performance (ACT, MCA)**
-    -   Among students with some CTE engagement, **low ACT scores (\<22)** raise the risk of no employment record.
-    -   **Higher ACT scorers** and those from **low-income backgrounds (economic.status = 1)** trend more toward meaningful regional jobs.
-    -   In other subgroups, strong **math (MCA.M ≥ 2)** or weak **reading (MCA.R \< 4)** scores tilt outcomes toward regional employment, showing nuanced subject-specific effects.
+    - Among students with some CTE engagement, **low ACT scores (\<22)** raise the risk of no employment record.
+    - **Higher ACT scorers** and those from **low-income backgrounds (economic.status = 1)** trend more toward meaningful regional jobs.
+    - In other subgroups, strong **math (MCA.M ≥ 2)** or weak **reading (MCA.R \< 4)** scores tilt outcomes toward regional employment, showing nuanced subject-specific effects.
 4.  **ACT Participation & Local Wages**
-    -   Students who **took the ACT** and lived in **higher-wage counties (≥83% of state average)** are more likely to sustain regional employment.
-    -   Students in lower-wage areas, even with ACT participation, are more likely to have no employment record.
+    - Students who **took the ACT** and lived in **higher-wage counties (≥83% of state average)** are more likely to sustain regional employment.
+    - Students in lower-wage areas, even with ACT participation, are more likely to have no employment record.
 5.  **PSEO Participation**
-    -   Among certain subgroups, **PSEO participation** strengthens ties to regional employment, even when other factors (like low MCA scores) suggest higher risk.
+    - Among certain subgroups, **PSEO participation** strengthens ties to regional employment, even when other factors (like low MCA scores) suggest higher risk.
 
 [**Overall Narrative**]{.underline}
 
 At **1 year after graduation**, whether non-college grads are employed meaningfully in their region or absent from Minnesota’s employment record depends heavily on **SpecialEd status, CTE engagement, and academic preparation**.
 
--   **SpecialEd students** are at the highest risk of having no employment record.
--   **Non-SpecialEd students** who engage in CTE (≥2 courses), perform well academically, or participate in PSEO are much more likely to sustain meaningful regional employment.
--   **ACT scores and local wages** further refine outcomes: strong ACT scorers and students in higher-wage counties are more regionally anchored, while weak scorers in low-wage areas face greater risk of disconnection.
+- **SpecialEd students** are at the highest risk of having no employment record.
+- **Non-SpecialEd students** who engage in CTE (≥2 courses), perform well academically, or participate in PSEO are much more likely to sustain meaningful regional employment.
+- **ACT scores and local wages** further refine outcomes: strong ACT scorers and students in higher-wage counties are more regionally anchored, while weak scorers in low-wage areas face greater risk of disconnection.
 
 In short, **Year 1 outcomes are anchored by SpecialEd status**: Non-SpecialEd students with CTE and academic supports succeed regionally, while SpecialEd students face steep barriers to labor market entry.
 
@@ -3651,17 +3651,17 @@ printcp(no.mn.emp.grad.year.5.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.7%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 16
-    -   xerror: 0.89798
-    -   cp: 0.00114049
-    -   Splits: 55
--   **Total splits**: 360
+- **Accuracy**: 55.7%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 16
+  - xerror: 0.89798
+  - cp: 0.00114049
+  - Splits: 55
+- **Total splits**: 360
 
 <br>
 
@@ -3669,10 +3669,10 @@ printcp(no.mn.emp.grad.year.5.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)).
--   minbucket: round(minsplit / 3).
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)).
+- minbucket: round(minsplit / 3).
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -3698,17 +3698,17 @@ printcp(no.mn.emp.grad.year.5.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.7% -\> 56.8%
--   **Variables used:** 10 total,
-    -   Demographics: 2/2 - economic status and special ed
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 6/7 - CTE, ACT, reading and math
--   **Lowest cross-validation error:**
-    -   Step: 7
-    -   xerror: 0.92939
-    -   cp: 0
-    -   Splits: 12
--   **Total splits**: 12
+- **Accuracy**: 55.7% -\> 56.8%
+- **Variables used:** 10 total,
+  - Demographics: 2/2 - economic status and special ed
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 6/7 - CTE, ACT, reading and math
+- **Lowest cross-validation error:**
+  - Step: 7
+  - xerror: 0.92939
+  - cp: 0
+  - Splits: 12
+- **Total splits**: 12
 
 <br>
 
@@ -3751,23 +3751,23 @@ printcp(no.mn.emp.grad.year.5.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 56.8% -\> 57.7%
--   **Variables used:** 4 total,
-    -   Demographics: 1/2 - special education
-    -   High school characteristics: 0/2
-    -   High school accomplishments: 3/7 - ACT, CTE
--   **Lowest cross-validation error:**
-    -   Step: 3
-    -   xerror: 0.94184
-    -   cp: 0.0029549
-    -   Splits: 5
--   **Total splits**: 5
+- **Accuracy**: 56.8% -\> 57.7%
+- **Variables used:** 4 total,
+  - Demographics: 1/2 - special education
+  - High school characteristics: 0/2
+  - High school accomplishments: 3/7 - ACT, CTE
+- **Lowest cross-validation error:**
+  - Step: 3
+  - xerror: 0.94184
+  - cp: 0.0029549
+  - Splits: 5
+- **Total splits**: 5
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a much simpler model - 5 splits instead of pre-pruned’s 12 splits - while also giving better accuracy. I will use the post-pruned model.
 
@@ -3782,45 +3782,45 @@ rpart.plot(no.mn.emp.grad.year.5.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 57.7% (baseline = 53.0%). The model improves moderately over baseline and highlights key structural patterns.
--   **Root error:** 47.1% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
--   **Pruning:** Post-pruned to a 5-split tree (cp = 0.00295), striking a balance between interpretability and predictive accuracy.
+- **Accuracy:** 57.7% (baseline = 53.0%). The model improves moderately over baseline and highlights key structural patterns.
+- **Root error:** 47.1% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
+- **Pruning:** Post-pruned to a 5-split tree (cp = 0.00295), striking a balance between interpretability and predictive accuracy.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **four predictors**:
 
--   **ACTCompositeScore**
--   **SpecialEdStatus**
--   **cte.achievement** (CTE Concentrator/Completer)
--   **took.ACT** (ACT participation)
+- **ACTCompositeScore**
+- **SpecialEdStatus**
+- **cte.achievement** (CTE Concentrator/Completer)
+- **took.ACT** (ACT participation)
 
 This mix emphasizes the interplay between **academic performance, SpecialEd status, and CTE engagement** in shaping mid-term outcomes.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **Academic Performance (Top Split)**
-    -   The first divide is **ACTCompositeScore \< 26**.
-    -   Students with lower ACT scores are more likely to have **no MN employment record**.
-    -   Students with ACT ≥26 trend toward meaningful regional employment.
+    - The first divide is **ACTCompositeScore \< 26**.
+    - Students with lower ACT scores are more likely to have **no MN employment record**.
+    - Students with ACT ≥26 trend toward meaningful regional employment.
 2.  **Special Education Status**
-    -   Among **low ACT scorers**, **SpecialEd students** are especially likely to be disconnected from the workforce (No MN record).
-    -   Non-SpecialEd students retain stronger potential for regional employment, particularly with CTE support.
+    - Among **low ACT scorers**, **SpecialEd students** are especially likely to be disconnected from the workforce (No MN record).
+    - Non-SpecialEd students retain stronger potential for regional employment, particularly with CTE support.
 3.  **CTE Concentrator/Completer Status**
-    -   For Non-SpecialEd, low-ACT students, being a **CTE concentrator/completer** significantly increases chances of regional employment.
-    -   Without CTE completion, they remain much more likely to fall into the disconnected group.
+    - For Non-SpecialEd, low-ACT students, being a **CTE concentrator/completer** significantly increases chances of regional employment.
+    - Without CTE completion, they remain much more likely to fall into the disconnected group.
 4.  **ACT Participation**
-    -   For CTE concentrators/completers, **ACT participation** provides another layer of sorting:
-        -   **ACT takers** with moderate scores (\<22) still trend regionally.
-        -   Non-takers and weaker students without ACT records remain at higher risk of disconnection.
+    - For CTE concentrators/completers, **ACT participation** provides another layer of sorting:
+      - **ACT takers** with moderate scores (\<22) still trend regionally.
+      - Non-takers and weaker students without ACT records remain at higher risk of disconnection.
 
 [**Overall Narrative**]{.underline}
 
 At **5 years after graduation**, outcomes are strongly conditioned by **academic performance and SpecialEd needs**.
 
--   **SpecialEd students with low ACT scores** face the steepest barriers and are most likely to have no MN employment record.
--   For Non-SpecialEd, low-ACT students, **CTE completion** emerges as a powerful anchor, keeping them in meaningful regional employment even when academics are weaker.
--   **CTE participation** further differentiates outcomes, with ACT takers better positioned regionally than their peers who did not test.
+- **SpecialEd students with low ACT scores** face the steepest barriers and are most likely to have no MN employment record.
+- For Non-SpecialEd, low-ACT students, **CTE completion** emerges as a powerful anchor, keeping them in meaningful regional employment even when academics are weaker.
+- **CTE participation** further differentiates outcomes, with ACT takers better positioned regionally than their peers who did not test.
 
 In short, by Year 5, **SpecialEd needs and low academic performance drive disconnection**, while **CTE completion provides a durable protective pathway** toward regional employment.
 
@@ -3884,17 +3884,17 @@ printcp(no.mn.emp.grad.year.10.model)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.6%
--   **Variables used:** 11 total,
-    -   Demographics: 2/2
-    -   High school characteristics: 2/2
-    -   High school accomplishments: 7/7
--   **Lowest cross-validation error:**
-    -   Step: 2
-    -   xerror: 1.0115
-    -   cp: 0.00409389
-    -   Splits: 11
--   **Total splits**: 240
+- **Accuracy**: 55.6%
+- **Variables used:** 11 total,
+  - Demographics: 2/2
+  - High school characteristics: 2/2
+  - High school accomplishments: 7/7
+- **Lowest cross-validation error:**
+  - Step: 2
+  - xerror: 1.0115
+  - cp: 0.00409389
+  - Splits: 11
+- **Total splits**: 240
 
 <br>
 
@@ -3902,10 +3902,10 @@ printcp(no.mn.emp.grad.year.10.model)
 
 Next, we need to prune. We can either pre-prune or post-prune. We will start with pre-pruning and use each method - max depth, min depth, and min bucket. It’s recommended that I start with the following parameters;
 
--   maxdepth: 5
--   minsplit: round(2% of nrow(train)).
--   minbucket: round(minsplit / 3).
--   cp = 0
+- maxdepth: 5
+- minsplit: round(2% of nrow(train)).
+- minbucket: round(minsplit / 3).
+- cp = 0
 
 ```{r}
 maxdepth = 5
@@ -3931,17 +3931,17 @@ printcp(no.mn.emp.grad.year.10.model.preprun)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 55.6% -\> 58.2%
--   **Variables used:** 9 total,
-    -   Demographics: 2/2 - economic status, special education
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 5/7 - CTE, ACT, MCA reading
--   **Lowest cross-validation error:**
-    -   Step: 3
-    -   xerror: 1.0060
-    -   cp: 0.0013646
-    -   Splits: 7
--   **Total splits**: 11
+- **Accuracy**: 55.6% -\> 58.2%
+- **Variables used:** 9 total,
+  - Demographics: 2/2 - economic status, special education
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 5/7 - CTE, ACT, MCA reading
+- **Lowest cross-validation error:**
+  - Step: 3
+  - xerror: 1.0060
+  - cp: 0.0013646
+  - Splits: 7
+- **Total splits**: 11
 
 <br>
 
@@ -3985,23 +3985,23 @@ printcp(no.mn.emp.grad.year.10.model.postprune)
 
 **Key takeaways from base tree results**
 
--   **Accuracy**: 58.2% -\> 59.3%
--   **Variables used:** 6 total,
-    -   Demographics: 2/2 - economic status, special education
-    -   High school characteristics: 2/2 - wages, unemployment
-    -   High school accomplishments: 2/7 - CTE, reading
--   **Lowest cross-validation error:**
-    -   Step: 3
-    -   xerror: 1.0060
-    -   cp: 0.0014000
-    -   Splits: 7
--   **Total splits**: 7
+- **Accuracy**: 58.2% -\> 59.3%
+- **Variables used:** 6 total,
+  - Demographics: 2/2 - economic status, special education
+  - High school characteristics: 2/2 - wages, unemployment
+  - High school accomplishments: 2/7 - CTE, reading
+- **Lowest cross-validation error:**
+  - Step: 3
+  - xerror: 1.0060
+  - cp: 0.0014000
+  - Splits: 7
+- **Total splits**: 7
 
 So, the accuracy of these are;
 
--   Base: `r percent(accuracy_base, accuracy = .1)`
--   Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
--   Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
+- Base: `r percent(accuracy_base, accuracy = .1)`
+- Pre-pruned: `r percent(accuracy_preprun, accuracy = .1)`
+- Post-pruned: `r percent(accuracy_postprun, accuracy = .1)`
 
 The post-pruned model provides a much simpler model - 7 splits instead of pre-pruned’s 11 splits - while also giving the same accuracy. I will use the post-pruned model.
 
@@ -4016,48 +4016,48 @@ rpart.plot(no.mn.emp.grad.year.10.model.postprune, nn = TRUE)
 
 [**Model Performance**]{.underline}
 
--   **Accuracy:** 59.3% (baseline = 59.0%). The model performs just above baseline, serving primarily as an interpretive tool.
--   **Root error:** 41.7% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
--   **Pruning:** Post-pruned to a 7-split tree (cp = 0.0014), balancing complexity with readability.
+- **Accuracy:** 59.3% (baseline = 59.0%). The model performs just above baseline, serving primarily as an interpretive tool.
+- **Root error:** 41.7% (matches the proportion in meaningful regional employment, since “No MN record” is the majority).
+- **Pruning:** Post-pruned to a 7-split tree (cp = 0.0014), balancing complexity with readability.
 
 [**Variable Importance**]{.underline}
 
 The tree uses **six predictors**:
 
--   **cte.achievement** (CTE Concentrator/Completer/Participant)
--   **SpecialEdStatus**
--   **MCA.R (Reading)**
--   **avg.unemp.rate**
--   **avg.wages.pct.state**
--   **economic.status**
+- **cte.achievement** (CTE Concentrator/Completer/Participant)
+- **SpecialEdStatus**
+- **MCA.R (Reading)**
+- **avg.unemp.rate**
+- **avg.wages.pct.state**
+- **economic.status**
 
 This set blends **academic performance, CTE engagement, socioeconomic status, and local labor market context**.
 
 [**Interpretation of Splits**]{.underline}
 
 1.  **CTE Achievement (Top Split)**
-    -   The strongest divide is **CTE achievement**.
-    -   Students without CTE concentration/participation are much more likely to have **no MN employment record**.
-    -   CTE engagement anchors many students in regional employment, though risks remain for subgroups.
+    - The strongest divide is **CTE achievement**.
+    - Students without CTE concentration/participation are much more likely to have **no MN employment record**.
+    - CTE engagement anchors many students in regional employment, though risks remain for subgroups.
 2.  **SpecialEd Status**
-    -   Among CTE concentrators/participants, those with **SpecialEd needs (1)** are at greater risk of having no MN employment record.
-    -   **Non-SpecialEd students** fare better, particularly when supported by favorable academic and economic conditions.
+    - Among CTE concentrators/participants, those with **SpecialEd needs (1)** are at greater risk of having no MN employment record.
+    - **Non-SpecialEd students** fare better, particularly when supported by favorable academic and economic conditions.
 3.  **Academic Performance (MCA Reading)**
-    -   For Non-SpecialEd CTE concentrators, **low reading scores (MCA.R \< 4)** increase risk of disconnection.
-    -   Higher scores help sustain regional employment, especially in lower-unemployment areas.
+    - For Non-SpecialEd CTE concentrators, **low reading scores (MCA.R \< 4)** increase risk of disconnection.
+    - Higher scores help sustain regional employment, especially in lower-unemployment areas.
 4.  **Local Labor Market Conditions**
-    -   **High unemployment (≥6.6%)** worsens outcomes, particularly for low scorers from higher-income backgrounds.
-    -   **Wages** also matter: in lower-unemployment areas, students in counties with wages ≥83% of the state average are more likely to sustain regional employment.
+    - **High unemployment (≥6.6%)** worsens outcomes, particularly for low scorers from higher-income backgrounds.
+    - **Wages** also matter: in lower-unemployment areas, students in counties with wages ≥83% of the state average are more likely to sustain regional employment.
 5.  **Economic Status**
-    -   Within high-unemployment contexts, **low-income students (economic.status = 1)** are more likely to sustain meaningful regional employment than their higher-income peers.
+    - Within high-unemployment contexts, **low-income students (economic.status = 1)** are more likely to sustain meaningful regional employment than their higher-income peers.
 
 [**Overall Narrative**]{.underline}
 
 At **10 years after graduation**, the pathway to sustaining meaningful regional employment depends most strongly on **CTE engagement**, moderated by **SpecialEd needs, reading proficiency, and local economic conditions**.
 
--   **Students without CTE participation** are at the highest risk of having no MN employment record.
--   **SpecialEd students**, even with CTE backgrounds, remain at higher risk of long-term disconnection.
--   **Local unemployment and wages** shape whether academically weaker students can stay employed regionally, with **low-income students sometimes more anchored regionally** than higher-income peers in tough labor markets.
+- **Students without CTE participation** are at the highest risk of having no MN employment record.
+- **SpecialEd students**, even with CTE backgrounds, remain at higher risk of long-term disconnection.
+- **Local unemployment and wages** shape whether academically weaker students can stay employed regionally, with **low-income students sometimes more anchored regionally** than higher-income peers in tough labor markets.
 
 In short, by Year 10, **CTE engagement remains the primary anchor to regional employment**, but **SpecialEd needs and weak reading skills create enduring barriers**, while **labor market context and income level add important nuance to long-term outcomes.**
 
@@ -4077,9 +4077,9 @@ Across all outcomes, models show that **regional employment is most strongly anc
 
 [**Model Performance**]{.underline}
 
--   **Region vs. MN:** Models perform slightly above baseline at Year 1 (78.3%) and then decline (66.8% at Year 5, 62.1% at Year 10).
--   **Region vs. Not meaningful:** Year 1 (65.7%), Year 5 (54.7%), and Year 10 (55.5%) all show limited but interpretable gains over baseline.
--   **Region vs. No MN record:** Year 1 (62.3%) shows strong improvement over baseline, with Year 5 (57.7%) and Year 10 (59.3%) holding modest gains.
+- **Region vs. MN:** Models perform slightly above baseline at Year 1 (78.3%) and then decline (66.8% at Year 5, 62.1% at Year 10).
+- **Region vs. Not meaningful:** Year 1 (65.7%), Year 5 (54.7%), and Year 10 (55.5%) all show limited but interpretable gains over baseline.
+- **Region vs. No MN record:** Year 1 (62.3%) shows strong improvement over baseline, with Year 5 (57.7%) and Year 10 (59.3%) holding modest gains.
 
 Overall, **Year 1 models provide the clearest separation**, while later models mainly highlight persistent anchors and barriers.
 
@@ -4087,30 +4087,30 @@ Overall, **Year 1 models provide the clearest separation**, while later models m
 
 [**Variable Importance Across Outcomes**]{.underline}
 
--   **CTE Engagement:** The most consistent anchor across all contrasts and years. Both heavy course-taking and concentrator/completer status increase the likelihood of staying in meaningful regional employment.
--   **SpecialEd Status:** A strong and consistent predictor of disconnection — students with SpecialEd needs are much more likely to fall into “Not meaningful” or “No MN record.”
--   **Academic Performance:**
-    -   **ACT scores** matter most in Region vs. MN (mobility marker) and Region vs. Not meaningful (early anchor).
-    -   **Reading (MCA.R)** becomes increasingly relevant by Year 10, especially for differentiating Region vs. No MN record.
--   **Economic Conditions:** Local wages and unemployment rates shape outcomes at every stage, with higher wages anchoring students regionally and high unemployment increasing disconnection risk.
--   **Socioeconomic Status (income):** By Year 10, low-income students are sometimes more anchored regionally than higher-income peers, especially under weak labor markets.
+- **CTE Engagement:** The most consistent anchor across all contrasts and years. Both heavy course-taking and concentrator/completer status increase the likelihood of staying in meaningful regional employment.
+- **SpecialEd Status:** A strong and consistent predictor of disconnection — students with SpecialEd needs are much more likely to fall into “Not meaningful” or “No MN record.”
+- **Academic Performance:**
+  - **ACT scores** matter most in Region vs. MN (mobility marker) and Region vs. Not meaningful (early anchor).
+  - **Reading (MCA.R)** becomes increasingly relevant by Year 10, especially for differentiating Region vs. No MN record.
+- **Economic Conditions:** Local wages and unemployment rates shape outcomes at every stage, with higher wages anchoring students regionally and high unemployment increasing disconnection risk.
+- **Socioeconomic Status (income):** By Year 10, low-income students are sometimes more anchored regionally than higher-income peers, especially under weak labor markets.
 
 ------------------------------------------------------------------------
 
 [**Interpretation Across Years**]{.underline}
 
--   **Year 1 (Early Career Launch):**
-    -   Regional employment hinges on **local wages** and **academic preparation**.
-    -   **High ACT scorers** often pursue statewide jobs, while **CTE engagement** keeps even high scorers in regional work.
-    -   **SpecialEd students** face steep barriers and are most likely to appear in “Not meaningful” or “No MN record.”
--   **Year 5 (Mid-Career Sorting):**
-    -   The landscape broadens to include **SpecialEd status, CTE completion, academics, and economic context**.
-    -   **High academic performers** increasingly pursue statewide employment.
-    -   **CTE concentrators/completers** remain regionally anchored, while SpecialEd students and low scorers are most at risk of disconnection.
--   **Year 10 (Long-Run Outcomes):**
-    -   Outcomes are shaped by **CTE anchors vs. academic mobility markers**.
-    -   **ACT takers with high scores** are the most mobile, while **weak reading performance and SpecialEd needs** predict long-term disconnection.
-    -   **Labor markets (wages, unemployment)** and **income levels** determine whether weaker students sustain regional jobs or exit Minnesota employment altogether.
+- **Year 1 (Early Career Launch):**
+  - Regional employment hinges on **local wages** and **academic preparation**.
+  - **High ACT scorers** often pursue statewide jobs, while **CTE engagement** keeps even high scorers in regional work.
+  - **SpecialEd students** face steep barriers and are most likely to appear in “Not meaningful” or “No MN record.”
+- **Year 5 (Mid-Career Sorting):**
+  - The landscape broadens to include **SpecialEd status, CTE completion, academics, and economic context**.
+  - **High academic performers** increasingly pursue statewide employment.
+  - **CTE concentrators/completers** remain regionally anchored, while SpecialEd students and low scorers are most at risk of disconnection.
+- **Year 10 (Long-Run Outcomes):**
+  - Outcomes are shaped by **CTE anchors vs. academic mobility markers**.
+  - **ACT takers with high scores** are the most mobile, while **weak reading performance and SpecialEd needs** predict long-term disconnection.
+  - **Labor markets (wages, unemployment)** and **income levels** determine whether weaker students sustain regional jobs or exit Minnesota employment altogether.
 
 ------------------------------------------------------------------------
 
@@ -4118,9 +4118,9 @@ Overall, **Year 1 models provide the clearest separation**, while later models m
 
 Across all three comparisons, a clear pattern emerges:
 
--   **Regional anchors:** CTE engagement (especially completion), local wages, and in some cases low-income background.
--   **Mobility markers:** High ACT scores, ACT participation, and academic strength, which open pathways to statewide work.
--   **Barriers to connection:** SpecialEd needs, weak reading/math skills, and high local unemployment consistently predict disconnection from meaningful regional employment.
+- **Regional anchors:** CTE engagement (especially completion), local wages, and in some cases low-income background.
+- **Mobility markers:** High ACT scores, ACT participation, and academic strength, which open pathways to statewide work.
+- **Barriers to connection:** SpecialEd needs, weak reading/math skills, and high local unemployment consistently predict disconnection from meaningful regional employment.
 
 In short, **regional employment is sustained when students engage deeply in CTE and are supported by favorable local labor markets**, while **academic high achievers are more mobile** and **SpecialEd students face enduring risks of disconnection**.
 
@@ -4129,7 +4129,7 @@ In short, **regional employment is sustained when students engage deeply in CTE 
 #### Comparative Predictor Table
 
 | Outcome | Year 1 Key Predictors | Year 5 Key Predictors | Year 10 Key Predictors |
-|------------------|------------------|------------------|------------------|
+|----|----|----|----|
 | **Region vs. MN** | Local wages, ACT score, MCA.R, CTE courses | Wages, unemployment, ACT score, MCA.R, CTE completion, ACT participation, SpecialEd | ACT participation, ACT score, unemployment, wages, MCA.R, CTE courses |
 | **Region vs. Not meaningful** | ACT score, SpecialEd, CTE courses, wages | SpecialEd, CTE courses, ACT score, economic status, unemployment | Economic status, SpecialEd, MCA.M, unemployment |
 | **Region vs. No MN record** | SpecialEd, CTE courses, ACT score, wages | ACT score, SpecialEd, CTE completion, ACT participation | CTE completion, SpecialEd, MCA.R, unemployment, wages, economic status |
@@ -4138,9 +4138,9 @@ In short, **regional employment is sustained when students engage deeply in CTE 
 
 #### Summary
 
--   **CTE is the most durable anchor** across all comparisons and years.
--   **SpecialEd needs are the strongest barrier**, consistently pushing students toward disconnection.
--   **Academic achievement fuels mobility**, especially toward statewide jobs.
--   **Local wages and unemployment** set the context, shaping whether weaker students remain employed regionally or fall out of the MN workforce.
+- **CTE is the most durable anchor** across all comparisons and years.
+- **SpecialEd needs are the strongest barrier**, consistently pushing students toward disconnection.
+- **Academic achievement fuels mobility**, especially toward statewide jobs.
+- **Local wages and unemployment** set the context, shaping whether weaker students remain employed regionally or fall out of the MN workforce.
 
 Together, the findings emphasize that **regional employment pathways are built on CTE engagement and supportive local economies**, but require **targeted supports for SpecialEd students and academically weaker groups** to prevent long-term disconnection.

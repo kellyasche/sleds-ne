@@ -174,99 +174,99 @@ ind.qual.var <- master.original %>%
 
 <br>
 
--   **Demographics**
-    -   *`grad.year`:* this is the year they graduated high school.
-    -   `grad.year.covid`: this is a value representing whether the individual graduated high school before 2020 or after 2021.
-        -   Pre-covid grad
-        -   Post-covid grad
-    -   *`Gender`:*
-        -   M = male
-        -   F = female
-    -   *`RaceEthnicity`:*
-        -   AI = American Indian
-        -   Asian/PI = Asian or Pacific Islander
-        -   Black = African American
-        -   Hispanic = any race any Hispanic or Latino
-        -   Unknown = unknown race or ethnicity
-        -   White = Caucasian and not Hispanic
-    -   *`LimitedEnglishProficiencyIndicator`:*
-        -   Y = identified as having limited English proficiency at some point between 10th and 12th grade, otherwise N.
-    -   *`HomelessIndicator`:*
-        -   Y = the individual was identified as homeless at any point between 10th and 12th grade, otherwise N.
-    -   *`economic.status`:*
-        -   1 = the individual was eligible for free or reduced lunch (codes 1,2,4,5) at any point between 10th and 12th grade, otherwise 0.
-    -   *`SpecialEdStatus`:*
-        -   1 = the individual required special education services at some point between 10th and 12th grade, otherwise 0.
-    -   *`non.english.home`:*
-        -   1 = the individual was identified as having English as not the primary language spoken at home between 10th and 12th grad, otherwise 0.
-    -   *`english.learner`:*
-        -   1 = the individual was identified as an "English learner" at least one time between 10th and 12th grade, otherwise 0.
+- **Demographics**
+  - *`grad.year`:* this is the year they graduated high school.
+  - `grad.year.covid`: this is a value representing whether the individual graduated high school before 2020 or after 2021.
+    - Pre-covid grad
+    - Post-covid grad
+  - *`Gender`:*
+    - M = male
+    - F = female
+  - *`RaceEthnicity`:*
+    - AI = American Indian
+    - Asian/PI = Asian or Pacific Islander
+    - Black = African American
+    - Hispanic = any race any Hispanic or Latino
+    - Unknown = unknown race or ethnicity
+    - White = Caucasian and not Hispanic
+  - *`LimitedEnglishProficiencyIndicator`:*
+    - Y = identified as having limited English proficiency at some point between 10th and 12th grade, otherwise N.
+  - *`HomelessIndicator`:*
+    - Y = the individual was identified as homeless at any point between 10th and 12th grade, otherwise N.
+  - *`economic.status`:*
+    - 1 = the individual was eligible for free or reduced lunch (codes 1,2,4,5) at any point between 10th and 12th grade, otherwise 0.
+  - *`SpecialEdStatus`:*
+    - 1 = the individual required special education services at some point between 10th and 12th grade, otherwise 0.
+  - *`non.english.home`:*
+    - 1 = the individual was identified as having English as not the primary language spoken at home between 10th and 12th grad, otherwise 0.
+  - *`english.learner`:*
+    - 1 = the individual was identified as an "English learner" at least one time between 10th and 12th grade, otherwise 0.
 
 <br>
 
--   **High school characteristics**
-    -   *`Dem_Desc`:* the RUCA category of the high school from which the individual graduated.
-    -   `range.school` : Whether a school is located on the "Iron Range" of Northeast Minnesota.
+- **High school characteristics**
+  - *`Dem_Desc`:* the RUCA category of the high school from which the individual graduated.
+  - `range.school` : Whether a school is located on the "Iron Range" of Northeast Minnesota.
 
 <br>
 
--   **High school accomplishments**
-    -   *`pseo.participant`:*
-        -   1 = the individual participated in a PSEO course sometime between 10th and 12th grade, otherwise 0. There are also NA values in this due to missing data.
-    -   *`took.ACT:`* whether an individual took the ACT exam
-        -   Yes
-        -   No
-    -   *`ap.exam`:*
-        -   1 = the individual took an AP exam at some point,
-        -   0 = the individual did not take an AP exam.
-    -   *`cte.achievement`:* three indicators with
-        -   "CTE concentrator or completor" = self-explanatory,
-        -   "CTE participant" = they took a CTE course but was not a concentrator or completor, and,
-        -   "No CTE" = they didn't take a CTE course
-    -   *`sat.taken`:*
-        -   1 = individual took the SAT at some point between 10th and 12th grade, otherwise 0.
+- **High school accomplishments**
+  - *`pseo.participant`:*
+    - 1 = the individual participated in a PSEO course sometime between 10th and 12th grade, otherwise 0. There are also NA values in this due to missing data.
+  - *`took.ACT:`* whether an individual took the ACT exam
+    - Yes
+    - No
+  - *`ap.exam`:*
+    - 1 = the individual took an AP exam at some point,
+    - 0 = the individual did not take an AP exam.
+  - *`cte.achievement`:* three indicators with
+    - "CTE concentrator or completor" = self-explanatory,
+    - "CTE participant" = they took a CTE course but was not a concentrator or completor, and,
+    - "No CTE" = they didn't take a CTE course
+  - *`sat.taken`:*
+    - 1 = individual took the SAT at some point between 10th and 12th grade, otherwise 0.
 
 <br>
 
--   **Post-secondary**
-    -   *`attended.ps.within.first.year.hsgrad`:* the individual attended a post-secondary institution within the first year of graduating high school.
-        -   Yes = Attended PS within first year
-        -   No = Attended PS but not within first year
-        -   NA = never attended PS or attended but only to withdraw.
-    -   *`attended.ps`:*
-        -   Yes = the individual attended a post-secondary education institution.
-        -   No = never attended post-secondary, or attended but only "W" or "D".
-    -   *`ps.grad`:*
-        -   Yes = Graduated from a post-secondary institution by 2023
-        -   Attending ps = attending a post-secondary institution as of 2023
-        -   No = Not attending a post-secondary institution nor graduated from one as of 2023.
-    -   *`ps.grad.InstitutionSector`:* the institution sector of the post-secondary school from which an individual has graduated.
-        -   1 - Public, 4-year or above
-        -   2 - Private not-for-profit, 4-year or above
-        -   3 - Private for-profit, 4-year or above
-        -   4 - Public, 2-year
-        -   5 - Private not-for-profit, 2-year
-        -   6 - Private for-profit, 2-year
-        -   7 - Public, less-than 2-year
-        -   8 - Private not-for-profit, less-than 2-year
-        -   9 - Private for-profit, less-than 2-year
-        -   10 - multiple sectors (if attended multiple institutions)
-        -   99 - Sector unknown (not active)
-        -   "Never attended ps" = the individual never attended a post-secondary institution
-        -   "Did not grad" = the individual attended a post-secondary institution but did not graduate.
-    -   *`highest.cred.level`:* an identifier of the highest credential earned by the PersonID. The categories are;
-        -   Did not graduate ps
-        -   Attending ps
-        -   Less than associate degree
-        -   Associate degree
-        -   Bachelors degree
-        -   Higher than bachelors degree.
-    -   `ps.grad.location`: this is the following;
-        -   ps.grad.region: graduated from a college in the same region as their high school, but not same EDR
-        -   ps.grad.MN: graduated from a college in MN but not same region or EDR
-        -   ps.grad.outside: graduated from a college outside MN, but not in region or EDR or Minnesota
-        -   Did not grad: attended but did not graduate college or attended but did not graduate
-        -   Attending ps: Currently attending post-secondary at grad.year.x
+- **Post-secondary**
+  - *`attended.ps.within.first.year.hsgrad`:* the individual attended a post-secondary institution within the first year of graduating high school.
+    - Yes = Attended PS within first year
+    - No = Attended PS but not within first year
+    - NA = never attended PS or attended but only to withdraw.
+  - *`attended.ps`:*
+    - Yes = the individual attended a post-secondary education institution.
+    - No = never attended post-secondary, or attended but only "W" or "D".
+  - *`ps.grad`:*
+    - Yes = Graduated from a post-secondary institution by 2023
+    - Attending ps = attending a post-secondary institution as of 2023
+    - No = Not attending a post-secondary institution nor graduated from one as of 2023.
+  - *`ps.grad.InstitutionSector`:* the institution sector of the post-secondary school from which an individual has graduated.
+    - 1 - Public, 4-year or above
+    - 2 - Private not-for-profit, 4-year or above
+    - 3 - Private for-profit, 4-year or above
+    - 4 - Public, 2-year
+    - 5 - Private not-for-profit, 2-year
+    - 6 - Private for-profit, 2-year
+    - 7 - Public, less-than 2-year
+    - 8 - Private not-for-profit, less-than 2-year
+    - 9 - Private for-profit, less-than 2-year
+    - 10 - multiple sectors (if attended multiple institutions)
+    - 99 - Sector unknown (not active)
+    - "Never attended ps" = the individual never attended a post-secondary institution
+    - "Did not grad" = the individual attended a post-secondary institution but did not graduate.
+  - *`highest.cred.level`:* an identifier of the highest credential earned by the PersonID. The categories are;
+    - Did not graduate ps
+    - Attending ps
+    - Less than associate degree
+    - Associate degree
+    - Bachelors degree
+    - Higher than bachelors degree.
+  - `ps.grad.location`: this is the following;
+    - ps.grad.region: graduated from a college in the same region as their high school, but not same EDR
+    - ps.grad.MN: graduated from a college in MN but not same region or EDR
+    - ps.grad.outside: graduated from a college outside MN, but not in region or EDR or Minnesota
+    - Did not grad: attended but did not graduate college or attended but did not graduate
+    - Attending ps: Currently attending post-secondary at grad.year.x
 
 <br>
 
@@ -276,12 +276,12 @@ First, lets check to see there aren't any variable categories with very low freq
 
 The tables below shows there are a few to be concerned about.
 
--   *`HomelessIndicator`:* 1.2% indicated as homeless between 10th and 12th grade.
--   *`LimitedEnglishProficiencyIndicator`: Only .2% were categorized as having limited English.*
--   `non.english.home`: 0.8% were categorized as having someone in their household where English wasn't the primary language spoken.
--   *`ps.grad.Institute`:* Categories 3,5,6,7,8,9 have less than 1% of graduates, each.
--   `RaceEthnicity`: Asian/PI, Black, and Hispanic all had less than 1%.
--   `sat.taken`: 1.7% took the ACT
+- *`HomelessIndicator`:* 1.2% indicated as homeless between 10th and 12th grade.
+- *`LimitedEnglishProficiencyIndicator`: Only .2% were categorized as having limited English.*
+- `non.english.home`: 0.8% were categorized as having someone in their household where English wasn't the primary language spoken.
+- *`ps.grad.Institute`:* Categories 3,5,6,7,8,9 have less than 1% of graduates, each.
+- `RaceEthnicity`: Asian/PI, Black, and Hispanic all had less than 1%.
+- `sat.taken`: 1.7% took the ACT
 
 <br>
 
@@ -317,19 +317,19 @@ girafe(ggobj = ind.qual.freq.plot, width_svg = 10, height_svg = 20) %>%
 
 Due to these low frequencies, I'm going to do the following;
 
--   *`LimitedEnglishProficiency`*: eliminate from analysis
--   *`HomelessIndicator`*: eliminate from analysis
--   `non.english.home`: eliminate from analysis
--   `sat.taken`: eliminate from analysis
--   `ps.grad.InstitutionSector`: combine categories 3, 5, 6, 7, 8 and 9 into one category. This means that the following institution sectors will be relabeled as "11";
-    -   3 - Private for-profit, 4-year or above
-    -   5 - Private, not-for-profit 2-year
-    -   6 - Private for-profit, 2-year
-    -   7 - Public, less than 2-year
-    -   8 - Private not-for-profit less than 2-year
-    -   9 - Private for-profit, less-than 2-year
--   `RaceEthnicity`: I'm going to leave this for now due to potential significant differences in pathways by race and ethnicity.
--   `hs.grad.year`: eliminate from analysis
+- *`LimitedEnglishProficiency`*: eliminate from analysis
+- *`HomelessIndicator`*: eliminate from analysis
+- `non.english.home`: eliminate from analysis
+- `sat.taken`: eliminate from analysis
+- `ps.grad.InstitutionSector`: combine categories 3, 5, 6, 7, 8 and 9 into one category. This means that the following institution sectors will be relabeled as "11";
+  - 3 - Private for-profit, 4-year or above
+  - 5 - Private, not-for-profit 2-year
+  - 6 - Private for-profit, 2-year
+  - 7 - Public, less than 2-year
+  - 8 - Private not-for-profit less than 2-year
+  - 9 - Private for-profit, less-than 2-year
+- `RaceEthnicity`: I'm going to leave this for now due to potential significant differences in pathways by race and ethnicity.
+- `hs.grad.year`: eliminate from analysis
 
 <br>
 
@@ -349,28 +349,28 @@ For the MCA analysis, I'm going to group these variables together to make sure t
 
 Here are the groupings I'm going to use;
 
--   Demographics
-    -   `Gender`
-    -   `grad.year.covid`
-    -   `economic.status`
-    -   `SpecialEdStatus`
-    -   `RaceEthnicity`
-    -   `english.learner`
--   High school characteristics
-    -   `Dem_Desc`
-    -   `range.school`
--   High school accomplishments
-    -   `pseo.participant`
-    -   `took.ACT`
-    -   `ap.exam`
-    -   `cte.achievement`
--   Post-secondary
-    -   `attended.ps.within.first.year.hsgrad`
-    -   `attended.ps`
-    -   `ps.grad`
-    -   `ps.grad.InstitutionSector`
-    -   `highest.cred.level`
-    -   `ps.grad.location`
+- Demographics
+  - `Gender`
+  - `grad.year.covid`
+  - `economic.status`
+  - `SpecialEdStatus`
+  - `RaceEthnicity`
+  - `english.learner`
+- High school characteristics
+  - `Dem_Desc`
+  - `range.school`
+- High school accomplishments
+  - `pseo.participant`
+  - `took.ACT`
+  - `ap.exam`
+  - `cte.achievement`
+- Post-secondary
+  - `attended.ps.within.first.year.hsgrad`
+  - `attended.ps`
+  - `ps.grad`
+  - `ps.grad.InstitutionSector`
+  - `highest.cred.level`
+  - `ps.grad.location`
 
 <br>
 
@@ -419,20 +419,20 @@ eig.val
 
 Let's take a look to see which variables are going to be important. The chart and table below show the cos2 value for each of the first four dimensions.
 
--   Sum of cos2 for all dimensions
-    -   Good representation (above .5)
-        -   `covid.grad`
-        -   `RaceEthnicity` - White
-        -   `SpecialEdStatus`
-        -   `RaceEthnicity` - Asian/PI
-        -   `english.learner`
-        -   `economic.status`
-    -   Moderate representation (between .2 and .5)
-        -   `RaceEthnicity` - AI
-        -   `Gender`
-        -   `RaceEthnicity` - Black
-    -   Below .2
-        -   `RaceEthnicity` - Hispanic
+- Sum of cos2 for all dimensions
+  - Good representation (above .5)
+    - `covid.grad`
+    - `RaceEthnicity` - White
+    - `SpecialEdStatus`
+    - `RaceEthnicity` - Asian/PI
+    - `english.learner`
+    - `economic.status`
+  - Moderate representation (between .2 and .5)
+    - `RaceEthnicity` - AI
+    - `Gender`
+    - `RaceEthnicity` - Black
+  - Below .2
+    - `RaceEthnicity` - Hispanic
 
 **Dimension 1:** Pre- or post-COVID grad, White
 
@@ -495,7 +495,7 @@ datatable(table) %>%
 
 For demographics we will keep all variables.
 
--   Eliminate - none
+- Eliminate - none
 
 <br>
 
@@ -586,7 +586,7 @@ datatable(table) %>%
 
 So regarding any variables to eliminate in the dataset, I don't see one. It looks important to keep them all.
 
--   Eliminate: none
+- Eliminate: none
 
 <br>
 
@@ -681,7 +681,7 @@ datatable(table) %>%
 
 So regarding any variables to eliminate in the dataset, I don't see one. It looks important to keep them all.
 
--   Eliminate: none
+- Eliminate: none
 
 <br>
 
@@ -730,20 +730,20 @@ eig.val
 
 Let's take a look to see which variables are going to be important. From the total cos^2^ we can see that there are a few that just aren't make the cut (below .2);
 
--   Graduated from any of the following post-secondary institutions;
-    -   private not-for-profit, 4-year or above
-    -   graduated from multiple sectors
-    -   graduated from any of the "11"
-    -   did not graduate.
--   Received a master degree or higher
--   Did not attended post-secondary within the first year after high school.
+- Graduated from any of the following post-secondary institutions;
+  - private not-for-profit, 4-year or above
+  - graduated from multiple sectors
+  - graduated from any of the "11"
+  - did not graduate.
+- Received a master degree or higher
+- Did not attended post-secondary within the first year after high school.
 
 The type of institution an individual graduated from variable is a good candidate for collapsing into fewer categories as well as the highest credential earned variable.
 
--   **Dimension 1:** Whether they attended and/or graduated from a post-secondary institution.
--   **Dimension 2:** Currently attending post-secondary
--   **Dimension 3:** Graduated from a public 2-year or 4-year institution and received corresponding credential
--   **Dimension 4:** Did not graduate from a post-secondary institution
+- **Dimension 1:** Whether they attended and/or graduated from a post-secondary institution.
+- **Dimension 2:** Currently attending post-secondary
+- **Dimension 3:** Graduated from a public 2-year or 4-year institution and received corresponding credential
+- **Dimension 4:** Did not graduate from a post-secondary institution
 
 <br>
 
@@ -765,11 +765,11 @@ fviz_cos2(ps.mca, choice = "var", axes = 1:4)
 
 Next, lets see how much each variable is contributing to each dimension. There are 23 categories so any percent above 4% would be quite influential. There are a few categories that don't reach that threshold for any of the four dimensions.
 
--   ps.grad.InstitutionSector = 2
--   ps.grad.InstitutionSector = 10
--   highest.cred.level = Master degree or higher
--   ps.grad.InstitutionSector = 11
--   ps.grad.InstitutionSector = NA
+- ps.grad.InstitutionSector = 2
+- ps.grad.InstitutionSector = 10
+- highest.cred.level = Master degree or higher
+- ps.grad.InstitutionSector = 11
+- ps.grad.InstitutionSector = NA
 
 Here are the labels for each dimension.
 
@@ -809,46 +809,46 @@ The analysis above shows that the following variables would likely provide high 
 
 *Demographics*
 
--   Eliminate:
-    -   `LimitedEnglishProficiency`
-    -   `HomelessIndicator`
-    -   `non.english.home`
-    -   `hs.grad.year`
--   Modify
-    -   None
+- Eliminate:
+  - `LimitedEnglishProficiency`
+  - `HomelessIndicator`
+  - `non.english.home`
+  - `hs.grad.year`
+- Modify
+  - None
 
 *High school characteristics*
 
--   Eliminate:
-    -   None
--   Modify
-    -   None
+- Eliminate:
+  - None
+- Modify
+  - None
 
 *High school accomplishments:*
 
--   Eliminate
-    -   `sat.taken`
--   Modify
-    -   None
+- Eliminate
+  - `sat.taken`
+- Modify
+  - None
 
 *Post secondary*
 
--   Eliminate
-    -   None
--   Modify
-    -   `ps.grad.InstitutionSector`: collapse the following categories into one labeled as "11"
-        -   2 - private, not-for-profit, 4-year or above
-        -   3 - Private for-profit, 4-year or above
-        -   5 - Private, not-for-profit 2-year
-        -   6 - Private for-profit, 2-year
-        -   7 - Public, less than 2-year
-        -   8 - Private not-for-profit less than 2-year
-        -   9 - Private for-profit, less-than 2-year
-        -   10 - multiple sectors
-        -   NA
-    -   `highest.cred.level`: collapse the following into one labeled as "Bachelor degree or higher"
-        -   Bachelor degree
-        -   Master degree or higher
+- Eliminate
+  - None
+- Modify
+  - `ps.grad.InstitutionSector`: collapse the following categories into one labeled as "11"
+    - 2 - private, not-for-profit, 4-year or above
+    - 3 - Private for-profit, 4-year or above
+    - 5 - Private, not-for-profit 2-year
+    - 6 - Private for-profit, 2-year
+    - 7 - Public, less than 2-year
+    - 8 - Private not-for-profit less than 2-year
+    - 9 - Private for-profit, less-than 2-year
+    - 10 - multiple sectors
+    - NA
+  - `highest.cred.level`: collapse the following into one labeled as "Bachelor degree or higher"
+    - Bachelor degree
+    - Master degree or higher
 
 <br>
 

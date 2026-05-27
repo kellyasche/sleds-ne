@@ -164,12 +164,12 @@ Logistic regression is used here as a confirmatory tool rather than the primary 
 
 The primary model predicts:
 
--   **Sustained employment – region** (binary outcome)
+- **Sustained employment – region** (binary outcome)
 
 The dependent variable is coded as:
 
--   1 = Sustained employment – region\
--   0 = All other workforce outcomes (including sustained employment – MN outside the region, non-sustained employment, and no MN employment record)
+- 1 = Sustained employment – region\
+- 0 = All other workforce outcomes (including sustained employment – MN outside the region, non-sustained employment, and no MN employment record)
 
 This specification focuses specifically on stable regional workforce attachment.
 
@@ -181,18 +181,18 @@ To maintain interpretability and avoid overfitting, the analysis includes a limi
 
 ### Demographic Variables
 
--   `economic.status`
--   `SpecialEdStatus`
--   `englisher.learner`
--   `Gender`
+- `economic.status`
+- `SpecialEdStatus`
+- `englisher.learner`
+- `Gender`
 
 These variables capture structural differences that may shape both educational pathways and workforce attachment.
 
 ### High School Preparation Variables
 
--   `MCA.M` (academic proficiency indicator)
--   `pseo.participant` (early college exposure)
--   `cte.achievement` (career and technical pathway participation)
+- `MCA.M` (academic proficiency indicator)
+- `pseo.participant` (early college exposure)
+- `cte.achievement` (career and technical pathway participation)
 
 These measures represent three distinct preparation mechanisms: academic readiness, early college participation, and technical skill development.
 
@@ -200,12 +200,12 @@ These measures represent three distinct preparation mechanisms: academic readine
 
 Postsecondary variables are introduced in separate specifications to avoid redundancy and isolate distinct mechanisms:
 
--   `highest.cred.level` (credential depth)
--   `ps.grad.location` (regional postsecondary completion)
+- `highest.cred.level` (credential depth)
+- `ps.grad.location` (regional postsecondary completion)
 
 ### Local Context Control
 
--   `avg.unemp.rate` (local economic context at time of graduation)
+- `avg.unemp.rate` (local economic context at time of graduation)
 
 This variable accounts for structural labor market conditions influencing immediate post–high school opportunities.
 
@@ -234,15 +234,15 @@ Predictors are introduced sequentially to evaluate distinct mechanisms and to ex
 
 Includes:
 
--   `RaceEthnicity`
--   `economic.status`
--   `SpecialEdStatus`
--   `englisher.learner`
--   `Gender`
--   `MCA.M`
--   `pseo.participant`
--   `cte.achievement`
--   `avg.unemp.rate`
+- `RaceEthnicity`
+- `economic.status`
+- `SpecialEdStatus`
+- `englisher.learner`
+- `Gender`
+- `MCA.M`
+- `pseo.participant`
+- `cte.achievement`
+- `avg.unemp.rate`
 
 This model evaluates whether structural background and preparation factors are independently associated with sustained regional employment.
 
@@ -250,7 +250,7 @@ This model evaluates whether structural background and preparation factors are i
 
 Adds:
 
--   `highest.cred.level`
+- `highest.cred.level`
 
 This model tests whether credential depth explains regional workforce attachment beyond preparation and demographic factors. Changes in coefficients from Model 1 to Model 2 are examined to assess attenuation and potential pathway mediation.
 
@@ -258,7 +258,7 @@ This model tests whether credential depth explains regional workforce attachment
 
 In a separate specification, the model introduces:
 
--   `ps.grad.location`
+- `ps.grad.location`
 
 This model evaluates whether completing postsecondary education within Northeast Minnesota is associated with sustained regional employment, holding structural and preparation factors constant.
 
@@ -266,8 +266,8 @@ This model evaluates whether completing postsecondary education within Northeast
 
 Includes both:
 
--   `highest.cred.level`
--   `ps.grad.location`
+- `highest.cred.level`
+- `ps.grad.location`
 
 This specification assesses whether regional completion retains influence after accounting for credential depth, and whether geographic anchoring operates independently of attainment level.
 
@@ -277,10 +277,10 @@ This specification assesses whether regional completion retains influence after 
 
 Results will be reported using:
 
--   Odds ratios
--   95% confidence intervals
--   Statistical significance levels
--   Directional interpretation
+- Odds ratios
+- 95% confidence intervals
+- Statistical significance levels
+- Directional interpretation
 
 Model comparison metrics (AIC and pseudo R²) will be used to assess relative improvement across specifications, but emphasis will remain on coefficient stability, attenuation patterns, and substantive interpretation rather than overall fit.
 
@@ -290,9 +290,9 @@ Model comparison metrics (AIC and pseudo R²) will be used to assess relative im
 
 Interpretation will focus on:
 
--   Direction and relative magnitude of associations
--   Changes in coefficients across models
--   Evidence of attenuation when postsecondary variables are introduced
+- Direction and relative magnitude of associations
+- Changes in coefficients across models
+- Evidence of attenuation when postsecondary variables are introduced
 
 Findings will be described as associations holding other included variables constant. No causal claims will be made.
 
@@ -361,35 +361,35 @@ The strongest associations in this specification are tied to CTE participation a
 
 Career and technical education shows the clearest positive relationship with sustained regional employment:
 
--   **CTE concentrators/completers:** approximately 38% higher odds of sustained regional employment relative to students with no CTE participation (OR ≈ 1.38).
--   **CTE participants:** roughly 20% higher odds (OR ≈ 1.20).
+- **CTE concentrators/completers:** approximately 38% higher odds of sustained regional employment relative to students with no CTE participation (OR ≈ 1.38).
+- **CTE participants:** roughly 20% higher odds (OR ≈ 1.20).
 
 These effects are substantively larger than those associated with academic preparation measures and indicate that CTE operates as a distinct regional anchoring mechanism at five years.
 
 Racial disparities remain pronounced even after accounting for preparation and structural context:
 
--   **Black students:** approximately 48% lower odds of sustained regional employment relative to White students (OR ≈ 0.52).
--   **Asian/PI students:** roughly 38% lower odds (OR ≈ 0.62).
--   **Hispanic students:** about 24% lower odds (OR ≈ 0.76).
--   **American Indian students:** approximately 12% lower odds (OR ≈ 0.88).
+- **Black students:** approximately 48% lower odds of sustained regional employment relative to White students (OR ≈ 0.52).
+- **Asian/PI students:** roughly 38% lower odds (OR ≈ 0.62).
+- **Hispanic students:** about 24% lower odds (OR ≈ 0.76).
+- **American Indian students:** approximately 12% lower odds (OR ≈ 0.88).
 
 The magnitude of the Black and Asian/PI gaps is especially notable and persists net of academic proficiency, CTE participation, and local labor market conditions.
 
 Academic mobility indicators show a consistent outward-orientation gradient:
 
--   **Higher MCA Math scores:** associated with lower odds of sustained regional employment (\~7% lower odds per unit increase), suggesting that academically stronger students are more likely to pursue opportunities outside the region.
--   **PSEO participation:** modest negative association (\~7% lower odds), consistent with early college exposure facilitating mobility beyond the region.
+- **Higher MCA Math scores:** associated with lower odds of sustained regional employment (\~7% lower odds per unit increase), suggesting that academically stronger students are more likely to pursue opportunities outside the region.
+- **PSEO participation:** modest negative association (\~7% lower odds), consistent with early college exposure facilitating mobility beyond the region.
 
 Structural background factors also demonstrate independent associations:
 
--   **Special Education status:** approximately 22% lower odds of sustained regional employment (OR ≈ 0.78).
--   **Economic disadvantage:** roughly 11% lower odds (OR ≈ 0.89).
--   **Female students:** about 9% lower odds relative to male students (OR ≈ 0.92).
--   **English Learner status:** small negative association (\~9% lower odds), more modest in magnitude.
+- **Special Education status:** approximately 22% lower odds of sustained regional employment (OR ≈ 0.78).
+- **Economic disadvantage:** roughly 11% lower odds (OR ≈ 0.89).
+- **Female students:** about 9% lower odds relative to male students (OR ≈ 0.92).
+- **English Learner status:** small negative association (\~9% lower odds), more modest in magnitude.
 
 Local labor market context exerts additional influence:
 
--   **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase), indicating that weaker local labor markets modestly reduce long-term regional workforce attachment.
+- **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase), indicating that weaker local labor markets modestly reduce long-term regional workforce attachment.
 
 Overall, Model 1 suggests that sustained regional employment in Northeast Minnesota reflects three intersecting forces: a strong positive alignment with CTE pathways, persistent racial disparities that remain even after accounting for preparation, and a modest academic mobility gradient in which higher academic achievement and early college exposure are associated with outward movement. Structural disadvantage and local labor market conditions contribute additional but comparatively smaller effects.
 
@@ -471,45 +471,45 @@ The strongest effects in Model 2 are clearly tied to credential level.
 
 Students earning sub-baccalaureate credentials show dramatically higher regional attachment:
 
--   **Associate degree:** approximately 120% higher odds of sustained regional employment relative to those who did not complete postsecondary education (OR ≈ 2.20).
--   **Less than Associate degree (certificate/diploma):** roughly 118% higher odds (OR ≈ 2.18).
--   **Bachelor’s degree or higher:** no meaningful difference from non-completers (OR ≈ 0.97), suggesting that four-year attainment does not increase regional attachment at five years.
+- **Associate degree:** approximately 120% higher odds of sustained regional employment relative to those who did not complete postsecondary education (OR ≈ 2.20).
+- **Less than Associate degree (certificate/diploma):** roughly 118% higher odds (OR ≈ 2.18).
+- **Bachelor’s degree or higher:** no meaningful difference from non-completers (OR ≈ 0.97), suggesting that four-year attainment does not increase regional attachment at five years.
 
 These results indicate a strong credential stratification pattern: two-year and certificate pathways are strongly aligned with regional workforce anchoring, while bachelor’s attainment appears mobility-neutral or outward-oriented.
 
 CTE participation remains independently associated with regional employment, though somewhat attenuated:
 
--   **CTE concentrators/completers:** approximately 31% higher odds (OR ≈ 1.31).
--   **CTE participants:** roughly 17% higher odds (OR ≈ 1.17).
+- **CTE concentrators/completers:** approximately 31% higher odds (OR ≈ 1.31).
+- **CTE participants:** roughly 17% higher odds (OR ≈ 1.17).
 
 While reduced from Model 1, these effects remain substantial, suggesting that CTE operates both directly and indirectly through postsecondary credential pathways.
 
 Racial disparities persist and remain large:
 
--   **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
--   **Asian/PI students:** about 35% lower odds (OR ≈ 0.66).
--   **Hispanic students:** roughly 22% lower odds (OR ≈ 0.78), though confidence intervals suggest greater uncertainty.
--   **American Indian students:** no statistically distinct difference from White students in this specification (OR ≈ 0.92).
+- **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
+- **Asian/PI students:** about 35% lower odds (OR ≈ 0.66).
+- **Hispanic students:** roughly 22% lower odds (OR ≈ 0.78), though confidence intervals suggest greater uncertainty.
+- **American Indian students:** no statistically distinct difference from White students in this specification (OR ≈ 0.92).
 
 The attenuation for American Indian students suggests that part of the earlier disparity may operate through differential attainment pathways.
 
 Academic mobility indicators weaken modestly after controlling for credential depth:
 
--   **Higher MCA Math scores:** still associated with lower odds of sustained regional employment (\~5% lower odds per unit increase).
--   **PSEO participation:** modest negative association (\~7% lower odds), slightly reduced from Model 1.
+- **Higher MCA Math scores:** still associated with lower odds of sustained regional employment (\~5% lower odds per unit increase).
+- **PSEO participation:** modest negative association (\~7% lower odds), slightly reduced from Model 1.
 
 This attenuation indicates that some of the outward mobility associated with academic strength operates through postsecondary attainment.
 
 Structural background factors continue to show moderate effects:
 
--   **Special Education status:** approximately 18% lower odds (OR ≈ 0.82).
--   **Economic disadvantage:** roughly 10% lower odds (OR ≈ 0.90).
--   **Female students:** about 9% lower odds relative to males (OR ≈ 0.91).
--   **English Learner status:** no statistically distinct association once attainment is included.
+- **Special Education status:** approximately 18% lower odds (OR ≈ 0.82).
+- **Economic disadvantage:** roughly 10% lower odds (OR ≈ 0.90).
+- **Female students:** about 9% lower odds relative to males (OR ≈ 0.91).
+- **English Learner status:** no statistically distinct association once attainment is included.
 
 Local labor market conditions remain directionally consistent:
 
--   **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase).
+- **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase).
 
 Overall, Model 2 demonstrates that credential depth is one of the most powerful predictors of sustained regional employment in Northeast Minnesota. Sub-baccalaureate credentials strongly anchor graduates to the regional workforce, while bachelor’s attainment does not. Preparation effects modestly attenuate but remain present, and racial disparities persist even after accounting for educational attainment. The substantial improvement in model fit underscores the central role of postsecondary pathways in shaping regional workforce attachment.
 
@@ -592,46 +592,46 @@ The model retains the full analytic sample (n = 27,364). Model fit improves subs
 
 The strongest effect in the model is graduation within the region:
 
--   **Graduated in the region:** approximately 142% higher odds of sustained regional employment relative to those who did not graduate postsecondary (OR ≈ 2.42).
+- **Graduated in the region:** approximately 142% higher odds of sustained regional employment relative to those who did not graduate postsecondary (OR ≈ 2.42).
 
 This is the largest association in the model and clearly indicates a powerful regional anchoring mechanism tied to local postsecondary completion.
 
 In contrast, completing postsecondary education outside the region is associated with lower regional attachment:
 
--   **Graduated elsewhere in Minnesota:** about 44% lower odds of sustained regional employment (OR ≈ 0.56).
--   **Graduated outside Minnesota:** roughly 36% lower odds (OR ≈ 0.64).
+- **Graduated elsewhere in Minnesota:** about 44% lower odds of sustained regional employment (OR ≈ 0.56).
+- **Graduated outside Minnesota:** roughly 36% lower odds (OR ≈ 0.64).
 
 This pattern indicates that graduation location strongly differentiates long-term workforce attachment, with in-region completion substantially increasing anchoring and out-of-region completion associated with outward mobility.
 
 CTE participation remains strongly and independently associated with regional employment:
 
--   **CTE concentrators/completers:** approximately 33% higher odds (OR ≈ 1.33).
--   **CTE participants:** roughly 18% higher odds (OR ≈ 1.18).
+- **CTE concentrators/completers:** approximately 33% higher odds (OR ≈ 1.33).
+- **CTE participants:** roughly 18% higher odds (OR ≈ 1.18).
 
 These effects remain robust even after accounting for postsecondary geography, suggesting that CTE provides a distinct workforce-aligned pathway into regional employment.
 
 Racial disparities persist:
 
--   **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
--   **Asian/PI students:** roughly 34% lower odds (OR ≈ 0.66).
--   **Hispanic students:** about 24% lower odds (OR ≈ 0.76), with confidence intervals near statistical overlap.
--   **American Indian students:** not statistically distinct from White students in this specification.
+- **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
+- **Asian/PI students:** roughly 34% lower odds (OR ≈ 0.66).
+- **Hispanic students:** about 24% lower odds (OR ≈ 0.76), with confidence intervals near statistical overlap.
+- **American Indian students:** not statistically distinct from White students in this specification.
 
 Academic mobility indicators remain evident:
 
--   **Higher MCA Math scores:** associated with lower odds (\~6% lower per unit increase).
--   **PSEO participation:** modest negative association (\~8% lower odds).
+- **Higher MCA Math scores:** associated with lower odds (\~6% lower per unit increase).
+- **PSEO participation:** modest negative association (\~8% lower odds).
 
 Structural background factors continue to show moderate effects:
 
--   **Special Education status:** approximately 17% lower odds (OR ≈ 0.83).
--   **Economic disadvantage:** roughly 9% lower odds (OR ≈ 0.91).
--   **Female students:** about 11% lower odds relative to males (OR ≈ 0.89).
--   **English Learner status:** not statistically distinct once other factors are included.
+- **Special Education status:** approximately 17% lower odds (OR ≈ 0.83).
+- **Economic disadvantage:** roughly 9% lower odds (OR ≈ 0.91).
+- **Female students:** about 11% lower odds relative to males (OR ≈ 0.89).
+- **English Learner status:** not statistically distinct once other factors are included.
 
 Local labor market conditions remain directionally consistent:
 
--   **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
+- **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
 
 Overall, Model 3 demonstrates that postsecondary graduation location is one of the strongest predictors of sustained regional employment in Northeast Minnesota. The substantial improvement in model fit and the magnitude of the regional graduation effect indicate that geography functions as a primary anchoring mechanism. CTE participation remains positively aligned with regional workforce attachment, while academic proficiency and early college exposure continue to reflect modest outward mobility patterns.
 
@@ -707,47 +707,47 @@ The model retains the full analytic sample (n = 27,364). Model fit improves furt
 
 The dominant effect in this model remains regional postsecondary completion:
 
--   **Graduated in the region:** approximately 197% higher odds of sustained regional employment relative to non-graduates (OR ≈ 2.97).
+- **Graduated in the region:** approximately 197% higher odds of sustained regional employment relative to non-graduates (OR ≈ 2.97).
 
 This remains the single strongest predictor in the model, underscoring the powerful anchoring effect of completing postsecondary education within Northeast Minnesota.
 
 Once geography is included, credential depth no longer independently predicts regional employment:
 
--   **Associate degree:** not statistically distinct from non-completers.
--   **Less than Associate degree:** not statistically distinct.
--   **Bachelor’s degree or higher:** associated with roughly 40% lower odds (OR ≈ 0.60), though confidence intervals approach overlap.
+- **Associate degree:** not statistically distinct from non-completers.
+- **Less than Associate degree:** not statistically distinct.
+- **Bachelor’s degree or higher:** associated with roughly 40% lower odds (OR ≈ 0.60), though confidence intervals approach overlap.
 
 This pattern indicates that the strong sub-baccalaureate effects observed in Model 2 were largely driven by where those credentials were earned rather than credential depth alone. Geography absorbs much of the explanatory power previously attributed to associate-level attainment.
 
 CTE participation remains positively and independently associated with regional employment:
 
--   **CTE concentrators/completers:** approximately 29% higher odds (OR ≈ 1.29).
--   **CTE participants:** roughly 16% higher odds (OR ≈ 1.16).
+- **CTE concentrators/completers:** approximately 29% higher odds (OR ≈ 1.29).
+- **CTE participants:** roughly 16% higher odds (OR ≈ 1.16).
 
 These effects persist even after accounting for both credential level and graduation location, reinforcing CTE as a distinct workforce-aligned pathway.
 
 Racial disparities remain substantial:
 
--   **Black students:** approximately 43–44% lower odds relative to White students (OR ≈ 0.57).
--   **Asian/PI students:** roughly 32% lower odds (OR ≈ 0.68).
--   **Hispanic students:** about 23% lower odds, though statistical certainty is weaker.
--   **American Indian students:** not statistically distinct from White students.
+- **Black students:** approximately 43–44% lower odds relative to White students (OR ≈ 0.57).
+- **Asian/PI students:** roughly 32% lower odds (OR ≈ 0.68).
+- **Hispanic students:** about 23% lower odds, though statistical certainty is weaker.
+- **American Indian students:** not statistically distinct from White students.
 
 Academic mobility indicators remain modest:
 
--   **Higher MCA Math scores:** associated with slightly lower odds (\~4% lower per unit increase).
--   **PSEO participation:** small negative association (\~6% lower odds).
+- **Higher MCA Math scores:** associated with slightly lower odds (\~4% lower per unit increase).
+- **PSEO participation:** small negative association (\~6% lower odds).
 
 Structural background variables remain directionally consistent:
 
--   **Economic disadvantage:** approximately 12% lower odds.
--   **Special Education status:** roughly 18% lower odds.
--   **Female students:** about 9% lower odds.
--   **English Learner status:** not statistically distinct.
+- **Economic disadvantage:** approximately 12% lower odds.
+- **Special Education status:** roughly 18% lower odds.
+- **Female students:** about 9% lower odds.
+- **English Learner status:** not statistically distinct.
 
 Local labor market conditions continue to show modest influence:
 
--   **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
+- **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
 
 Overall, Model 4 confirms that postsecondary geography is the primary anchoring mechanism in Northeast Minnesota. While credential depth initially appeared highly influential, its independent effect largely attenuates once location of completion is included. The modest additional improvement in model fit suggests that geography explains most of the postsecondary pathway effect. CTE participation remains independently aligned with regional employment, and substantial racial disparities persist across specifications.
 
@@ -823,56 +823,56 @@ Across progressively specified logistic regression models, sustained regional em
 
 Model fit improves meaningfully as postsecondary variables are introduced:
 
--   Model 1 (Preparation + Structure): AIC ≈ 34,286\
--   Model 2 (+ Credential Depth): AIC ≈ 33,676\
--   Model 3 (+ Geography): AIC ≈ 32,922\
--   Model 4 (+ Credential + Geography): AIC ≈ 32,771
+- Model 1 (Preparation + Structure): AIC ≈ 34,286\
+- Model 2 (+ Credential Depth): AIC ≈ 33,676\
+- Model 3 (+ Geography): AIC ≈ 32,922\
+- Model 4 (+ Credential + Geography): AIC ≈ 32,771
 
 The largest improvement occurs when postsecondary geography is introduced, indicating that location of completion explains more variation than credential depth alone.
 
 [**Key Findings**]{.underline}
 
--   **Graduating within the region** is the strongest predictor across all specifications:
+- **Graduating within the region** is the strongest predictor across all specifications:
 
-    -   Model 3: \~142% higher odds (OR ≈ 2.42).
-    -   Model 4: \~197% higher odds (OR ≈ 2.97).
+  - Model 3: \~142% higher odds (OR ≈ 2.42).
+  - Model 4: \~197% higher odds (OR ≈ 2.97).
 
-    Regional postsecondary completion is the single most powerful anchoring mechanism in the analysis.
+  Regional postsecondary completion is the single most powerful anchoring mechanism in the analysis.
 
--   Graduating **elsewhere in Minnesota** is associated with substantially lower regional attachment (\~44% lower odds in Model 3).
+- Graduating **elsewhere in Minnesota** is associated with substantially lower regional attachment (\~44% lower odds in Model 3).
 
--   Graduating **outside Minnesota** is also associated with lower regional attachment (\~36% lower odds in Model 3).
+- Graduating **outside Minnesota** is also associated with lower regional attachment (\~36% lower odds in Model 3).
 
--   Credential depth alone appears highly influential in Model 2:
+- Credential depth alone appears highly influential in Model 2:
 
-    -   Associate degree: \~120% higher odds.
-    -   Less than Associate degree: \~118% higher odds.
+  - Associate degree: \~120% higher odds.
+  - Less than Associate degree: \~118% higher odds.
 
-    However, once graduation location is included (Model 4), these effects attenuate substantially, indicating that the earlier credential effect largely reflects where the credential was earned rather than credential depth itself.
+  However, once graduation location is included (Model 4), these effects attenuate substantially, indicating that the earlier credential effect largely reflects where the credential was earned rather than credential depth itself.
 
--   **Bachelor’s degree or higher** is consistently mobility-aligned in the fully specified model (\~40% lower odds), suggesting four-year attainment is associated with outward workforce trajectories.
+- **Bachelor’s degree or higher** is consistently mobility-aligned in the fully specified model (\~40% lower odds), suggesting four-year attainment is associated with outward workforce trajectories.
 
--   **CTE participation remains independently associated with regional retention across all models:**
+- **CTE participation remains independently associated with regional retention across all models:**
 
-    -   CTE concentrators/completers: \~29–38% higher odds.
-    -   CTE participants: \~16–20% higher odds.
+  - CTE concentrators/completers: \~29–38% higher odds.
+  - CTE participants: \~16–20% higher odds.
 
-    These effects persist even after accounting for both credential depth and graduation location, indicating that CTE functions as a direct workforce-alignment pathway rather than merely channeling students into regional colleges.
+  These effects persist even after accounting for both credential depth and graduation location, indicating that CTE functions as a direct workforce-alignment pathway rather than merely channeling students into regional colleges.
 
--   Academic mobility indicators show modest but consistent outward orientation:
+- Academic mobility indicators show modest but consistent outward orientation:
 
-    -   Higher MCA Math scores: \~4–7% lower odds per unit increase.
-    -   PSEO participation: \~6–8% lower odds.
+  - Higher MCA Math scores: \~4–7% lower odds per unit increase.
+  - PSEO participation: \~6–8% lower odds.
 
--   Structural disparities remain substantial across models:
+- Structural disparities remain substantial across models:
 
-    -   Black students: \~43–48% lower odds.
-    -   Asian/PI students: \~32–38% lower odds.
-    -   Hispanic students: \~22–24% lower odds (marginal in later models).
-    -   Economic disadvantage: \~9–12% lower odds.
-    -   Special Education status: \~17–22% lower odds.
-    -   Female students: \~9–11% lower odds.
-    -   Local unemployment rates: modest negative association (\~4–5% lower odds per percentage-point increase).
+  - Black students: \~43–48% lower odds.
+  - Asian/PI students: \~32–38% lower odds.
+  - Hispanic students: \~22–24% lower odds (marginal in later models).
+  - Economic disadvantage: \~9–12% lower odds.
+  - Special Education status: \~17–22% lower odds.
+  - Female students: \~9–11% lower odds.
+  - Local unemployment rates: modest negative association (\~4–5% lower odds per percentage-point increase).
 
 [**Overall Interpretation**]{.underline}
 
@@ -954,20 +954,20 @@ This model estimates the association between demographic characteristics, academ
 
 The strongest negative predictors of completion are structural factors.
 
--   **Special Education status:** approximately 62% lower odds of completing postsecondary education (OR ≈ 0.38).
--   **Economic disadvantage:** roughly 59% lower odds (OR ≈ 0.41).
--   **American Indian students:** about 51% lower odds relative to White students (OR ≈ 0.49).
--   **Black students:** approximately 46% lower odds (OR ≈ 0.54).
--   **Hispanic students:** about 27% lower odds (OR ≈ 0.73).
--   **Asian/PI students:** not statistically distinct from White students once controls are included.
+- **Special Education status:** approximately 62% lower odds of completing postsecondary education (OR ≈ 0.38).
+- **Economic disadvantage:** roughly 59% lower odds (OR ≈ 0.41).
+- **American Indian students:** about 51% lower odds relative to White students (OR ≈ 0.49).
+- **Black students:** approximately 46% lower odds (OR ≈ 0.54).
+- **Hispanic students:** about 27% lower odds (OR ≈ 0.73).
+- **Asian/PI students:** not statistically distinct from White students once controls are included.
 
 These effects are large and consistent, indicating that the most substantial sorting in the education-to-workforce pipeline occurs at the point of postsecondary completion.
 
 Academic preparation variables show strong positive associations.
 
--   **Female students:** approximately 66% higher odds of completing postsecondary education (OR ≈ 1.66).
--   **PSEO participation:** about 44% higher odds (OR ≈ 1.44).
--   **Higher MCA Math scores:** roughly 29% higher odds per unit increase (OR ≈ 1.29).
+- **Female students:** approximately 66% higher odds of completing postsecondary education (OR ≈ 1.66).
+- **PSEO participation:** about 44% higher odds (OR ≈ 1.44).
+- **Higher MCA Math scores:** roughly 29% higher odds per unit increase (OR ≈ 1.29).
 
 These findings confirm that academic readiness and early college exposure substantially increase the likelihood of postsecondary completion.
 
@@ -1092,27 +1092,27 @@ This model estimates the association between demographic characteristics, academ
 
 The strongest positive predictors of regional graduation reflect local alignment pathways.
 
--   **CTE concentrators/completers:** approximately 43% higher odds of graduating from a regional institution (OR ≈ 1.43).
--   **CTE participants:** about 18% higher odds (OR ≈ 1.18).
--   **Economic disadvantage:** roughly 57% higher odds of graduating in-region (OR ≈ 1.57).
--   **American Indian students:** approximately 45% higher odds relative to White students (OR ≈ 1.45).
--   **Special Education status:** about 32% higher odds (OR ≈ 1.32).
+- **CTE concentrators/completers:** approximately 43% higher odds of graduating from a regional institution (OR ≈ 1.43).
+- **CTE participants:** about 18% higher odds (OR ≈ 1.18).
+- **Economic disadvantage:** roughly 57% higher odds of graduating in-region (OR ≈ 1.57).
+- **American Indian students:** approximately 45% higher odds relative to White students (OR ≈ 1.45).
+- **Special Education status:** about 32% higher odds (OR ≈ 1.32).
 
 These effects suggest that students with stronger local ties or structural constraints are more likely to complete postsecondary education within the region rather than elsewhere.
 
 Academic mobility indicators show the opposite pattern.
 
--   **Higher MCA Math scores:** approximately 21% lower odds of graduating in-region per unit increase (OR ≈ 0.79).
--   **PSEO participation:** about 11% lower odds (OR ≈ 0.89).
--   **Female students:** roughly 9% lower odds (OR ≈ 0.91).
+- **Higher MCA Math scores:** approximately 21% lower odds of graduating in-region per unit increase (OR ≈ 0.79).
+- **PSEO participation:** about 11% lower odds (OR ≈ 0.89).
+- **Female students:** roughly 9% lower odds (OR ≈ 0.91).
 
 These patterns indicate that academically stronger and early-college students are more likely to complete degrees outside the region once they enroll in postsecondary education.
 
 Racial differences shift substantially once restricting to completers.
 
--   **Black students:** approximately 44% lower odds of graduating in-region (OR ≈ 0.56).
--   **Asian/PI students:** about 39% lower odds (OR ≈ 0.61).
--   **Hispanic students:** not statistically distinct from White students in this specification.
+- **Black students:** approximately 44% lower odds of graduating in-region (OR ≈ 0.56).
+- **Asian/PI students:** about 39% lower odds (OR ≈ 0.61).
+- **Hispanic students:** not statistically distinct from White students in this specification.
 
 Local unemployment rates show a small negative association, though the magnitude is modest.
 
@@ -1204,9 +1204,9 @@ Academic readiness increases college completion. Regional graduation anchors wor
 **1. Regional postsecondary graduation is the dominant workforce retention mechanism.**\
 Graduating from a postsecondary institution within the region is the single strongest predictor of sustained regional employment.
 
--   **Regional graduation (any credential):** \~142% to \~197% higher odds of sustained regional employment (OR ≈ 2.42–2.97 across models).
--   Graduating elsewhere in Minnesota: \~44% lower odds.
--   Graduating outside Minnesota: \~36% lower odds.
+- **Regional graduation (any credential):** \~142% to \~197% higher odds of sustained regional employment (OR ≈ 2.42–2.97 across models).
+- Graduating elsewhere in Minnesota: \~44% lower odds.
+- Graduating outside Minnesota: \~36% lower odds.
 
 Once graduation location is included, credential level largely loses its independent effect. Associate degrees and sub-baccalaureate credentials no longer predict retention once geography is accounted for. Where the degree is earned matters far more than what degree is earned.
 
@@ -1219,17 +1219,17 @@ Before geography even enters the picture, completion itself is highly unequal.
 
 In the postsecondary completion model:
 
--   **Special Education status:** \~62% lower odds of completion (OR ≈ 0.38).
--   **Economic disadvantage:** \~59% lower odds (OR ≈ 0.41).
--   **American Indian students:** \~51% lower odds.
--   **Black students:** \~46% lower odds.
--   **Hispanic students:** \~27% lower odds.
+- **Special Education status:** \~62% lower odds of completion (OR ≈ 0.38).
+- **Economic disadvantage:** \~59% lower odds (OR ≈ 0.41).
+- **American Indian students:** \~51% lower odds.
+- **Black students:** \~46% lower odds.
+- **Hispanic students:** \~27% lower odds.
 
 In contrast:
 
--   **Female students:** \~66% higher odds of completion.
--   **PSEO participation:** \~44% higher odds.
--   **Higher MCA Math:** \~29% higher odds per unit increase.
+- **Female students:** \~66% higher odds of completion.
+- **PSEO participation:** \~44% higher odds.
+- **Higher MCA Math:** \~29% higher odds per unit increase.
 
 These results show that the largest structural sorting in the education-to-workforce pipeline occurs at college completion—not at regional sorting among graduates.
 
@@ -1242,17 +1242,17 @@ When restricting to students who completed postsecondary education, the geograph
 
 In the regional graduation model among completers:
 
--   **CTE concentrators/completers:** \~43% higher odds of graduating in-region.
--   **CTE participants:** \~18% higher odds.
--   **Economic disadvantage:** \~57% higher odds of graduating in-region.
--   **American Indian students:** \~45% higher odds.
--   **Special Education status:** \~32% higher odds.
+- **CTE concentrators/completers:** \~43% higher odds of graduating in-region.
+- **CTE participants:** \~18% higher odds.
+- **Economic disadvantage:** \~57% higher odds of graduating in-region.
+- **American Indian students:** \~45% higher odds.
+- **Special Education status:** \~32% higher odds.
 
 In contrast, academic mobility indicators reduce regional graduation:
 
--   **Higher MCA Math:** \~21% lower odds per unit increase.
--   **PSEO participation:** \~11% lower odds.
--   **Female students:** \~9% lower odds.
+- **Higher MCA Math:** \~21% lower odds per unit increase.
+- **PSEO participation:** \~11% lower odds.
+- **Female students:** \~9% lower odds.
 
 This pattern suggests that academically stronger students and early-college participants are more likely to complete degrees outside the region, while locally aligned or structurally constrained students are more likely to remain within the regional postsecondary system.
 
@@ -1263,8 +1263,8 @@ Regional graduation is therefore shaped by both local attachment and mobility ex
 **4. CTE operates through both educational geography and direct workforce alignment.**\
 CTE does not significantly increase overall college completion. However, among completers, CTE increases the likelihood of graduating in-region. In workforce models, CTE remains positively associated with sustained regional employment even after controlling for graduation location.
 
--   **CTE concentrators/completers:** \~29–38% higher odds of sustained regional employment in workforce models.
--   **CTE participants:** \~16–20% higher odds.
+- **CTE concentrators/completers:** \~29–38% higher odds of sustained regional employment in workforce models.
+- **CTE participants:** \~16–20% higher odds.
 
 This indicates that CTE operates partly through regional educational pathways and partly as a direct workforce-alignment mechanism.
 
@@ -1277,8 +1277,8 @@ Higher MCA scores and PSEO participation increase the likelihood of college comp
 
 This pattern is consistent:
 
--   Academic readiness increases postsecondary progression.
--   But it expands geographic mobility rather than reinforcing regional attachment.
+- Academic readiness increases postsecondary progression.
+- But it expands geographic mobility rather than reinforcing regional attachment.
 
 Academic strength facilitates opportunity beyond the region.
 
@@ -1289,12 +1289,12 @@ Even after accounting for preparation, completion, and graduation location, disp
 
 In workforce models:
 
--   **Black students:** \~43–48% lower odds.
--   **Asian/PI students:** \~32–38% lower odds.
--   **Hispanic students:** \~22–24% lower odds (weaker in fully specified models).
--   **Economic disadvantage:** \~9–12% lower odds.
--   **Special Education status:** \~17–22% lower odds.
--   **Female students:** \~9–11% lower odds.
+- **Black students:** \~43–48% lower odds.
+- **Asian/PI students:** \~32–38% lower odds.
+- **Hispanic students:** \~22–24% lower odds (weaker in fully specified models).
+- **Economic disadvantage:** \~9–12% lower odds.
+- **Special Education status:** \~17–22% lower odds.
+- **Female students:** \~9–11% lower odds.
 
 These gaps are not eliminated by controlling for credential level or graduation location. Structural inequality remains embedded throughout the pipeline.
 
@@ -1316,9 +1316,9 @@ Across all models, the ordering of influence is clear:
 
 Sustained regional employment in Northeast Minnesota is shaped by a layered pipeline:
 
--   Structural factors strongly influence who completes college.
--   Among completers, local alignment pathways—especially CTE—shape who graduates within the region.
--   Regional graduation is the dominant anchor for long-term regional workforce attachment.
+- Structural factors strongly influence who completes college.
+- Among completers, local alignment pathways—especially CTE—shape who graduates within the region.
+- Regional graduation is the dominant anchor for long-term regional workforce attachment.
 
 Credential attainment alone does not drive retention. Geography does.
 
@@ -1348,8 +1348,8 @@ Graduating from a regional postsecondary institution is associated with approxim
 
 By contrast:
 
--   Graduating elsewhere in Minnesota is associated with roughly **44% lower odds** of regional employment.
--   Graduating outside Minnesota is associated with roughly **36% lower odds**.
+- Graduating elsewhere in Minnesota is associated with roughly **44% lower odds** of regional employment.
+- Graduating outside Minnesota is associated with roughly **36% lower odds**.
 
 These results suggest that workforce retention is closely linked to **institutional embeddedness and local ties**. The location of postsecondary completion is far more strongly associated with retention than credential level alone.
 
@@ -1363,10 +1363,10 @@ Before geography even enters the picture, the most substantial differences appea
 
 Students who are:
 
--   Economically disadvantaged have about **59% lower odds of completing college**.
--   In Special Education have about **62% lower odds**.
--   American Indian students have about **51% lower odds**.
--   Black students have about **46% lower odds**.
+- Economically disadvantaged have about **59% lower odds of completing college**.
+- In Special Education have about **62% lower odds**.
+- American Indian students have about **51% lower odds**.
+- Black students have about **46% lower odds**.
 
 This indicates that many potential regional workers are lost earlier in the pipeline.
 
@@ -1380,8 +1380,8 @@ Retention is associated with geography, but supply begins with completion.
 
 Career and Technical Education (CTE) participation shows stable positive associations:
 
--   CTE concentrators/completers have about **29–38% higher odds** of sustained regional employment.
--   Among students who complete college, CTE concentrators are about **43% more likely** to graduate from a regional institution.
+- CTE concentrators/completers have about **29–38% higher odds** of sustained regional employment.
+- Among students who complete college, CTE concentrators are about **43% more likely** to graduate from a regional institution.
 
 CTE is not strongly associated with overall college completion, but it is associated with both regional graduation and regional employment. This suggests that CTE pathways are linked to local workforce alignment in ways that extend beyond postsecondary attainment alone.
 
@@ -1393,13 +1393,13 @@ Expanding high-quality CTE programs aligned with regional industry needs may the
 
 Higher academic performance increases college completion:
 
--   Higher MCA Math scores are associated with about **29% higher odds of completion per unit increase**.
--   PSEO participation is associated with about **44% higher odds of completion**.
+- Higher MCA Math scores are associated with about **29% higher odds of completion per unit increase**.
+- PSEO participation is associated with about **44% higher odds of completion**.
 
 However, among students who complete college:
 
--   Higher MCA scores are associated with about **21% lower odds of graduating in-region**.
--   PSEO participants are about **11% less likely** to graduate in-region.
+- Higher MCA scores are associated with about **21% lower odds of graduating in-region**.
+- PSEO participants are about **11% less likely** to graduate in-region.
 
 These patterns suggest that academically strong students are more geographically mobile. Academic readiness increases progression into postsecondary education, but it is not strongly associated with regional retention.
 
@@ -1411,10 +1411,10 @@ For workforce developers, this may mean that retaining high-achieving students r
 
 Even after accounting for preparation, completion, and graduation location:
 
--   Black students have about **43–48% lower odds** of sustained regional employment.
--   Asian/PI students have about **32–38% lower odds**.
--   Economically disadvantaged students have about **9–12% lower odds**.
--   Students in Special Education have about **17–22% lower odds**.
+- Black students have about **43–48% lower odds** of sustained regional employment.
+- Asian/PI students have about **32–38% lower odds**.
+- Economically disadvantaged students have about **9–12% lower odds**.
+- Students in Special Education have about **17–22% lower odds**.
 
 Educational pathways explain part of the variation in workforce retention, but not all of it. Structural disparities remain associated with employment outcomes even after controlling for key educational factors.
 

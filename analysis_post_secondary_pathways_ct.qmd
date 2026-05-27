@@ -142,53 +142,19 @@ kable(head(master.original))
 
 The cross-tab and ANOVA analysis exploring relationships between demographic, high school, and post-secondary variables with employment outcomes highlighted the importance of post-secondary variables in an individuals journey to meaningful employment inside and outside the region. Due to this, it makes sense to explore if some of the other variables play a role in post-secondary outcomes - whether an individual attends, graduates, the type of institution they attend and the location.
 
-We will explore this here. We will explore this in three sections;
+We will explore this here. We will explore the following post-secondary variables;
 
-[**Tier 1: Core Postsecondary Access and Attainment**]{.underline}
-
-These outcomes are most foundational and closely tied to employment.
-
-1\. `attended.ps.within.first.year.hsgrad`
-
-**Question:** Who transitions directly to postsecondary? **Why it matters:** Strongly linked to long-term success and minimizes "disconnection."
-
-2\. `attended.ps` (ever attended postsecondary)
-
-**Question:** Who attends postsecondary at all? **Why it matters:** Broader view than immediate enrollment.
-
-3\. `ps.grad` (graduated from postsecondary)
-
-**Question:** Who completes a credential? **Why it matters:** Credential completion is often the real driver of employment outcomes.
-
-[**🔹 Tier 2: Type of Postsecondary Experience**]{.underline}
-
-This outcome differentiate the **nature** of the experience, which may shape career pathways and economic outcomes.
-
-4\. `highest.cred.level`
-
-**Question:** Who earns certificates, associate degrees, bachelor’s degrees? **Why it matters:** Different credentials yield different labor market returns.
-
-[**Tier 3: Location of Postsecondary Experience**]{.underline}
-
-These outcomes reveal **mobility**, local engagement, or place-based equity patterns.
-
-5\. `ps.grad.location`
-
-**Question:** Who stays in the region for school? **Why it matters:** Tied to affordability and regional workforce planning.
+1.  `attended.ps` (ever attended postsecondary)
+2.  `ps.grad` (graduated from postsecondary)
+3.  `highest.cred.level`
+4.  `ps.grad.location`
 
 Each dependent variable has the following categories;
 
 ```{r dependent variable categories}
 data <- master.original %>%
-  select(attended.ps.within.first.year.hsgrad, attended.ps, ps.grad, ps.grad.InstitutionSector, highest.cred.level, ps.grad.location) %>%
-  mutate(across(c("attended.ps.within.first.year.hsgrad":"ps.grad.location"), factor))
-```
-
-**attended.ps.within.first.yer.hsgrad**
-
-```{r echo = FALSE}
-levels(data$attended.ps.within.first.year.hsgrad)
-
+  select(attended.ps, ps.grad, highest.cred.level, ps.grad.location) %>%
+  mutate(across(c("attended.ps":"ps.grad.location"), factor))
 ```
 
 **attended.ps**
@@ -221,523 +187,68 @@ levels(data$ps.grad.location)
 
 For all of these, we will use the predictors that were in Tier 1 and Tier 2 of the previous cross-tab analysis.
 
--   Demographics
-    -   `economic.status`
-    -   `RaceEthnicity`
-    -   `SpecialEdStatus`
--   High school characteristics
-    -   `Dem_Desc`
-    -   `avg.unemp.rate`
-    -   `avg.wage.pct.state`
--   High school accomplishments
-    -   `ACTCompositeScore`
-    -   `pseo.participant`
-    -   `cte.achievement`
-    -   `total.cte.courses.taken`
-    -   `MCA.M`
-    -   `MCA.R`
-    -   `MCA.S`
+- Demographics
+  - `Gender`
+  - `economic.status`
+  - `RaceEthnicity`
+  - `SpecialEdStatus`
+- High school characteristics
+  - `Dem_Desc`
+  - `avg.unemp.rate`
+  - `avg.wage.pct.state`
+- High school accomplishments
+  - `ACTCompositeScore`
+  - `pseo.participant`
+  - `cte.achievement`
+  - `total.cte.courses.taken`
+  - `MCA.M`
+  - `MCA.R`
+  - `MCA.S`
 
 <br>
 
-# [**Tier 1: Core Postsecondary Access and Attainment**]{.underline}
+# `attended.ps`
 
-Tier 1 examined how demographic background, high school context, and high school accomplishments predict three key milestones: (1) **immediate enrollment** (“attended.ps.within.first.year.hsgrad”), (2) **ever attending postsecondary** (“attended.ps”), and (3) **completing a credential** (“ps.grad”).
+## Summary
 
-------------------------------------------------------------------------
+Across all three variable groups — demographic characteristics, high school characteristics, and high school accomplishments — the factors most strongly associated with post-secondary attendance are individual-level characteristics, not school- or community-level ones.
 
-## **Key Findings**
+Among demographic predictors, special education status and economic disadvantage stand out as the strongest barriers to post-secondary attendance, with gaps of 35 and 22 percentage points respectively. Gender and race/ethnicity are meaningful but secondary, and the race/ethnicity association is likely partially explained by overlap with economic disadvantage — particularly for American Indian students in the region.
 
-1.  **Demographics are the strongest and most consistent predictors across all three outcomes.**
-    -   **Economic Status**: Economically disadvantaged students lagged behind at every stage—less likely to enroll immediately, less likely to attend at all, and much less likely to graduate.
-    -   **Race/Ethnicity**: White and Asian/PI students consistently had higher enrollment and graduation rates, while American Indian, Black, and Hispanic students faced persistent barriers at all stages, with the largest disparities at completion.
-    -   **Special Education Status**: Students with special education status showed markedly lower rates of enrollment, attendance, and especially graduation.
-2.  **High School Characteristics showed weak associations.**
-    -   **School Locale**: Rural, mixed, and urban settings had minimal differences in postsecondary pathways.
-    -   **Community Economic Conditions**: Students from lower-unemployment, higher-wage areas were modestly more likely to enroll, attend, and graduate, but these effects were smaller than individual-level demographics or accomplishments.
-3.  **High School Accomplishments were powerful predictors, especially for enrollment and graduation.**
-    -   **Academic Achievement**: ACT and MCA scores (particularly Reading and Science) were strongly linked to both immediate enrollment and graduation, showing that academic readiness is a key driver of persistence and attainment.
-    -   **PSEO Participation**: The single strongest programmatic predictor across all outcomes. PSEO students were much more likely to enroll immediately, attend at all, and eventually graduate.
-    -   **CTE Involvement**: Higher CTE course-taking and concentrator/completor status were associated with lower likelihood of both enrollment and graduation, suggesting that intensive CTE pathways align more with direct workforce entry than with postsecondary progression.
+High school characteristics contribute very little. District type has a negligible association with attendance, and while local unemployment and wage levels show statistically significant differences, the effect sizes are too small to be practically meaningful. Where a student goes to school matters far less than who that student is and what they do while they are there.
 
-------------------------------------------------------------------------
+High school accomplishments tell the most differentiated story. PSEO participation is the single strongest predictor across all variables examined, followed closely by academic performance as measured by ACT scores and MCA proficiency in math, reading, and science. CTE engagement runs in the opposite direction — students with deeper CTE involvement are somewhat less likely to attend post-secondary — pointing to a distinct workforce-first orientation among that group that post-secondary attendance alone does not capture.
 
-## **Overall Conclusion**:
-
-Tier 1 analysis reveals that **postsecondary access and attainment are shaped by both structural inequities and academic preparation**. Demographic barriers—economic disadvantage, special education status, and race/ethnicity—consistently depress outcomes at every stage. Academic readiness (ACT and MCA scores) and program participation (especially PSEO) are the most powerful positive predictors of successful transitions and completion. In contrast, CTE intensity is inversely associated with postsecondary outcomes, reflecting its alignment with alternative workforce pathways.
-
-Together, these findings suggest that strategies to improve postsecondary success must focus on **closing equity gaps, bolstering academic readiness, and expanding access to PSEO and similar dual-enrollment programs**, while also balancing the role of CTE in supporting both workforce entry and potential academic progression.
+Taken together, these findings suggest that post-secondary attendance is shaped primarily by preparation and opportunity factors established well before graduation. Students who arrive at their senior year academically prepared, economically stable, and without a special education designation attend post-secondary at substantially higher rates. For students without those advantages, the gap in attendance is large and consistent across multiple measures.
 
 <br>
 
-## `attended.ps.within.first.year.hsgrad`
+## Demographics
 
-### Summary
+All four demographic variables show a statistically significant relationship with post-secondary attendance, though effect sizes vary meaningfully across the group.
 
-**Key Findings by Variable Group**
+**Special education status** shows the strongest association (φ = 0.273). Students without a special education designation attended post-secondary at a rate of 73%, compared to 38% for students with a special education designation — a gap of 35 percentage points. The interpretation of this finding warrants some care, as post-secondary attendance may carry different meaning for special education students depending on individual transition plans and IEP goals.
 
-**Demographics**
+**Economic status** is the second strongest predictor (φ = 0.228). Students not identified as economically disadvantaged attended post-secondary at 76%, compared to 54% for those who were — a 22-percentage-point gap. This association is likely intertwined with other demographic factors, particularly race/ethnicity, given the regional concentration of economically disadvantaged students among certain groups.
 
--   **Economic Status**: Cramer’s V = 0.246. Non-disadvantaged students had much higher immediate enrollment (72.1%) than disadvantaged students (47.6%). Economic disadvantage is a major barrier to direct enrollment.\
--   **Race/Ethnicity**: Cramer’s V = 0.096. White (67%) and Asian/PI (58.7%) students enrolled at higher rates, while American Indian (45.8%), Black (51.4%), and Hispanic (51.6%) students enrolled at lower rates.\
--   **Special Education Status**: Cramer’s V = 0.278. Students without special education status were far more likely to enroll immediately (68.6%) than those with special education status (32.6%).
+**Race and ethnicity** shows a statistically significant but more modest association (V = 0.164). White students had the highest post-secondary attendance rate at 72%, while American Indian students had the lowest at 52%. Other racial and ethnic groups clustered between 57% and 66%. A large "Unknown" category (n = 8,298) attended at 56%, and the non-random nature of that classification warrants caution in interpretation.
 
-**High School Characteristics**
+**Gender** shows the smallest effect in this group (φ = 0.121). Female graduates attended post-secondary at a rate of 74%, compared to 62% for male graduates — an 11-percentage-point gap that, while statistically significant, is modest relative to the other demographic predictors.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.022. Very weak differences across rural, mixed, and urban contexts (all \~62%).\
--   **Average Unemployment Rate**: F(2, 49813) = 302.20, p \< .001. Students from higher-unemployment areas were less likely to enroll immediately.\
--   **Average Wages (as % of State Average)**: F(2, 49813) = 33.08, p \< .001. Students from higher-wage areas were slightly more likely to attend postsecondary (immediately or later).
-
-**High School Accomplishments**
-
--   **ACT Composite Score**: F(2, 28493) = 396.75, p \< .001. Higher ACT scores strongly predicted immediate enrollment, with immediate enrollees scoring about 2 points higher than non-attendees.\
--   **PSEO Participation**: Cramer’s V = 0.295. PSEO participants enrolled immediately at very high rates (76.8%) compared to non-participants (48.2%).\
--   **CTE Achievement**: Cramer’s V = 0.052. CTE concentrators/completors were less likely to enroll immediately (57.9%) than participants (64.9%) or non-CTE students (65.7%).\
--   **Total CTE Courses Taken**: F(2, 49813) = 301.90, p \< .001. More CTE courses were associated with lower immediate enrollment.\
--   **MCA Math**: F(2, 47621) = 885.58, p \< .001. Immediate enrollees scored much higher (0.50 points above delayed enrollees).\
--   **MCA Reading**: F(2, 47319) = 1475.87, p \< .001. Immediate enrollees scored substantially higher (0.46 points above non-attendees).\
--   **MCA Science**: F(2, 40378) = 1025.37, p \< .001. Immediate enrollees scored much higher (0.41 points above non-attendees); no difference between delayed and non-attendees.
-
-------------------------------------------------------------------------
-
-### **Relative Importance of Predictors (Ranked by Effect Size/Strength of Association):**
-
-1.  **Special Education Status (Cramer’s V = 0.278)** – strong demographic predictor.
-2.  **PSEO Participation (Cramer’s V = 0.295)** – strongest programmatic predictor.
-3.  **Economic Status (Cramer’s V = 0.246)** – major structural barrier.
-4.  **MCA Reading (F = 1475.87)** – strongest academic achievement predictor.
-5.  **MCA Science (F = 1025.37)** – strong academic predictor.
-6.  **MCA Math (F = 885.58)** – strong academic predictor.
-7.  **ACT Composite Score (F = 396.75)** – important test-based predictor.
-8.  **Average Unemployment Rate (F = 302.20)** – moderate community context effect.
-9.  **Total CTE Courses Taken (F = 301.90)** – more courses linked to weaker transition.
-10. **Race/Ethnicity (Cramer’s V = 0.096)** – modest but meaningful disparities.
-11. **Average Wages (F = 33.08)** – small community effect.
-12. **CTE Achievement (Cramer’s V = 0.052)** – weak association.
-13. **School Locale (Cramer’s V = 0.022)** – negligible differences.
-
-------------------------------------------------------------------------
-
-**Conclusion**:\
-Immediate postsecondary enrollment is shaped most strongly by **student characteristics (economic status, special education status, race/ethnicity)**, **program participation (PSEO)**, and **academic achievement (MCA and ACT scores)**. Community economic conditions (unemployment and wages) also matter but to a lesser extent, while school locale and CTE achievement have minimal influence. This suggests that interventions targeting equity gaps, strengthening academic preparation, and expanding access to PSEO could have the greatest impact on improving direct transitions to postsecondary education.
-
-### Demographics
-
-**Key Findings**:
-
--   **Economic Status**: Cramer’s V = 0.246, p \< .001. Non-disadvantaged students enrolled immediately at much higher rates (72.1%) than economically disadvantaged students (47.6%). Economically disadvantaged students were more likely to never attend (46.1% vs. 24.0%).
--   **Race/Ethnicity**: Cramer’s V = 0.096, p \< .001. White (67%) and Asian/PI (58.7%) students had the highest immediate enrollment. American Indian students had the lowest (45.8%), while Black (51.4%) and Hispanic (51.6%) students also enrolled at below-average rates.
--   **Special Education Status**: Cramer’s V = 0.278, p \< .001. Students without special education status were much more likely to enroll immediately (68.6%) than those with special education status (32.6%). Special education students were more likely to never attend (62.2% vs. 26.7%).
-
-**Conclusion**:\
-Demographic factors play a significant role in shaping immediate postsecondary enrollment. Economic disadvantage and special education status are linked to substantially lower rates of transition, with both groups far more likely to never enroll. Race and ethnicity also matter, with White and Asian/PI students showing stronger transitions and American Indian, Black, and Hispanic students facing greater barriers. Overall, these patterns highlight persistent equity gaps in postsecondary access immediately after high school.
+Taken together, special education status and economic status are the dominant demographic predictors of post-secondary attendance in this cohort. Gender and race/ethnicity are meaningful but secondary. The race/ethnicity association in particular should be interpreted alongside economic status, as overlap between these characteristics may account for a portion of the observed gap.
 
 ::: panel-tabset
-#### Economic Status → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-Chi-square = 3003.42, Cramer’s V = 0.246, p \< .001. Immediate enrollment (“Yes”) was much higher among students not economically disadvantaged (72.1%) than among economically disadvantaged students (47.6%). Economically disadvantaged students were more likely to never attend postsecondary (“Did not attend ps”: 46.1% vs. 24.0%) and somewhat more likely to delay enrollment beyond the first year (“No”: 6.3% vs. 3.9%).
-
-**Conclusion**:\
-Economic disadvantage is moderately and significantly associated with lower immediate postsecondary enrollment and higher non-enrollment. Students not economically disadvantaged transition directly to college at much higher rates, while economically disadvantaged students are more likely to delay or never attend.
+### `Gender`
 
 ```{r}
-
-tab_xtab(var.row = master.original$attended.ps.within.first.year.hsgrad,
-         var.col = master.original$economic.status,
+tab_xtab(var.row = master.original$attended.ps,
+         var.col = master.original$Gender,
          show.exp = TRUE,
          show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/Demographics/economic-status.html")
+         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/Demographics/Gender.html")
 ```
 
-#### Race/Ethnicity → Attended Postsecondary Within First Year of High School Graduation (Unknown Removed)
-
-**Key Findings**:\
-Chi-square = 759.71, Cramer’s V = 0.096, p \< .001. Immediate postsecondary enrollment (“Yes”) was highest among White students (67%), followed by Asian/PI (58.7%), Hispanic (51.6%), and Black students (51.4%). American Indian students had the lowest immediate enrollment rate (45.8%). Non-enrollment (“Did not attend ps”) was most common among American Indian students (48.2%) and least common among White students (27.6%).
-
-**Conclusion**:\
-Race and ethnicity remain significantly associated with immediate postsecondary enrollment, though the effect size is modest. White and Asian/PI students transition more directly to postsecondary, while American Indian students face the greatest barriers, with Black and Hispanic students also enrolling at lower-than-average rates.
-
-```{r}
-data <- master.original %>%
-  filter(RaceEthnicity != "Unknown")
-
-tab_xtab(var.row = data$attended.ps.within.first.year.hsgrad,
-         var.col = data$RaceEthnicity,
-         show.exp = TRUE,
-         show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/Demographics/RaceEthnicity.html")
-```
-
-#### Special Education Status → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-Chi-square = 3844.40, Cramer’s V = 0.278, p \< .001. Students without special education status had a much higher immediate postsecondary enrollment rate (68.6%) compared to students with special education status (32.6%). Students in special education were far more likely to never attend postsecondary (62.2% vs. 26.7%). Rates of delayed enrollment (“No”) were similar between groups (about 5%).
-
-**Conclusion**:\
-Special education status is strongly associated with immediate postsecondary enrollment. Students with special education status are substantially less likely to transition directly into postsecondary and much more likely to never enroll at all.
-
-```{r}
-tab_xtab(var.row = master.original$attended.ps.within.first.year.hsgrad,
-         var.col = master.original$SpecialEdStatus,
-         show.exp = TRUE,
-         show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/Demographics/SpecialEdStatus.html")
-```
-:::
-
-<br>
-
-### High School Characteristics
-
-**Key Findings**:
-
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.022, p \< .001. Enrollment patterns were nearly identical across locales: rural (61.8%), town/rural mix (61.3%), and urban/town/rural mix (63.8%). The association is statistically significant but negligible in size.
--   **Average Unemployment Rate**: F(2, 49813) = 302.20, p \< .001. Students from higher-unemployment areas were less likely to enroll immediately, while immediate enrollees came from communities with relatively lower unemployment.
--   **Average Wages (as % of State Average)**: F(2, 49813) = 33.08, p \< .001. Students from higher-wage areas were somewhat more likely to attend postsecondary (either immediately or after a delay). Differences between immediate and delayed enrollment were not significant.
-
-**Conclusion**:\
-High school characteristics show weaker associations with immediate postsecondary enrollment than demographics. School locale has almost no impact, while local economic context matters somewhat—students in areas with higher unemployment and lower wages are less likely to transition into postsecondary. These results suggest that while community economic conditions shape opportunity, school setting itself does not strongly influence immediate enrollment.
-
-<br>
-
-::: panel-tabset
-#### School Locale (Dem_Desc) → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-Chi-square = 49.99, Cramer’s V = 0.022, p \< .001. Immediate enrollment (“Yes”) rates were similar across locales: entirely rural (61.8%), town/rural mix (61.3%), and urban/town/rural mix (63.8%). Non-enrollment (“Did not attend ps”) was slightly higher in town/rural mix schools (34.5%) compared to urban/town/rural mix (31.3%) and entirely rural (32.8%).
-
-**Conclusion**:\
-School locale shows a statistically significant but very weak association with immediate postsecondary enrollment. Differences across rural, mixed, and urban/town/rural contexts are small, suggesting that school setting itself is not a major driver of postsecondary transition.
-
-```{r}
-tab_xtab(var.row = master.original$attended.ps.within.first.year.hsgrad,
-         var.col = master.original$Dem_Desc,
-         show.exp = TRUE,
-         show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school characteristics/Dem_Desc.html")
-```
-
-#### Average Unemployment Rate → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 49813) = 302.20, p \< .001.\
-Mean unemployment rates differed significantly across groups:
-
--   Did not attend postsecondary: highest average unemployment rate.
--   Delayed enrollment (“No”): about 0.68 percentage points lower.
--   Immediate enrollment (“Yes”): about 0.26 percentage points lower than those who never attended, and 0.41 points lower than those who delayed enrollment.
-
-**Conclusion**:\
-Students from areas with higher average unemployment rates are less likely to enroll in postsecondary immediately after high school. Immediate enrollees tend to come from communities with relatively lower unemployment, suggesting local labor market conditions may influence the timing of postsecondary transition.
-
-```{r}
-summary <- aov(avg.unemp.rate ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school characteristics/avg-unemp-rate.xlsx", overwrite = TRUE)
-
-
-```
-
-#### Average Wages (as % of Minnesota State Average) → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 49813) = 33.08, p \< .001.
-
--   Students who never attended postsecondary were from areas with slightly lower average wages.
--   Immediate enrollees (“Yes”) came from areas with wages about 0.39 percentage points higher than those who never attended.
--   Delayed enrollees (“No”) also came from areas with slightly higher wages than non-attendees (0.45 points higher).
--   No significant difference was found between immediate and delayed enrollees.
-
-**Conclusion**:\
-Average local wages are modestly associated with postsecondary enrollment patterns. Students from communities with somewhat higher wages are more likely to pursue postsecondary education—whether immediately or after a delay—while students from lower-wage areas are more likely to never attend.
-
-```{r}
-summary <- aov(avg.wages.pct.state ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school characteristics/avg-wage-pct-state.xlsx", overwrite = TRUE)
-```
-:::
-
-<br>
-
-### High School Accomplishments
-
-::: panel-tabset
-#### ACT Composite Score → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 28493) = 396.75, p \< .001.
-
--   Students who never attended postsecondary had the lowest ACT Composite Scores.
--   Delayed enrollees scored about 0.9 points higher on average than non-attendees.
--   Immediate enrollees scored about 2.0 points higher than non-attendees, and about 1.1 points higher than delayed enrollees.
-
-**Conclusion**:\
-ACT performance is strongly associated with immediate postsecondary enrollment. Higher ACT scores are linked to a greater likelihood of transitioning directly to postsecondary, while lower scores are tied to delaying or never attending.
-
-```{r}
-summary <- aov(ACTCompositeScore ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/ACTCompositeScore.xlsx", overwrite = TRUE)
-
-```
-
-#### PSEO Participation → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-Chi-square = 3454.84, Cramer’s V = 0.295, p \< .001. Immediate enrollment (“Yes”) was much higher among PSEO participants (76.8%) compared to non-participants (48.2%). Non-participants were more likely to never attend postsecondary (46.7% vs. 20.2%). Delayed enrollment was low for both groups, but slightly higher among non-participants (5.1% vs. 3.0%).
-
-**Conclusion**:\
-PSEO participation is strongly associated with immediate postsecondary enrollment. Students who participated in PSEO were far more likely to transition directly to postsecondary and much less likely to never attend, highlighting the program’s role in supporting successful transitions.
-
-```{r}
-tab_xtab(var.row = master.original$attended.ps.within.first.year.hsgrad,
-         var.col = master.original$pseo.participant,
-         show.exp = TRUE,
-         show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/pseo-parcipant.html")
-```
-
-#### CTE Achievement → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-Chi-square = 268.13, Cramer’s V = 0.052, p \< .001. Immediate enrollment (“Yes”) was highest among students with no CTE involvement (65.7%) and CTE participants (64.9%), while concentrators/completors had lower immediate enrollment (57.9%). Conversely, concentrators/completors were more likely to never attend postsecondary (37.1%) compared to participants (30.4%) or students with no CTE (29.6%).
-
-**Conclusion**:\
-CTE achievement shows a small but significant association with immediate postsecondary enrollment. Students deeply involved in CTE (concentrators/completors) are less likely to transition directly to postsecondary and more likely to never attend, while students with lighter or no CTE engagement transition at higher rates.
-
-```{r}
-tab_xtab(var.row = master.original$attended.ps.within.first.year.hsgrad,
-         var.col = master.original$cte.achievement,
-         show.exp = TRUE,
-         show.col.prc = TRUE,
-         file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/cte-achievement.html")
-```
-
-#### Total CTE Courses Taken → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 49813) = 301.90, p \< .001.
-
--   Students who never attended postsecondary had taken the most CTE courses on average.
--   Delayed enrollees took about 0.25 fewer CTE courses than non-attendees.
--   Immediate enrollees took the fewest, averaging about 0.56 fewer courses than non-attendees and 0.31 fewer than delayed enrollees.
-
-**Conclusion**:\
-Greater CTE course-taking is associated with a lower likelihood of immediate postsecondary enrollment. Students who transition directly into postsecondary tend to have completed fewer CTE courses, while heavier CTE course loads are linked to delaying or forgoing postsecondary education.
-
-```{r}
-summary <- aov(total.cte.courses.taken ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/total-cte-courses-taken.xlsx", overwrite = TRUE)
-```
-
-#### MCA Math Scores → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 47621) = 885.58, p \< .001.
-
--   Students who never attended postsecondary had the lowest MCA Math scores.
--   Delayed enrollees scored slightly higher (0.12 points above non-attendees).
--   Immediate enrollees scored much higher—0.38 points above non-attendees and 0.50 points above delayed enrollees.
-
-**Conclusion**:\
-Math achievement is strongly associated with immediate postsecondary enrollment. Higher MCA Math scores are linked to a greater likelihood of enrolling right after high school, while lower scores are associated with delaying or never attending.
-
-```{r}
-summary <- aov(MCA.M ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/MCA-M.xlsx", overwrite = TRUE)
-```
-
-#### MCA Reading Scores → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 47319) = 1475.87, p \< .001.
-
--   Students who never attended postsecondary had the lowest MCA Reading scores.
--   Delayed enrollees scored about 0.15 points higher than non-attendees.
--   Immediate enrollees scored substantially higher—0.46 points above non-attendees and 0.31 points above delayed enrollees.
-
-**Conclusion**:\
-Reading achievement is strongly associated with immediate postsecondary enrollment. Higher MCA Reading scores are linked to a greater likelihood of transitioning directly into postsecondary, while lower scores are tied to delaying or never attending.
-
-```{r}
-  summary <- aov(MCA.R ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/MCA-R.xlsx", overwrite = TRUE)
-
-```
-
-#### MCA Science Scores → Attended Postsecondary Within First Year of High School Graduation
-
-**Key Findings**:\
-ANOVA: F(2, 40378) = 1025.37, p \< .001.
-
--   Students who never attended postsecondary had the lowest MCA Science scores.
--   Delayed enrollees scored about the same as non-attendees (no significant difference).
--   Immediate enrollees scored much higher—0.41 points above non-attendees and 0.38 points above delayed enrollees.
-
-**Conclusion**:\
-Science achievement is strongly associated with immediate postsecondary enrollment. Higher MCA Science scores are linked to a greater likelihood of enrolling right after high school, while low scores are tied to non-enrollment or delay.
-
-```{r}
-summary <- aov(MCA.S ~ attended.ps.within.first.year.hsgrad, data = master.original)
-
-summary
-
-anova_df <- broom::tidy(summary)
-
-TukeyHSD(summary)
-
-tukey_df <- broom::tidy(TukeyHSD(summary))
-
-wb <- createWorkbook()
-addWorksheet(wb, "ANOVA")
-addWorksheet(wb, "TukeyHSD")
-writeData(wb, "ANOVA", anova_df)
-writeData(wb, "TukeyHSD", tukey_df)
-saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps-within-first-year-hsgrad/High school accomplishments/MCA-S.xlsx", overwrite = TRUE)
-```
-:::
-
-<br>
-
-## `Attended.ps`
-
-### Summary
-
-**Key Findings Across Variable Groups**
-
-Demographics
-
--   **Economic Status**: φ = 0.228, p \< .001. Non-disadvantaged students were far more likely to attend (76%) than disadvantaged students (53.9%).
--   **Race/Ethnicity**: Cramer’s V = 0.164, p \< .001. White (72.4%) and Asian/PI (65.7%) students had the highest attendance, while American Indian students (51.8%) had the lowest, with Black (57.7%) and Hispanic (58.7%) also below average.
--   **Special Education Status**: φ = 0.273, p \< .001. Attendance was much higher for students without special education status (73.3%) compared to those with it (37.8%).
-
-High School Characteristics
-
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.029, p \< .001. Differences across rural, town/rural mix, and urban/town/rural mix were minimal (65–69%).
--   **Average Unemployment Rate**: F(1, 49814) = 428.40, p \< .001. Students from lower-unemployment areas were more likely to attend.
--   **Average Wages (% of State Average)**: F(1, 49814) = 65.84, p \< .001. Attendees came from areas with slightly higher average wages.
-
-High School Accomplishments
-
--   **ACT Composite Score**: F(1, 28494) = 739.92, p \< .001. Attendees scored about 2 points higher than non-attendees.
--   **PSEO Participation**: φ = 0.279, p \< .001. Participation strongly boosted attendance (79.8% vs. 53.3%).
--   **CTE Achievement**: Cramer’s V = 0.071, p \< .001. Concentrators/completors had lower attendance (62.9%) than participants (69.6%) and students with no CTE (70.4%).
--   **Total CTE Courses Taken**: F(1, 49814) = 565.70, p \< .001. Non-attendees had taken more CTE courses.
--   **MCA Math**: F(1, 47622) = 1220.58, p \< .001. Attendees scored 0.35 points higher.
--   **MCA Reading**: F(1, 47320) = 2654.13, p \< .001. Attendees scored 0.44 points higher, the strongest MCA predictor.
--   **MCA Science**: F(1, 40379) = 1721.96, p \< .001. Attendees scored 0.39 points higher.
-
-------------------------------------------------------------------------
-
-**Overall Conclusion**:\
-Postsecondary attendance is most strongly influenced by **demographic barriers** (economic disadvantage, special education status, and race/ethnicity), **program participation (PSEO)**, and **academic achievement (ACT and MCA scores, especially Reading)**. Community economic conditions (unemployment and wages) also play a role, though weaker, while **CTE involvement** shows an inverse relationship—students taking more CTE courses or reaching concentrator/completor status were less likely to attend.
-
-Taken together, the results suggest that promoting equitable access to rigorous academics, reducing economic and special education barriers, and expanding opportunities like **PSEO** may be the most effective levers for improving overall postsecondary participation.
-
-<br>
-
-### Demographics
-
-**Key Findings**:
-
--   **Economic Status**: φ = 0.228, p \< .001. Postsecondary attendance was higher for non-disadvantaged students (76%) than for economically disadvantaged students (53.9%). Disadvantaged students were almost twice as likely to never attend (46.1% vs. 24%).
--   **Race/Ethnicity**: Cramer’s V = 0.164, p \< .001. Attendance was highest for White (72.4%) and Asian/PI (65.7%) students. Attendance was lower among Hispanic (58.7%) and Black (57.7%) students, and lowest among American Indian students (51.8%). Students classified as “Unknown” also showed below-average rates (55.8%).
--   **Special Education Status**: φ = 0.273, p \< .001. Students without special education status were far more likely to attend postsecondary (73.3%) compared to students with special education status (37.8%). Special education students were more than twice as likely to never attend (62.2% vs. 26.7%).
-
-**Conclusion**:\
-Demographic factors are strongly associated with whether students ever attend postsecondary. Economic disadvantage and special education status present the largest barriers, while racial disparities are also significant, with American Indian, Black, and Hispanic students less likely to attend. These findings highlight that systemic inequities in access persist even when considering postsecondary attendance at any point after high school.
-
-::: panel-tabset
-#### Economic Status → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 2593.35, φ = 0.228, p \< .001. Postsecondary attendance was much higher among students not identified as economically disadvantaged (76%) compared to economically disadvantaged students (53.9%). Conversely, economically disadvantaged students were far more likely to never attend postsecondary (46.1% vs. 24%).
-
-**Conclusion**:\
-Economic status is strongly associated with whether a student ever attends postsecondary. Economically disadvantaged students are substantially less likely to attend, highlighting persistent inequities in long-term access to higher education.
+### `economic.status`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -747,13 +258,7 @@ tab_xtab(var.row = master.original$attended.ps,
          file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/Demographics/economic-status.html")
 ```
 
-#### Race/Ethnicity → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 1345.33, Cramer’s V = 0.164, p \< .001. Postsecondary attendance was highest among White students (72.4%) and Asian/PI students (65.7%). Attendance was lower among Hispanic (58.7%) and Black students (57.7%), and lowest among American Indian students (51.8%). Students classified as “Unknown” were also below average (55.8%).
-
-**Conclusion**:\
-Race and ethnicity are significantly associated with whether students ever attend postsecondary. White and Asian/PI students are more likely to attend, while American Indian, Black, and Hispanic students are less likely to do so, highlighting persistent racial disparities in postsecondary access.
+### `RaceEthnicity`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -763,13 +268,7 @@ tab_xtab(var.row = master.original$attended.ps,
          file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/Demographics/RaceEthnicity.html")
 ```
 
-#### Special Education Status → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 3707.63, φ = 0.273, p \< .001. Postsecondary attendance was much higher among students without special education status (73.3%) compared to students with special education status (37.8%). Conversely, special education students were much more likely to never attend postsecondary (62.2% vs. 26.7%).
-
-**Conclusion**:\
-Special education status is strongly associated with postsecondary attendance. Students with special education status are far less likely to ever attend, highlighting a major access gap that persists even when considering lifetime enrollment.
+### `SpecialEdStatus`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -784,23 +283,18 @@ tab_xtab(var.row = master.original$attended.ps,
 
 ## High School Characteristics
 
-**Key Findings**:
+Among the three high school characteristic variables examined, district demographic designation shows a statistically significant but negligible association with post-secondary attendance, while the two school-level economic indicators show small but significant differences across attendance groups.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.029, p \< .001. Postsecondary attendance rates were nearly identical across locales: entirely rural (67.2%), town/rural mix (65.5%), and urban/town/rural mix (68.7%). Differences are negligible.
--   **Average Unemployment Rate**: F(1, 49814) = 428.40, p \< .001. Students from lower-unemployment areas were significantly more likely to attend postsecondary, with attendees coming from communities averaging 0.29 percentage points lower unemployment.
--   **Average Wages (as % of State Average)**: F(1, 49814) = 65.84, p \< .001. Postsecondary attendees came from areas with wages about 0.40 percentage points higher than those who never attended.
+**District demographic designation** (Cramer's V = 0.029) is technically statistically significant but the effect size is essentially zero — the weakest association in this entire analysis. Post-secondary attendance rates are nearly identical across school types: 67% for entirely rural districts, 66% for town/rural mix districts, and 69% for urban/town/rural mix districts. For practical purposes, the type of district a student graduates from has no meaningful relationship with whether they attend post-secondary education.
 
-**Conclusion**:\
-High school contextual factors show mixed influence on postsecondary attendance. School locale itself has virtually no impact, but broader community economic conditions matter: students from lower-unemployment, higher-wage areas are more likely to attend postsecondary. This suggests that local labor market opportunities and economic vitality influence long-term educational access more than school setting.
+**Average local unemployment rate** shows a small but statistically significant difference across attendance groups (F = 428.4, p \< .001). Students who attended post-secondary came from school districts with an average unemployment rate approximately 0.29 percentage points lower than those who did not attend. While the difference is statistically significant given the large sample size, the magnitude is modest and should be interpreted with caution.
+
+**Average local wage as a percentage of the state average** also shows a small but statistically significant difference (F = 65.8, p \< .001). Students who attended post-secondary came from districts where average wages were about 0.4 percentage points higher relative to the state average compared to non-attendees. As with unemployment rate, the effect is real but small.
+
+Taken together, high school characteristics as measured here contribute very little to explaining post-secondary attendance. The near-zero effect for district type is particularly notable given that geography played a strong role in workforce outcomes in the prior analysis — suggesting that the type of community a student comes from matters more for what happens after post-secondary than for whether they attend in the first place.
 
 ::: panel-tabset
-#### School Locale (Dem_Desc) → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 42.93, Cramer’s V = 0.029, p \< .001. Postsecondary attendance rates were very similar across locales: entirely rural (67.2%), town/rural mix (65.5%), and urban/town/rural mix (68.7%).
-
-**Conclusion**:\
-School locale shows a statistically significant but negligible association with whether students ever attend postsecondary. Differences across rural, mixed, and urban/town/rural contexts are minimal, suggesting that school setting itself does not meaningfully influence overall postsecondary access.
+### `Dem_Desc`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -810,13 +304,7 @@ tab_xtab(var.row = master.original$attended.ps,
          file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school characteristics/Dem_Desc.html")
 ```
 
-#### Average Unemployment Rate → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 49814) = 428.40, p \< .001. Students who attended postsecondary came from areas with unemployment rates about 0.29 percentage points lower on average than those who never attended.
-
-**Conclusion**:\
-Community unemployment levels are significantly associated with postsecondary attendance. Students from higher-unemployment areas are less likely to ever attend postsecondary, suggesting that local labor market conditions play a role in shaping long-term educational access.
+### `avg.unemp.rate`
 
 ```{r}
 summary <- aov(avg.unemp.rate ~ attended.ps, data = master.original)
@@ -839,13 +327,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High schoo
 
 ```
 
-#### Average Wages (as % of Minnesota State Average) → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 49814) = 65.84, p \< .001. Students who attended postsecondary came from areas where average wages were about 0.40 percentage points higher than those who never attended.
-
-**Conclusion**:\
-Local wage levels show a modest but significant association with postsecondary attendance. Students from communities with higher relative wages are somewhat more likely to pursue postsecondary education, while those from lower-wage areas are less likely to attend.
+### `avg.wages.pct.state`
 
 ```{r}
 summary <- aov(avg.wages.pct.state ~ attended.ps, data = master.original)
@@ -871,27 +353,22 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High schoo
 
 ## High School Accomplishments
 
-**Key Findings**:
+High school accomplishment variables show the widest range of effect sizes in this analysis, with PSEO participation and academic performance measures standing out as the strongest predictors of post-secondary attendance.
 
--   **ACT Composite Score**: F(1, 28494) = 739.92, p \< .001. Postsecondary attendees scored nearly 2 points higher on average than non-attendees.
--   **PSEO Participation**: φ = 0.279, p \< .001. Attendance was much higher among PSEO participants (79.8%) compared to non-participants (53.3%).
--   **CTE Achievement**: Cramer’s V = 0.071, p \< .001. Attendance was lowest among concentrators/completors (62.9%) compared to participants (69.6%) and students with no CTE (70.4%).
--   **Total CTE Courses Taken**: F(1, 49814) = 565.70, p \< .001. Non-attendees had taken more CTE courses, with attendees averaging 0.54 fewer courses.
--   **MCA Math**: F(1, 47622) = 1220.58, p \< .001. Attendees scored about 0.35 points higher than non-attendees.
--   **MCA Reading**: F(1, 47320) = 2654.13, p \< .001. Attendees scored about 0.44 points higher than non-attendees, the strongest MCA predictor.
--   **MCA Science**: F(1, 40379) = 1721.96, p \< .001. Attendees scored about 0.39 points higher than non-attendees.
+**PSEO participation** is the strongest predictor in this group (φ = 0.279). Students who participated in PSEO during high school attended post-secondary at a rate of 80%, compared to 53% for non-participants — a 27-percentage-point gap. This is unsurprising given that PSEO students are already enrolled in college coursework while in high school, but the magnitude of the association confirms that PSEO participation is a robust early signal of post-secondary attendance.
 
-**Conclusion**:\
-High school accomplishments are strongly tied to postsecondary attendance. **PSEO participation** stands out as the most powerful programmatic predictor, while **academic achievement (ACT and MCA scores)** is consistently higher among attendees, especially reading scores. In contrast, heavier involvement in **CTE (more courses and concentrator/completor status)** is associated with lower attendance rates, suggesting a tradeoff between workforce-oriented preparation and pursuing postsecondary education.
+**ACT Composite Score** shows a large and statistically significant difference across attendance groups (F = 739.9, p \< .001). Students who attended post-secondary scored approximately 2.0 points higher on the ACT than those who did not. Given that ACT scores are only available for test-takers — a selected population — this association likely understates the true relationship between academic preparation and post-secondary attendance.
+
+The three **MCA proficiency scores** — math, reading, and science — all show statistically significant differences across attendance groups, with students who attended post-secondary scoring higher on each measure. The estimated differences are 0.35 proficiency levels for math, 0.44 for reading, and 0.39 for science (all p \< .001). These are consistent in direction and meaningful in magnitude, reinforcing the broader pattern that academic preparation in high school is closely linked to post-secondary attendance.
+
+**CTE achievement level** shows a statistically significant but weak association (Cramer's V = 0.071). Notably, the direction of the relationship is not straightforward — CTE concentrators and completers attended post-secondary at a lower rate (63%) than both CTE participants (70%) and students with no CTE involvement (70%). This likely reflects the vocational orientation of CTE concentrators, many of whom may be pursuing workforce entry directly rather than post-secondary education.
+
+**Total CTE courses taken** shows a small but statistically significant difference (F = 565.7, p \< .001). Students who did not attend post-secondary actually took more CTE courses on average — about 0.54 more courses than those who did attend. This is consistent with the CTE achievement finding and reinforces the interpretation that deeper CTE engagement is associated with a workforce-first pathway rather than post-secondary attendance.
+
+Taken together, academic preparation variables — PSEO participation, ACT scores, and MCA proficiency — are the dominant high school accomplishment predictors of post-secondary attendance. CTE engagement tells a different story: greater CTE involvement is modestly associated with lower post-secondary attendance, suggesting these students are on a distinct trajectory that the post-secondary attendance outcome may not fully capture.
 
 ::: panel-tabset
-#### ACT Composite Score → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 28494) = 739.92, p \< .001. Students who attended postsecondary had ACT Composite Scores nearly 2 points higher on average than those who never attended.
-
-**Conclusion**:\
-ACT performance is a strong predictor of postsecondary attendance. Higher ACT scores are strongly associated with a greater likelihood of attending postsecondary at some point after high school.
+### `ACTCompositeScore`
 
 ```{r}
 summary <- aov(ACTCompositeScore ~ attended.ps, data = master.original)
@@ -912,13 +389,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school accomplishments/ACTCompositeScore.xlsx", overwrite = TRUE)
 ```
 
-#### PSEO Participation → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 3096.86, φ = 0.279, p \< .001. Postsecondary attendance was much higher among PSEO participants (79.8%) compared to non-participants (53.3%). Non-participants were far more likely to never attend postsecondary (46.7% vs. 20.2%).
-
-**Conclusion**:\
-PSEO participation is strongly associated with postsecondary attendance. Students who participated in PSEO were far more likely to attend postsecondary at some point, highlighting the program’s effectiveness in expanding long-term access to higher education.
+### `pseo.participation`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -928,13 +399,7 @@ tab_xtab(var.row = master.original$attended.ps,
          file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school accomplishments/pseo-participant.html")
 ```
 
-#### CTE Achievement → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-Chi-square = 254.60, Cramer’s V = 0.071, p \< .001. Postsecondary attendance was lowest among CTE concentrators/completors (62.9%) and higher among CTE participants (69.6%) and students with no CTE involvement (70.4%). Non-attendance was most common among concentrators/completors (37.1%) compared to participants (30.4%) and non-CTE students (29.6%).
-
-**Conclusion**:\
-CTE achievement shows a small but significant association with postsecondary attendance. Students deeply involved in CTE (concentrators/completors) are less likely to attend postsecondary compared to peers who were only participants or had no CTE courses.
+### `cte.achievement`
 
 ```{r}
 tab_xtab(var.row = master.original$attended.ps,
@@ -944,13 +409,7 @@ tab_xtab(var.row = master.original$attended.ps,
          file = "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school accomplishments/cte-achievement.html")
 ```
 
-#### Total CTE Courses Taken → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 49814) = 565.70, p \< .001. Students who attended postsecondary had taken fewer CTE courses on average, with a mean about 0.54 courses lower than those who never attended.
-
-**Conclusion**:\
-Greater CTE course-taking is negatively associated with postsecondary attendance. Students who took more CTE courses were less likely to pursue postsecondary education, suggesting that heavier CTE engagement may steer students toward workforce pathways rather than higher education.
+### `total.cte.courses.taken`
 
 ```{r}
 summary <- aov(total.cte.courses.taken ~ attended.ps, data = master.original)
@@ -971,13 +430,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school accomplishments/total-cte-courses-taken.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Math Scores → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 47622) = 1220.58, p \< .001. Students who attended postsecondary had MCA Math scores about 0.35 points higher on average than those who never attended.
-
-**Conclusion**:\
-Math achievement is strongly associated with postsecondary attendance. Higher MCA Math scores are linked to a greater likelihood of pursuing postsecondary education.
+### `MCA.M`
 
 ```{r}
 summary <- aov(MCA.M ~ attended.ps, data = master.original)
@@ -998,13 +451,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High school accomplishments/MCA-M.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Reading Scores → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 47320) = 2654.13, p \< .001. Students who attended postsecondary had MCA Reading scores about 0.44 points higher on average than those who never attended.
-
-**Conclusion**:\
-Reading achievement is very strongly associated with postsecondary attendance. Students with higher MCA Reading scores are substantially more likely to attend postsecondary at some point.
+### `MCA.R`
 
 ```{r}
 summary <- aov(MCA.R ~ attended.ps, data = master.original)
@@ -1026,13 +473,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High schoo
 
 ```
 
-#### MCA Science Scores → Ever Attended Postsecondary (Attended.ps)
-
-**Key Findings**:\
-ANOVA: F(1, 40379) = 1721.96, p \< .001. Students who attended postsecondary had MCA Science scores about 0.39 points higher on average than those who never attended.
-
-**Conclusion**:\
-Science achievement is strongly associated with postsecondary attendance. Students with higher MCA Science scores are much more likely to attend postsecondary at some point compared to students with lower scores.
+### `MCA.S`
 
 ```{r}
 summary <- aov(MCA.S ~ attended.ps, data = master.original)
@@ -1056,62 +497,51 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/attended-ps/High schoo
 
 <br>
 
-## `ps.grad`
+# `ps.grad`
 
-### Summary
+## Summary
 
-**Key Findings Across Variable Groups**
+The predictors of post-secondary graduation closely parallel those for attendance, but with a notable pattern: effect sizes are consistently larger for graduation than for attendance across nearly every variable examined. The factors that shape whether students enroll also shape whether they complete — and in most cases, they shape completion even more strongly.
 
-Demographics
+Among demographic predictors, special education status and economic disadvantage remain the dominant barriers, with graduation gaps of 35 and 27 percentage points respectively. The gender gap widens slightly at graduation relative to attendance, suggesting that male students who do enroll face additional headwinds in completing a credential. Race and ethnicity disparities are particularly stark at the graduation stage — American Indian and Black students graduate at roughly 21% and 22% respectively, compared to 49% for White students. These are not small differences, and they persist even after accounting for the fact that all students in this analysis had already graduated high school.
 
--   **Economic Status**: φ = 0.270, p \< .001. Graduation was much higher among non-disadvantaged students (53.1%) compared to economically disadvantaged students (25.7%). Disadvantaged students were nearly three times as likely not to graduate.
--   **Race/Ethnicity**: Cramer’s V = 0.169, p \< .001 (Unknown removed). White (49.2%) and Asian/PI (44.7%) students had the highest graduation rates, while Hispanic (31.3%), Black (21.6%), and American Indian (20.8%) students had much lower rates.
--   **Special Education Status**: φ = 0.262, p \< .001. Students without special education status graduated at far higher rates (48.2%) than those with it (13.2%).
+High school characteristics again contribute very little. District type is essentially unrelated to graduation, and while local labor market conditions show statistically significant associations, the effect sizes are negligible. The community context in which a student attended high school does not meaningfully predict whether they complete post-secondary education.
 
-High School Characteristics
+High school accomplishments tell the clearest and most consistent story. PSEO participation shows the strongest association of any variable in this analysis (φ = 0.308), with a 30-percentage-point graduation gap between participants and non-participants. ACT scores and MCA proficiency measures — particularly reading — show meaningful differences that are somewhat larger at graduation than at attendance, pointing to the sustained role of academic preparation in degree completion. CTE engagement again runs counter to the post-secondary completion pattern, with deeper CTE involvement associated with lower graduation rates — a finding consistent with a workforce-first orientation established well before students leave high school.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.022, p \< .001. Graduation rates were very similar across rural (39.2%), town/rural mix (41.6%), and urban/town/rural mix (43.2%).
--   **Average Unemployment Rate**: F(1, 44033) = 572.00, p \< .001. Graduates came from areas with unemployment rates about 0.33 percentage points lower than non-graduates.
--   **Average Wages (% of State Average)**: F(1, 44033) = 43.37, p \< .001. Graduates came from areas with wages about 0.33 percentage points higher than non-graduates.
-
-High School Accomplishments
-
--   **ACT Composite Score**: F(1, 24476) = 1619.08, p \< .001. Graduates scored about 2.41 points higher than non-graduates.
--   **PSEO Participation**: φ = 0.308, p \< .001. Graduation was much more common among PSEO participants (57%) than non-participants (26.7%).
--   **CTE Achievement**: Cramer’s V = 0.103, p \< .001. Concentrators/completors had the lowest graduation rates (35.5%), while participants (42.7%) and non-CTE students (47.5%) graduated at higher rates.
--   **Total CTE Courses Taken**: F(1, 44033) = 693.05, p \< .001. Non-graduates had taken about 0.60 more CTE courses than graduates.
--   **MCA Math**: F(1, 41955) = 1748.50, p \< .001. Graduates scored 0.41 points higher than non-graduates.
--   **MCA Reading**: F(1, 41687) = 3087.39, p \< .001. Graduates scored 0.47 points higher, the strongest MCA predictor.
--   **MCA Science**: F(1, 34774) = 2188.12, p \< .001. Graduates scored 0.44 points higher.
-
-------------------------------------------------------------------------
-
-**Overall Conclusion**:\
-Postsecondary graduation is shaped most strongly by **student-level factors**. Economic disadvantage and special education status are powerful barriers, while race and ethnicity reveal deep inequities in attainment. Among school-related experiences, **PSEO participation** stands out as the most influential positive predictor of graduation. Academic preparation (ACT and MCA scores, especially Reading and Science) also plays a major role. In contrast, **greater CTE involvement**—both in number of courses and concentrator/completor status—is linked to lower graduation rates, suggesting that heavy CTE pathways align more with workforce entry than degree attainment. Community economic conditions (lower unemployment and higher wages) show modest but consistent associations.
-
-Taken together, these findings highlight that **supporting equity, strengthening academic readiness, and expanding dual-enrollment opportunities like PSEO** are critical levers for increasing postsecondary completion rates.
+Taken together, post-secondary graduation appears to be shaped by many of the same forces as attendance, but those forces exert even greater influence at the completion stage. Students who arrive at post-secondary without strong academic preparation, without economic stability, or without early college experience face compounding disadvantages that extend from enrollment all the way through to credential attainment.
 
 <br>
 
-### Demographics
+## Demographics
 
-**Key Findings**:
+All four demographic variables show a statistically significant relationship with post-secondary graduation, and the pattern of effect sizes closely mirrors what was observed for attendance — with special education status and economic disadvantage again emerging as the strongest predictors.
 
--   **Economic Status**: φ = 0.270, p \< .001. Graduation was much more common among non-disadvantaged students (53.1%) compared to economically disadvantaged students (25.7%). Disadvantaged students were almost three times as likely not to graduate (74.3% vs. 46.9%).
--   **Race/Ethnicity**: Cramer’s V = 0.169, p \< .001 (Unknown removed). White (49.2%) and Asian/PI (44.7%) students had the highest graduation rates, while Hispanic (31.3%), Black (21.6%), and American Indian (20.8%) students graduated at much lower rates.
--   **Special Education Status**: φ = 0.262, p \< .001. Graduation rates were substantially higher for students without special education status (48.2%) compared to those with it (13.2%). Special education students were far more likely not to graduate (86.8% vs. 51.8%).
+**Special education status** shows the strongest association in this group (φ = 0.262). Among students without a special education designation, 48% graduated from a post-secondary institution, compared to just 13% of students with a special education designation — a 35-percentage-point gap. As with attendance, this finding should be interpreted with care given that post-secondary graduation may not align with the goals established in many students' transition plans.
 
-**Conclusion**:\
-Demographic characteristics strongly influence postsecondary completion. Economic disadvantage and special education status are linked to particularly low graduation rates, while race and ethnicity reveal pronounced disparities, with White and Asian/PI students most likely to graduate and American Indian, Black, and Hispanic students least likely. These patterns indicate that structural barriers extend beyond access and deeply affect attainment.
+**Economic status** is the second strongest predictor (φ = 0.270). Students not identified as economically disadvantaged graduated at a rate of 53%, compared to 26% for those who were — a 27-percentage-point gap. Notably, this gap is somewhat wider than the one observed for attendance, suggesting that economic disadvantage may present ongoing barriers to degree completion beyond the initial decision to enroll.
+
+**Race and ethnicity** shows a moderate association (Cramer's V = 0.169). White students graduated at a rate of 49%, while American Indian and Black students had the lowest graduation rates at 21% and 22% respectively. Hispanic students graduated at 31%, and Asian/Pacific Islander students at 45%. The gaps between White students and American Indian and Black students are particularly pronounced and warrant careful attention in the narrative.
+
+**Gender** shows a meaningful and widened association compared to attendance (φ = 0.134). Female graduates completed post-secondary at a rate of 49%, compared to 36% for male graduates — a 13-percentage-point gap. The gender gap in graduation is somewhat larger than the gap in attendance, suggesting that male students who enroll are less likely to complete.
+
+Taken together, the demographic predictors of post-secondary graduation closely track those for attendance, but the gaps in several cases are wider. Economic disadvantage, special education status, and race/ethnicity in particular appear to present compounding barriers — not just to entering post-secondary education, but to completing it.
 
 ::: panel-tabset
-#### Economic Status → Postsecondary Graduation (Ps.grad)
+### `Gender`
 
-**Key Findings**:\
-Chi-square = 3204.41, φ = 0.270, p \< .001. Postsecondary graduation was much more common among students not economically disadvantaged (53.1%) compared to disadvantaged students (25.7%). Conversely, economically disadvantaged students were far more likely not to graduate (74.3% vs. 46.9%).
+```{r}
+data <- master.original %>%
+  filter(ps.grad != "Attending ps")
 
-**Conclusion**:\
-Economic status is strongly associated with postsecondary completion. Economically disadvantaged students are much less likely to graduate once they enroll, highlighting major inequities not only in access but also in degree attainment.
+tab_xtab(var.row = data$ps.grad,
+         var.col = data$Gender,
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/Demographics/Gender.html")
+```
+
+### `economic.status`
 
 ```{r}
 data <- master.original %>%
@@ -1124,18 +554,7 @@ tab_xtab(var.row = data$ps.grad,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/Demographics/economic-status.html")
 ```
 
-#### Race/Ethnicity → Postsecondary Graduation (Ps.grad) (Unknown Removed)
-
-**Key Findings**:\
-Chi-square = 1130.51, Cramer’s V = 0.169, p \< .001. Graduation rates varied by group:\
-- White: 49.2% graduated, 50.8% did not.\
-- Asian/PI: 44.7% graduated, 55.3% did not.\
-- Hispanic: 31.3% graduated, 68.7% did not.\
-- Black: 21.6% graduated, 78.4% did not.\
-- American Indian: 20.8% graduated, 79.2% did not.
-
-**Conclusion**:\
-Race and ethnicity are significantly associated with postsecondary completion. White and Asian/PI students are the most likely to graduate, while Black, Hispanic, and American Indian students have substantially lower completion rates. This highlights persistent racial disparities in achieving postsecondary credentials.
+### `RaceEthnicity`
 
 ```{r}
 data <- master.original %>%
@@ -1149,13 +568,7 @@ tab_xtab(var.row = data$ps.grad,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/Demographics/RaceEthnicity.html")
 ```
 
-#### Special Education Status → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-Chi-square = 3018.74, φ = 0.262, p \< .001. Postsecondary graduation was much higher among students without special education status (48.2%) compared to students with special education status (13.2%). Special education students were far more likely not to graduate (86.8% vs. 51.8%).
-
-**Conclusion**:\
-Special education status is strongly associated with postsecondary completion. Students with special education status are far less likely to graduate once they enroll, highlighting a significant attainment gap.
+### `SpecialEdStatus`
 
 ```{r}
 data <- master.original %>%
@@ -1171,25 +584,20 @@ tab_xtab(var.row = data$ps.grad,
 
 <br>
 
-### High School Characteristics
+## High School Characteristics
 
-**Key Findings**:
+The pattern for high school characteristics and post-secondary graduation closely mirrors what was observed for attendance — school-level variables contribute very little explanatory power, with effect sizes that are statistically significant but negligible in practical terms.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.022, p \< .001. Graduation rates were similar across locales: entirely rural (39.2%), town/rural mix (41.6%), and urban/town/rural mix (43.2%). Differences are negligible.
--   **Average Unemployment Rate**: F(1, 44033) = 572.00, p \< .001. Graduates came from areas with unemployment rates about 0.33 percentage points lower than non-graduates.
--   **Average Wages (as % of State Average)**: F(1, 44033) = 43.37, p \< .001. Graduates came from areas with average wages about 0.33 percentage points higher than non-graduates.
+**District demographic designation** again shows the weakest association in this group (Cramer's V = 0.022). Graduation rates are nearly identical across district types: 39% for entirely rural, 42% for town/rural mix, and 43% for urban/town/rural mix. As with attendance, the type of district a student graduates from has no meaningful relationship with post-secondary graduation.
 
-**Conclusion**:\
-High school contextual characteristics show limited but consistent influence on postsecondary graduation. Locale itself has virtually no impact, while broader community economic conditions—lower unemployment and higher wages—are modestly associated with greater likelihood of completing a credential. This suggests that local economic vitality provides some support for persistence through postsecondary education, though it is not a dominant factor compared to student-level characteristics.
+**Average local unemployment rate** shows a small but statistically significant difference across graduation groups (F = 572.0, p \< .001). Students who graduated from a post-secondary institution came from districts with average unemployment rates approximately 0.33 percentage points lower than non-graduates. The effect is consistent in direction with the attendance finding but remains modest in magnitude.
+
+**Average local wage as a percentage of the state average** also shows a small but statistically significant difference (F = 43.4, p \< .001). Students who graduated post-secondary came from districts where wages were about 0.003 percentage points higher relative to the state average — an effect so small it is essentially negligible despite reaching statistical significance.
+
+Taken together, high school characteristics remain weak predictors of post-secondary graduation, just as they were for attendance. The community a student comes from does not meaningfully determine whether they complete a post-secondary credential, reinforcing that individual-level factors carry the explanatory weight in this analysis.
 
 ::: panel-tabset
-#### School Locale (Dem_Desc) → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-Chi-square = 20.89, Cramer’s V = 0.022, p \< .001. Graduation rates were similar across locales: entirely rural (39.2%), town/rural mix (41.6%), and urban/town/rural mix (43.2%).
-
-**Conclusion**:\
-School locale has a statistically significant but negligible association with postsecondary graduation. Differences between rural, mixed, and urban/town/rural schools are very small, suggesting that locale has little impact on ultimate completion rates.
+### `Dem_Desc`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad,
@@ -1199,13 +607,7 @@ tab_xtab(var.row = data$ps.grad,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school characteristics/Dem_Desc.html")
 ```
 
-#### Average Unemployment Rate → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 44033) = 572.00, p \< .001. Students who graduated from postsecondary came from areas with unemployment rates about 0.33 percentage points lower than those who did not graduate.
-
-**Conclusion**:\
-Community unemployment levels are significantly associated with postsecondary completion. Students from lower-unemployment areas are more likely to graduate, suggesting that stronger local labor market conditions may support persistence and credential attainment.
+### `avg.unemp.rate`
 
 ```{r}
 summary <- aov(avg.unemp.rate ~ ps.grad, data = data)
@@ -1227,13 +629,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school ch
 
 ```
 
-#### Average Wages (as % of Minnesota State Average) → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 44033) = 43.37, p \< .001. Students who graduated from postsecondary came from areas with average wages about 0.33 percentage points higher than those who did not graduate.
-
-**Conclusion**:\
-Local wage levels are modestly associated with postsecondary graduation. Students from somewhat higher-wage communities are more likely to complete a credential, suggesting that stronger local economic conditions may support persistence through postsecondary programs.
+### `avg.wages.pct.state`
 
 ```{r}
 summary <- aov(avg.wages.pct.state ~ ps.grad, data = data)
@@ -1257,29 +653,10 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school ch
 
 <br>
 
-### High School Accomplishments
-
-**Key Findings**:
-
--   **ACT Composite Score**: F(1, 24476) = 1619.08, p \< .001. Graduates scored about 2.41 points higher on average than non-graduates.
--   **PSEO Participation**: φ = 0.308, p \< .001. Graduation was much more common among PSEO participants (57%) than non-participants (26.7%).
--   **CTE Achievement**: Cramer’s V = 0.103, p \< .001. Graduation was lowest among CTE concentrators/completors (35.5%), compared to participants (42.7%) and students with no CTE involvement (47.5%).
--   **Total CTE Courses Taken**: F(1, 44033) = 693.05, p \< .001. Non-graduates had taken about 0.60 more CTE courses on average than graduates.
--   **MCA Math**: F(1, 41955) = 1748.50, p \< .001. Graduates scored 0.41 points higher than non-graduates.
--   **MCA Reading**: F(1, 41687) = 3087.39, p \< .001. Graduates scored 0.47 points higher than non-graduates, the strongest MCA predictor.
--   **MCA Science**: F(1, 34774) = 2188.12, p \< .001. Graduates scored 0.44 points higher than non-graduates.
-
-**Conclusion**:\
-High school accomplishments are strongly tied to postsecondary completion. **PSEO participation** is the single strongest programmatic predictor, while **academic achievement (ACT and MCA scores, particularly Reading and Science)** consistently predicts higher graduation rates. In contrast, **greater CTE engagement (more courses and concentrator/completor status)** is linked to lower graduation rates, suggesting a tradeoff between workforce preparation and degree attainment. Overall, academic preparation and dual-enrollment opportunities play critical roles in supporting successful postsecondary completion.
+## High School Accomplishments
 
 ::: panel-tabset
-#### ACT Composite Score → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 24476) = 1619.08, p \< .001. Students who graduated from postsecondary had ACT Composite Scores about 2.41 points higher on average than those who did not graduate.
-
-**Conclusion**:\
-ACT performance is strongly associated with postsecondary completion. Higher ACT scores substantially increase the likelihood of graduating, underscoring the role of academic preparation in degree attainment.
+### `ACTCompositeScore`
 
 ```{r}
 summary <- aov(ACTCompositeScore ~ ps.grad, data = data)
@@ -1300,13 +677,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school accomplishments/ACTCompositeScore.xlsx", overwrite = TRUE)
 ```
 
-#### PSEO Participation → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-Chi-square = 3210.71, φ = 0.308, p \< .001. Postsecondary graduation was much more common among PSEO participants (57%) compared to non-participants (26.7%). Non-participants were far more likely not to graduate (73.3% vs. 43%).
-
-**Conclusion**:\
-PSEO participation is strongly associated with postsecondary completion. Students who participated in PSEO were more than twice as likely to graduate, underscoring the program’s powerful role in promoting credential attainment.
+### `pseo.participant`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad,
@@ -1316,13 +687,7 @@ tab_xtab(var.row = data$ps.grad,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school accomplishments/pseo-participant.html")
 ```
 
-#### CTE Achievement → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-Chi-square = 465.86, Cramer’s V = 0.103, p \< .001. Graduation rates were lowest among CTE concentrators/completors (35.5%), higher among CTE participants (42.7%), and highest among students with no CTE involvement (47.5%). Non-graduation was most common among concentrators/completors (64.5%) compared to participants (57.3%) and non-CTE students (52.5%).
-
-**Conclusion**:\
-CTE achievement is significantly associated with postsecondary graduation. Students who were CTE concentrators or completors were less likely to graduate, while those with limited or no CTE participation had higher completion rates. This suggests that deeper CTE engagement may orient students more toward workforce pathways than degree attainment.
+### `cte.achievement`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad,
@@ -1332,13 +697,7 @@ tab_xtab(var.row = data$ps.grad,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school accomplishments/cte-achievement.html")
 ```
 
-#### Total CTE Courses Taken → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 44033) = 693.05, p \< .001. Students who graduated from postsecondary had taken about 0.60 fewer CTE courses on average compared to those who did not graduate.
-
-**Conclusion**:\
-Greater CTE course-taking is negatively associated with postsecondary completion. Students with heavier CTE course loads were less likely to graduate, reinforcing the pattern that strong engagement in CTE is linked to lower rates of credential attainment.
+### `total.cte.courses.taken`
 
 ```{r}
 summary <- aov(total.cte.courses.taken ~ ps.grad, data = data)
@@ -1359,13 +718,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school accomplishments/total-cte-courses-taken.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Math Scores → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 41955) = 1748.50, p \< .001. Students who graduated from postsecondary had MCA Math scores about 0.41 points higher on average than those who did not graduate.
-
-**Conclusion**:\
-Math achievement is strongly associated with postsecondary completion. Higher MCA Math scores are linked to a greater likelihood of graduating, suggesting that math proficiency supports persistence and success through postsecondary programs.
+### `MCA.M`
 
 ```{r}
 summary <- aov(MCA.M ~ ps.grad, data = data)
@@ -1386,13 +739,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school accomplishments/MCA-M.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Reading Scores → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 41687) = 3087.39, p \< .001. Students who graduated from postsecondary had MCA Reading scores about 0.47 points higher on average than those who did not graduate.
-
-**Conclusion**:\
-Reading achievement is very strongly associated with postsecondary completion. Higher MCA Reading scores are linked to substantially greater likelihood of graduating, making reading proficiency one of the strongest academic predictors of credential attainment.
+### `MCA.R`
 
 ```{r}
 summary <- aov(MCA.R ~ ps.grad, data = data)
@@ -1414,13 +761,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school ac
 
 ```
 
-#### MCA Science Scores → Postsecondary Graduation (Ps.grad)
-
-**Key Findings**:\
-ANOVA: F(1, 34774) = 2188.12, p \< .001. Students who graduated from postsecondary had MCA Science scores about 0.44 points higher on average than those who did not graduate.
-
-**Conclusion**:\
-Science achievement is strongly associated with postsecondary completion. Higher MCA Science scores are linked to a significantly greater likelihood of graduating, reinforcing the importance of academic preparation in science for persistence and attainment.
+### `MCA.S`
 
 ```{r}
 summary <- aov(MCA.S ~ ps.grad, data = data)
@@ -1444,67 +785,51 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad/High school ac
 
 <br>
 
-# [**Tier 2: Type of Postsecondary Experience**]{.underline}
+# `highest.cred.level`
+
+## Summary
+
+The predictors of highest credential level tell a richer story than attendance or graduation alone, because the outcome captures not just whether students complete but how far they go. The patterns established in earlier outcomes persist here, but the Tukey HSD results add meaningful texture about where in the credential spectrum the key distinctions lie.
+
+Demographic factors continue to show strong associations, with economic status and special education status as the dominant predictors. Economically disadvantaged students who attend post-secondary are heavily concentrated in the "some college" category — nearly half stop short of any credential. Special education students show an even more extreme pattern, with the vast majority exiting without completing and very few reaching a bachelor's degree. The gender gap widens at the credential level, with women substantially more likely to attain a bachelor's degree or higher and men more likely to stop at some college or exit with less than an associate degree. Race and ethnicity shows a weaker overall association at this stage, but the concentration of American Indian and Black students in the "some college" category — at 55% and 62% respectively — is a finding that deserves attention in its own right.
+
+High school characteristics remain negligible. District type, local unemployment, and local wages contribute nothing meaningful to explaining credential level, consistent with every other outcome examined in this analysis.
+
+High school accomplishments again provide the strongest and most differentiated signal. PSEO participation stands out as the single strongest predictor, with its primary influence concentrated at the bachelor's degree level rather than shorter credentials — PSEO participants and non-participants attain associate degrees at nearly identical rates, but diverge sharply at the bachelor's degree level. ACT scores produce the clearest ordered gradient across all four credential categories, distinguishing not just completers from non-completers but bachelor's degree completers from associate degree completers from those who exit without a credential. MCA proficiency scores in math, reading, and science follow a consistent pattern — bachelor's degree completers are distinguishable from all other groups, but the some college and less-than-associate-degree groups are largely indistinguishable from each other, suggesting that incomplete participation is not primarily a function of academic preparation.
+
+CTE engagement continues to tell a distinctly different story. Deeper CTE involvement is consistently associated with shorter credential pathways and lower rates of bachelor's degree attainment — a pattern now confirmed across attendance, graduation, and credential level. This is not a negative finding about CTE; it reflects a coherent workforce-first orientation among students with deeper CTE engagement, whose post-secondary trajectories may be better evaluated against labor market outcomes than credential attainment alone.
 
 <br>
 
-## `highest.cred.level`
+## Demographics
 
-### **Key Findings Across Variable Groups**
+This analysis examines highest credential level attained among post-secondary attendees who are no longer enrolled, including students who stopped short of completing a credential. The four credential categories — bachelor's degree or higher, associate degree, less than associate degree, and some college — capture the full range of post-secondary attainment, from completion to partial participation.
 
-Demographics
+**Economic status** shows the strongest association in this group (Cramer's V = 0.264). Among students not identified as economically disadvantaged, 46% attained a bachelor's degree or higher, compared to just 20% for economically disadvantaged students. The "some college" category tells the complementary story — 49% of economically disadvantaged students stopped at some college without completing a credential, compared to 27% of non-disadvantaged students. Economic disadvantage is strongly associated not just with whether students complete, but with how far they get when they do attend.
 
--   **Economic Status**: Cramer’s V = 0.264, p \< .001. Non-disadvantaged students were far more likely to earn a bachelor’s or higher (46.2% vs. 20.4%), while disadvantaged students disproportionately stopped at “Some college” (49.2% vs. 26.6%).
--   **Race/Ethnicity**: Cramer’s V = 0.088, p \< .001. White (40.9%) and Asian/PI (52.5%) students had the highest bachelor’s+ attainment. Black (20.1%), Hispanic (26.7%), and American Indian (19.5%) students were far more likely to leave with “Some college” or sub-associate credentials.
--   **Special Education Status**: Cramer’s V = 0.233, p \< .001. Students with special education status were overwhelmingly concentrated in “Some college” (61.6%), with very few earning a bachelor’s+ (6.9%) compared to non-special education students (41.4%).
+**Special education status** shows a similarly strong association (Cramer's V = 0.233). Among non-special-ed students, 41% attained a bachelor's degree or higher and 31% stopped at some college. Among special education students, the distribution shifts dramatically — just 7% attained a bachelor's degree or higher, while 62% stopped at some college and 21% reached less than an associate degree. Special education students who attend post-secondary are far more likely to exit without a credential than their non-special-ed peers.
 
-High School Characteristics
+**Gender** shows a moderate association (Cramer's V = 0.148). Female students were more likely to attain a bachelor's degree or higher (44% vs. 32% for males) and less likely to stop at some college (29% vs. 38%). Males were also more likely to exit with less than an associate degree (15% vs. 10%). The gender gap in credential attainment is consistent in direction with the gaps observed for attendance and graduation, and adds further detail — men who attend post-secondary are more likely to leave without completing at any level.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.028, p \< .001. Credential attainment was nearly identical across rural, mixed, and urban/town/rural schools.
--   **Average Unemployment Rate**: F(3, 28012) = 9.11, p \< .001. Students from higher-unemployment areas were slightly more likely to stop at sub-associate levels, while those from lower-unemployment areas were somewhat more likely to reach bachelor’s+.
--   **Average Wages (% of State Average)**: F(3, 28012) = 6.70, p \< .001. Students from higher-wage areas were modestly more likely to earn bachelor’s+, while those from lower-wage areas were slightly more likely to stop short.
+**Race and ethnicity** shows a weaker but still statistically significant association (Cramer's V = 0.088). Asian/Pacific Islander students had the highest rate of bachelor's degree attainment at 53%, followed by White students at 41%. American Indian and Black students had the lowest bachelor's degree attainment rates at 20% and 20% respectively, and the highest rates of stopping at some college — 55% for American Indian students and 62% for Black students. These patterns are consistent with the graduation disparities observed earlier and reinforce that racial and ethnic gaps in post-secondary outcomes extend beyond enrollment to credential attainment.
 
-High School Accomplishments
-
--   **ACT Composite Score**: F(3, 19493) = 1165.82, p \< .001. Higher ACT scores strongly predicted bachelor’s+ attainment. “Some college” students scored similarly to associate earners, indicating persistence rather than readiness drove non-completion.
--   **PSEO Participation**: Cramer’s V = 0.308, p \< .001. PSEO participants were more than twice as likely to earn a bachelor’s+ (50.5% vs. 22.2%) and much less likely to stop at “Some college.”
--   **CTE Achievement**: Cramer’s V = 0.140, p \< .001. CTE concentrators/completors were more likely to stop at associate degrees (28.2%) or “Some college” (38.9%) and less likely to reach bachelor’s+ (25.6%). Non-CTE students had the highest bachelor’s+ attainment (47%).
--   **Total CTE Courses Taken**: F(3, 28012) = 471.36, p \< .001. More CTE courses were associated with lower attainment; bachelor’s+ earners took the fewest CTE courses, while sub-associate and “Some college” groups took the most.
--   **MCA Math, Reading, Science**: All strongly associated with credential level (F \> 850, p \< .001). Bachelor’s+ earners consistently scored 0.3–0.6 points higher across subjects, with Reading and Science showing the strongest predictive value.
-
-------------------------------------------------------------------------
-
-### **Overall Conclusion**
-
-The level of postsecondary credential earned is shaped most powerfully by **demographic factors** and **academic accomplishments**. Economic disadvantage, special education status, and race/ethnicity all create steep barriers, concentrating students in sub-associate outcomes or “Some college” without completion. In contrast, strong academic preparation (ACT, MCA scores) and **PSEO participation** sharply increase the likelihood of earning a bachelor’s or higher degree. Intensive CTE engagement, while supporting workforce readiness, is consistently associated with lower attainment levels, especially associate degrees or non-completion.
-
-**Community context (unemployment and wages)** exerts a modest effect, but school locale has virtually no impact. Overall, Tier 2 results highlight that **rigorous academics, equitable supports, and access to dual-enrollment opportunities** are critical levers for ensuring students not only graduate but also achieve higher levels of credential attainment.
-
-<br>
-
-### Demographics
-
-**Key Findings**:
-
--   **Economic Status**: Cramer’s V = 0.264, p \< .001. Non-disadvantaged students were far more likely to complete a bachelor’s or higher degree (46.2% vs. 20.4%) while disadvantaged students disproportionately left with “Some college” and no degree (49.2% vs. 26.6%).
--   **Race/Ethnicity**: Cramer’s V = 0.088, p \< .001. White (40.9%) and Asian/PI (52.5%) students were most likely to earn bachelor’s or higher degrees, while American Indian (19.5%), Black (20.1%), and Hispanic (26.7%) students disproportionately stopped short, often leaving with no degree.
--   **Special Education Status**: Cramer’s V = 0.233, p \< .001. Students with special education status were overwhelmingly concentrated in “Some college” (61.6%), with only 6.9% earning a bachelor’s or higher, compared to 41.4% of non-special education students.
-
-**Conclusion**:\
-Demographic factors play a major role in shaping the highest credential attained. **Economic disadvantage** and **special education status** are the strongest barriers, sharply reducing the likelihood of earning a bachelor’s or higher degree. **Racial disparities** also persist, with White and Asian/PI students attaining higher levels of education, while American Indian, Black, and Hispanic students are much more likely to leave postsecondary without completing a credential. These patterns highlight that inequities extend well beyond access and graduation, influencing the ultimate level of educational attainment students are able to achieve.
+Taken together, economic status and special education status again dominate as the strongest demographic predictors, and the credential-level detail adds an important layer to the story told by graduation rates alone. A substantial share of economically disadvantaged and special education students do reach post-secondary — but they are far more likely to leave without a credential, concentrated in the "some college" category. This suggests that the barriers these students face are not only at the point of entry, but persist throughout their post-secondary experience.
 
 ::: panel-tabset
-#### Economic Status → Highest Credential Level (Highest.cred.level)
+### `Gender`
 
-**Key Findings**:\
-Chi-square = 1959.32, Cramer’s V = 0.264, p \< .001.
+```{r}
+data <- master.original %>%
+  filter(!highest.cred.level %in% c("Attending ps", "No college"))
 
--   **Non-disadvantaged students** were much more likely to earn a bachelor’s degree or higher (46.2%) compared to disadvantaged students (20.4%).
--   **Disadvantaged students** were far more likely to leave with “Some college” and no degree (49.2% vs. 26.6%).
--   Associate’s and sub-associate credentials showed smaller gaps, with disadvantaged students slightly more likely to stop at these levels.
+tab_xtab(var.row = data$highest.cred.level,
+         var.col = data$Gender,
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Demographics/Gender.html")
+```
 
-**Conclusion**:\
-Economic status is strongly associated with the highest credential earned. Economically disadvantaged students are far less likely to reach a bachelor’s degree or higher and far more likely to leave postsecondary without completing a credential. This points to economic status as a key driver not only of access but also of persistence and attainment level.
+### `economic.status`
 
 ```{r}
 data <- master.original %>%
@@ -1517,19 +842,7 @@ tab_xtab(var.row = data$highest.cred.level,
          file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Demographics/economic-status.html")
 ```
 
-#### Race/Ethnicity → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-Chi-square = 627.58, Cramer’s V = 0.088, p \< .001. Patterns of attainment varied:
-
--   **White students** were the most likely to earn a bachelor’s or higher (40.9%) and less likely to stop at “Some college” (31.2%).
--   **Asian/PI students** also had high bachelor’s/graduate attainment (52.5%), with relatively fewer leaving with no degree (30.2%).
--   **Black students** were the least likely to reach a bachelor’s or higher (20.1%) and most likely to stop at “Some college” (62.1%).
--   **Hispanic students** had lower bachelor’s/graduate attainment (26.7%) and higher “Some college” outcomes (45.4%).
--   **American Indian students** showed a similar pattern, with only 19.5% completing bachelor’s or higher and more than half (55.2%) leaving with no degree.
-
-**Conclusion**:\
-Race and ethnicity are significantly associated with the highest credential earned, though the effect size is modest. White and Asian/PI students are far more likely to achieve bachelor’s or higher degrees, while American Indian, Black, and Hispanic students are disproportionately likely to leave postsecondary without completing a degree. This reflects persistent racial disparities not only in access and graduation, but also in the ultimate level of attainment.
+### `RaceEthnicity`
 
 ```{r}
 data <- master.original %>%
@@ -1543,16 +856,7 @@ tab_xtab(var.row = data$highest.cred.level,
          file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Demographics/RaceEthnicity.html")
 ```
 
-#### Special Education Status → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-Chi-square = 1522.15, Cramer’s V = 0.233, p \< .001.
-
--   **Students without special education status**: 41.4% earned a bachelor’s degree or higher, 30.7% left with “Some college,” 16.2% stopped at an associate’s, and 11.7% earned less than an associate credential.
--   **Students with special education status**: Only 6.9% earned a bachelor’s or higher. The vast majority either left with “Some college” and no degree (61.6%) or stopped at an associate’s degree (10.8%).
-
-**Conclusion**:\
-Special education status is strongly associated with the highest credential attained. Students with special education status are overwhelmingly concentrated in the “Some college” category, with very limited progression to bachelor’s or higher degrees. This reflects persistent barriers to full attainment among students with special education needs.
+### `SpecialEdStatus`
 
 ```{r}
 data <- master.original %>%
@@ -1570,29 +874,18 @@ tab_xtab(var.row = data$highest.cred.level,
 
 ## High School Characteristics
 
-**Key Findings**:
+As with the previous outcomes, high school characteristics show negligible associations with highest credential level attained, and the Tukey HSD results add important nuance to what the overall ANOVA tests detect.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.028, p \< .001. Credential attainment was nearly identical across rural, mixed, and urban/town/rural schools, with differences of only a few percentage points.
--   **Average Unemployment Rate**: F(3, 28012) = 9.11, p \< .001. Students from higher-unemployment areas were modestly more likely to stop at sub-associate credentials, while those from lower-unemployment areas were somewhat more likely to reach higher credentials.
--   **Average Wages (as % of State Average)**: F(3, 28012) = 6.70, p \< .001. Students from higher-wage areas were slightly more likely to earn bachelor’s or higher degrees, while students from lower-wage areas were somewhat more likely to stop short of an associate degree.
+**District demographic designation** again produces a statistically significant but practically meaningless association (Cramer's V = 0.027). Credential distributions are nearly identical across district types. Entirely rural districts show a slightly higher share of students stopping at some college (38%) compared to town/rural mix (32%) and urban/town/rural mix (33%) districts, and a lower share reaching a bachelor's degree or higher (34% vs. 39% and 40%). While these differences are real, the effect size is too small to carry meaningful interpretive weight.
 
-**Conclusion**:\
-High school contextual characteristics have only limited influence on the highest credential earned. **School locale shows virtually no effect**, while **local economic conditions**—lower unemployment and higher wages—are modestly associated with higher attainment levels. These community effects are real but small, and far less impactful than demographic or academic factors.
+**Average local unemployment rate** shows a statistically significant overall ANOVA result (F = 7.69, p \< .001), but the Tukey HSD results reveal that the only meaningful pairwise differences involve the "some college" group. Students who stopped at some college came from districts with modestly higher average unemployment rates than bachelor's degree completers (estimate = 0.077, p \< .001) and less-than-associate-degree completers (estimate = 0.116, p \< .001). No significant differences were found among the credential-completing groups themselves. Local unemployment rate is essentially unrelated to the level of credential attained among completers.
+
+**Average local wage as a percentage of the state average** also reaches statistical significance overall (F = 5.64, p \< .001), but again the Tukey HSD results show limited practical differentiation. Bachelor's degree completers and less-than-associate-degree completers came from districts with modestly higher wages relative to the state average compared to associate degree completers, but the differences are very small and the "some college" group does not differ significantly from bachelor's degree completers. The wage associations here do not form a clear or interpretable gradient across credential levels.
+
+Taken together, the community and school context in which a student attended high school has no meaningful relationship with the credential level they ultimately attain. This finding is consistent across all three outcomes examined so far — attendance, graduation, and credential level — and reinforces that individual-level factors, not school or community characteristics, are the primary drivers of post-secondary attainment in this region.
 
 ::: panel-tabset
-#### School Locale (Dem_Desc) → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-Chi-square = 45.47, Cramer’s V = 0.028, p \< .001. Credential attainment patterns were very similar across locales:
-
--   **Entirely rural**: 38.5% stopped at “Some college,” 32.9% earned a bachelor’s or higher.
--   **Town/rural mix**: 32.8% “Some college,” 37.7% bachelor’s or higher.
--   **Urban/town/rural mix**: 33.2% “Some college,” 39.1% bachelor’s or higher.
-
-Differences across locales were minimal, generally within 5 percentage points.
-
-**Conclusion**:\
-School locale has a statistically significant but negligible association with the highest credential earned. Students from rural, mixed, and urban/town/rural schools attain similar levels of postsecondary credentials, suggesting locale plays little role in shaping ultimate attainment.
+### `Dem_Desc`
 
 ```{r}
 tab_xtab(var.row = data$highest.cred.level,
@@ -1602,16 +895,7 @@ tab_xtab(var.row = data$highest.cred.level,
          file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school characteristics/Dem_Desc.html")
 ```
 
-#### Average Unemployment Rate → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 28012) = 9.11, p \< .001.
-
--   Students whose highest attainment was **less than an associate degree** came from areas with slightly higher unemployment rates compared to both associate and bachelor’s+ earners (difference ≈ 0.11 percentage points, p \< .01).
--   No significant differences emerged between bachelor’s and associate degree earners, or between bachelor’s and “Some college.”
-
-**Conclusion**:\
-Community unemployment levels show a small but significant association with the highest credential attained. Students from higher-unemployment areas are modestly more likely to stop at sub-associate credentials, while those from lower-unemployment areas are somewhat more likely to advance to higher levels. Overall, the effect is statistically real but substantively limited.
+### `avg.unemp.rate`
 
 ```{r}
 summary <- aov(avg.unemp.rate ~ highest.cred.level, data = data)
@@ -1633,17 +917,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Hig
 
 ```
 
-#### Average Wages (as % of Minnesota State Average) → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 28012) = 6.70, p \< .001.
-
--   Students who attained a **bachelor’s degree or higher** came from areas with slightly higher relative wages than associate earners (difference ≈ 0.42 percentage points, p \< .001).
--   Students with **less than an associate degree** also came from somewhat lower-wage areas than associate earners (difference ≈ 0.38 percentage points, p \< .05).
--   No significant differences emerged between “Some college” and either associate or bachelor’s groups.
-
-**Conclusion**:\
-Local wage levels show a modest association with the highest credential earned. Students from higher-wage areas are somewhat more likely to complete bachelor’s or higher degrees, while those from lower-wage areas are slightly more likely to stop short of an associate degree. These effects are real but small in magnitude compared to student-level demographic and academic factors.
+### `avg.wages.pct.state`
 
 ```{r}
 summary <- aov(avg.wages.pct.state ~ highest.cred.level, data = data)
@@ -1669,31 +943,26 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Hig
 
 ## High School Accomplishments
 
-**Key Findings**:
+High school accomplishment variables show strong and highly differentiated associations with highest credential level, with clear gradients across credential categories for nearly every predictor. The Tukey HSD results add important texture, revealing where the meaningful distinctions lie.
 
--   **ACT Composite Score**: F(3, 19493) = 1165.82, p \< .001. Students earning a bachelor’s or higher scored 3–4 points above those stopping at associate or sub-associate levels. “Some college” students had ACT scores similar to associate earners, suggesting non-completion is tied more to persistence than readiness.
--   **PSEO Participation**: Cramer’s V = 0.308, p \< .001. PSEO participants were more than twice as likely to earn a bachelor’s or higher (50.5% vs. 22.2%) and far less likely to leave with “Some college” (23.9% vs. 44.9%). Associate and sub-associate outcomes were nearly identical between groups.
--   **CTE Achievement**: Cramer’s V = 0.140, p \< .001. Concentrators/completors were less likely to earn bachelor’s+ (25.6%) and more likely to stop at associate (28.2%) or “Some college” (38.9%). Non-CTE students had the highest bachelor’s+ attainment (47%).
--   **Total CTE Courses Taken**: F(3, 28012) = 471.36, p \< .001. Students who earned bachelor’s+ took fewer CTE courses, while those with sub-associate or “Some college” outcomes had taken more. Largest gap: bachelor’s+ vs. sub-associate, with \>1.3 course difference.
--   **MCA Math**: F(3, 27568) = 925.88, p \< .001. Bachelor’s+ earners scored 0.45–0.66 points higher than other groups. Lower scores characterized sub-associate and “Some college” outcomes.
--   **MCA Reading**: F(3, 27410) = 1053.96, p \< .001. Bachelor’s+ earners scored 0.32–0.59 points higher than other groups, making reading one of the strongest predictors of higher attainment.
--   **MCA Science**: F(3, 22192) = 854.01, p \< .001. Bachelor’s+ earners scored 0.41–0.60 points higher than other groups, while “Some college” and sub-associate students scored notably lower.
+**PSEO participation** is again the strongest predictor in this group (Cramer's V = 0.308). Among PSEO participants, 51% attained a bachelor's degree or higher, compared to just 22% of non-participants. Non-participants were far more likely to stop at some college (45% vs. 24%) or exit with less than an associate degree (17% vs. 10%). PSEO participation shows virtually no difference in associate degree attainment between the two groups (16% vs. 16%), suggesting its primary influence is on bachelor's degree completion rather than shorter-term credential attainment.
 
-**Conclusion**:\
-High school accomplishments are among the most powerful predictors of the highest credential earned. **PSEO participation** stands out as the strongest programmatic factor, dramatically increasing the likelihood of bachelor’s or higher attainment. **Academic performance (ACT, MCA Reading, and MCA Science especially)** is tightly linked to ultimate attainment, differentiating bachelor’s+ earners from those who stop earlier. In contrast, **greater CTE engagement** (more courses and concentrator/completor status) is associated with lower levels of attainment, with students more likely to finish at the associate level or leave with “Some college.” Overall, rigorous academics and early postsecondary experiences strongly support higher credential attainment, while intensive CTE pathways align more with sub-baccalaureate outcomes.
+**ACT Composite Score** shows the largest and most clearly ordered effect among the continuous predictors (F = 1138.1, p \< .001). Tukey HSD results reveal a sharp and statistically significant gradient: bachelor's degree completers scored approximately 3.4 points higher than associate degree completers, who in turn scored about 0.9 points higher than less-than-associate-degree completers. The "some college" group scored similarly to associate degree completers — consistent with the idea that this group had the academic preparation to attend but not to complete. Every pairwise comparison except associate degree vs. some college is statistically significant, indicating that ACT score differentiates credential levels across the full attainment spectrum.
+
+**MCA Math proficiency** shows a similarly ordered gradient (F = 977.1, p \< .001). Bachelor's degree completers scored approximately 0.48 proficiency levels higher than associate degree completers, who scored about 0.23 levels higher than less-than-associate-degree completers. The some college group scored similarly to the less-than-associate-degree group, with no significant difference between them — suggesting that among students who attended without completing, math proficiency does not distinguish those who got close from those who stopped short.
+
+**MCA Reading proficiency** follows the same pattern (F = 1062.4, p \< .001). Bachelor's degree completers scored approximately 0.33 proficiency levels higher than associate degree completers, with statistically significant differences across all pairwise comparisons except some college vs. less than associate degree. Reading proficiency distinguishes completers from non-completers more than it distinguishes among non-completers.
+
+**MCA Science proficiency** shows a nearly identical pattern (F = 887.0, p \< .001). Bachelor's degree completers scored approximately 0.43 proficiency levels higher than associate degree completers, with significant differences across credential levels. The some college and less-than-associate-degree groups do not differ significantly from each other in science proficiency, consistent with the math and reading findings.
+
+**CTE achievement level** shows a moderate and substantively interesting association (Cramer's V = 0.135). CTE concentrators and completers are most heavily concentrated in the some college (39%) and less-than-associate-degree (18%) categories, and least likely to attain a bachelor's degree or higher (27%). Students with no CTE involvement show the inverse pattern — 48% attained a bachelor's degree or higher, and only 30% stopped at some college. CTE participants fall between the two extremes. This reinforces the now-consistent finding that deeper CTE engagement is associated with a pathway oriented toward shorter-term or workforce credentials rather than four-year degree completion.
+
+**Total CTE courses taken** shows a significant and clearly ordered association with credential level (F = 442.6, p \< .001). Bachelor's degree completers took approximately 0.73 fewer CTE courses than associate degree completers, while less-than-associate-degree completers took about 0.59 more courses than associate degree completers, and the some college group took about 0.84 more courses than bachelor's degree completers. Every pairwise comparison is statistically significant, and the gradient is consistent — more CTE coursework is associated with lower credential attainment, while less CTE coursework is associated with higher attainment.
+
+Taken together, high school accomplishments show strong, ordered, and consistent associations with highest credential level. Academic preparation variables — particularly PSEO participation and ACT scores — produce the clearest gradients, with bachelor's degree completers distinguishable from all other groups. CTE engagement again points in the opposite direction, with deeper involvement associated with shorter credential pathways. The "some college" group consistently resembles the less-than-associate-degree group on academic preparation measures, suggesting that incomplete post-secondary participation is not primarily explained by a lack of academic readiness but by other factors not captured in these variables.
 
 ::: panel-tabset
-#### ACT Composite Score → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 19493) = 1165.82, p \< .001.
-
--   Students who earned a **bachelor’s degree or higher** had ACT scores about 3.39 points higher than associate degree earners, and about 4.22 points higher than those who stopped short of an associate degree.
--   Students with **less than an associate degree** had significantly lower ACT scores than associate earners (–0.83).
--   Students in the **“Some college”** group scored similarly to associate earners (no significant difference).
-
-**Conclusion**:\
-ACT performance is strongly associated with the highest credential attained. Higher ACT scores are linked to completing a bachelor’s or higher degree, while lower scores increase the likelihood of stopping short of an associate degree. Students who attended college without finishing a credential had ACT scores similar to associate earners, suggesting that non-completion is driven more by persistence factors than academic readiness alone.
+### `ACTCompositeScore`
 
 ```{r}
 summary <- aov(ACTCompositeScore ~ highest.cred.level, data = data)
@@ -1714,17 +983,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school accomplishments/ACTCompositeScore.xlsx", overwrite = TRUE)
 ```
 
-#### PSEO Participation → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-Chi-square = 1933.77, Cramer’s V = 0.308, p \< .001.
-
--   **PSEO participants** were far more likely to complete a bachelor’s degree or higher (50.5%) compared to non-participants (22.2%).
--   Participants were also less likely to leave with “Some college” and no degree (23.9% vs. 44.9%).
--   Rates of associate degree and sub-associate credential attainment were nearly identical between participants and non-participants (\~16%).
-
-**Conclusion**:\
-PSEO participation is strongly associated with higher credential attainment. Students who participated in PSEO were more than twice as likely to earn a bachelor’s or higher degree and far less likely to leave postsecondary without a credential. This highlights PSEO as one of the most effective levers for boosting ultimate educational attainment.
+### `pseo.participant`
 
 ```{r}
 tab_xtab(var.row = data$highest.cred.level,
@@ -1734,17 +993,7 @@ tab_xtab(var.row = data$highest.cred.level,
          file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school accomplishments/pseo-participant.html")
 ```
 
-#### CTE Achievement → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-Chi-square = 1097.17, Cramer’s V = 0.140, p \< .001. Credential attainment patterns differed by CTE involvement:
-
--   **CTE concentrators/completors** were the least likely to earn a bachelor’s or higher (25.6%) and the most likely to leave with “Some college” (38.9%). They were also more likely than other groups to stop at the associate degree level (28.2%).
--   **CTE participants** showed more balanced outcomes, with 36.9% earning a bachelor’s or higher, 34% stopping at “Some college,” and 20.3% earning an associate’s degree.
--   **Non-CTE students** were the most likely to reach a bachelor’s or higher (47%) and the least likely to stop at associate’s (15.7%) or “Some college” (29.8%).
-
-**Conclusion**:\
-CTE achievement is significantly associated with the highest credential attained. Students with deeper CTE engagement (concentrators/completors) are less likely to earn a bachelor’s or higher degree and more likely to stop at an associate degree or leave with “Some college.” In contrast, students with no CTE experience have the highest rates of bachelor’s and graduate-level attainment. This highlights how intensive CTE pathways tend to align with sub-baccalaureate outcomes and workforce preparation rather than advanced academic credentials.
+### `cte.achievement`
 
 ```{r}
 tab_xtab(var.row = data$highest.cred.level,
@@ -1754,18 +1003,7 @@ tab_xtab(var.row = data$highest.cred.level,
          file = "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school accomplishments/cte-achievement.html")
 ```
 
-#### Total CTE Courses Taken → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 28012) = 471.36, p \< .001.
-
--   Students who earned a **bachelor’s degree or higher** had taken fewer CTE courses on average than associate degree earners (–0.72 courses, p \< .001).
--   Students with **less than an associate degree** had taken significantly more CTE courses than associate earners (+0.63, p \< .001).
--   Students who left with **“Some college”** had also taken slightly more CTE courses than associate earners (+0.13, p \< .01).
--   The largest gap was between **bachelor’s+ earners and those with less than an associate degree**, with the latter taking over 1.35 more CTE courses on average.
-
-**Conclusion**:\
-Greater CTE course-taking is negatively associated with ultimate attainment. Students who take more CTE courses are less likely to earn a bachelor’s or higher degree and more likely to stop short—either with “Some college” or with credentials below the associate level. In contrast, students who take fewer CTE courses are disproportionately represented among bachelor’s and graduate degree earners, reinforcing the strong alignment of intensive CTE pathways with sub-baccalaureate outcomes.
+### `total.cte.courses.taken`
 
 ```{r}
 summary <- aov(total.cte.courses.taken ~ highest.cred.level, data = data)
@@ -1786,17 +1024,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school accomplishments/total-cte-courses-taken.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Math Scores → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 27568) = 925.88, p \< .001.
-
--   Students with a **bachelor’s degree or higher** scored about 0.45 points higher than associate degree earners, and about 0.66 points higher than those with less than an associate degree.
--   Students in the **“Some college”** group scored 0.20 points lower than associate earners, and about 0.66 points lower than bachelor’s+ earners.
--   Students with **less than an associate degree** scored 0.21 points lower than associate earners.
-
-**Conclusion**:\
-Math achievement is strongly associated with the highest credential earned. Students with higher MCA Math scores are far more likely to complete bachelor’s or higher degrees, while those with lower scores are more likely to stop at associate’s, sub-associate credentials, or leave with “Some college.”
+### `MCA.M`
 
 ```{r}
 summary <- aov(MCA.M ~ highest.cred.level, data = data)
@@ -1817,16 +1045,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/High school accomplishments/MCA-M.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Reading Scores → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 27410) = 1053.96, p \< .001.
-
--   Students with a **bachelor’s degree or higher** scored about 0.32 points higher than associate degree earners, 0.59 points higher than those with less than an associate degree, and 0.54 points higher than those who left with “Some college.”
--   Students with **less than an associate degree** and those with **“Some college”** scored significantly lower than both associate earners and bachelor’s+ earners.
-
-**Conclusion**:\
-Reading achievement is very strongly associated with the highest credential earned. Higher MCA Reading scores sharply increase the likelihood of attaining a bachelor’s or higher degree, while lower scores are linked to stopping at sub-associate levels or leaving with no degree. This makes reading proficiency one of the clearest academic differentiators of ultimate educational attainment.
+### `MCA.R`
 
 ```{r}
 summary <- aov(MCA.R ~ highest.cred.level, data = data)
@@ -1848,17 +1067,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Hig
 
 ```
 
-#### MCA Science Scores → Highest Credential Level (Highest.cred.level)
-
-**Key Findings**:\
-ANOVA: F(3, 22192) = 854.01, p \< .001.
-
--   Students with a **bachelor’s degree or higher** scored about 0.41 points higher than associate earners, 0.57 points higher than sub-associate earners, and 0.60 points higher than those with “Some college.”
--   Students with **less than an associate degree** scored about 0.16 points lower than associate earners.
--   Students with **“Some college”** scored about 0.18 points lower than associate earners.
-
-**Conclusion**:\
-Science achievement is strongly associated with the highest credential earned. Students with higher MCA Science scores are far more likely to attain bachelor’s or higher degrees, while those with lower scores are concentrated among associate earners, sub-associate credentials, or incomplete “Some college” outcomes.
+### `MCA.S`
 
 ```{r}
 summary <- aov(MCA.S ~ highest.cred.level, data = data)
@@ -1882,69 +1091,53 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/highest-cred-level/Hig
 
 <br>
 
-# [**Tier 3: Location of Postsecondary Experience**]{.underline}
+# `ps.grad.location`
 
-## ps.grad.location
+## Summary
 
-Tier 3 examined how demographic factors, high school characteristics, and high school accomplishments shape where students complete their postsecondary credentials: **within their high school region, elsewhere in Minnesota, or outside the state.**
+Post-secondary graduation location tells a fundamentally different story than the previous three outcomes. Where graduates complete their credential is less about whether they face barriers and more about the pull of opportunity — academic preparation, early college exposure, and community economic context all shape the geographic direction students take, rather than simply whether they succeed.
 
-------------------------------------------------------------------------
+The most consistent finding across all predictor groups is that regional completion is associated with lower academic preparation, greater economic constraint, and deeper CTE engagement — while completing outside the region, whether elsewhere in Minnesota or out of state, is associated with stronger academic profiles and fewer financial barriers. Importantly, the distinction between completing in Minnesota versus leaving the state is largely unrelated to academic preparation; what separates regional completers from everyone else is the dominant divide.
 
-### **Key Findings**
+Among demographic predictors, economic status shows the most meaningful association. Economically disadvantaged graduates complete within the region at substantially higher rates, most likely reflecting financial constraints on geographic mobility rather than preference. Special education graduates show a similar pattern. Gender has essentially no relationship with where graduates complete, and race and ethnicity differences are negligible once the Unknown category is removed.
 
-Demographics
+High school characteristics matter more for this outcome than for any other examined in this analysis. Entirely rural graduates leave the region at striking rates — nearly half complete elsewhere in Minnesota — suggesting that rural students who do succeed in reaching and completing post-secondary are doing so largely outside their home region. Local wage levels and unemployment rates also show interpretable associations, with students from relatively stronger local economies more likely to leave the state entirely for post-secondary.
 
--   **Economic Status**: Economically disadvantaged students were more likely to graduate within their home region (67.8% vs. 55.7%), while non-disadvantaged students showed greater mobility, more often graduating elsewhere in MN or out of state.
--   **Race/Ethnicity**: American Indian (67.8%) and Hispanic (63.6%) graduates were most likely to stay in-region, while Asian/PI graduates were the least likely (48.7%), with higher rates graduating elsewhere in MN or out of state. White graduates showed a balanced pattern.
--   **Special Education Status**: Students with special education status were overwhelmingly more likely to remain in-region (73.8%) than non-special education students (57.7%), who were more mobile across the state and beyond.
-
-High School Characteristics
-
--   **School Locale**: Rural graduates were less likely to remain in-region (38%) and more likely to graduate elsewhere in MN, while mixed/urban graduates were more likely to stay local (56–61%).
--   **Economic Conditions**: Students from lower-unemployment, higher-wage areas were more likely to graduate in their home region or outside the state, while those from higher-unemployment, lower-wage areas were more likely to complete elsewhere in Minnesota. Effects were modest but consistent.
-
-High School Accomplishments
-
--   **Academic Achievement (ACT & MCA scores)**: Students with higher ACT and MCA scores were significantly more likely to graduate elsewhere in Minnesota or out of state. Lower-scoring students were more likely to remain in-region.
--   **PSEO Participation**: Participants were more geographically mobile, with higher rates of completing elsewhere in Minnesota or outside the state, while non-participants were more likely to stay local.
--   **CTE Engagement**: Students with deeper CTE involvement (more courses, concentrator/completor status) were far more likely to graduate in-region, while students with little or no CTE experience showed greater mobility.
-
-------------------------------------------------------------------------
-
-### **Overall Conclusion**
-
-Tier 3 results show that **geographic mobility in postsecondary completion is closely tied to academic strength, program participation, and demographics.**
-
--   Students who are **academically stronger or PSEO participants** are more likely to graduate away from their home region, either elsewhere in Minnesota or out of state.
--   Students who are **economically disadvantaged, American Indian, Hispanic, or in special education**, as well as those with deeper **CTE engagement**, are more likely to remain local.
--   **Community economic conditions** and **school locale** play smaller but notable roles, with rural and lower-wage contexts reinforcing regional completion.
-
-In sum, Tier 3 highlights a divide between **mobile, academically prepared students** who pursue credentials beyond their home region, and **students facing structural or programmatic constraints** who are more likely to complete locally. This underscores the importance of academic preparation, resource access, and program opportunities in shaping not just whether students succeed in postsecondary, but **where** they do so.
+High school accomplishments again provide the sharpest signal. PSEO participation and stronger academic preparation — higher ACT scores and MCA proficiency across all three subjects — are consistently associated with completing outside the region, with no meaningful difference between MN and out-of-state completers. CTE engagement runs in the opposite direction, with deeper involvement strongly associated with regional completion. The academic and CTE pathways point in opposite geographic directions, and that divergence has direct implications for regional workforce pipeline planning — the students most academically prepared are the most likely to leave, while those with the deepest vocational orientation are the most likely to stay.
 
 <br>
 
-### Demographics
+## Demographics
 
-**Key Findings**:
+This outcome examines where post-secondary graduates completed their credential — within Northeast Minnesota (the region), elsewhere in Minnesota, or outside Minnesota — and is limited to students who graduated from a post-secondary institution. It is a fundamentally different question from the previous outcomes: not whether students complete, but where they complete and what that implies for regional workforce supply.
 
--   **Economic Status**: Cramer’s V = 0.104, p \< .001. Economically disadvantaged students were more likely to graduate within their high school region (67.8% vs. 55.7%), while non-disadvantaged students were more likely to graduate elsewhere in Minnesota (25.8% vs. 19.9%) or outside the state (18.5% vs. 12.3%).
--   **Race/Ethnicity**: Cramer’s V = 0.051, p \< .001. American Indian (67.8%) and Hispanic (63.6%) graduates were most likely to remain in-region, while Asian/PI graduates were the least likely (48.7%), with higher rates completing elsewhere in MN (30.5%) or outside MN (20.8%). White graduates showed balanced outcomes across regions.
--   **Special Education Status**: Cramer’s V = 0.072, p \< .001. Students with special education status were far more likely to remain in their high school region (73.8% vs. 57.7%), while non-special education students were more likely to complete elsewhere in MN (24.9% vs. 14.8%) or outside the state (17.4% vs. 11.4%).
+Overall, 59% of post-secondary graduates completed within the region, 24% completed elsewhere in Minnesota, and 17% completed outside Minnesota entirely. These baseline proportions provide important context for interpreting the demographic differences below.
 
-**Conclusion**:\
-Demographic characteristics modestly influence the location of postsecondary graduation. **Economically disadvantaged, American Indian, Hispanic, and special education students are more likely to stay within their home region**, reflecting limited geographic mobility. In contrast, **non-disadvantaged, White, and Asian/PI students show greater mobility**, more often completing their credentials elsewhere in Minnesota or out of state. These differences suggest that resources, community ties, and support needs shape students’ ability or decision to pursue postsecondary opportunities beyond their home region.
+**Economic status** shows the most meaningful association in this group (Cramer's V = 0.104). Economically disadvantaged graduates completed within the region at a substantially higher rate (68%) than non-disadvantaged graduates (56%). Conversely, non-disadvantaged graduates were more likely to complete elsewhere in Minnesota (26% vs. 20%) or outside Minnesota (19% vs. 12%). This pattern is consistent with financial constraints limiting how far students are able or willing to travel for post-secondary education — and has direct implications for regional workforce retention, as economically disadvantaged graduates who complete locally may be more likely to remain in the region afterward.
+
+**Special education status** shows a small but statistically significant association (Cramer's V = 0.072). Special education graduates completed within the region at a notably higher rate (74%) than non-special-ed graduates (58%), and were less likely to complete elsewhere in Minnesota (15% vs. 17%) or outside Minnesota (11% vs. 17%). As with economic status, this likely reflects geographic constraints on post-secondary choice rather than a preference for regional institutions per se.
+
+**Race and ethnicity** shows a negligible association (Cramer's V = 0.033). While statistically significant, the differences across racial and ethnic groups are small and do not form a clear or interpretable pattern. American Indian graduates complete within the region at the highest rate (68%), while Asian/Pacific Islander graduates do so at the lowest (49%). The small cell sizes for non-White groups warrant caution in drawing strong conclusions from these differences.
+
+**Gender** shows essentially no association with graduation location (Cramer's V = 0.029). Female and male graduates complete within the region, elsewhere in Minnesota, and outside Minnesota at nearly identical rates. Where students complete their post-secondary credential is not meaningfully related to gender.
+
+Taken together, graduation location is most strongly shaped by economic status, with disadvantaged students substantially more likely to complete within the region. Special education status follows a similar pattern. These findings suggest that regional post-secondary completion is driven in part by access and proximity constraints rather than preference — a distinction worth naming carefully in the narrative, as it has implications for how regional institutions serve and retain students.
 
 ::: panel-tabset
-#### Economic Status → Postsecondary Graduation Location (Ps.grad.location)
+### `Gender`
 
-**Key Findings**:\
-Chi-square = 202.79, Cramer’s V = 0.104, p \< .001.
+```{r}
+data <- master.original %>%
+  filter(!ps.grad.location %in% c("Attending ps", "Did not graduate ps"))
 
--   **Economically disadvantaged students** were more likely to graduate within their high school region (67.8%) compared to non-disadvantaged peers (55.7%).
--   **Non-disadvantaged students** were more likely to graduate elsewhere in Minnesota (25.8% vs. 19.9%) or outside the state (18.5% vs. 12.3%).
+tab_xtab(var.row = data$ps.grad.location,
+         var.col = data$Gender,
+         show.exp = TRUE,
+         show.col.prc = TRUE,
+         file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/Demographics/Gender.html")
+```
 
-**Conclusion**:\
-Economic status is modestly associated with where students complete postsecondary credentials. Economically disadvantaged students tend to stay closer to home, graduating within their high school region, while non-disadvantaged students are more geographically mobile, more often completing credentials outside their region, both within and outside Minnesota.
+### `economic.status`
 
 ```{r}
 data <- master.original %>%
@@ -1957,20 +1150,12 @@ tab_xtab(var.row = data$ps.grad.location,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/Demographics/economic-status.html")
 ```
 
-#### Race/Ethnicity → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-Chi-square = 98.74, Cramer’s V = 0.051, p \< .001. Location of graduation showed modest differences by race/ethnicity:
-
--   **American Indian (67.8%)** and **Hispanic (63.6%)** graduates were most likely to remain in their high school region.
--   **Black graduates (57.0%)** also tended to remain in-region, but with a somewhat higher share completing outside MN (20.1%).
--   **White graduates (57.9%)** were more balanced, with 24.8% completing elsewhere in Minnesota and 17.3% outside the state.
--   **Asian/PI graduates (48.7%)** were the least likely to remain in-region, with higher rates of completing elsewhere in Minnesota (30.5%) or outside MN (20.8%).
-
-**Conclusion**:\
-Race and ethnicity are significantly associated with where students graduate from postsecondary institutions, though the effect size is small. American Indian and Hispanic graduates are more likely to remain in-region, while Asian/PI and White graduates show greater mobility, often completing outside their region or out of state. These patterns suggest varying levels of geographic mobility across racial groups, which may reflect differences in access, resources, or cultural and community ties.
+### `RaceEthnicity`
 
 ```{r}
+data <- master.original %>%
+  filter(!ps.grad.location %in% c("Attending ps", "Did not graduate ps"),
+         RaceEthnicity != "Unknown")
 
 tab_xtab(var.row = data$ps.grad.location,
          var.col = data$RaceEthnicity,
@@ -1979,18 +1164,11 @@ tab_xtab(var.row = data$ps.grad.location,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/Demographics/RaceEthnicity.html")
 ```
 
-#### Special Education Status → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-Chi-square = 95.81, Cramer’s V = 0.072, p \< .001.
-
--   **Students with special education status** were much more likely to graduate within their high school region (73.8%) compared to non-special education students (57.7%).
--   **Non-special education students** were more likely to graduate elsewhere in Minnesota (24.9% vs. 14.8%) or outside the state (17.4% vs. 11.4%).
-
-**Conclusion**:\
-Special education status is modestly associated with where students complete postsecondary credentials. Students with special education needs are more likely to stay local and graduate within their high school region, while non-special education students demonstrate greater geographic mobility, completing degrees elsewhere in Minnesota or out of state.
+### `SpecialEdStatus`
 
 ```{r}
+data <- master.original %>%
+  filter(!ps.grad.location %in% c("Attending ps", "Did not graduate ps"))
 tab_xtab(var.row = data$ps.grad.location,
          var.col = data$SpecialEdStatus,
          show.exp = TRUE,
@@ -2003,27 +1181,18 @@ tab_xtab(var.row = data$ps.grad.location,
 
 ## High School Characteristics
 
-**Key Findings**:
+Unlike the previous outcomes, high school characteristics show more interpretively interesting associations with graduation location — particularly district demographic designation and local wage levels — though the overall effect sizes remain modest.
 
--   **School Locale (Dem_Desc)**: Cramer’s V = 0.113, p \< .001. Graduates from entirely rural schools were less likely to remain in-region (38%) and more likely to graduate elsewhere in Minnesota (49.3%). Graduates from town/rural mix (55.9%) and urban/town/rural mix schools (61%) were more likely to stay in-region.
--   **Average Unemployment Rate**: F(2, 18642) = 19.17, p \< .001. Graduates from lower-unemployment areas were slightly more likely to graduate in their home region or outside Minnesota, while graduates from higher-unemployment areas were more likely to graduate elsewhere in Minnesota.
--   **Average Wages (as % of State Average)**: F(2, 18642) = 107.57, p \< .001. Students from higher-wage areas were more likely to graduate either in their home region or outside the state, while those from lower-wage areas were more likely to graduate elsewhere in Minnesota.
+**District demographic designation** shows the strongest association in this group and its strongest association across all four outcomes (Cramer's V = 0.113). The pattern is striking: graduates from entirely rural districts completed within the region at just 38%, compared to 56% for town/rural mix and 61% for urban/town/rural mix districts. Entirely rural graduates were far more likely to complete elsewhere in Minnesota (49%) — more than double the rate of urban/town/rural mix graduates (21%). Graduates from entirely rural districts appear to leave the region for post-secondary at substantially higher rates, which has direct implications for workforce retention in the most rural parts of Northeast Minnesota.
 
-**Conclusion**:\
-High school contextual characteristics exert a modest influence on where students complete postsecondary credentials. **Locale matters somewhat**, with rural students more likely to leave their region for other Minnesota institutions, while mixed/urban students are more likely to remain local. **Economic conditions also play a role**: students from stronger labor markets (lower unemployment, higher wages) are more likely to complete either locally or out of state, whereas weaker labor markets are tied to completion elsewhere in Minnesota. These effects are consistent but modest compared to demographic and accomplishment-based factors.
+**Average local wage as a percentage of the state average** shows a statistically significant and clearly ordered association across all three graduation locations (F = 107.6, p \< .001). Graduates who completed outside Minnesota came from districts with the highest wages relative to the state average, followed by regional graduates, with MN graduates (outside the region) coming from the lowest-wage districts. All three pairwise comparisons are statistically significant except the region vs. outside MN contrast. This suggests that students from relatively higher-wage communities are more likely to leave the state entirely for post-secondary — potentially reflecting greater economic resources to do so, or the pull of institutions in neighboring states.
+
+**Average local unemployment rate** also shows a statistically significant association (F = 19.2, p \< .001), though the effect is smaller. Graduates who completed outside Minnesota came from districts with the lowest average unemployment rates, while regional graduates came from districts with the highest. All three pairwise comparisons are statistically significant. The direction is consistent with the wage finding — students from relatively stronger local labor markets are more likely to leave for post-secondary, while those from weaker markets tend to complete closer to home.
+
+Taken together, high school characteristics tell a more meaningful story for graduation location than for any other post-secondary outcome examined. Where graduates complete their credential is associated with the economic character of their home community — students from more prosperous or more rural communities are more likely to leave the region or the state for post-secondary, while students from lower-wage or more urbanized communities tend to complete closer to home. These findings connect directly to regional workforce pipeline concerns and are worth highlighting for audiences focused on talent retention.
 
 ::: panel-tabset
-#### School Locale (Dem_Desc) → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-Chi-square = 472.32, Cramer’s V = 0.113, p \< .001. Graduation location varied modestly by school locale:
-
--   **Entirely rural graduates** were more likely to complete outside their region (49.3% elsewhere in MN, 12.6% outside MN). Only 38% stayed within their high school region.
--   **Town/rural mix graduates** were much more likely to stay in-region (55.9%) and less likely to go outside the state (15.4%).
--   **Urban/town/rural mix graduates** were the most likely to remain in-region (61%) and the most likely to graduate outside MN (17.9%), with relatively fewer moving elsewhere in MN (21%).
-
-**Conclusion**:\
-School locale shows a modest association with where students graduate from postsecondary institutions. Graduates from entirely rural schools are less likely to remain in-region and more likely to move elsewhere in Minnesota, while graduates from mixed or urban/town/rural schools are more likely to complete within their home region. These findings suggest that regional school context modestly shapes geographic mobility after high school graduation.
+### `Dem_Desc`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad.location,
@@ -2033,17 +1202,7 @@ tab_xtab(var.row = data$ps.grad.location,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High school characteristics/Dem_Desc.html")
 ```
 
-#### Average Unemployment Rate → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 18642) = 19.17, p \< .001.
-
--   Graduates from **outside Minnesota** came from areas with unemployment rates about 0.19 percentage points lower than those who graduated elsewhere in Minnesota.
--   Graduates from their **home region** also came from areas with unemployment rates about 0.11 percentage points lower than elsewhere-in-MN graduates.
--   Differences between **Region** and **Outside MN** graduates were smaller (0.08 percentage points) but still significant.
-
-**Conclusion**:\
-Community unemployment rates are modestly associated with where students complete their postsecondary credentials. Graduates from lower-unemployment areas are somewhat more likely to finish either within their home region or out of state, while those from higher-unemployment areas are more likely to graduate elsewhere in Minnesota. The effects are statistically reliable but small in magnitude.
+### `avg.unemp.rate`
 
 ```{r}
 summary <- aov(avg.unemp.rate ~ ps.grad.location, data = data)
@@ -2066,17 +1225,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High 
 
 ```
 
-#### Average Wages (as % of Minnesota State Average) → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 18642) = 107.57, p \< .001.
-
--   Graduates from **outside Minnesota** came from areas with average wages about 0.012 points higher than those who graduated elsewhere in Minnesota (p \< .001).
--   Graduates from their **home region** came from areas with wages about 0.014 points higher than elsewhere-in-MN graduates (p \< .001).
--   No significant difference emerged between **Region** and **Outside MN** graduates.
-
-**Conclusion**:\
-Local wage levels are modestly associated with where students complete postsecondary credentials. Students from higher-wage areas are more likely to graduate either within their home region or outside the state, while students from lower-wage areas are somewhat more likely to graduate elsewhere in Minnesota. The effect, while statistically significant, is relatively small in practical terms.
+### `avg.wages.pct.state`
 
 ```{r}
 summary <- aov(avg.wages.pct.state ~ ps.grad.location, data = data)
@@ -2102,31 +1251,22 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High 
 
 ## High School Accomplishments
 
-**Key Findings**:
+High school accomplishment variables show a distinctive pattern for graduation location: the key distinction is not between Minnesota and out-of-state graduates, but between regional graduates and everyone else. Across nearly every predictor, regional graduates score lower on academic preparation measures than both other groups, while MN and out-of-state graduates are largely indistinguishable from each other.
 
--   **ACT Composite Score**: F(2, 14470) = 536.91, p \< .001. Students who graduated elsewhere in Minnesota had the highest ACT scores, while those who graduated in-region or outside Minnesota had lower scores.
--   **PSEO Participation**: Cramer’s V = 0.117, p \< .001. PSEO participants were more geographically mobile—less likely to graduate in-region (54% vs. 66%) and more likely to graduate elsewhere in Minnesota or outside the state.
--   **CTE Achievement**: Cramer’s V = 0.068, p \< .001. CTE concentrators/completors were the most likely to remain in their high school region (65.8%) and the least likely to graduate outside MN (13.2%). Non-CTE students were the least likely to stay local and the most likely to graduate out of state.
--   **Total CTE Courses Taken**: F(2, 18642) = 63.26, p \< .001. Students who stayed in-region had taken the most CTE courses, while those who graduated elsewhere in MN or out of state had taken fewer.
--   **MCA Math**: F(2, 18435) = 204.54, p \< .001. Region graduates had significantly lower math scores than those who graduated elsewhere in MN or out of state.
--   **MCA Reading**: F(2, 18346) = 156.66, p \< .001. Region graduates had significantly lower reading scores than elsewhere-in-MN and out-of-state graduates.
--   **MCA Science**: F(2, 14864) = 236.46, p \< .001. Region graduates had significantly lower science scores than both elsewhere-in-MN and out-of-state graduates.
+**PSEO participation** is the strongest predictor in this group (Cramer's V = 0.117). PSEO participants graduated within the region at a lower rate (54%) than non-participants (66%), and were more likely to complete elsewhere in Minnesota (27% vs. 21%) or outside Minnesota (19% vs. 13%). PSEO participation — which connects students to college coursework and institutions during high school — appears to expand the geographic range of where students ultimately complete, drawing more graduates away from regional institutions.
 
-**Conclusion**:\
-High school accomplishments are strongly associated with postsecondary graduation location. **Higher academic achievement (ACT and MCA scores)** is linked to greater geographic mobility, with stronger students more likely to graduate elsewhere in Minnesota or out of state. **PSEO participation** also increases mobility, while **CTE engagement (more courses and concentrator/completor status)** anchors students closer to home, with higher rates of in-region graduation. Overall, academic strength and dual-enrollment experiences encourage mobility, while CTE pathways reinforce regional ties.
+**ACT Composite Score** shows a large and clearly ordered association (F = 536.9, p \< .001), but the Tukey HSD results reveal an important asymmetry. Regional graduates scored approximately 2.4 points lower than both MN graduates and out-of-state graduates, but MN and out-of-state graduates did not differ significantly from each other. Higher ACT scores are associated with leaving the region for post-secondary completion, but are not associated with whether students leave the state or stay within Minnesota.
+
+**MCA Math, Reading, and Science proficiency** scores all follow the same pattern across all three measures. Regional graduates score significantly lower than both MN graduates (outside the region) and out-of-state graduates, but MN and out-of-state graduates do not differ significantly from each other on any of the three MCA measures. The consistent finding across all academic preparation variables is that regional completion is associated with lower academic preparation, while the decision to leave the state versus stay in Minnesota is essentially unrelated to academic preparation.
+
+**CTE achievement level** shows a small but statistically significant association (Cramer's V = 0.068). CTE concentrators and completers graduated within the region at the highest rate (66%), compared to 59% for CTE participants and 54% for students with no CTE involvement. This is consistent with the broader CTE pattern observed across all outcomes — deeper CTE engagement is associated with staying closer to home for post-secondary completion, reinforcing its connection to regionally-oriented workforce pathways.
+
+**Total CTE courses taken** also shows a statistically significant association (F = 63.3, p \< .001). Regional graduates took more CTE courses on average than both MN graduates and out-of-state graduates, and all three pairwise comparisons are significant. More CTE coursework is associated with completing post-secondary closer to home, while fewer CTE courses is associated with leaving — the mirror image of what is seen with academic preparation variables.
+
+Taken together, the high school accomplishment predictors of graduation location tell a coherent story. Academic preparation expands geographic range — students with stronger academic profiles are more likely to leave the region for post-secondary, though equally likely to stay in Minnesota or leave the state entirely. CTE engagement narrows geographic range — students with deeper CTE involvement are more likely to complete within the region. These findings reinforce the distinct trajectories associated with academic and CTE pathways, and have direct implications for understanding regional post-secondary pipeline dynamics.
 
 ::: panel-tabset
-#### ACT Composite Score → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 14470) = 536.91, p \< .001.
-
--   Students who graduated in their **home region** had ACT scores about 2.39 points lower than those who graduated elsewhere in Minnesota.
--   Students who graduated **outside Minnesota** also had ACT scores about 2.30 points lower than elsewhere-in-MN graduates.
--   No significant difference was observed between Region and Outside-MN graduates.
-
-**Conclusion**:\
-ACT scores are strongly associated with where students complete postsecondary credentials. Students with higher ACT scores are more likely to graduate from institutions elsewhere in Minnesota, while those with lower scores tend to remain in their home region or attend out-of-state institutions. The lack of difference between Region and Outside-MN suggests that both represent pathways for students with relatively lower ACT performance compared to those who stay within the state but outside their home region.
+### `ACTCompositeScore`
 
 ```{r}
 summary <- aov(ACTCompositeScore ~ ps.grad.location, data = data)
@@ -2147,16 +1287,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High school accomplishments/ACTCompositeScore.xlsx", overwrite = TRUE)
 ```
 
-#### PSEO Participation → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-Chi-square = 187.50, Cramer’s V = 0.117, p \< .001:contentReference[oaicite:0]{index="0"}.
-
--   **Non-PSEO participants** were much more likely to graduate within their high school region (66%) compared to PSEO participants (54%).
--   **PSEO participants** were more likely to graduate elsewhere in Minnesota (27% vs. 20.6%) or outside the state (19% vs. 13.4%).
-
-**Conclusion**:\
-PSEO participation is significantly associated with where students graduate. Students who participated in PSEO show greater geographic mobility, more often completing their degrees outside their home region—in other parts of Minnesota or out of state. Non-PSEO students, by contrast, are more likely to remain in their high school region for postsecondary completion.
+### `pseo.participant`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad.location,
@@ -2166,17 +1297,7 @@ tab_xtab(var.row = data$ps.grad.location,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High school accomplishments/pseo-participant.html")
 ```
 
-#### CTE Achievement → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-Chi-square = 171.97, Cramer’s V = 0.068, p \< .001:contentReference[oaicite:0]{index="0"}.
-
--   **CTE concentrators/completors** were the most likely to remain in their high school region (65.8%) and the least likely to graduate outside MN (13.2%).
--   **CTE participants** were somewhat less likely to stay in-region (58.9%) and more likely to graduate outside MN (16.9%).
--   **Non-CTE students** were the least likely to remain in-region (54.4%) and the most likely to graduate outside MN (19.2%).
-
-**Conclusion**:\
-CTE achievement shows a modest but significant association with graduation location. Students with deeper CTE engagement are more likely to stay local and complete within their high school region, while students with little or no CTE involvement demonstrate greater geographic mobility, graduating elsewhere in Minnesota or out of state. This suggests that CTE pathways reinforce regional ties, while non-CTE students pursue more mobile postsecondary trajectories.
+### `cte.achievement`
 
 ```{r}
 tab_xtab(var.row = data$ps.grad.location,
@@ -2186,17 +1307,7 @@ tab_xtab(var.row = data$ps.grad.location,
          file = "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High school accomplishments/cte-achievement.html")
 ```
 
-#### Total CTE Courses Taken → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 18642) = 63.26, p \< .001.
-
--   Graduates who remained in their **home region** had taken significantly more CTE courses than both elsewhere-in-MN (+0.24 courses) and outside-MN graduates (+0.45 courses).
--   Graduates who completed **outside Minnesota** had taken fewer CTE courses than those in-region (–0.45 courses).
--   The smallest number of CTE courses was observed among students graduating **elsewhere in Minnesota**, who took about 0.21 fewer courses than out-of-state graduates.
-
-**Conclusion**:\
-The number of CTE courses taken is significantly related to where students graduate. Students with heavier CTE course loads are more likely to stay in their home region, while those with fewer CTE courses are more likely to graduate outside their region, either elsewhere in Minnesota or out of state. This reinforces the pattern that stronger CTE engagement is tied to local completion, while less CTE involvement aligns with greater geographic mobility.
+### `total.cte.courses.taken`
 
 ```{r}
 summary <- aov(total.cte.courses.taken ~ ps.grad.location, data = data)
@@ -2218,16 +1329,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High 
 
 ```
 
-#### MCA Math Scores → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 18435) = 204.54, p \< .001.
-
--   **Region graduates** had significantly lower MCA Math scores than both elsewhere-in-MN graduates (–0.30, p \< .001) and outside-MN graduates (–0.26, p \< .001).
--   No significant difference in Math scores was found between elsewhere-in-MN and outside-MN graduates.
-
-**Conclusion**:\
-Math achievement is strongly associated with graduation location. Students with higher MCA Math scores are more likely to graduate outside their home region, whether elsewhere in Minnesota or out of state. Students with lower math scores are more likely to remain in their home region for postsecondary completion, indicating that higher academic achievement is linked to greater geographic mobility.
+### `MCA.M`
 
 ```{r}
 summary <- aov(MCA.M ~ ps.grad.location, data = data)
@@ -2248,16 +1350,7 @@ writeData(wb, "TukeyHSD", tukey_df)
 saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High school accomplishments/MCA-M.xlsx", overwrite = TRUE)
 ```
 
-#### MCA Reading Scores → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 18346) = 156.66, p \< .001.
-
--   **Region graduates** had significantly lower MCA Reading scores than both elsewhere-in-MN graduates (–0.19, p \< .001) and outside-MN graduates (–0.18, p \< .001).
--   No significant difference was found between elsewhere-in-MN and outside-MN graduates.
-
-**Conclusion**:\
-Reading achievement is strongly associated with graduation location. Students with higher MCA Reading scores are more likely to graduate outside their home region, whether elsewhere in Minnesota or out of state. Students with lower reading scores are more likely to remain in their home region for postsecondary completion, showing a clear link between stronger academic skills and greater geographic mobility.
+### `MCA.R`
 
 ```{r}
 summary <- aov(MCA.R ~ ps.grad.location, data = data)
@@ -2279,16 +1372,7 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High 
 
 ```
 
-#### MCA Science Scores → Postsecondary Graduation Location (Ps.grad.location)
-
-**Key Findings**:\
-ANOVA: F(2, 14864) = 236.46, p \< .001.
-
--   **Region graduates** had significantly lower MCA Science scores than both elsewhere-in-MN (–0.29, p \< .001) and outside-MN graduates (–0.28, p \< .001).
--   No significant difference was found between elsewhere-in-MN and outside-MN graduates.
-
-**Conclusion**:\
-Science achievement is strongly associated with graduation location. Students with higher MCA Science scores are more likely to graduate outside their home region, whether elsewhere in Minnesota or out of state. Students with lower science scores are more likely to remain in their home region, reinforcing the pattern that higher academic achievement is linked with greater geographic mobility.
+### `MCA.S`
 
 ```{r}
 summary <- aov(MCA.S ~ ps.grad.location, data = data)
@@ -2312,65 +1396,54 @@ saveWorkbook(wb, "Data/ChatGPT/Post-secondary pathways ct/ps-grad-location/High 
 
 <br>
 
-# Summary of Postsecondary Pathways Analysis (All Tiers)
+# Summary: Post-Secondary Pathways Among Northeast Minnesota Graduates
 
-This study examined how **demographics, high school characteristics, and high school accomplishments** shape postsecondary pathways across three tiers of outcomes:
+This analysis examined four post-secondary outcomes — attendance, graduation, highest credential level, and graduation location — across three groups of predictors: demographic characteristics, high school characteristics, and high school accomplishments. Taken together, the findings tell a coherent and interpretively rich story about who pursues post-secondary education in Northeast Minnesota, who completes it, how far they go, and where they end up.
 
-1.  **Tier 1: Core Postsecondary Access and Attainment**
-    -   Immediate enrollment (attended.ps.within.first.year.hsgrad)\
-    -   Ever attended postsecondary (attended.ps)\
-    -   Postsecondary graduation (ps.grad)
-2.  **Tier 2: Type of Postsecondary Experience**
-    -   Highest credential earned (highest.cred.level)
-3.  **Tier 3: Location of Postsecondary Experience**
-    -   Location of postsecondary graduation (ps.grad.location)
+<br>
 
-------------------------------------------------------------------------
+## The Dominant Finding: Individual Characteristics, Not School or Community Context, Drive Post-Secondary Outcomes
 
-# Key Findings by Tier
+Across all four outcomes, high school characteristics — district type, local unemployment, and local wages — contribute almost nothing to explaining post-secondary attainment. Where a student went to school matters far less than who that student is and what they did while they were there. This finding is consistent and robust, holding across attendance, graduation, and credential level. The one exception is graduation location, where district type and local economic conditions show meaningful associations — but even there, the individual-level predictors are stronger.
 
-## Tier 1: Core Access and Attainment
+This has an important implication for how the region thinks about post-secondary attainment gaps: the levers are not primarily structural or geographic. They are individual, relational, and experiential.
 
--   **Demographics** were the strongest and most consistent predictors. Economic disadvantage, race/ethnicity (especially American Indian, Black, and Hispanic students), and special education status all reduced likelihood of enrollment, attendance, and completion.
--   **High School Characteristics** (locale, local unemployment, wages) had weak and inconsistent effects.
--   **High School Accomplishments** were powerful predictors. Higher ACT/MCA scores and **PSEO participation** strongly boosted immediate enrollment, persistence, and graduation. In contrast, **greater CTE engagement** was associated with lower enrollment and graduation, aligning with workforce entry rather than postsecondary continuation.
+<br>
 
-## Tier 2: Type of Postsecondary Experience (Highest Credential Earned)
+## Two Distinct Pathways Emerge — and They Point in Different Directions
 
--   **Economic disadvantage** and **special education status** created the steepest barriers to earning a bachelor’s or higher degree, with these groups concentrated in “Some college” or sub-associate credentials.
--   **Racial disparities** persisted: White and Asian/PI students were far more likely to complete bachelor’s or graduate degrees, while American Indian, Black, and Hispanic students were more likely to stop at associate’s or leave with no credential.
--   **Academic readiness and PSEO participation** were the strongest positive predictors of bachelor’s+ attainment. Students with higher ACT/MCA scores and PSEO experience were much more likely to progress to advanced credentials.
--   **CTE engagement** again tracked with sub-baccalaureate attainment, with concentrators/completors more likely to finish with associate’s or stop at “Some college.”
+The data reveal two coherent and divergent trajectories among Northeast Minnesota graduates.
 
-## Tier 3: Location of Postsecondary Graduation
+The first is an academically-oriented pathway, characterized by PSEO participation, strong ACT scores, and high MCA proficiency. Students on this pathway attend post-secondary at high rates, complete at high rates, and are most likely to attain a bachelor's degree or higher. They are also the most likely to leave the region — and the state — for post-secondary. Academic preparation expands geographic range at every stage.
 
--   **Demographics shaped mobility**: disadvantaged, American Indian, Hispanic, and special education students were most likely to graduate within their high school region, while non-disadvantaged, White, and Asian/PI students showed greater mobility (elsewhere in MN or out-of-state).
--   **High school characteristics** mattered modestly. Rural students tended to leave their region but stay within Minnesota, while students from stronger labor markets (lower unemployment, higher wages) were more likely to graduate in-region or out-of-state.
--   **Accomplishments mattered most**: Higher ACT/MCA scores and PSEO participation were strongly tied to graduating outside the home region, while heavier CTE engagement (more courses, concentrator/completor status) was associated with staying local.
+The second is a CTE-oriented pathway, characterized by deeper CTE engagement and more CTE coursework. Students on this pathway are somewhat less likely to attend post-secondary and substantially less likely to complete a four-year credential. But those who do complete are more likely to do so within the region. CTE engagement narrows geographic range and is consistently associated with shorter-credential and workforce-first outcomes.
 
-------------------------------------------------------------------------
+These are not simply better and worse trajectories — they are different ones, oriented toward different destinations. The risk is in evaluating both pathways against post-secondary completion benchmarks designed primarily for the academic pathway. CTE-oriented students who enter the workforce directly or complete shorter credentials are not failing against the post-secondary completion standard; they are succeeding against a different one.
 
-# Overall Interpretation
+<br>
 
-Across all tiers, the analysis reveals three central themes:
+## Barriers Are Concentrated Among Specific Populations — and They Compound Across Outcomes
 
-1.  **Structural Inequities Persist**\
-    Economic disadvantage, race/ethnicity, and special education status consistently constrain postsecondary success. These students are less likely to enroll immediately, less likely to persist, less likely to graduate, and when they do, they are more likely to complete at lower credential levels and closer to home.
+The demographic findings tell a story of compounding disadvantage. Economic disadvantage and special education status are the strongest demographic predictors at every stage — attendance, graduation, and credential level — and the gaps widen as the outcome becomes more demanding. Students who face these barriers are not just less likely to attend; they are less likely to complete, less likely to reach a four-year credential, and more likely to stop at some college without finishing anything.
 
-2.  **Academic Readiness and PSEO are Game-Changers**\
-    ACT and MCA scores—especially in reading and science—are among the strongest predictors of bachelor’s and graduate attainment, while **PSEO participation stands out as the single most effective programmatic lever**, doubling the likelihood of bachelor’s+ completion and encouraging geographic mobility.
+The racial and ethnic gaps, particularly for American Indian and Black students, are stark at the graduation and credential level stages. These students attend post-secondary at rates that, while lower than White students, are not dramatically so — but they complete at far lower rates. The barrier for these students appears to intensify after enrollment, not primarily at the point of entry.
 
-3.  **CTE Pathways Support Local, Sub-Baccalaureate Outcomes**\
-    Intensive CTE engagement aligns strongly with associate-level attainment and local graduation. While CTE provides clear workforce pathways, it appears less effective in propelling students toward bachelor’s or graduate degrees, reflecting its different role in student trajectories.
+Gender gaps are consistent but secondary. Female graduates outperform male graduates at every post-secondary stage, and the gap widens at credential attainment — men who enroll are more likely to leave without completing.
 
-------------------------------------------------------------------------
+<br>
 
-# Conclusion
+## Regional Retention Is Structurally Tilted Against the Most Prepared Students
 
-The analysis underscores that **postsecondary pathways are not just about whether students attend, but how, where, and how far they progress.**
+The graduation location findings surface a tension that is directly relevant to regional workforce planning. The students most likely to complete post-secondary within the region are those who face the most constraints: economically disadvantaged students, special education students, students from lower-wage communities, and students with deeper CTE engagement. The students most likely to leave — and not return — are the most academically prepared.
 
--   **Equity gaps** remain entrenched, especially for disadvantaged, racially marginalized, and special education students.
--   **Academic preparation and dual-enrollment opportunities** (like PSEO) dramatically expand access to higher-level and geographically broader attainment.
--   **CTE pathways** anchor students locally and at sub-baccalaureate levels, serving as important workforce pipelines but not drivers of higher educational attainment.
+This is not a new dynamic in rural regions, but the data make it concrete. The regional post-secondary pipeline is shaped by a sorting process in which preparation and ambition tend to pull students outward, while constraint and vocational orientation tend to keep them local. Strategies aimed at strengthening regional post-secondary attainment need to grapple with this tension directly — because improving academic preparation without improving regional opportunity may simply accelerate outmigration.
 
-Ultimately, policies and practices that strengthen academic readiness, expand access to PSEO, and address demographic inequities will be most effective in raising not only participation and completion rates but also the **level and reach of postsecondary success**.
+<br>
+
+## Key Takeaways
+
+- Academic preparation — particularly PSEO participation, ACT performance, and MCA proficiency — is the strongest and most consistent predictor of post-secondary attendance and completion across all outcomes.
+- Economic disadvantage and special education status are the dominant demographic barriers, and their effects compound at every successive stage of post-secondary attainment.
+- CTE engagement is associated with a coherent workforce-first orientation — not failure — and is the strongest predictor of regional post-secondary completion among accomplishment variables.
+- High school and community characteristics are largely irrelevant to whether students attend or complete post-secondary; they matter most for where graduates complete, with entirely rural students leaving the region at disproportionately high rates.
+- The students most likely to complete post-secondary within the region are those with the fewest options, not the most. Regional workforce pipeline strategies need to account for this structural reality.
