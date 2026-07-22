@@ -148,6 +148,7 @@ names(data)
 ggplot(data, aes(disconnected.cat, pct, fill = disconnected.cat)) +
   geom_col(position = "dodge") +
   geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
+  geom_label(aes(label = comma(n), y = pct / 2), position = position_dodge(.5), color = "white", size = 3) +
   labs(x="", 
        y = "", 
        title = "Distribution of non-college graduates by pattern of workforce\ndisconnection over time",

@@ -7,21 +7,17 @@ library(ggiraph)
 library(rmapshaper)
 library(cowplot)
 library(RColorBrewer)
-library(readxl)
+library(extrafont)
 library(lubridate)
-library(readxl)
 library(systemfonts)
 reset_font_cache()
 library(ggtext)
-library(janitor)
-library(cowplot)
-library(ggalluvial)
-library(ggsankey)
+library(readxl)
+library(ggforce)
 
 
 rm(list = ls())
 
-# themes ------------------------------------------------------------------
 theme_bar <- theme_bw() +
   theme(panel.grid.major = element_line(color = "grey70", size = 0.1),
         panel.grid.minor = element_blank(),
@@ -34,7 +30,7 @@ theme_bar <- theme_bw() +
         legend.margin = margin(0,0,0,0),
         legend.title = element_blank(),
         legend.text = element_text(margin = margin(l = 2)),
-        text = element_text(family = "Avenir") ,
+        text = element_text(family = "Tahoma"),
         plot.title.position = "plot",
         plot.title = element_text(face = "bold"))
 
@@ -49,10 +45,9 @@ theme_line <- theme_bw() +
         panel.border = element_blank(),
         legend.margin = margin(0,0,0,0),
         legend.key.size = unit(1, "lines"),
-        text = element_text(family = "Avenir") ,
+        text = element_text(family = "Tahoma"),
         plot.title.position = "plot",
         plot.title = element_text(face = "bold"))
-
 
 theme_sf <- theme_bw() +
   theme(axis.text.x=element_blank(),
@@ -61,29 +56,13 @@ theme_sf <- theme_bw() +
         panel.background = element_blank(),
         panel.grid.major = element_line(color = "white"),
         panel.border = element_blank(),
+        plot.title = element_text(face = "bold"),
         legend.title = element_blank(),
         legend.text = element_text(margin = margin(l = 2)),
         legend.margin = margin(0,0,0,0),
         legend.key.size = unit(1, "lines"),
-        text = element_text(family = "Avenir") ,
-        plot.title.position = "plot",
-        plot.title = element_text(face = "bold"))
-
-theme_all <- theme_bw() +
-  theme(axis.ticks=element_blank(),
-        axis.text.y = element_blank(),
-        panel.background = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid = element_blank(),
-        panel.border = element_blank(),
-        legend.title = element_blank(),
-        legend.text = element_text(margin = margin(l = 2)),
-        legend.margin = margin(0,0,0,0),
-        legend.key.size = unit(1, "lines"),
-        text = element_text(family = "Avenir") ,
-        plot.title.position = "plot",
-        plot.title = element_text(face = "bold"))
-
+        text = element_text(family = "Tahoma"),
+        plot.title.position = "plot")
 
 regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
   select(5,6) %>%
@@ -94,22 +73,30 @@ regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@r
          edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
 
 counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  rename(mif = `MIF Region`) %>%
   mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
          Name = str_to_title(Name),
          Name = str_replace(Name, "Q", "q"),
          Name = str_replace(Name, "Of The", "of the"),
          Name = str_replace(Name, "Mcleod", "McLeod"),
-         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc) ,
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"),
          edr = str_replace(edr, "  ", " "),
          planning.region = str_replace(planning.region, " Minnesota", ""),
          planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
-         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"),
+         mif = ifelse(is.na(mif), "TC", mif),
+         mif = as.factor(mif),
+         mif = fct_relevel(mif, "NW", "NE", "WC", "EC", "SW", "SE", "TC"))
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29")
 
-color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
+color.pr <- c("Northwest" = "#4575b4","Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59")
 
-color.pr <- c("Northwest" = "#4575b4","Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
+color.pr.research <- c("Northwest" = "#4575b4","Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southern" = "#fc8d59")
 
-color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
+
+color.edr.simple <- c("EDR 1" = "#b3cde3", "EDR 2" = "#8c96c6", "EDR 3" = "#fe9929", "EDR 4" = "#8856a7", "EDR 5" = "#810f7c", "EDR 6E" = "#e5f5f9", "EDR 6W" = "#bdc9e1", "EDR 7E" = "#99d8c9", "EDR 7W" = "#2ca25f", "EDR 8" = "#74a9cf", "EDR 9" = "#0570b0", "EDR 10" = "#d7301f", "EDR 11" = "#d8b365", "Minnesota" = "black")
 
 color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black", "EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
 
@@ -117,7 +104,7 @@ color.six <- c("#009933", "#4575b4", "grey", "#fee090", "#fc8d59", "#d73027")
 
 mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
-  rename("countyfp" = "FIPS_CODE")
+  rename(countyfp = FIPS_CODE)
 
 counties.regions.1 <- counties.regions %>%
   mutate(statefp = "27",
@@ -128,53 +115,40 @@ counties.regions.1 <- counties.regions %>%
                                                   ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
          project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
 
+color.project.pr <- c("Northwest" = "#012623","Northeast" = "#8B601F", "Central" = "#2E7C63", "Seven County Mpls-St Paul" = "grey", "Southwest" = "#9B3F24", "Southern" = "#E6A762")
 
 # Prep data ---------------------------------------------------------------
 
-original <- read_csv("Data/SLEDS/Masters/Master-report-dataset.csv")
+research.region <- counties.regions.1 %>%
+  left_join(mn_counties[,c(5,6)], by = "countyfp") %>%
+  mutate(highlight = ifelse(project.pr == "Northeast", "True", "False"))
 
-data <- original %>%
-  filter(ps.grad == "No",
-         !grad.year.5 %in% c("After 2023", "Attending ps")) %>%
-  select(grad.year.5) %>%
-  mutate(grad.year.5 = as_factor(grad.year.5)) %>%
-  group_by(grad.year.5) %>%
-  summarize(n = n()) %>%
+project.pr.sf <- research.region %>%
+  group_by(project.pr) %>%
+  summarize(geometry = st_union(geometry)) %>%
   ungroup() %>%
-  mutate(pct = n / sum(n),
-         grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "Non-sustained WF", "No MN emp record"),
-         alpha = ifelse(grad.year.5 %in% c("Sustained WF - NE", "Sustained WF - MN"), "No highlight", "Highlight")) 
+  mutate(n = ifelse(project.pr == "Northwest", 65650,
+                    ifelse(project.pr == "Northeast", 49816,
+                           ifelse(project.pr == "Central", 137622,
+                                  ifelse(project.pr == "Southwest", 38154, 
+                                         ifelse(project.pr == "Southern", 122938, 0))))),
+         text.highlight = ifelse(project.pr == "Northeast", "True", "False"))
+  
+# Create map --------------------------------------------------------------
+names(research.region)
 
+ggplot(research.region) +
+  geom_sf(data = research.region, color = "grey85", aes(fill = project.pr, geometry = geometry, alpha = highlight)) +
+  geom_sf_label(data = project.pr.sf, aes(label = comma(n), geometry = geometry, alpha = text.highlight), color = "black", fill = "white", show.legend = FALSE) +
+  scale_fill_manual(values = color.project.pr)+
+  scale_alpha_manual(values = c("True" = 1, "False" = .5),
+                     guide = "none") +
+  theme_sf+
+  labs(title= "Research regions by number of individuals in dataset",
+       x = "",
+       y = "") +
+  theme(legend.position = "bottom")
 
-# Create chart ------------------------------------------------------------
+ggsave(filename = "Charts/Draft 4/research-region-dataset-n.pdf", device = cairo_pdf, dpi = "print", width = 6.5, height = 5)
 
-names(data)
-
-ggplot(data, aes(grad.year.5, pct, fill = grad.year.5, alpha = alpha)) +
-  geom_col(position = "dodge") +
-  geom_label(aes(label = percent(pct, accuracy = .1), alpha = alpha), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
-  labs(x="",
-       y = "", 
-       title = "Percent of Non-College Completers by Workforce Participation\nCategories 5-years After High School", 
-       subtitle = "Nearly 60% of non-college completers had non-sustained workforce participation or\nno Minnesota employment record.")+
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3,
-           y = .35,
-           yend = .3,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3.8,
-           y = .35,
-           yend = .32,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  scale_y_continuous(labels=scales::percent) +
-  theme_bar+
-  scale_fill_manual(values = c("#012623", "#2E7C63", "#8B601F", "#9B3F24")) +
-  scale_alpha_discrete(range = c(1, .4)) +
-  theme(legend.position = "none")
-
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4)
-
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.png", dpi = "print", width = 6, height = 4)
+ggsave(filename = "Charts/Draft 4/research-region-dataset-n.png", dpi = "print", width = 6.5, height = 5)

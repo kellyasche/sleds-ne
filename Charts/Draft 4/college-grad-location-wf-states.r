@@ -15,8 +15,6 @@ reset_font_cache()
 library(ggtext)
 library(janitor)
 library(cowplot)
-library(ggalluvial)
-library(ggsankey)
 
 
 rm(list = ls())
@@ -69,22 +67,6 @@ theme_sf <- theme_bw() +
         plot.title.position = "plot",
         plot.title = element_text(face = "bold"))
 
-theme_all <- theme_bw() +
-  theme(axis.ticks=element_blank(),
-        axis.text.y = element_blank(),
-        panel.background = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid = element_blank(),
-        panel.border = element_blank(),
-        legend.title = element_blank(),
-        legend.text = element_text(margin = margin(l = 2)),
-        legend.margin = margin(0,0,0,0),
-        legend.key.size = unit(1, "lines"),
-        text = element_text(family = "Avenir") ,
-        plot.title.position = "plot",
-        plot.title = element_text(face = "bold"))
-
-
 regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
   select(5,6) %>%
   unique() %>%
@@ -119,14 +101,18 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
   rename("countyfp" = "FIPS_CODE")
 
-counties.regions.1 <- counties.regions %>%
-  mutate(statefp = "27",
-         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
-                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
-                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
-                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
-                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
-         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+primary_colors <- c("#012623", "#2E7C63", "#8B601F", "#9B3F24", "grey")
+
+alt_colors     <- c("#012623", "#9B3F24", "#E6A762", "#8B601F", "#222222")
+
+expanded_colors <- c("#012623",   # Deep Field Green
+                     "#9B3F24",   # Earth Red
+                     "#2E7C63",   # Community Green
+                     "#E6A762",   # Warm Accent
+                     "#8B601F",   # Heritage Brown
+                     "#0F5952",   # Secondary Green
+                     "#222222",   # Dark Neutral
+                     "grey")      # Light-mid neutral
 
 
 # Prep data ---------------------------------------------------------------
@@ -134,47 +120,42 @@ counties.regions.1 <- counties.regions %>%
 original <- read_csv("Data/SLEDS/Masters/Master-report-dataset.csv")
 
 data <- original %>%
-  filter(ps.grad == "No",
+  select(grad.year.5, ps.grad.location) %>%
+  filter(ps.grad.location %in% c("PS grad MN", "PS grad Region", "PS grad outside MN"),
          !grad.year.5 %in% c("After 2023", "Attending ps")) %>%
-  select(grad.year.5) %>%
-  mutate(grad.year.5 = as_factor(grad.year.5)) %>%
-  group_by(grad.year.5) %>%
+  mutate(ps.grad.location = as_factor(ps.grad.location),
+         grad.year.5 = as_factor(grad.year.5)) %>%
+  group_by(grad.year.5, ps.grad.location) %>%
   summarize(n = n()) %>%
   ungroup() %>%
-  mutate(pct = n / sum(n),
-         grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "Non-sustained WF", "No MN emp record"),
-         alpha = ifelse(grad.year.5 %in% c("Sustained WF - NE", "Sustained WF - MN"), "No highlight", "Highlight")) 
+  group_by(ps.grad.location) %>%
+  mutate(pct = n / sum(n)) %>%
+  arrange(desc(pct)) %>%
+  mutate(rank = seq(n()),
+         alpha = ifelse(rank == 1, "Highlight", "No highlight")) %>%
+  ungroup() %>%
+  mutate(grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "No MN emp record", "Non-sustained WF"))
 
-
+levels(data$grad.year.5)
 # Create chart ------------------------------------------------------------
-
 names(data)
 
-ggplot(data, aes(grad.year.5, pct, fill = grad.year.5, alpha = alpha)) +
+ggplot(data, aes(ps.grad.location, pct, fill = grad.year.5, group = grad.year.5, alpha = alpha)) +
   geom_col(position = "dodge") +
   geom_label(aes(label = percent(pct, accuracy = .1), alpha = alpha), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
-  labs(x="",
+  labs(x="", 
        y = "", 
-       title = "Percent of Non-College Completers by Workforce Participation\nCategories 5-years After High School", 
-       subtitle = "Nearly 60% of non-college completers had non-sustained workforce participation or\nno Minnesota employment record.")+
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3,
-           y = .35,
-           yend = .3,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3.8,
-           y = .35,
-           yend = .32,
-           arrow = arrow(length = unit(.25, "cm"))) +
+       title = "Workforce participation outcomes five years after high school\ngraduation, by location of postsecondary graduation",
+       subtitle = "Where college completers graduated is strongly associated with where they end up\nworking")+
   scale_y_continuous(labels=scales::percent) +
+  scale_alpha_manual(values = c(1, .3)) +
+  guides(alpha = "none") +
   theme_bar+
-  scale_fill_manual(values = c("#012623", "#2E7C63", "#8B601F", "#9B3F24")) +
-  scale_alpha_discrete(range = c(1, .4)) +
-  theme(legend.position = "none")
+  scale_fill_manual(values = c("#012623", "#2E7C63", "#8B601F", "#9B3F24"),
+                    guide = guide_legend(ncol = 2)) +
+  theme(legend.position = "bottom")
 
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4)
 
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.png", dpi = "print", width = 6, height = 4)
+ggsave(filename = "Charts/Paper report 3/college-grad-location-wf-states.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4)
+
+ggsave(filename = "Charts/Paper report 3/college-grad-location-wf-states.png", dpi = "print", width = 6, height = 4)

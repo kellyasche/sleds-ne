@@ -134,47 +134,51 @@ counties.regions.1 <- counties.regions %>%
 original <- read_csv("Data/SLEDS/Masters/Master-report-dataset.csv")
 
 data <- original %>%
-  filter(ps.grad == "No",
-         !grad.year.5 %in% c("After 2023", "Attending ps")) %>%
-  select(grad.year.5) %>%
-  mutate(grad.year.5 = as_factor(grad.year.5)) %>%
-  group_by(grad.year.5) %>%
+  select(grad.year.5, ps.grad) %>%
+  filter(!grad.year.5 %in% c("After 2023", "Attending ps")) %>%
+  filter(ps.grad != "Attending ps") %>%
+  group_by(ps.grad, grad.year.5) %>%
   summarize(n = n()) %>%
   ungroup() %>%
-  mutate(pct = n / sum(n),
-         grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "Non-sustained WF", "No MN emp record"),
-         alpha = ifelse(grad.year.5 %in% c("Sustained WF - NE", "Sustained WF - MN"), "No highlight", "Highlight")) 
+  group_by(ps.grad) %>%
+  mutate(pct = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "Non-sustained WF", "No MN emp record"),
+         ps.grad = ifelse(ps.grad == "No", "Non-college grad", "College grad"),
+         ps.grad = fct_relevel(ps.grad, "College grad", "Non-college grad"))
 
 
 # Create chart ------------------------------------------------------------
-
 names(data)
 
-ggplot(data, aes(grad.year.5, pct, fill = grad.year.5, alpha = alpha)) +
+ggplot(data, aes(grad.year.5, pct, fill = ps.grad, group = ps.grad)) +
   geom_col(position = "dodge") +
-  geom_label(aes(label = percent(pct, accuracy = .1), alpha = alpha), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
-  labs(x="",
+  geom_label(aes(label = percent(pct, accuracy = .1)), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
+  annotate(geom = "segment",
+           x = 1.5,
+           xend = 1.1,
+           y = .4,
+           yend = .35,
+           arrow = arrow(length = unit(.25, "cm"))) +
+  annotate(geom = "segment",
+           x = 1.5,
+           xend = 1.75,
+           y = .4,
+           yend = .26,
+           arrow = arrow(length = unit(.25, "cm"))) +
+  labs(x="", 
        y = "", 
-       title = "Percent of Non-College Completers by Workforce Participation\nCategories 5-years After High School", 
-       subtitle = "Nearly 60% of non-college completers had non-sustained workforce participation or\nno Minnesota employment record.")+
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3,
-           y = .35,
-           yend = .3,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3.8,
-           y = .35,
-           yend = .32,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  scale_y_continuous(labels=scales::percent) +
+       title = "Workforce Participation Outcomes by Postsecondary\nCompletion Status",
+       subtitle = "Graduates who complete a credential are more likely to have\nsustained employment.")+
+  scale_y_continuous(labels=scales::percent,
+                     expand = c(0, 0)) +
   theme_bar+
-  scale_fill_manual(values = c("#012623", "#2E7C63", "#8B601F", "#9B3F24")) +
-  scale_alpha_discrete(range = c(1, .4)) +
-  theme(legend.position = "none")
+  scale_fill_manual(values = c("#018571", "#a6611a")) +
+  theme(legend.position = "bottom",
+        legend.box.margin = margin(-20, 0, 0, 0),
+        text = element_text(size = 14),
+        axis.text.x = element_text(angle = 25, hjust = 1))
+write_csv(data, "Charts/Draft 4/wf-ps-grad.csv")
+ggsave(filename = "Charts/Paper report 3/wf-ps-grad.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4.5)
 
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4)
-
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.png", dpi = "print", width = 6, height = 4)
+ggsave(filename = "Charts/Paper report 3/wf-ps-grad.png", dpi = "print", width = 6, height = 4.5)

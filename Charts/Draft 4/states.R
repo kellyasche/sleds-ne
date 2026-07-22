@@ -15,8 +15,6 @@ reset_font_cache()
 library(ggtext)
 library(janitor)
 library(cowplot)
-library(ggalluvial)
-library(ggsankey)
 
 
 rm(list = ls())
@@ -69,22 +67,6 @@ theme_sf <- theme_bw() +
         plot.title.position = "plot",
         plot.title = element_text(face = "bold"))
 
-theme_all <- theme_bw() +
-  theme(axis.ticks=element_blank(),
-        axis.text.y = element_blank(),
-        panel.background = element_blank(),
-        panel.grid.major = element_blank(),
-        panel.grid = element_blank(),
-        panel.border = element_blank(),
-        legend.title = element_blank(),
-        legend.text = element_text(margin = margin(l = 2)),
-        legend.margin = margin(0,0,0,0),
-        legend.key.size = unit(1, "lines"),
-        text = element_text(family = "Avenir") ,
-        plot.title.position = "plot",
-        plot.title = element_text(face = "bold"))
-
-
 regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
   select(5,6) %>%
   unique() %>%
@@ -119,62 +101,83 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
   ms_simplify(keep = .01, keep_shapes = TRUE) %>%
   rename("countyfp" = "FIPS_CODE")
 
-counties.regions.1 <- counties.regions %>%
-  mutate(statefp = "27",
-         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
-                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
-                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
-                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
-                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
-         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+primary_colors <- c("#012623", "#2E7C63", "#8B601F", "#9B3F24", "grey")
+
+alt_colors     <- c("#012623", "#9B3F24", "#E6A762", "#8B601F", "#222222")
+
+expanded_colors <- c("#012623",   # Deep Field Green
+                     "#9B3F24",   # Earth Red
+                     "#2E7C63",   # Community Green
+                     "#E6A762",   # Warm Accent
+                     "#8B601F",   # Heritage Brown
+                     "#0F5952",   # Secondary Green
+                     "#222222",   # Dark Neutral
+                     "grey")      # Light-mid neutral
 
 
 # Prep data ---------------------------------------------------------------
 
-original <- read_csv("Data/SLEDS/Masters/Master-report-dataset.csv")
+original <- read_csv("Data/SLEDS/Masters/States/annual-seven-states.csv")
 
 data <- original %>%
-  filter(ps.grad == "No",
-         !grad.year.5 %in% c("After 2023", "Attending ps")) %>%
-  select(grad.year.5) %>%
-  mutate(grad.year.5 = as_factor(grad.year.5)) %>%
-  group_by(grad.year.5) %>%
+  mutate(states = ifelse(states %in% c("Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE", states),
+         states = ifelse(states == "Meaningful emp MN", "Sustained WF - MN", states),
+         states = ifelse(states == "No MN emp record, not attending ps", "No MN emp record", states),
+         states = ifelse(states == "Not meaningful, not attending ps", "Non-sustained WF", states),
+         states = as.factor(states)) %>%
+  select(grad.year, states) %>%
+  filter(states != "After 2023") %>%
+  group_by(grad.year, states) %>%
   summarize(n = n()) %>%
   ungroup() %>%
-  mutate(pct = n / sum(n),
-         grad.year.5 = fct_relevel(grad.year.5, "Sustained WF - NE", "Sustained WF - MN", "Non-sustained WF", "No MN emp record"),
-         alpha = ifelse(grad.year.5 %in% c("Sustained WF - NE", "Sustained WF - MN"), "No highlight", "Highlight")) 
+  group_by(grad.year) %>%
+  mutate(share = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(grad.year = str_sub(grad.year, -2, -1),
+         grad.year = str_replace(grad.year, "[.]", ""),
+         grad.year = as.numeric(grad.year),
+         states = fct_relevel(states, "Sustained WF - NE", "Sustained WF - MN", "No MN emp record", "Non-sustained WF", "Attending ps"),
+         data_id = seq(n())) %>%
+  group_by(grad.year) %>%
+  arrange(desc(states)) %>%
+  mutate(cum.pct = cumsum(share),
+         x.loc = cum.pct - ((cum.pct - lag(cum.pct)) / 2),
+         x.loc = ifelse(states == "Attending ps", cum.pct/2, x.loc),
+         x.loc = ifelse(states == "Non-sustained WF" & is.na(x.loc), cum.pct /2, x.loc)) %>%
+  ungroup()
 
 
 # Create chart ------------------------------------------------------------
+names(data)
+
+ggplot(data = filter(data, states != "Attending ps"), aes(grad.year, share, fill = states, group = states)) +
+  facet_wrap(~states, ncol = 2) +
+  geom_col(position = "dodge") +
+  geom_label(data = filter(data, states != "Attending ps", grad.year %in% c(1,5,10, 15)), aes(label = percent(share, accuracy = .1)), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 4) +
+  labs(x="", y = "", title = "Pathways taken by share of graduates X years after graduating\nhigh school")+
+  scale_y_continuous(labels=scales::percent) +
+  theme_bar+
+  scale_fill_manual(values = primary_colors,
+                    guide = guide_legend(ncol = 2)) +
+  theme(legend.position = "none")
+
+ggsave(filename = "Charts/Draft 4/states.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 5)
+
+ggsave(filename = "Charts/Draft 4/states.png", dpi = "print", width = 6, height = 5)
 
 names(data)
 
-ggplot(data, aes(grad.year.5, pct, fill = grad.year.5, alpha = alpha)) +
-  geom_col(position = "dodge") +
-  geom_label(aes(label = percent(pct, accuracy = .1), alpha = alpha), show.legend = FALSE, position = position_dodge(width = .9), color = "white", size = 3) +
-  labs(x="",
-       y = "", 
-       title = "Percent of Non-College Completers by Workforce Participation\nCategories 5-years After High School", 
-       subtitle = "Nearly 60% of non-college completers had non-sustained workforce participation or\nno Minnesota employment record.")+
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3,
-           y = .35,
-           yend = .3,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  annotate(geom = "segment",
-           x = 3.5,
-           xend = 3.8,
-           y = .35,
-           yend = .32,
-           arrow = arrow(length = unit(.25, "cm"))) +
-  scale_y_continuous(labels=scales::percent) +
+ggplot(data, aes(grad.year, share, fill = states, group = states)) +
+  geom_area_interactive(aes(data_id = data_id, tooltip = paste("State: ", states, "\n", percent(share, accuracy = .1), sep = ""))) +
+  geom_label(data = filter(data, grad.year %in% c(1, 5, 7, 10)), aes(y = x.loc, x = grad.year, label = percent(share, accuracy = .1)), show.legend = FALSE) +
+  labs(x="Years after high school", y = "Proportion of high school graduates", color="", title = "Workforce outcomes by years after graduating high school")+
+  scale_y_continuous(labels=scales::percent)+
+  scale_x_continuous(breaks = seq(0, 20, 2)) +
   theme_bar+
-  scale_fill_manual(values = c("#012623", "#2E7C63", "#8B601F", "#9B3F24")) +
-  scale_alpha_discrete(range = c(1, .4)) +
-  theme(legend.position = "none")
+  scale_fill_manual(values = brewer.pal(n = 7, "RdYlBu"),
+                    guide = guide_legend(ncol = 3)) +
+  theme(legend.position = "bottom")
 
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.pdf", device = cairo_pdf, dpi = "print", width = 6, height = 4)
+ggsave(filename = "Charts/Paper report/states.pdf", device = cairo_pdf, dpi = "print", width = 6.5, height = 5)
 
-ggsave(filename = "Charts/Paper report 3/pct-non-college-completors-wf-cat-non-sustained.png", dpi = "print", width = 6, height = 4)
+ggsave(filename = "Charts/Paper report/states.png", dpi = "print", width = 6.5, height = 5)

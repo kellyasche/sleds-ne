@@ -133,13 +133,19 @@ mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasch
 ```{r master dataset}
 master.original <- read_csv("Data/SLEDS/Masters/After analysis/Master-final-after-mca.csv")
 
+names(master.original)
 master.states <- read_csv("Data/SLEDS/Masters/States/annual-seven-states.csv") %>%
   filter(grad.year %in% c("grad.year.1", "grad.year.5", "grad.year.10")) %>%
   select(PersonID, grad.year, states) %>%
-  pivot_wider(names_from = grad.year, values_from = states)
+  pivot_wider(names_from = grad.year, values_from = states) 
 
 master <- master.original %>%
-  left_join(master.states, by = "PersonID")
+  left_join(master.states, by = "PersonID") %>%
+  mutate(grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE",
+                              ifelse(grad.year.5 == "Meaningful emp MN", "Sustained WF - MN",
+                                     ifelse(grad.year.5 == "No MN emp record, not attending ps", "No MN emp record", 
+                                            ifelse(grad.year.5 == "Not meaningful, not attending ps", "Non-sustained WF", as.character(grad.year.5))))),
+         grad.year.5 = as_factor(grad.year.5))
 
 kable(head(master))
 
@@ -158,63 +164,97 @@ Logistic regression is used here as a confirmatory tool rather than the primary 
 
 <br>
 
-# Methodology
+## Methodology
 
-## Outcome Variable
+### **Dependent Variables**
 
-The primary model predicts:
+This analysis models four distinct outcomes, each restricted to the appropriate subset of the cohort:
 
-- **Sustained employment – region** (binary outcome)
+1.  **Sustained regional workforce attachment** (`grad.year.5`) — binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across the full graduating cohort.
+2.  **Postsecondary completion** (`ps.grad`) — binary (1 = completed a postsecondary credential, 0 = did not), modeled across **all high school graduates**, regardless of whether they ever attended postsecondary education.
+3.  **Postsecondary completion within the region** — binary (1 = completed a postsecondary credential within the region, 0 = completed elsewhere in Minnesota or out of state), restricted to **postsecondary completers only**.
+4.  **Sub-baccalaureate credential attainment** — binary (1 = highest credential earned is an associate degree or less-than-associate credential, 0 = bachelor's degree or higher), restricted to **postsecondary completers only**. *\[Coding pending final confirmation against the exact factor levels in the data.\]*
 
-The dependent variable is coded as:
+### **Sample**
 
-- 1 = Sustained employment – region\
-- 0 = All other workforce outcomes (including sustained employment – MN outside the region, non-sustained employment, and no MN employment record)
+All four models are restricted to the **2011–2019 graduating cohorts**. Earlier cohorts (2008–2010) are excluded because PSEO participation was not consistently tracked in the data system prior to 2011 — missingness in that variable is concentrated almost entirely in those years rather than distributed randomly, and including them would risk misclassifying genuine PSEO participants as non-participants. And PSEO participation was identified as having a very strong relationship to our dependent variables in the bivariate analysis.
 
-This specification focuses specifically on stable regional workforce attachment.
+### Independent Variables
 
-<br>
+Variables were selected based on (1) a demonstrated bivariate relationship with the relevant outcome(s) in the cross-tabulation and ANOVA analysis, and (2) practical usability in a multivariate model, with closely related variables consolidated to avoid multicollinearity. The same variable set and coding is used across all four outcomes.
 
-## Independent Variables
+**Demographics**
 
-To maintain interpretability and avoid overfitting, the analysis includes a limited set of theoretically and empirically important predictors identified in earlier analyses.
+- **`Gender`**
+- **`RaceEthnicity`**
+- **`economic.status`**
+- **`SpecialEdStatus`**
+- **`english.learner`**
 
-### Demographic Variables
+**High school characteristics**
 
-- `economic.status`
-- `SpecialEdStatus`
-- `englisher.learner`
-- `Gender`
+- **`Dem_Desc`** (district rural/urban classification)
+- **`avg.wages.pct.state`** (local average wages as a percentage of the state average)
+- **`avg.unemp.rate`** (local average unemployment rate)
 
-These variables capture structural differences that may shape both educational pathways and workforce attachment.
+**High school accomplishments**
 
-### High School Preparation Variables
+- **`pseo.participant`** (Post-Secondary Enrollment Options participation)
+- **`took.ACT`** (whether the student took the ACT)
+- **`ACTCompositeScore`** (ACT composite score, recoded to 0 for non-test-takers — see note below)
+- **`ap.exam`** (AP exam participation)
+- **`cte.achievement`** (CTE concentration/completion level)
+- **`MCA.M`** (MCA Math proficiency)
 
-- `MCA.M` (academic proficiency indicator)
-- `pseo.participant` (early college exposure)
-- `cte.achievement` (career and technical pathway participation)
+**Postsecondary variables**
 
-These measures represent three distinct preparation mechanisms: academic readiness, early college participation, and technical skill development.
+- `ps.grad` - used only for the Sustained WF - Region as the dependent variable
+- **`highest.cred.level`** - these will be tested on the dependent variables dedicated to
+- **`ps.grad.location`** (location of postsecondary completion)
 
-### Postsecondary Mechanism Variables
+### Notes on Variable Selection
 
-Postsecondary variables are introduced in separate specifications to avoid redundancy and isolate distinct mechanisms:
+**Academic achievement (MCA).** MCA Math, Reading, and Science scores are highly correlated with one another (r = 0.63–0.75) and with ACT performance. Including all three MCA subject scores in the same model produces unstable, difficult-to-interpret coefficients without adding meaningful explanatory power. MCA Math was retained as the single representative of academic proficiency; it has the lowest missingness of the three subjects and a comparable or stronger bivariate relationship with the outcomes examined.
 
-- `highest.cred.level` (credential depth)
-- `ps.grad.location` (regional postsecondary completion)
+**CTE engagement.** `cte.achievement` (concentrator/completer/participant/no CTE) was retained over `total.cte.courses.taken`, a continuous measure of the same underlying construct. The two are redundant, and the categorical version is more directly interpretable for a non-technical audience.
 
-### Local Context Control
+**ACT participation and score.** Students who did not take the ACT have no composite score by definition — this is a structural absence tied entirely to an observed variable (`took.ACT`), not missing data in the conventional sense. To retain the full sample rather than dropping non-test-takers, `ACTCompositeScore` was recoded to 0 for non-test-takers and entered into the model alongside `took.ACT`. With both terms present, `took.ACT` captures the effect of test participation itself, while `ACTCompositeScore` captures the achievement gradient specifically among test-takers, without the two effects being confounded.
 
-- `avg.unemp.rate` (local economic context at time of graduation)
+**Variables dropped.** `range.school`, `total.cte.courses.taken`, `sat.taken`, `MCA.R`, and `MCA.S` were excluded due to a combination of weak bivariate association, redundancy with a retained variable, or both.
 
-This variable accounts for structural labor market conditions influencing immediate post–high school opportunities.
+### Modeling Approach
 
-Variables were selected based on:
+Each outcome is modeled using a sequential block-entry approach, adding one group of predictors at a time to assess the relative contribution of each. Each block is compared to the prior one using a likelihood ratio test to confirm it adds significant explanatory power, with AIC and pseudo-R² tracked across the sequence to summarize overall model improvement.
 
-1\. Strength of association in prior bivariate analyses\
-2. Policy relevance\
-3. Conceptual clarity\
-4. Avoidance of redundant or highly collinear measures
+**Sustained regional workforce attachment:**
+
+- Model 1: Demographics
+- Model 2: + High school characteristics
+- Model 3: + High school accomplishments
+- Model 4a: + Highest credential attained
+- Model 4b: + Postsecondary graduation location
+
+Model 4 is entered in two stages rather than as a single combined block. This preserves the ability to observe whether credential attainment and graduation geography operate as independent mechanisms or whether one substantially attenuates the other once both are in the model — a distinction that is central to this analysis's findings on regional workforce retention.
+
+**Postsecondary completion, all high school graduates:**
+
+- Model 1: Demographics
+- Model 2: + High school characteristics
+- Model 3: + High school accomplishments
+
+**Postsecondary completion within the region, completers only:**
+
+- Model 1: Demographics
+- Model 2: + High school characteristics
+- Model 3: + High school accomplishments
+
+**Sub-baccalaureate credential attainment, completers only:**
+
+- Model 1: Demographics
+- Model 2: + High school characteristics
+- Model 3: + High school accomplishments
+
+Following these base model sequences, additional modeling will be considered only if the results indicate a need for further specification (e.g., interaction effects, additional mediation checks).
 
 <br>
 
@@ -275,32 +315,23 @@ This specification assesses whether regional completion retains influence after 
 
 ## Evaluation Criteria
 
-Results will be reported using:
+Results will be reported using: - Odds ratios - 95% confidence intervals - Statistical significance levels - Directional interpretation
 
-- Odds ratios
-- 95% confidence intervals
-- Statistical significance levels
-- Directional interpretation
-
-Model comparison metrics (AIC and pseudo R²) will be used to assess relative improvement across specifications, but emphasis will remain on coefficient stability, attenuation patterns, and substantive interpretation rather than overall fit.
-
-<br>
+Model comparison metrics (AIC and pseudo R²) will be used to assess relative improvement across specifications within each outcome's model sequence, but emphasis will remain on coefficient stability, attenuation patterns, and substantive interpretation rather than overall fit. <br>
 
 ## Interpretation Framework
 
-Interpretation will focus on:
-
-- Direction and relative magnitude of associations
-- Changes in coefficients across models
-- Evidence of attenuation when postsecondary variables are introduced
+Interpretation will focus on: - Direction and relative magnitude of associations - Changes in coefficients across blocks within each model sequence - Evidence of attenuation as additional blocks are introduced, with particular attention to the sustained-regional-employment model, where credential attainment and graduation location are entered in separate stages to assess whether one mechanism absorbs the other
 
 Findings will be described as associations holding other included variables constant. No causal claims will be made.
 
-This structured approach evaluates three central mechanisms underlying sustained regional employment in Northeast Minnesota:
+This analysis evaluates three central mechanisms underlying postsecondary and regional workforce outcomes in Northeast Minnesota, each anchored to a specific model:
 
-1.  **Preparation Sorting Mechanism** (academic readiness, early college exposure, technical pathways)
-2.  **Credential Stratification Mechanism** (attainment depth)
-3.  **Regional Anchoring Mechanism** (location of postsecondary completion)
+1.  **Preparation Sorting Mechanism** (academic readiness, early college exposure, technical pathways) — evaluated primarily through the postsecondary completion model (all high school graduates).
+2.  **Credential Stratification Mechanism** (attainment depth) — evaluated primarily through the sub-baccalaureate credential model (completers only).
+3.  **Regional Anchoring Mechanism** (location of postsecondary completion) — evaluated primarily through the regional completion model (completers only).
+
+The sustained regional employment model synthesizes these mechanisms, testing whether credential depth and graduation location operate as independent predictors of long-term regional workforce attachment or whether one substantially explains the other once both are accounted for.
 
 Together, these models provide multivariate confirmation of patterns identified in earlier descriptive analyses while preserving conceptual clarity and interpretability.
 
@@ -310,37 +341,55 @@ The first thing I need to do is setup my dataset for modeling. I'm going to crea
 
 ```{r}
 
+model_vars_final <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
+                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
+                      "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
+                      "cte.achievement", "MCA.M", "ps.grad",
+                      "grad.year.5")
+
 master.model <- master %>%
-  select(PersonID, RaceEthnicity, economic.status, SpecialEdStatus, english.learner, Gender, MCA.M, pseo.participant, cte.achievement, highest.cred.level, ps.grad.location, avg.unemp.rate, ps.grad, grad.year.5) %>%
+  filter(grad.year > 2010) %>%
+  select(PersonID, Gender, RaceEthnicity, economic.status, SpecialEdStatus, english.learner, Dem_Desc, avg.wages.pct.state, avg.unemp.rate, pseo.participant, took.ACT, ACTCompositeScore, ap.exam, cte.achievement, MCA.M, ps.grad, grad.year.5) %>%
   filter(grad.year.5 != "After 2023",
          grad.year.5 != "Attending ps",
-         ps.grad.location != "Attending ps",
-         !is.na(ps.grad.location)) %>%
-  mutate(grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", grad.year.5),
-         grad.year.5 = str_replace(grad.year.5, ", not attending ps", ""),
-         grad.year.5 = ifelse(grad.year.5 == "Meaningful emp region", 1, 0),
+         ps.grad != "Attending ps") %>%
+  mutate(grad.year.5 = ifelse(grad.year.5 == "Sustained WF - NE", 1, 0),
+         Gender = fct_relevel(Gender, "M"),
          RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
          economic.status = as_factor(economic.status),
          economic.status = fct_relevel(economic.status, "0"),
-         english.learner = as_factor(english.learner),
-         english.learner = fct_relevel(english.learner, "0"),
-         Gender = fct_relevel(Gender, "M"),
-         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
-         pseo.participant = ifelse(is.na(pseo.participant), 0, pseo.participant),
-         pseo.participant = as.character(pseo.participant),
-         pseo.participant = fct_relevel(pseo.participant, "0"),
-         economic.status = as.character(economic.status),
-         economic.status = fct_relevel(economic.status, "0"),
          SpecialEdStatus = as.character(SpecialEdStatus),
          SpecialEdStatus = fct_relevel(SpecialEdStatus, "0"),
-         highest.cred.level = fct_relevel(highest.cred.level, "Did not graduate ps"),
-         ps.grad.location = ifelse(ps.grad.location %in% c("PS grad region", "PS grad EDR"), "PS grad region", ps.grad.location),
-         ps.grad.location = fct_relevel(ps.grad.location, "Did not graduate ps"))
+         english.learner = as_factor(english.learner),
+         english.learner = fct_relevel(english.learner, "0"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         pseo.participant = as.character(pseo.participant),
+         pseo.participant = fct_relevel(pseo.participant, "0"),
+         took.ACT = fct_relevel(took.ACT, "No"),
+         ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
+         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
+         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
+         ap.exam = as_factor(ap.exam),
+         ap.exam = fct_relevel(ap.exam, "0"),
+         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
+         ps.grad = ifelse(ps.grad == "Y", "Yes", ps.grad),
+         ps.grad = fct_relevel(ps.grad, "No")) 
+
+nrow(master.model)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
 
 kable(head(master.model))
 
 kable(names(master.model))
 
+model_vars_final <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
+                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
+                      "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
+                      "cte.achievement", "MCA.M.filled", "MCA.M.missing",
+                      "ps.grad", "grad.year.5")
+
+colSums(is.na(master.model[, model_vars_final]))
+
+nrow(master.model)
 ```
 
 We now have `r comma(nrow(master.model))` individuals to model with `r ncol(master.model) - 2` variables not including `grad.year.5`.
@@ -349,73 +398,58 @@ We now have `r comma(nrow(master.model))` individuals to model with `r ncol(mast
 
 # Modeling - Sustained WF - Region
 
-## Model 1 - Demographics, HS Characteristics, HS Accomplishments
+## Model 1: Demographics (Sustained Regional Workforce Attachment)
 
-Model 1 serves as the baseline structural and preparation model, estimating the association between demographic background, high school academic preparation, and sustained regional employment five years after graduation. This specification excludes postsecondary attainment variables in order to isolate whether early academic readiness and structural characteristics independently differentiate workforce pathway outcomes. By modeling these predictors first, the analysis establishes whether observed disparities in regional workforce attachment emerge prior to postsecondary completion.
+This model estimates the association between demographic characteristics and sustained regional workforce attachment five years after high school graduation, using the full analytic sample (n = 20,386). The outcome is coded 1 = sustained workforce attachment within the region ("Sustained WF - NE"), 0 = all other outcomes (non-sustained, sustained elsewhere in Minnesota, or no Minnesota employment record).
 
-This baseline model tests the preparation mechanism: whether differences in academic proficiency and early college or career exposure are associated with sustained regional employment, holding structural background constant. Subsequent models will introduce postsecondary variables to assess whether these preparation effects persist, attenuate, or are mediated through educational attainment and geographic completion pathways.
+Demographic factors show a consistent pattern: nearly every group examined is *less* likely than its reference category to achieve sustained regional attachment.
 
-The model retains nearly the full analytic sample, with 1,476 observations removed due to missingness.
+**Race and ethnicity** shows the widest range of effects in this model.
 
-The strongest associations in this specification are tied to CTE participation and persistent racial disparities.
+- **Black graduates:** approximately 52% lower odds of sustained regional attachment relative to White graduates (OR ≈ 0.48).
+- **Asian/Pacific Islander graduates:** approximately 43% lower odds (OR ≈ 0.57).
+- **Hispanic graduates:** approximately 37% lower odds (OR ≈ 0.63).
+- **American Indian graduates:** approximately 15% lower odds (OR ≈ 0.85), the smallest gap among the four groups but still statistically significant.
 
-Career and technical education shows the clearest positive relationship with sustained regional employment:
+**Other demographic predictors** show smaller but still significant effects.
 
-- **CTE concentrators/completers:** approximately 38% higher odds of sustained regional employment relative to students with no CTE participation (OR ≈ 1.38).
-- **CTE participants:** roughly 20% higher odds (OR ≈ 1.20).
+- **English learner status:** approximately 24% lower odds of sustained regional attachment (OR ≈ 0.76).
+- **Female graduates:** approximately 11% lower odds relative to male graduates (OR ≈ 0.89).
+- **Special education status:** approximately 15% lower odds (OR ≈ 0.85).
+- **Economic disadvantage:** approximately 7% lower odds (OR ≈ 0.93) — the weakest effect in the model, significant at p \< .05 but only just.
 
-These effects are substantively larger than those associated with academic preparation measures and indicate that CTE operates as a distinct regional anchoring mechanism at five years.
+**Interpretation**
 
-Racial disparities remain pronounced even after accounting for preparation and structural context:
+At the demographics-only stage, every predictor points in the same direction: relative to the reference group (male, White, not economically disadvantaged, not special education, not an English learner), each demographic category examined shows *lower* odds of sustained regional workforce attachment. Race and ethnicity produce the largest disparities, with Black and Asian/Pacific Islander graduates showing the steepest gaps. Economic status has the smallest effect of the five predictors, sitting just inside statistical significance.
 
-- **Black students:** approximately 48% lower odds of sustained regional employment relative to White students (OR ≈ 0.52).
-- **Asian/PI students:** roughly 38% lower odds (OR ≈ 0.62).
-- **Hispanic students:** about 24% lower odds (OR ≈ 0.76).
-- **American Indian students:** approximately 12% lower odds (OR ≈ 0.88).
+This is a baseline model only — it does not yet account for high school context, academic preparation, or postsecondary pathways, all of which are added in subsequent blocks. Whether these demographic gaps persist, widen, or attenuate once those factors are introduced is the central question the block-sequenced comparison is designed to answer.
 
-The magnitude of the Black and Asian/PI gaps is especially notable and persists net of academic proficiency, CTE participation, and local labor market conditions.
+**Model fit:** AIC = 25,272.6; residual deviance = 25,255 on 20,377 df (null deviance = 25,416 on 20,385 df).
 
-Academic mobility indicators show a consistent outward-orientation gradient:
-
-- **Higher MCA Math scores:** associated with lower odds of sustained regional employment (\~7% lower odds per unit increase), suggesting that academically stronger students are more likely to pursue opportunities outside the region.
-- **PSEO participation:** modest negative association (\~7% lower odds), consistent with early college exposure facilitating mobility beyond the region.
-
-Structural background factors also demonstrate independent associations:
-
-- **Special Education status:** approximately 22% lower odds of sustained regional employment (OR ≈ 0.78).
-- **Economic disadvantage:** roughly 11% lower odds (OR ≈ 0.89).
-- **Female students:** about 9% lower odds relative to male students (OR ≈ 0.92).
-- **English Learner status:** small negative association (\~9% lower odds), more modest in magnitude.
-
-Local labor market context exerts additional influence:
-
-- **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase), indicating that weaker local labor markets modestly reduce long-term regional workforce attachment.
-
-Overall, Model 1 suggests that sustained regional employment in Northeast Minnesota reflects three intersecting forces: a strong positive alignment with CTE pathways, persistent racial disparities that remain even after accounting for preparation, and a modest academic mobility gradient in which higher academic achievement and early college exposure are associated with outward movement. Structural disadvantage and local labor market conditions contribute additional but comparatively smaller effects.
+**Note on missing data:** MCA Math scores are missing at a substantially higher rate for English learner students (26.1%) than for non-English-learners (2.4%), consistent with the likelihood that English learners are more frequently eligible for testing exemptions or accommodations. To prevent this from disproportionately excluding English learners from the analytic sample once academic achievement enters the model (Model 3), a missing-data indicator (`MCA.M.missing`) was created alongside a filled version of the score (`MCA.M.filled`, coded 0 for missing cases), and both are entered as separate terms starting in Model 3. This preserves the full sample across all four model blocks.
 
 ```{r}
-model1 <- glm(
+model1_dv1 <- glm(
   grad.year.5 ~
+    Gender +
     RaceEthnicity +
     economic.status +
     SpecialEdStatus +
-    english.learner +
-    Gender +
-    MCA.M +
-    pseo.participant +
-    cte.achievement +
-    avg.unemp.rate,
+    english.learner,
   family = binomial,
   data = master.model
 )
 
-model1
+model1_dv1
 
-library(broom)
-library(forcats)
-library(stringr)
+summary(model1_dv1)
+nobs(model1_dv1)
+AIC(model1_dv1)
 
-or_plot <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
+# odds ratios + 95% CIs, per your evaluation criteria
+exp(cbind(OR = coef(model1_dv1), confint(model1_dv1)))
+
+or_plot <- tidy(model1_dv1, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
   mutate(
     # Make labels nicer (edit these replacements to match your exact factor labels)
@@ -457,89 +491,62 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2: Adding Postsecondary Attainment
+## Model 2: Demographics + High School Characteristics
 
-Model 2 extends the baseline specification by introducing postsecondary credential attainment (highest.cred.level) to assess whether high school preparation effects persist once educational completion is held constant. This model tests the attainment mechanism: whether differences in sustained regional employment reflect variation in credential level rather than solely high school readiness or demographic background.
+This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline established in Model 1. The analytic sample remains n = 20,386.
 
-By adding credential level, the analysis evaluates whether previously observed associations—particularly those related to CTE participation, math proficiency, PSEO participation, and race/ethnicity—attenuate when postsecondary attainment is accounted for. If coefficients for preparation variables shrink substantially, this would suggest that their influence operates indirectly through educational attainment. Conversely, if effects remain stable, this would indicate that preparation and attainment independently shape regional workforce retention. Model 2 therefore clarifies whether credential depth mediates, partially explains, or leaves unchanged the structural and preparation patterns observed in Model 1.
+**District classification (Dem_Desc)** emerges as the strongest new predictor in this block, with a clear and interpretable gradient.
 
-Model 2 introduces highest credential earned, testing whether postsecondary attainment depth explains sustained regional employment beyond structural background, preparation pathways, and local labor market conditions.
+- **Town/rural mix districts:** approximately 31% higher odds of sustained regional attachment relative to entirely rural districts (OR ≈ 1.31).
+- **Urban/town/rural mix districts:** approximately 60% higher odds relative to entirely rural districts (OR ≈ 1.60).
 
-The model retains the full analytic sample (n = 27,364). Model fit improves substantially with the inclusion of credential level (AIC declines from 34,286 to 33,676), indicating meaningful explanatory gain. This confirms that postsecondary attainment depth contributes significant additional information beyond high school preparation and demographics.
+The pattern is consistent and increasing: the more urban a graduate's home district, the higher the odds of sustained attachment to the regional workforce.
 
-The strongest effects in Model 2 are clearly tied to credential level.
+**Local economic conditions do not show an independent effect at this stage.**
 
-Students earning sub-baccalaureate credentials show dramatically higher regional attachment:
+- **Average local wages (% of state average)** is not statistically significant (OR ≈ 1.34, CI: 0.72–2.51, crosses 1).
+- **Average local unemployment rate** is not statistically significant (OR ≈ 1.00, CI: 0.976–1.027, crosses 1).
 
-- **Associate degree:** approximately 120% higher odds of sustained regional employment relative to those who did not complete postsecondary education (OR ≈ 2.20).
-- **Less than Associate degree (certificate/diploma):** roughly 118% higher odds (OR ≈ 2.18).
-- **Bachelor’s degree or higher:** no meaningful difference from non-completers (OR ≈ 0.97), suggesting that four-year attainment does not increase regional attachment at five years.
+Despite both showing meaningful associations in the bivariate analysis, neither holds up as an independent predictor once entered alongside demographics and district type. Consistent with this project's approach to weak or non-significant predictors, these variables are retained in the model but not built into the narrative interpretation.
 
-These results indicate a strong credential stratification pattern: two-year and certificate pathways are strongly aligned with regional workforce anchoring, while bachelor’s attainment appears mobility-neutral or outward-oriented.
+**Demographic effects from Model 1 largely persist, with one notable exception.**
 
-CTE participation remains independently associated with regional employment, though somewhat attenuated:
+- Gender, Race/Ethnicity (all four categories), Special Education status, and English learner status remain statistically significant, in the same direction, and at similar magnitudes to Model 1.
+- **Economic status is no longer statistically significant** (OR ≈ 0.947, CI: 0.888–1.009, crosses 1) — a change from Model 1, where it was significant, if modestly so (OR ≈ 0.928, p = .022). This suggests that some of the economic-status effect on regional attachment observed in Model 1 may be explained by geographic/community context (district type, local labor market conditions) rather than economic status operating independently. Whether this attenuation persists or reverses will be tracked through Models 3 and 4.
 
-- **CTE concentrators/completers:** approximately 31% higher odds (OR ≈ 1.31).
-- **CTE participants:** roughly 17% higher odds (OR ≈ 1.17).
+**Overall Interpretation**
 
-While reduced from Model 1, these effects remain substantial, suggesting that CTE operates both directly and indirectly through postsecondary credential pathways.
+Adding high school characteristics significantly improves model fit over the demographics-only baseline (likelihood ratio test: Δdeviance = 80.07, df = 4, p \< .001; AIC decreases from 25,272.6 to 25,200.6). District rural/urban classification is the one high-school-characteristic variable that shows a clear, significant, and interpretable relationship with sustained regional attachment, while local wage and unemployment levels do not hold up independently despite their bivariate significance. The attenuation of the economic-status effect is the most substantively interesting development in this block, and points toward geography playing a role in explaining part of what looked like a purely economic effect in Model 1.
 
-Racial disparities persist and remain large:
-
-- **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
-- **Asian/PI students:** about 35% lower odds (OR ≈ 0.66).
-- **Hispanic students:** roughly 22% lower odds (OR ≈ 0.78), though confidence intervals suggest greater uncertainty.
-- **American Indian students:** no statistically distinct difference from White students in this specification (OR ≈ 0.92).
-
-The attenuation for American Indian students suggests that part of the earlier disparity may operate through differential attainment pathways.
-
-Academic mobility indicators weaken modestly after controlling for credential depth:
-
-- **Higher MCA Math scores:** still associated with lower odds of sustained regional employment (\~5% lower odds per unit increase).
-- **PSEO participation:** modest negative association (\~7% lower odds), slightly reduced from Model 1.
-
-This attenuation indicates that some of the outward mobility associated with academic strength operates through postsecondary attainment.
-
-Structural background factors continue to show moderate effects:
-
-- **Special Education status:** approximately 18% lower odds (OR ≈ 0.82).
-- **Economic disadvantage:** roughly 10% lower odds (OR ≈ 0.90).
-- **Female students:** about 9% lower odds relative to males (OR ≈ 0.91).
-- **English Learner status:** no statistically distinct association once attainment is included.
-
-Local labor market conditions remain directionally consistent:
-
-- **Higher average unemployment rates:** associated with lower odds of sustained regional employment (\~5% lower odds per percentage-point increase).
-
-Overall, Model 2 demonstrates that credential depth is one of the most powerful predictors of sustained regional employment in Northeast Minnesota. Sub-baccalaureate credentials strongly anchor graduates to the regional workforce, while bachelor’s attainment does not. Preparation effects modestly attenuate but remain present, and racial disparities persist even after accounting for educational attainment. The substantial improvement in model fit underscores the central role of postsecondary pathways in shaping regional workforce attachment.
+**Model fit:** AIC = 25,200.6 (down from 25,272.6 in Model 1); Δdeviance = 80.07 on 4 df, p \< .001; n = 20,386 in both models.
 
 ```{r}
-model2 <- glm(
+model2_dv1 <- glm(
   grad.year.5 ~
+    Gender +
     RaceEthnicity +
     economic.status +
     SpecialEdStatus +
     english.learner +
-    Gender +
-    MCA.M +
-    pseo.participant +
-    cte.achievement +
-    avg.unemp.rate +
-    highest.cred.level,
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate,
   family = binomial,
   data = master.model
 )
 
-nobs(model1)
-nobs(model2)
+nobs(model1_dv1)
+nobs(model2_dv1)
 
 
-AIC(model1)
-AIC(model2)
+AIC(model1_dv1)
+AIC(model2_dv1)
 
-exp(cbind(OR = coef(model2), confint(model2)))
+exp(cbind(OR = coef(model2_dv1), confint(model2_dv1)))
 
-or_plot <- tidy(model2, conf.int = TRUE, exponentiate = TRUE) %>%
+anova(model1_dv1, model2_dv1, test = "Chisq")
+
+or_plot <- tidy(model2_dv1, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
   mutate(
     # Make labels nicer (edit these replacements to match your exact factor labels)
@@ -580,199 +587,311 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 3: Geographic Completion Mechanism
+## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-Model 3 extends the prior specification by incorporating the location of postsecondary completion (ps.grad.location) alongside credential level. This model tests the geographic completion mechanism: whether sustained regional employment is associated not only with the depth of educational attainment, but also with where that education was completed.
+This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the growing specification. The analytic sample remains n = 20,386.
 
-By including graduation location, the analysis distinguishes between two related but conceptually distinct pathways. Credential level captures human capital depth, while graduation location captures regional attachment and institutional embeddedness. This specification evaluates whether the strong retention effects observed for associate-level credentials in Model 2 reflect the nature of the credential itself or the geographic proximity of the institution attended.
+**CTE achievement continues to anchor students regionally**, consistent with the pattern established across this entire project.
 
-Model 3 therefore assesses whether regional graduation exerts an independent association with sustained regional employment, and whether the inclusion of geographic completion attenuates previously observed effects for credential level, CTE participation, and demographic characteristics. If coefficients for credential level shrink meaningfully, this would suggest that geographic embeddedness plays a central role in shaping long-term regional workforce retention.
+- **CTE Concentrators/Completers:** approximately 37% higher odds of sustained regional attachment relative to no CTE involvement (OR ≈ 1.37).
+- **CTE Participants:** approximately 19% higher odds (OR ≈ 1.19).
 
-The model retains the full analytic sample (n = 27,364). Model fit improves substantially relative to Model 2 (AIC declines from 33,676 to 32,922), indicating that graduation geography explains additional variation beyond credential depth alone. This confirms that location of attainment operates as a distinct mechanism in shaping regional workforce attachment.
+**AP exam participation is associated with lower odds of regional attachment** (OR ≈ 0.68) — consistent with the broader pattern that college-preparatory engagement pulls graduates away from the region.
 
-The strongest effect in the model is graduation within the region:
+**PSEO participation is no longer statistically significant** in this specification (OR ≈ 1.01, CI: 0.94–1.08, crosses 1). Despite being one of the strongest bivariate predictors examined throughout this project, PSEO does not show an independent effect once ACT participation, ACT score, AP exam, and CTE are accounted for together — its apparent influence in isolation appears to substantially overlap with these other college-preparatory measures.
 
-- **Graduated in the region:** approximately 142% higher odds of sustained regional employment relative to those who did not graduate postsecondary (OR ≈ 2.42).
+**ACT shows a genuinely more complex pattern than a single coefficient can convey, and deserves a careful read rather than a headline number.** Both ACT terms are highly significant, but they point in different directions:
 
-This is the largest association in the model and clearly indicates a powerful regional anchoring mechanism tied to local postsecondary completion.
+- **Took the ACT (vs. did not):** OR ≈ 3.91 — a large, positive association with sustained regional attachment.
+- **ACT composite score (among test-takers):** OR ≈ 0.93 per point — each additional point is associated with *lower* odds of regional attachment.
 
-In contrast, completing postsecondary education outside the region is associated with lower regional attachment:
+Combined, these two terms describe a crossover: relative to students who never took the ACT, students who took it and scored **below approximately 19–20** (just under the national median of 21) show *higher* odds of sustained regional attachment, while students who took it and scored **above that threshold** show *lower* odds. In other words, simply engaging with the ACT is not, on its own, a signal of leaving the region — it is specifically *high-scoring* ACT engagement that predicts departure, while modest ACT engagement looks more similar to (or even stronger than) not testing at all. Reporting the "took ACT" coefficient alone, without this qualification, would overstate and mischaracterize the relationship.
 
-- **Graduated elsewhere in Minnesota:** about 44% lower odds of sustained regional employment (OR ≈ 0.56).
-- **Graduated outside Minnesota:** roughly 36% lower odds (OR ≈ 0.64).
+**MCA Math shows a similar pattern worth naming carefully.** The filled score itself is not significant (OR ≈ 1.03, CI: 0.982–1.072, crosses 1) — once the missingness is properly accounted for, the raw math proficiency score does not independently predict this outcome. However, **the missing-data flag itself is strongly significant and substantively large** (OR ≈ 0.186): students with a missing MCA Math score have dramatically lower odds of sustained regional attachment than students with an observed score, holding everything else constant.
 
-This pattern indicates that graduation location strongly differentiates long-term workforce attachment, with in-region completion substantially increasing anchoring and out-of-region completion associated with outward mobility.
+This result connects directly to the English learner finding below, and is worth flagging as a genuine, if uncomfortable, insight rather than a nuisance parameter. **English learner status, which was significant in Models 1 and 2, is no longer significant in Model 3** (OR ≈ 0.91, CI: 0.769–1.076, crosses 1). Since English learners are missing MCA Math at a much higher rate (26.1% vs. 2.4%), a substantial share of what looked like an "English learner effect" in the earlier models appears to actually be driven by whatever unobserved circumstances are associated with a missing MCA score — likely testing exemptions, transfers, or other structural factors correlated with both EL status and reduced regional workforce attachment. The missing-data indicator is absorbing this signal rather than the English learner variable itself. This is exactly the kind of masking effect the missing-indicator approach was designed to detect, and it changes the interpretation meaningfully: English learner status alone may not be the operative factor — something correlated with missing academic records is.
 
-CTE participation remains strongly and independently associated with regional employment:
+**Several other coefficients shift notably from Model 2, in both directions.**
 
-- **CTE concentrators/completers:** approximately 33% higher odds (OR ≈ 1.33).
-- **CTE participants:** roughly 18% higher odds (OR ≈ 1.18).
+- **Economic status returns to significance**, and more strongly than in Model 1 (OR ≈ 0.844, CI: 0.789–0.902) — after appearing attenuated in Model 2, its effect reemerges once academic and college-prep measures are accounted for.
+- **Average local wages becomes significant** for the first time (OR ≈ 2.34, CI: 1.228–4.452), having shown no independent effect in Model 2.
+- **Gender is no longer significant** (OR ≈ 0.950, CI: 0.892–1.011, crosses 1), a change from Models 1 and 2 where it was a modest but reliable predictor.
+- **Special Education status strengthens** (OR ≈ 0.761, compared to OR ≈ 0.847 in Model 2).
+- Race/Ethnicity effects persist across all four categories, largely stable in direction and magnitude relative to prior models.
+- **District classification (Dem_Desc)** remains significant and essentially unchanged from Model 2.
 
-These effects remain robust even after accounting for postsecondary geography, suggesting that CTE provides a distinct workforce-aligned pathway into regional employment.
+**Overall Interpretation**
 
-Racial disparities persist:
+Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 694.52, df = 8, p \< .001; AIC decreases from 25,200.6 to 24,522.0) — the largest improvement of any block so far. Academic and college-preparatory engagement (ACT, AP, and by extension the pattern typically associated with PSEO) continues to point away from regional attachment, while CTE engagement continues to anchor students to the region, replicating the "dual pathways" pattern found throughout this project's descriptive work.
 
-- **Black students:** approximately 44% lower odds relative to White students (OR ≈ 0.56).
-- **Asian/PI students:** roughly 34% lower odds (OR ≈ 0.66).
-- **Hispanic students:** about 24% lower odds (OR ≈ 0.76), with confidence intervals near statistical overlap.
-- **American Indian students:** not statistically distinct from White students in this specification.
+The most important development in this block is analytical, not just predictive: the attenuation of the English learner effect, paired with the strong and significant MCA-missingness flag, suggests that at least part of what appeared to be an English-learner-specific disparity in earlier models is better explained by whatever underlying circumstances are associated with missing academic records for that population. This distinction matters for how the finding should be communicated — the disparity is real, but its likely mechanism is more specific than "English learner status" alone.
 
-Academic mobility indicators remain evident:
-
-- **Higher MCA Math scores:** associated with lower odds (\~6% lower per unit increase).
-- **PSEO participation:** modest negative association (\~8% lower odds).
-
-Structural background factors continue to show moderate effects:
-
-- **Special Education status:** approximately 17% lower odds (OR ≈ 0.83).
-- **Economic disadvantage:** roughly 9% lower odds (OR ≈ 0.91).
-- **Female students:** about 11% lower odds relative to males (OR ≈ 0.89).
-- **English Learner status:** not statistically distinct once other factors are included.
-
-Local labor market conditions remain directionally consistent:
-
-- **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
-
-Overall, Model 3 demonstrates that postsecondary graduation location is one of the strongest predictors of sustained regional employment in Northeast Minnesota. The substantial improvement in model fit and the magnitude of the regional graduation effect indicate that geography functions as a primary anchoring mechanism. CTE participation remains positively aligned with regional workforce attachment, while academic proficiency and early college exposure continue to reflect modest outward mobility patterns.
+**Model fit:** AIC = 24,522.0 (down from 25,200.6 in Model 2); Δdeviance = 694.52 on 8 df, p \< .001; n = 20,386 across all three models.
 
 ```{r}
-model3 <- glm(
+model3_dv1 <- glm(
   grad.year.5 ~
+    Gender +
     RaceEthnicity +
     economic.status +
     SpecialEdStatus +
     english.learner +
-    Gender +
-    MCA.M +
-    pseo.participant +
-    cte.achievement +
+    Dem_Desc +
+    avg.wages.pct.state +
     avg.unemp.rate +
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam + 
+    cte.achievement +
+    MCA.M.filled +
+    MCA.M.missing,
+  family = binomial,
+  data = master.model
+)
+
+nobs(model1_dv1)
+nobs(model2_dv1)
+nobs(model3_dv1)
+
+
+AIC(model1_dv1)
+AIC(model2_dv1)
+AIC(model3_dv1)
+
+exp(cbind(OR = coef(model3_dv1), confint(model3_dv1)))
+
+anova(model1_dv1, model2_dv1, model3_dv1, test = "Chisq")
+
+or_plot <- tidy(model3_dv1, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(
+    # Make labels nicer (edit these replacements to match your exact factor labels)
+    term = str_replace_all(term, c(
+      "RaceEthnicity" = "Race: ",
+      "economic.status" = "Economic status: ",
+      "SpecialEdStatus" = "Special Ed: ",
+      "pseo.participant" = "PSEO: ",
+      "cte.achievement" = "CTE: ",
+      "MCA.M" = "MCA Math",
+      "highest.cred.level" = "Highest credential"
+    )),
+    # Put most important effects near the top (optional: tweak ordering later)
+    term = fct_reorder(term, estimate)
+  )
+
+ggplot(or_plot, aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  geom_vline(xintercept = c(0.5, 0.75, 1.25, 1.5, 2),
+             color = "grey85") +
+  geom_point() +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    width = 0.2
+  ) +
+  scale_x_log10(
+    breaks = c(0.5, 0.75, 1, 1.25, 1.5, 2),
+    labels = c("0.5", "0.75", "1.0", "1.25", "1.5", "2.0")
+  ) +
+  theme_line +
+  labs(
+    x = "Odds ratio (log scale)",
+    y = NULL
+  )
+
+
+```
+
+<br>
+
+## Model 4a: Demographics + High School Characteristics + High School Accomplishments + Credential Attainment
+
+This model adds highest credential level attained (relative to "Did not graduate ps") to the specification. The analytic sample remains n = 20,386.
+
+**Credential attainment is strongly associated with sustained regional attachment, but the two credential levels show a very different magnitude of effect.**
+
+- **Associate degree or less:** approximately 118% higher odds of sustained regional attachment relative to non-completers (OR ≈ 2.18).
+- **Bachelor's degree or higher:** approximately 16% higher odds relative to non-completers (OR ≈ 1.16) — significant, but far more modest.
+
+Both credential levels point in the same direction — completing *any* postsecondary credential is associated with higher odds of regional attachment than not completing one at all — but sub-baccalaureate credentials show an effect roughly 13 times larger than bachelor's degrees. This is a substantively important finding: credential depth alone does not straightforwardly predict regional attachment. Shorter, more technical credentials anchor graduates to the region far more strongly than four-year degrees do.
+
+**Several accomplishments-block coefficients attenuate somewhat once credential level is introduced**, consistent with the idea that some of their apparent effect operates through eventual credential attainment rather than independently of it:
+
+- **Took the ACT:** OR drops from 3.91 (Model 3) to 3.27 — still large and highly significant, but noticeably smaller.
+- **MCA Math missingness:** OR moves from 0.186 to 0.201 — still a strong effect, modestly attenuated.
+- **PSEO participation** flips from a (non-significant) positive association to a (still non-significant) negative one — remains uninformative either way.
+
+**Most other predictors remain stable in direction and significance:**
+
+- Race/Ethnicity effects persist, though American Indian and Asian/Pacific Islander move to the edge of significance (CIs now narrowly include or approach 1).
+- CTE achievement, AP exam, economic status, Special Ed status, and Dem_Desc all remain significant with similar magnitudes to Model 3.
+- **Gender returns to significance** (OR ≈ 0.928), reversing its non-significant status in Model 3.
+- English learner status remains non-significant, consistent with Model 3's finding that the MCA-missingness flag — not English learner status itself — appears to carry this signal.
+
+**Overall Interpretation**
+
+Adding credential attainment significantly improves model fit (likelihood ratio test: Δdeviance = 375.05, df = 2, p \< .001; AIC decreases from 24,522.0 to 24,151.0). The central finding of this block is the sharp asymmetry between credential types: sub-baccalaureate credentials show a dramatically stronger association with regional workforce attachment than bachelor's degrees do. This raises the question this project has flagged before — whether this reflects the nature of the credential itself, or where those credentials tend to be earned (a question the next model, adding graduation location, is specifically designed to test).
+
+**Model fit:** AIC = 24,151.0 (down from 24,522.0 in Model 3); Δdeviance = 375.05 on 2 df, p \< .001; n = 20,386 across all four models.
+
+```{r}
+model4a_dv1 <- glm(
+  grad.year.5 ~
+    Gender +
+    RaceEthnicity +
+    economic.status +
+    SpecialEdStatus +
+    english.learner +
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate +
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam + 
+    cte.achievement +
+    MCA.M.filled +
+    MCA.M.missing +
+    highest.cred.level,
+  family = binomial,
+  data = master.model
+)
+
+nobs(model1_dv1)
+nobs(model2_dv1)
+nobs(model3_dv1)
+nobs(model4a_dv1)
+
+AIC(model1_dv1)
+AIC(model2_dv1)
+AIC(model3_dv1)
+AIC(model4a_dv1)
+
+exp(cbind(OR = coef(model4a_dv1), confint(model4a_dv1)))
+
+anova(model1_dv1, model2_dv1, model3_dv1, model4a_dv1, test = "Chisq")
+
+or_plot <- tidy(model4a_dv1, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(
+    # Make labels nicer (edit these replacements to match your exact factor labels)
+    term = str_replace_all(term, c(
+      "RaceEthnicity" = "Race: ",
+      "economic.status" = "Economic status: ",
+      "SpecialEdStatus" = "Special Ed: ",
+      "pseo.participant" = "PSEO: ",
+      "cte.achievement" = "CTE: ",
+      "MCA.M" = "MCA Math",
+      "highest.cred.level" = "Highest credential"
+    )),
+    # Put most important effects near the top (optional: tweak ordering later)
+    term = fct_reorder(term, estimate)
+  )
+
+
+ggplot(or_plot, aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  geom_vline(xintercept = c(0.5, 0.75, 1.25, 1.5, 2),
+             color = "grey85") +
+  geom_point() +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    width = 0.2
+  ) +
+  scale_x_log10(
+    breaks = c(0.5, 0.75, 1, 1.25, 1.5, 2),
+    labels = c("0.5", "0.75", "1.0", "1.25", "1.5", "2.0")
+  ) +
+  theme_line +
+  labs(
+    x = "Odds ratio (log scale)",
+    y = NULL
+  )
+
+
+```
+
+<br>
+
+## Model 4b: Full Specification — Demographics + High School Characteristics + High School Accomplishments + Credential Attainment + Graduation Location
+
+This model adds postsecondary graduation location (relative to "Did not graduate ps") to the full specification, completing the staged test of whether credential depth or graduation geography drives sustained regional workforce attachment. The analytic sample remains n = 20,386.
+
+**This is the key result of the entire model sequence: once graduation location is added, credential attainment loses its independent effect entirely.**
+
+- **Associate degree or less:** OR drops from 2.18 (Model 4a) to 1.73, and the confidence interval now crosses 1 (CI: 0.874–3.316) — **no longer statistically significant.**
+- **Bachelor's degree or higher:** OR moves from 1.16 to 1.21, also no longer significant (CI: 0.608–2.325).
+
+Both credential categories, which were strong and significant predictors in Model 4a, become statistically indistinguishable from non-completers once graduation location is accounted for. This confirms that the large sub-baccalaureate effect observed in Model 4a was substantially — perhaps entirely — a reflection of *where* those credentials tend to be earned, not something inherent to shorter credentials themselves.
+
+**Graduation location itself shows a more nuanced pattern than a single "region vs. elsewhere" story.**
+
+- **Graduated elsewhere in Minnesota:** approximately 52% lower odds of sustained regional attachment relative to non-completers (OR ≈ 0.48, statistically significant).
+- **Graduated outside Minnesota:** approximately 45% lower odds, though this does not reach significance (OR ≈ 0.55, CI: 0.283–1.101).
+- **Graduated within the region:** OR ≈ 1.65, in the expected positive direction, but **not statistically significant** (CI: 0.859–3.262).
+
+The lack of significance on the "graduated within the region" category is notable given how central this variable has been throughout this project's descriptive analysis, and is worth a caveat: `highest.cred.level` and `ps.grad.location` are correlated with each other (sub-baccalaureate credentials are disproportionately regional, as this project's earlier work established), and entering both together in the same model has widened the confidence intervals on each — a sign the two variables are now competing to explain overlapping variance rather than each cleanly isolating its own effect. The overall pattern (regional completion trending positive, MN-elsewhere and out-of-state trending negative) is consistent with expectations, even where individual categories fall short of significance.
+
+**Nearly all other coefficients remain stable, with one previously-significant predictor now falling out.**
+
+- Gender, all four Race/Ethnicity categories, economic status, Special Ed status, Dem_Desc, took.ACT, ACT score, AP exam, CTE achievement, and the MCA missingness flag all remain significant, in the same direction and similar magnitude to Model 4a.
+- **Average local wages is no longer significant** (OR ≈ 1.51, CI: 0.779–2.909), having been significant in Models 3 and 4a. This is now the second high-school-characteristic economic variable (alongside unemployment rate) to show no reliable independent effect in the fully specified model.
+- English learner status and PSEO participation remain non-significant, consistent with every prior model in this sequence.
+
+**Overall Interpretation**
+
+Adding graduation location produces the largest single-block improvement in model fit of the entire sequence (likelihood ratio test: Δdeviance = 514.19, df = 3, p \< .001; AIC decreases from 24,151.0 to 23,642.8). More importantly, it resolves the central analytical question this staged model sequence was built to answer: **the strong sub-baccalaureate credential effect observed in Model 4a is substantially explained by graduation geography, not credential depth itself.** Once location is accounted for, credential level no longer independently predicts sustained regional attachment.
+
+This is consistent with — and provides direct multivariate confirmation of — the locked-in finding from this project's earlier descriptive and confirmatory work: geography dominates credential type in predicting regional workforce participation. Preparation and academic engagement (ACT, AP, CTE, MCA-missingness) continue to operate as independent, stable predictors throughout every block, while the postsecondary story is fundamentally about *where* graduates complete their education rather than *what* they complete.
+
+**A variance inflation factor (VIF) check confirms the collinearity implied by the coefficient changes above.** `highest.cred.level` and `ps.grad.location` show elevated VIFs (11.75 and 4.96 respectively, on a scale where values above 5–10 indicate meaningful collinearity), confirming that these two variables substantially overlap in the variance they explain. This is consistent with — and provides a formal statistical basis for — the interpretation that graduation location, not credential depth, is the more fundamental driver of sustained regional workforce attachment. (The elevated VIFs on `took.ACT` and `ACTCompositeScore.filled`, by contrast, are an expected and accepted consequence of the missing-indicator method used to handle ACT non-participation, not a new concern.)x
+
+**Model fit:** AIC = 23,642.8 (down from 24,151.0 in Model 4a); Δdeviance = 514.19 on 3 df, p \< .001; n = 20,386 across all five models.
+
+```{r}
+model4b_dv1 <- glm(
+  grad.year.5 ~
+    Gender +
+    RaceEthnicity +
+    economic.status +
+    SpecialEdStatus +
+    english.learner +
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate +
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam + 
+    cte.achievement +
+    MCA.M.filled +
+    MCA.M.missing +
+    highest.cred.level +
     ps.grad.location,
   family = binomial,
   data = master.model
 )
 
-nobs(model3)
-AIC(model3)
+nobs(model1_dv1)
+nobs(model2_dv1)
+nobs(model3_dv1)
+nobs(model4a_dv1)
+nobs(model4b_dv1)
 
-exp(cbind(OR = coef(model3), confint(model3)))
+AIC(model1_dv1)
+AIC(model2_dv1)
+AIC(model3_dv1)
+AIC(model4a_dv1)
+AIC(model4b_dv1)
 
-or_plot <- tidy(model3, conf.int = TRUE, exponentiate = TRUE) %>%
-  filter(term != "(Intercept)") %>%
-  mutate(
-    # Make labels nicer (edit these replacements to match your exact factor labels)
-    term = str_replace_all(term, c(
-      "RaceEthnicity" = "Race: ",
-      "economic.status" = "Economic status: ",
-      "SpecialEdStatus" = "Special Ed: ",
-      "pseo.participant" = "PSEO: ",
-      "cte.achievement" = "CTE: ",
-      "MCA.M" = "MCA Math",
-      "highest.cred.level" = "Highest credential"
-    )),
-    # Put most important effects near the top (optional: tweak ordering later)
-    term = fct_reorder(term, estimate)
-  )
+exp(cbind(OR = coef(model4b_dv1), confint(model4b_dv1)))
 
-ggplot(or_plot, aes(x = estimate, y = term)) +
-  geom_vline(xintercept = 1, linetype = "dashed") +
-  geom_vline(xintercept = c(0.5, 0.75, 1.25, 1.5, 2),
-             color = "grey85") +
-  geom_point() +
-  geom_errorbar(
-    aes(xmin = conf.low, xmax = conf.high),
-    orientation = "y",
-    width = 0.2
-  ) +
-  scale_x_log10(
-    breaks = c(0.5, 0.75, 1, 1.25, 1.5, 2),
-    labels = c("0.5", "0.75", "1.0", "1.25", "1.5", "2.0")
-  ) +
-  theme_line +
-  labs(
-    x = "Odds ratio (log scale)",
-    y = NULL
-  )
+anova(model1_dv1, model2_dv1, model3_dv1, model4a_dv1, model4b_dv1, test = "Chisq")
 
-
-```
-
-<br>
-
-## Model 4: Highest Credential Level × Geographic Completion
-
-Model 4 includes both postsecondary graduation location and credential depth, testing whether geography and attainment independently contribute to sustained regional employment after accounting for demographics, preparation, CTE participation, and local labor market context.
-
-The model retains the full analytic sample (n = 27,364). Model fit improves further relative to Model 3 (AIC declines from 32,922 to 32,771), indicating that including both attainment and geography provides the strongest explanatory specification. However, the improvement over Model 3 is modest compared to the large improvement observed when geography was first introduced.
-
-The dominant effect in this model remains regional postsecondary completion:
-
-- **Graduated in the region:** approximately 197% higher odds of sustained regional employment relative to non-graduates (OR ≈ 2.97).
-
-This remains the single strongest predictor in the model, underscoring the powerful anchoring effect of completing postsecondary education within Northeast Minnesota.
-
-Once geography is included, credential depth no longer independently predicts regional employment:
-
-- **Associate degree:** not statistically distinct from non-completers.
-- **Less than Associate degree:** not statistically distinct.
-- **Bachelor’s degree or higher:** associated with roughly 40% lower odds (OR ≈ 0.60), though confidence intervals approach overlap.
-
-This pattern indicates that the strong sub-baccalaureate effects observed in Model 2 were largely driven by where those credentials were earned rather than credential depth alone. Geography absorbs much of the explanatory power previously attributed to associate-level attainment.
-
-CTE participation remains positively and independently associated with regional employment:
-
-- **CTE concentrators/completers:** approximately 29% higher odds (OR ≈ 1.29).
-- **CTE participants:** roughly 16% higher odds (OR ≈ 1.16).
-
-These effects persist even after accounting for both credential level and graduation location, reinforcing CTE as a distinct workforce-aligned pathway.
-
-Racial disparities remain substantial:
-
-- **Black students:** approximately 43–44% lower odds relative to White students (OR ≈ 0.57).
-- **Asian/PI students:** roughly 32% lower odds (OR ≈ 0.68).
-- **Hispanic students:** about 23% lower odds, though statistical certainty is weaker.
-- **American Indian students:** not statistically distinct from White students.
-
-Academic mobility indicators remain modest:
-
-- **Higher MCA Math scores:** associated with slightly lower odds (\~4% lower per unit increase).
-- **PSEO participation:** small negative association (\~6% lower odds).
-
-Structural background variables remain directionally consistent:
-
-- **Economic disadvantage:** approximately 12% lower odds.
-- **Special Education status:** roughly 18% lower odds.
-- **Female students:** about 9% lower odds.
-- **English Learner status:** not statistically distinct.
-
-Local labor market conditions continue to show modest influence:
-
-- **Higher unemployment rates:** associated with lower odds (\~4–5% lower per percentage-point increase).
-
-Overall, Model 4 confirms that postsecondary geography is the primary anchoring mechanism in Northeast Minnesota. While credential depth initially appeared highly influential, its independent effect largely attenuates once location of completion is included. The modest additional improvement in model fit suggests that geography explains most of the postsecondary pathway effect. CTE participation remains independently aligned with regional employment, and substantial racial disparities persist across specifications.
-
-```{r}
-model4 <- glm(
-  grad.year.5 ~
-    RaceEthnicity +
-    economic.status +
-    SpecialEdStatus +
-    english.learner +
-    Gender +
-    MCA.M +
-    pseo.participant +
-    cte.achievement +
-    avg.unemp.rate +
-    ps.grad.location +
-    highest.cred.level,
-  family = binomial,
-  data = master.model
-)
-
-nobs(model4)
-AIC(model4)
-
-exp(cbind(OR = coef(model4), confint(model4)))
+library(car)
+vif(model4b_dv1)
 
 or_plot <- tidy(model4, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -812,7 +931,102 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
     y = NULL
   )
 
+```
 
+<br>
+
+```{r}
+model4c_dv1 <- glm(
+  grad.year.5 ~
+    Gender +
+    RaceEthnicity +
+    economic.status +
+    SpecialEdStatus +
+    english.learner +
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate +
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam + 
+    cte.achievement +
+    MCA.M.filled +
+    MCA.M.missing +
+    ps.grad.location,
+  family = binomial,
+  data = master.model
+)
+
+nobs(model1_dv1)
+nobs(model2_dv1)
+nobs(model3_dv1)
+nobs(model4a_dv1)
+nobs(model4b_dv1)
+nobs(model4c_dv1)
+
+AIC(model1_dv1)
+AIC(model2_dv1)
+AIC(model3_dv1)
+AIC(model4a_dv1)
+AIC(model4b_dv1)
+AIC(model4c_dv1)
+
+exp(cbind(OR = coef(model4c_dv1), confint(model4c_dv1)))
+
+anova(model1_dv1, model2_dv1, model3_dv1, model4a_dv1, model4b_dv1, model4c_dv1, test = "Chisq")
+
+library(car)
+vif(model4c_dv1)
+
+or_plot <- tidy(model4, conf.int = TRUE, exponentiate = TRUE) %>%
+  filter(term != "(Intercept)") %>%
+  mutate(
+    # Make labels nicer (edit these replacements to match your exact factor labels)
+    term = str_replace_all(term, c(
+      "RaceEthnicity" = "Race: ",
+      "economic.status" = "Economic status: ",
+      "SpecialEdStatus" = "Special Ed: ",
+      "pseo.participant" = "PSEO: ",
+      "cte.achievement" = "CTE: ",
+      "MCA.M" = "MCA Math",
+      "highest.cred.level" = "Highest credential"
+    )),
+    # Put most important effects near the top (optional: tweak ordering later)
+    term = fct_reorder(term, estimate)
+  )
+
+
+ggplot(or_plot, aes(x = estimate, y = term)) +
+  geom_vline(xintercept = 1, linetype = "dashed") +
+  geom_vline(xintercept = c(0.5, 0.75, 1.25, 1.5, 2),
+             color = "grey85") +
+  geom_point() +
+  geom_errorbar(
+    aes(xmin = conf.low, xmax = conf.high),
+    orientation = "y",
+    width = 0.2
+  ) +
+  scale_x_log10(
+    breaks = c(0.5, 0.75, 1, 1.25, 1.5, 2),
+    labels = c("0.5", "0.75", "1.0", "1.25", "1.5", "2.0")
+  ) +
+  theme_line +
+  labs(
+    x = "Odds ratio (log scale)",
+    y = NULL
+  )
+
+test <- master.model %>%
+  mutate(
+    cred_location_combined = case_when(
+      highest.cred.level == "Did not graduate ps" ~ "Did not graduate ps",
+      TRUE ~ paste(highest.cred.level, ps.grad.location, sep = " - ")
+    ),
+    cred_location_combined = fct_relevel(cred_location_combined, "Did not graduate ps")
+  )
+
+table(test$cred_location_combined)
 ```
 
 <br>
@@ -892,7 +1106,7 @@ Overall, the Northeast Minnesota results point to a clear anchoring pipeline: hi
 
 <br>
 
-# Modeling - college completion and region
+# Modeling - college completion
 
 Prior models identified two dominant predictors of sustained regional employment: graduating from a postsecondary institution within the region and participation in high school CTE pathways. To further clarify the mechanism linking education to workforce retention, this supplemental analysis examines which demographic and high school characteristics are associated with completing college, no matter where, and then the modeling the sub-population of college completers on whether they completed college in the region or somewhere else.
 
@@ -1047,7 +1261,7 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2: College completiong region, college-grads only
+## Model 2: College completion region, college-grads only
 
 ```{r}
 master.model.ps.grad.region <- master.model %>%
@@ -1187,6 +1401,177 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
     y = NULL
   )
 
+```
+
+<br>
+
+## **Model 3: An Academic Readiness Index**
+
+The Model 2 specification above draws on a fixed set of predictors carried through this entire modeling sequence. Reviewing it against the bivariate analysis of graduation location revealed several variables that show a meaningful relationship with this outcome but weren't yet part of the model: district type, local wage levels, ACT scores, and MCA reading and science proficiency (only MCA math was included).
+
+Adding all of these separately creates a problem. ACT scores and the three MCA subject scores are all measuring closely related things — a student's academic preparation — and are highly correlated with one another. Entering them as five separate variables in the same model makes the results unstable and hard to interpret: the model can't cleanly tell which of five overlapping measures is doing the work.
+
+To address this, we constructed a single **Academic Readiness Index** to summarize academic engagement and achievement during high school. Each graduate received one point for each of the following they met, for a possible score of 0 to 6:
+
+- Scored at or above proficiency on the MCA Math assessment
+- Scored at or above proficiency on the MCA Reading assessment
+- Scored at or above proficiency on the MCA Science assessment
+- Scored 21 or higher on the ACT (the national median composite score)
+- Participated in at least one AP exam
+- Participated in Post-Secondary Enrollment Options (PSEO)
+
+This index is not a measure of academic ability. It is a straightforward count of how much a student engaged with college-preparatory academics in high school.
+
+**Deciding whether the index is the right approach**
+
+Before adopting the index in place of its six individual components, we tested whether collapsing them into a single equally-weighted score was statistically defensible, using three checks:
+
+1.  **A likelihood ratio test** comparing a model with the six components entered separately against a model using the single index. This test directly evaluates whether treating all six components as equally important is a reasonable simplification, or whether it masks meaningful differences between them.
+2.  **A multicollinearity check** (variance inflation factors) on the model with all six components entered separately, to confirm whether those variables are in fact too closely related to reliably separate in the model.
+3.  **An internal consistency check** among the six components themselves, to confirm they move together as a single underlying construct rather than capturing unrelated things.
+
+Based on these results, we retained the individual components rather than adopting the composite index. A likelihood ratio test found that the disaggregated model fit significantly better than the index model (Δdeviance = 53.8, df = 5, p \< .001), indicating that equal weighting across the six components was not statistically supported. Variance inflation factors for the separate model were all low (\< 1.5), indicating that multicollinearity — the primary motivation for considering an index — was not in fact a meaningful concern. Internal consistency across the six items was also modest (Cronbach's α = 0.61), reflecting the fact that test-based measures (MCA scores, ACT) and participation-based measures (AP exam, PSEO) do not move together as a single underlying construct.
+
+```{r}
+# Build master base dataset
+
+master.test <- master %>%
+  filter(ps.grad == "Y") %>%
+  select(PersonID,Gender, RaceEthnicity, economic.status, SpecialEdStatus, Dem_Desc, avg.wages.pct.state, avg.unemp.rate, pseo.participant, ACTCompositeScore, MCA.M, MCA.R, MCA.S, took.ACT, cte.achievement, ap.exam, ps.grad.location, grad.year.5) %>%
+  filter(grad.year.5 != "After 2023",
+         grad.year.5 != "Attending ps",
+         ps.grad.location != "Did not graduate ps") %>%
+  mutate(grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", grad.year.5),
+         grad.year.5 = str_replace(grad.year.5, ", not attending ps", ""),
+         grad.year.5 = ifelse(grad.year.5 == "Meaningful emp region", 1, 0),
+         ps.grad.location = ifelse(ps.grad.location == "PS grad Region", 1, 0))
+
+
+# ------------------------------------------------------------------
+# 0. Build the six binary readiness components
+# ------------------------------------------------------------------
+# NOTE ON MCA THRESHOLD: assuming the standard MN MCA achievement
+# scale (1 = does not meet, 2 = partially meets, 3 = meets, 4 = exceeds),
+# "at or above proficiency" = level 3 or 4. Confirm this matches your
+# coding of MCA.M/.R/.S before trusting the output.
+
+master.test.index <- master.test %>%
+  mutate(
+    mca.m.prof = ifelse(MCA.M >= 3, 1, 0),
+    mca.r.prof = ifelse(MCA.R >= 3, 1, 0),
+    mca.s.prof = ifelse(MCA.S >= 3, 1, 0),
+    act.prof   = ifelse(ACTCompositeScore >= 21, 1, 0),
+    ap.prof    = ifelse(ap.exam >= 1, 1, 0),
+    pseo.prof  = ifelse(pseo.participant == "1", 1, 0)
+  )
+# ------------------------------------------------------------------
+# 1. Missingness decision point (still open from earlier)
+# ------------------------------------------------------------------
+# ACT and AP exam are selected populations - not everyone takes them.
+# This code takes the COMPLETE-CASE approach: only students with all six
+# components observed are included in the comparison below. This keeps
+# Model A and Model B on identical samples, which the LRT requires.
+# If you'd rather code missing-as-0, swap this filter out - but flag
+# that choice explicitly in the write-up if you do, since it changes
+# what the index is measuring for those students.
+
+readiness_vars <- c("mca.m.prof", "mca.r.prof", "mca.s.prof",
+                    "act.prof", "ap.prof", "pseo.prof")
+
+model_data <- master.test.index %>%
+  filter(if_all(all_of(readiness_vars), ~ !is.na(.))) %>%
+  mutate(
+    academic.readiness.index = mca.m.prof + mca.r.prof + mca.s.prof +
+      act.prof + ap.prof + pseo.prof
+  )
+
+nrow(model_data)  # compare this to nobs() from the original Model 2 (n = 11,987) - report the drop
+
+# ------------------------------------------------------------------
+# 2. Model A: six components entered separately
+# ------------------------------------------------------------------
+model_a_separate <- glm(
+  ps.grad.location ~
+    RaceEthnicity +
+    economic.status +
+    SpecialEdStatus +
+    Gender +
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate +
+    cte.achievement +
+    mca.m.prof +
+    mca.r.prof +
+    mca.s.prof +
+    act.prof +
+    ap.prof +
+    pseo.prof,
+  family = binomial,
+  data = model_data
+)
+
+summary(model_a_separate)
+
+# ------------------------------------------------------------------
+# 3. Model B: single Academic Readiness Index
+# ------------------------------------------------------------------
+model_b_index <- glm(
+  ps.grad.location ~
+    RaceEthnicity +
+    economic.status +
+    SpecialEdStatus +
+    Gender +
+    Dem_Desc +
+    avg.wages.pct.state +
+    avg.unemp.rate +
+    cte.achievement +
+    academic.readiness.index,
+  family = binomial,
+  data = model_data
+)
+
+summary(model_b_index)
+
+# ------------------------------------------------------------------
+# 4. Likelihood ratio test - the key decision test
+# ------------------------------------------------------------------
+anova(model_b_index, model_a_separate, test = "Chisq")
+
+# Non-significant p-value -> equal weighting is defensible, use the index
+# Significant p-value -> the six components diverge, consider keeping separate
+
+# ------------------------------------------------------------------
+# 5. Multicollinearity check on Model A
+# ------------------------------------------------------------------
+library(car)
+vif(model_a_separate)
+
+# VIFs above ~5 on the readiness components support using the index
+# regardless of what the LRT shows
+
+# ------------------------------------------------------------------
+# 6. Internal consistency of the six components
+# ------------------------------------------------------------------
+library(psych)
+
+readiness_matrix <- model_data %>%
+  select(all_of(readiness_vars))
+
+tetrachoric(readiness_matrix)   # correlation matrix for binary items
+alpha(readiness_matrix)         # Cronbach's alpha
+
+```
+
+<br>
+
+## Model 4 - reworking college completion region
+
+```{r}
+master.model.ps.grad.region.2 <- master.test 
+
+test <- master.model.ps.grad.region.2 %>%
+  filter(is.na(pseo.participant))
+names(master.model.ps.grad.region.2)
 ```
 
 <br>

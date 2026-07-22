@@ -176,6 +176,8 @@ model <- glm(
 )
 
 model
+
+write_csv(data, "Data/Claude/non-completers-disconnection.csv")
 # Create chart ------------------------------------------------------------
 
 or_plot <- tidy(model, exponentiate = TRUE) %>%
@@ -195,7 +197,7 @@ or_plot <- tidy(model, exponentiate = TRUE) %>%
     color = ifelse(estimate < 1, "Green", "Brown")
   )
 
-ggplot(data = filter(or_plot, term %in% c("avg.wages.pct.state", "RaceEthnicityBlack", "RaceEthnicityHispanic", "RaceEthnicityHispanic", "RaceEthnicityAsian/PI", "Special Ed: Special Ed", "RaceEthnicityAI", "GenderFemale")), aes(x = estimate, y = term, color = color)) +
+ggplot(data = filter(or_plot, term %in% c("RaceEthnicityBlack", "RaceEthnicityHispanic", "RaceEthnicityHispanic", "RaceEthnicityAsian/PI", "Special Ed: Special Ed", "RaceEthnicityAI", "GenderFemale")), aes(x = estimate, y = term, color = color)) +
  geom_vline(xintercept = 1, linetype = "dashed") +
 geom_point() +
   annotate(geom = "segment",
@@ -210,7 +212,7 @@ geom_point() +
            label = "More likely to be disconnected",
            size = 2) +
   scale_color_manual(values = c("#2E7C63", "#8B601F")) +
-  scale_y_discrete(labels = c("Female", "American Indian", "Special Education", "Asian/Pacific Islander", "Hispanic", "Black", "Higher wages")) +
+  scale_y_discrete(labels = c("Female", "American Indian", "Special Education", "Asian/Pacific Islander", "Hispanic", "Black")) +
   scale_x_continuous(limits =  c(.5, 3),
                      breaks = c(.5, 1, 1.5, 2, 2.5, 3),
                      labels = c("0.5", "1.0\nNo difference", "1.5", "2.0", "2.5", "3.0")) +
@@ -219,7 +221,7 @@ geom_point() +
     x = "",
     y = NULL,
     title = "Odds of Being Persistently or Broadly Disconnected from the Labor\nForce",
-    subtitle = "Race, special education status, gender, and local wage levels are all associated with\nhigher likelihood of being persistently or broadly disconnected."
+    subtitle = "Race, special education status, and gender are all associated with higher likelihood of\nbeing persistently or broadly disconnected."
   ) +
   theme(legend.position = "none")
 
