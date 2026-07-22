@@ -148,8 +148,8 @@ The research is guided by the following questions:
 
 Among non-college graduates, how common is sustained workforce disconnection during the first five years after exiting formal education?
 
--   How frequently are individuals categorized as having not meaningful workforce participation or no Minnesota employment record during years 1 through 5 after exiting formal education?
--   To what extent does workforce disconnection reflect persistent patterns versus intermittent instability?
+- How frequently are individuals categorized as having not meaningful workforce participation or no Minnesota employment record during years 1 through 5 after exiting formal education?
+- To what extent does workforce disconnection reflect persistent patterns versus intermittent instability?
 
 This question establishes the scope and depth of workforce disconnection in early adulthood.
 
@@ -159,8 +159,8 @@ This question establishes the scope and depth of workforce disconnection in earl
 
 Among individuals classified as disconnected during the first five years after exiting formal education, what employment trajectories do they follow over time?
 
--   Are individuals persistently disconnected across multiple years, or do they move in and out of more stable workforce participation?
--   How do patterns of persistence and recovery differ across individuals?
+- Are individuals persistently disconnected across multiple years, or do they move in and out of more stable workforce participation?
+- How do patterns of persistence and recovery differ across individuals?
 
 This question shifts the focus from static outcomes to dynamic labor market pathways.
 
@@ -170,8 +170,8 @@ This question shifts the focus from static outcomes to dynamic labor market path
 
 For non-college graduates who experience workforce disconnection, where does employment occur when it is present?
 
--   Are individuals without meaningful workforce participation more likely to work within Northeast Minnesota or elsewhere in Minnesota?
--   Do patterns of regional attachment differ between persistently disconnected individuals and those with intermittent disconnection?
+- Are individuals without meaningful workforce participation more likely to work within Northeast Minnesota or elsewhere in Minnesota?
+- Do patterns of regional attachment differ between persistently disconnected individuals and those with intermittent disconnection?
 
 This question distinguishes regional underemployment from regional disengagement.
 
@@ -181,8 +181,8 @@ This question distinguishes regional underemployment from regional disengagement
 
 Among individuals who are initially disconnected but later achieve meaningful workforce participation, what characterizes those transitions?
 
--   At what point do individuals move into meaningful workforce participation during early adulthood?
--   Does the location of meaningful employment—within Northeast Minnesota or elsewhere in Minnesota—differ for individuals who transition later?
+- At what point do individuals move into meaningful workforce participation during early adulthood?
+- Does the location of meaningful employment—within Northeast Minnesota or elsewhere in Minnesota—differ for individuals who transition later?
 
 This question explores recovery pathways and the role of geography in supporting or constraining workforce stability.
 
@@ -192,8 +192,8 @@ This question explores recovery pathways and the role of geography in supporting
 
 Among individuals categorized as having no Minnesota employment record during the first five years after high school, how persistent is this status?
 
--   Are individuals repeatedly absent from Minnesota employment records, or does this classification occur intermittently?
--   How often do individuals with no Minnesota employment record transition into other workforce participation categories?
+- Are individuals repeatedly absent from Minnesota employment records, or does this classification occur intermittently?
+- How often do individuals with no Minnesota employment record transition into other workforce participation categories?
 
 This question helps distinguish long-term labor market detachment from temporary absence or mobility outside the state.
 
@@ -203,8 +203,8 @@ This question helps distinguish long-term labor market detachment from temporary
 
 How are individual characteristics associated with workforce disconnection and subsequent employment trajectories?
 
--   How do factors such as economic disadvantage, English learner status, special education status, race and ethnicity, and Career and Technical Education (CTE) participation relate to persistent disconnection, intermittent instability, and recovery?
--   Which characteristics appear to support workforce stability and regional retention, and which are associated with disengagement or out-migration?
+- How do factors such as economic disadvantage, English learner status, special education status, race and ethnicity, and Career and Technical Education (CTE) participation relate to persistent disconnection, intermittent instability, and recovery?
+- Which characteristics appear to support workforce stability and regional retention, and which are associated with disengagement or out-migration?
 
 This question links observed workforce trajectories to potential leverage points for education and workforce policy.
 
@@ -224,14 +224,14 @@ Workforce participation is measured annually during the first five years after h
 
 Using this annual classification, individuals are grouped based on the persistence of disconnection during years 1 through 5:
 
--   **Disconnected (Broad Definition):**\
-    Disconnected in three or more of the first five years after graduation.
+- **Disconnected (Broad Definition):**\
+  Disconnected in three or more of the first five years after graduation.
 
--   **Persistently Disconnected:**\
-    Disconnected in four or five of the first five years after graduation.
+- **Persistently Disconnected:**\
+  Disconnected in four or five of the first five years after graduation.
 
--   **Intermittently Disconnected:**\
-    Disconnected in one or two of the first five years after graduation.
+- **Intermittently Disconnected:**\
+  Disconnected in one or two of the first five years after graduation.
 
 These definitions emphasize sustained labor market detachment rather than short-term transitions.
 
@@ -261,8 +261,8 @@ This analysis examines workforce participation trajectories among non-college gr
 
 The analytic population is restricted to individuals who: - Graduated from a high school in Northeast Minnesota, - Did not complete a postsecondary credential (`ps.grad = No`), and
 
--   Have complete workforce participation categorizations for years 1 through 5 after high school or,
--   first 5 years after exiting attendance in a post-secondary institution.
+- Have complete workforce participation categorizations for years 1 through 5 after high school or,
+- first 5 years after exiting attendance in a post-secondary institution.
 
 **1.2 Annual Workforce Participation Classification**
 
@@ -274,14 +274,14 @@ Each year is classified into one of the following categories: - Meaningful workf
 
 For each annual observation, a binary **disconnection indicator** is created:
 
--   **Disconnected (year-level)** = Not meaningful workforce participation **or** No Minnesota employment record
+- **Disconnected (year-level)** = Not meaningful workforce participation **or** No Minnesota employment record
 
 Using these annual indicators, individuals are grouped based on persistence of disconnection across years 1–5:
 
--   **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
--   **Disconnected (Broad):** Disconnected in 3 of the first 5 years
--   **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
--   **Consistently Attached:** Disconnected in 0 of the first 5 years
+- **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
+- **Disconnected (Broad):** Disconnected in 3 of the first 5 years
+- **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
+- **Consistently Attached:** Disconnected in 0 of the first 5 years
 
 These categories emphasize sustained labor market attachment or detachment rather than point-in-time outcomes.
 
@@ -305,8 +305,8 @@ These measures are used to distinguish underemployment from precarious or fragme
 
 Summary statistics are produced to describe:
 
--   The proportion of non-college graduates in each workforce disconnection category
--   Differences in persistence and intermittency of disconnection
+- The proportion of non-college graduates in each workforce disconnection category
+- Differences in persistence and intermittency of disconnection
 
 This establishes the overall scope and severity of workforce disconnection in early adulthood.
 
@@ -314,9 +314,9 @@ This establishes the overall scope and severity of workforce disconnection in ea
 
 Among individuals experiencing workforce disconnection, summary statistics examine:
 
--   The location of not meaningful employment (within region, outside region, both)
--   Average and median number of employers per year
--   Prevalence of multiple job holding
+- The location of not meaningful employment (within region, outside region, both)
+- Average and median number of employers per year
+- Prevalence of multiple job holding
 
 These summaries clarify whether disconnection reflects local underemployment, out-of-region work, or fragmented employment patterns.
 
@@ -328,27 +328,27 @@ These summaries clarify whether disconnection reflects local underemployment, ou
 
 The analysis examines associations between workforce disconnection categories and key individual characteristics, including:
 
--   Demographics
-    -   English language competency
-    -   Race and Ethnicity
-    -   Income status
--   High school characteristics
-    -   Rural-ness
-    -   Average wages
-    -   unemployment
--   High school academics
-    -   ACT scores
-    -   MCA scores
-    -   CTE engagement
-    -   PSEO participation
--   Post-secondary
-    -   Attended post-secondary
+- Demographics
+  - English language competency
+  - Race and Ethnicity
+  - Income status
+- High school characteristics
+  - Rural-ness
+  - Average wages
+  - unemployment
+- High school academics
+  - ACT scores
+  - MCA scores
+  - CTE engagement
+  - PSEO participation
+- Post-secondary
+  - Attended post-secondary
 
 **3.2 Analytic Approach**
 
--   Categorical variables are examined using cross-tabulations and measures of association (e.g., Cramer’s V).
--   Continuous variables are examined using ANOVA.
--   Interpretation emphasizes substantive differences and patterns rather than statistical significance alone.
+- Categorical variables are examined using cross-tabulations and measures of association (e.g., Cramer’s V).
+- Continuous variables are examined using ANOVA.
+- Interpretation emphasizes substantive differences and patterns rather than statistical significance alone.
 
 **3.3 Stratified and Comparative Analyses**
 
@@ -370,7 +370,7 @@ This methodology prioritizes a trajectory-based understanding of workforce parti
 
 The first step is filtering for our population;
 
--   `ps.grad` = "No"
+- `ps.grad` = "No"
 
 ```{r}
 analytic.pop <- master.original %>%
@@ -387,10 +387,10 @@ Next, we need to pull out all the individuals in which we have five years of wor
 
 After that, we will categorize their workforce participation state into the following;
 
--   Meaningful WF - NE
--   Meaningful WF - MN
--   Not meaningful WF
--   No MN emp record.
+- Meaningful WF - NE
+- Meaningful WF - MN
+- Not meaningful WF
+- No MN emp record.
 
 I already created the annual workforce participation states for every individuals one year after graduation through 15 years after graduation. I will bring that list in and filter it by our analytic population.
 
@@ -469,10 +469,10 @@ Next we add another category to determine the level of disconnection, if any, fo
 
 The level of disconnection is defined as the following;
 
--   **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
--   **Broadly Disconnected:** Disconnected in 3 of the first 5 years
--   **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
--   **Consistently Attached:** Disconnected in 0 of the first 5 years
+- **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
+- **Broadly Disconnected:** Disconnected in 3 of the first 5 years
+- **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
+- **Consistently Attached:** Disconnected in 0 of the first 5 years
 
 ```{r}
 disconnected.level <- master.annual.wf.five.year.states %>%
@@ -503,8 +503,8 @@ This classification allows identification of regional underemployment versus reg
 
 The population of individuals we need are the following;
 
--   Did not graduate college
--   For each individual categorize whether they had not meaningful workforce participation in the region, not in the region, or both.
+- Did not graduate college
+- For each individual categorize whether they had not meaningful workforce participation in the region, not in the region, or both.
 
 We will use the `master.annual.wf.five.year.states` dataset as the starting point. We will have to have the year they graduated high school so when I match up employment records I'm only using employment records for the first 5 years after exiting formal education.
 
@@ -527,13 +527,13 @@ kable(names(analytic.pop.annual.wf.states.hs.grad.year))
 
 Now we need to bring in the employment data for Northeast graduates and then filter for PersonID that are in the newly created dataset. The columns we are going to keep from the employment dataset are the following;
 
--   PersonID: Identifies the graduate from Northeast Minnesota
--   TimeID: Last day of fiscal quarter
--   EmploymentOrganizationID: An internal identification for each employer.
--   EmployeeQuarterlyHoursWorked: The total number of hours worked by an employee at an employer’s location during a specific calendar quarter
--   EmployeeQuarterlyWages: The total wages earned by an employee at an employer’s location during a specific calendar quarter
--   EmployeeTenure: The total number of quarters a worker has been employeed by an organization at a specific location, up to an including the current calendar quarter
--   CountyName: The name of the county corresponding to the County and MNCounty Codes for this Location.
+- PersonID: Identifies the graduate from Northeast Minnesota
+- TimeID: Last day of fiscal quarter
+- EmploymentOrganizationID: An internal identification for each employer.
+- EmployeeQuarterlyHoursWorked: The total number of hours worked by an employee at an employer’s location during a specific calendar quarter
+- EmployeeQuarterlyWages: The total wages earned by an employee at an employer’s location during a specific calendar quarter
+- EmployeeTenure: The total number of quarters a worker has been employeed by an organization at a specific location, up to an including the current calendar quarter
+- CountyName: The name of the county corresponding to the County and MNCounty Codes for this Location.
 
 ```{r}
 employment.original <- read_csv("Data/SLEDS/Employment/Employment-Northeast.csv") %>%
@@ -663,15 +663,15 @@ This establishes the overall scope and severity of workforce disconnection in ea
 
 Let's first examine the disconnected categories among these individuals. The level of disconnection is defined as the following;
 
--   **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
--   **Disconnected (Broad):** Disconnected in 3 of the first 5 years
--   **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
--   **Consistently Attached:** Disconnected in 0 of the first 5 years
+- **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
+- **Disconnected (Broad):** Disconnected in 3 of the first 5 years
+- **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
+- **Consistently Attached:** Disconnected in 0 of the first 5 years
 
 The chart below shows why it's so important to understand this particular group.
 
--   Over half of non-college grads are disconnected from the labor force for at least 4 of the first five years after exiting formal education.
--   The lowest percentage of non-college grads are consistently attached - 12%.
+- Over half of non-college grads are disconnected from the labor force for at least 4 of the first five years after exiting formal education.
+- The lowest percentage of non-college grads are consistently attached - 12%.
 
 Overall, this distribution shows that early labor force disconnection among non-college graduates is **predominantly persistent rather than intermittent**, underscoring the importance of focusing analytic and policy attention on long-term structural barriers to stable employment rather than short-lived employment gaps.
 
@@ -835,34 +835,34 @@ The next sections focus on exploring what relationships exist between individual
 
 The variables that we will be including in this analysis are the following;
 
--   Demographic
-    -   `economic.status`
-    -   `RaceEthnicity`
-    -   `SpecialEdStatus`
--   High school characteristics
-    -   `Dem_Desc`
-    -   `avg.unemp.rate`
-    -   `avg.wages.pct.state`
--   High school academics
-    -   `pseo.participant`
-    -   `took.ACT`
-    -   `cte.achievement`
-    -   `total.cte.courses.taken`
-    -   `ACTCompositeScore`
-    -   `MCA.M`
-    -   `MCA.R`
-    -   `MCA.S`
--   Post-secondary
-    -   `attended.ps`
+- Demographic
+  - `economic.status`
+  - `RaceEthnicity`
+  - `SpecialEdStatus`
+- High school characteristics
+  - `Dem_Desc`
+  - `avg.unemp.rate`
+  - `avg.wages.pct.state`
+- High school academics
+  - `pseo.participant`
+  - `took.ACT`
+  - `cte.achievement`
+  - `total.cte.courses.taken`
+  - `ACTCompositeScore`
+  - `MCA.M`
+  - `MCA.R`
+  - `MCA.S`
+- Post-secondary
+  - `attended.ps`
 
 ## Disconnection levels
 
 We will first examine the broad disconnection levels and determine if there are any strong relationships between those levels and various economic, demographic, and school performance variables. The level of disconnection is defined as the following;
 
--   **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
--   **Disconnected (Broad):** Disconnected in 3 of the first 5 years
--   **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
--   **Consistently Attached:** Disconnected in 0 of the first 5 years
+- **Persistently Disconnected:** Disconnected in 4 or 5 of the first 5 years
+- **Disconnected (Broad):** Disconnected in 3 of the first 5 years
+- **Intermittently Disconnected:** Disconnected in 1–2 of the first 5 years
+- **Consistently Attached:** Disconnected in 0 of the first 5 years
 
 For categorical variables analysis will be conducted using Cramer's V-test and continuous variables will be tested using ANOVA.
 
@@ -1266,25 +1266,25 @@ This analysis is focused on whether any variables that are most likely to show u
 
 And just like before, we are going to measure the relationships between independent variables and the workforce participation categories for each after.ed.x. Here are the variables again;
 
--   Demographic
-    -   `economic.status`
-    -   `RaceEthnicity`
-    -   `SpecialEdStatus`
--   High school characteristics
-    -   `Dem_Desc`
-    -   `avg.unemp.rate`
-    -   `avg.wages.pct.state`
--   High school academics
-    -   `pseo.participant`
-    -   `took.ACT`
-    -   `cte.achievement`
-    -   `total.cte.courses.taken`
-    -   `ACTCompositeScore`
-    -   `MCA.M`
-    -   `MCA.R`
-    -   `MCA.S`
--   Post-secondary
-    -   `attended.ps`
+- Demographic
+  - `economic.status`
+  - `RaceEthnicity`
+  - `SpecialEdStatus`
+- High school characteristics
+  - `Dem_Desc`
+  - `avg.unemp.rate`
+  - `avg.wages.pct.state`
+- High school academics
+  - `pseo.participant`
+  - `took.ACT`
+  - `cte.achievement`
+  - `total.cte.courses.taken`
+  - `ACTCompositeScore`
+  - `MCA.M`
+  - `MCA.R`
+  - `MCA.S`
+- Post-secondary
+  - `attended.ps`
 
 First we will collapse the workforce participation categories into the three groups.
 
@@ -2053,38 +2053,38 @@ High school academic indicators matter, but **none are strong predictors** of wo
 
 Across all four assessments, **higher scores are consistently associated with better workforce attachment**, and lower scores with higher likelihood of disconnection—especially **No Minnesota employment record**. However, effect sizes are small (Cramer's V ≈ 0.04–0.12), indicating **broad overlap across categories**.
 
--   **ACT Composite Score** shows the *strongest* academic signal:
-    -   Individuals with **No MN employment record** have ACT scores roughly **1–1.7 points higher** than those in meaningful in-region employment, reflecting selection into test-taking and postsecondary exposure rather than pure academic skill.
-    -   Differences between meaningful employment categories are modest and stable across years.
--   **MCA Math, Reading, and Science**:
-    -   Higher proficiency levels (3–4) are modestly overrepresented in **meaningful employment**, especially statewide MN employment.
-    -   Lower proficiency levels (1–2) are more common among **No MN employment record** and marginal employment categories.
-    -   All MCA subjects exhibit **very weak but persistent associations**, with no strengthening or decay over time.
+- **ACT Composite Score** shows the *strongest* academic signal:
+  - Individuals with **No MN employment record** have ACT scores roughly **1–1.7 points higher** than those in meaningful in-region employment, reflecting selection into test-taking and postsecondary exposure rather than pure academic skill.
+  - Differences between meaningful employment categories are modest and stable across years.
+- **MCA Math, Reading, and Science**:
+  - Higher proficiency levels (3–4) are modestly overrepresented in **meaningful employment**, especially statewide MN employment.
+  - Lower proficiency levels (1–2) are more common among **No MN employment record** and marginal employment categories.
+  - All MCA subjects exhibit **very weak but persistent associations**, with no strengthening or decay over time.
 
 **Postsecondary Exposure Signals (PSEO, Took ACT)**
 
--   **Took ACT** is one of the clearer academic markers:
-    -   ACT takers are consistently **less likely** to have No MN employment records and **more likely** to be meaningfully employed.
-    -   Effect sizes are modest but stronger than most other academic indicators and stable across all five years.
--   **PSEO participation** shows a similar but slightly weaker pattern:
-    -   Participants are more likely to be meaningfully employed and less likely to be fully detached.
-    -   Differences are present in year 1 and persist, suggesting early sorting rather than later divergence.
+- **Took ACT** is one of the clearer academic markers:
+  - ACT takers are consistently **less likely** to have No MN employment records and **more likely** to be meaningfully employed.
+  - Effect sizes are modest but stronger than most other academic indicators and stable across all five years.
+- **PSEO participation** shows a similar but slightly weaker pattern:
+  - Participants are more likely to be meaningfully employed and less likely to be fully detached.
+  - Differences are present in year 1 and persist, suggesting early sorting rather than later divergence.
 
 **Career & Technical Education (CTE)**
 
 CTE engagement shows **consistent protective effects**, particularly against full detachment.
 
--   **CTE Concentrators/Completers** are:
+- **CTE Concentrators/Completers** are:
 
-    -   More likely to be in **meaningful in-region or MN employment**
-    -   Less likely to have **No MN employment record**
+  - More likely to be in **meaningful in-region or MN employment**
+  - Less likely to have **No MN employment record**
 
--   **No CTE** students are overrepresented among disconnected categories across all years.
+- **No CTE** students are overrepresented among disconnected categories across all years.
 
--   **Number of CTE courses taken**:
+- **Number of CTE courses taken**:
 
-    -   Individuals in meaningful employment average **\~0.25–0.55 more CTE courses** than those with no MN employment record.
-    -   Differences are statistically significant but modest and stable over time.
+  - Individuals in meaningful employment average **\~0.25–0.55 more CTE courses** than those with no MN employment record.
+  - Differences are statistically significant but modest and stable over time.
 
 **Interpretation Across the Academic Block**
 
@@ -2792,7 +2792,7 @@ Below is a structured synthesis that cuts through the noise and focuses on **sig
 #### Relative Strength of Predictor Groups
 
 | Predictor Group | Typical Cramer's V Range | Signal Strength | Stability Over Time | Takeaway |
-|---------------|---------------|---------------|---------------|---------------|
+|----|----|----|----|----|
 | Demographics | \~0.02–0.06 | Very weak | Stable | Minimal explanatory power |
 | High School Characteristics | \~0.05–0.08 | Weak | Stable | Small but consistent |
 | High School Academics | \~0.04–0.12 | Weak to moderate | Stable | Meaningful but limited |
@@ -2936,7 +2936,7 @@ Taken together, these findings suggest that policy efforts focused solely on loc
 ## Relative Importance of Variables in Explaining Workforce Attachment (Non-College Grads, NE MN)
 
 | Rank | Variable / Group | Strength of Relationship | Evidence Across 5 Years | Key Interpretation |
-|--------------:|---------------|---------------|---------------|---------------|
+|---:|----|----|----|----|
 | 1 | **Postsecondary Attendance (attended.ps)** | **Strong** | Very consistent | Largest effect sizes (Cramer’s V \~0.13–0.20). Strongly separates meaningful employment from persistent disconnection and out-of-region exit. |
 | 2 | **ACT Composite Score** | Moderate | Very consistent | Higher scores strongly associated with meaningful employment; no MN employment consistently associated with lowest scores. |
 | 3 | **Special Education Status** | Moderate | Very consistent | Strongest demographic predictor; special ed students disproportionately represented among persistently disconnected. |
@@ -2957,10 +2957,10 @@ Taken together, these findings suggest that policy efforts focused solely on loc
 
 ## Key Takeaways from the Ranking
 
--   **Structural connection beats background**: Postsecondary attendance overwhelms all other variables.
--   **Academic preparation matters more than demographics**, but less than postsecondary exposure.
--   **Place-based labor market explanations perform worst**, despite being common policy assumptions.
--   **Persistent disconnection is not random**, but it is not well-explained by any single variable short of postsecondary exposure.
+- **Structural connection beats background**: Postsecondary attendance overwhelms all other variables.
+- **Academic preparation matters more than demographics**, but less than postsecondary exposure.
+- **Place-based labor market explanations perform worst**, despite being common policy assumptions.
+- **Persistent disconnection is not random**, but it is not well-explained by any single variable short of postsecondary exposure.
 
 This ranking supports a central conclusion of your analysis:\
 **persistent workforce disconnection is primarily a structural attachment problem, not a local labor market or demographic inevitability.**
@@ -2980,9 +2980,9 @@ Even attending for a short time is strongly linked to being more likely to work,
 
 Academic preparation matters, but it does not determine outcomes on its own.
 
--   Students with **higher ACT scores or stronger MCA performance** are more likely to be meaningfully employed.
--   Students who **took the ACT, participated in PSEO, or completed CTE pathways** tend to have better workforce outcomes than those who did not.
--   These factors help, but they **do not protect everyone** from long-term disconnection.
+- Students with **higher ACT scores or stronger MCA performance** are more likely to be meaningfully employed.
+- Students who **took the ACT, participated in PSEO, or completed CTE pathways** tend to have better workforce outcomes than those who did not.
+- These factors help, but they **do not protect everyone** from long-term disconnection.
 
 In other words: stronger academics increase the odds, but they are not a guarantee.
 
@@ -2990,8 +2990,8 @@ In other words: stronger academics increase the odds, but they are not a guarant
 
 Some groups are clearly at higher risk of long-term disconnection:
 
--   **Students who received special education services** are much more likely to remain disconnected from the workforce across multiple years.
--   **Low-income students** are also more likely to struggle, though income alone does not fully explain persistent disconnection.
+- **Students who received special education services** are much more likely to remain disconnected from the workforce across multiple years.
+- **Low-income students** are also more likely to struggle, though income alone does not fully explain persistent disconnection.
 
 These patterns are consistent across all five years after leaving school.
 
@@ -2999,9 +2999,9 @@ These patterns are consistent across all five years after leaving school.
 
 Several commonly cited explanations do **not** do much to explain long-term workforce outcomes:
 
--   **Local unemployment rates** and **average wages** explain almost none of the differences.
--   **School district rurality** (rural vs mixed vs urban) has only a small effect.
--   **Race and ethnicity** show statistically detectable differences, but the size of those differences is small compared to education-related factors.
+- **Local unemployment rates** and **average wages** explain almost none of the differences.
+- **School district rurality** (rural vs mixed vs urban) has only a small effect.
+- **Race and ethnicity** show statistically detectable differences, but the size of those differences is small compared to education-related factors.
 
 This suggests that persistent disconnection is **not mainly driven by local labor market conditions or geography**.
 
