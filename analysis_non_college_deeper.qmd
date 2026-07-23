@@ -2277,3 +2277,7 @@ This bivariate work points toward a clear multivariate design, directly analogou
 3.  **Expect substantial attenuation for Special Ed and English learner status once academic/accomplishment variables enter the no-record model** — mirroring the exact pattern found throughout the rest of this project (e.g., the MCA-missingness masking effect discovered in the college-completer work).
 4.  **Local geographic/economic variables can likely be deprioritized or dropped** from both models given their consistent null results across all three outcome framings — though worth retaining at least once to formally confirm rather than assume.
 5.  **Race/Ethnicity should be watched closely for interaction effects** — given that AI, Hispanic/Asian-PI, and Black graduates show genuinely different mechanisms of disadvantage, a single additive coefficient per race category may not fully capture what's happening, and this is worth flagging as a candidate for deeper stratified analysis (per the original methodology's Step 3.3) even if it's not built into the initial multivariate pass.
+
+```{r}
+write_csv(updated.master, "Data/SLEDS/Masters/Master-non-college-grads-disconnection.csv")
+```

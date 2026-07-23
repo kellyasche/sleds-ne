@@ -1,0 +1,206 @@
+---
+title: "Multivariate Confirmation Analysis on Persistent Disconnection"
+editor: visual
+---
+
+```{r}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(tidyverse)
+library(sf)
+library(ggrepel)
+library(scales)
+library(shiny)
+library(shinycssloaders)
+library(ggiraph)
+library(kableExtra)
+library(rmapshaper)
+library(cowplot)
+library(DT)
+library(htmlwidgets)
+library(RColorBrewer)
+library(readxl)
+library(janitor)
+library(lubridate)
+library(systemfonts)
+reset_font_cache()
+library(ggtext)
+library(gmodels)
+library(fastDummies)
+library(car)
+library(glmnet)
+library(glmnetUtils)
+library(pscl)
+library(sjPlot)
+library(ggforce)
+library(openxlsx)
+```
+
+```{r themes and shapefiles, include=FALSE}
+theme_bar <- theme_bw() +
+  theme(panel.grid.major = element_line(color = "grey70", linewidth  = 0.1),
+        panel.grid.minor = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.key.size = unit(1, "lines"),
+        legend.margin = margin(0,0,0,0),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+theme_line <- theme_bw() +
+  theme(legend.background = element_rect(fill = "transparent", color = "transparent"),
+        legend.key = element_rect(fill = "transparent"),
+        legend.text = element_text(margin = margin(l = 2)),
+        panel.grid.minor = element_blank(),
+        panel.grid.major = element_line(color = "grey70", linewidth = 0.1),
+        axis.ticks = element_blank(),
+        axis.text = element_text(face = "bold"),
+        panel.border = element_blank(),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+
+theme_sf <- theme_bw() +
+  theme(axis.text.x=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks=element_blank(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(color = "white"),
+        panel.border = element_blank(),
+        legend.title = element_blank(),
+        legend.text = element_text(margin = margin(l = 2)),
+        legend.margin = margin(0,0,0,0),
+        legend.key.size = unit(1, "lines"),
+        text = element_text(family = "Arial") ,
+        plot.title.position = "plot",
+        plot.title = element_text(face = "bold"))
+
+regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  select(5,6) %>%
+  unique() %>%
+  mutate(edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"))
+
+counties.regions <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Join docs/county_regions.csv") %>%
+  rename(mif = `MIF Region`) %>%
+  mutate(countyfp = formatC(countyfp, width = 3, flag = "0"),
+         Name = str_to_title(Name),
+         Name = str_replace(Name, "Q", "q"),
+         Name = str_replace(Name, "Of The", "of the"),
+         Name = str_replace(Name, "Mcleod", "McLeod"),
+         Dem_Desc = ifelse(Name == "Minnesota", "Minnesota", Dem_Desc) ,
+         edr = str_replace(edr, "  ", " "),
+         planning.region = str_replace(planning.region, " Minnesota", ""),
+         planning.region = fct_relevel(planning.region, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southeast"),
+         edr = fct_relevel(edr, "EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 3 - Arrowhead", "EDR 4 - West Central", "EDR 5 - North Central", "EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 7E- East Central", "EDR 7W- Central", "EDR 8 - Southwest", "EDR 9 - South Central", "EDR 10 - Southeast", "EDR 11 - 7 County Twin Cities", "Minnesota"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural", "Town/rural mix", "Urban/town/rural mix", "Entirely urban"))
+
+counties.regions.1 <- counties.regions %>%
+  mutate(statefp = "27",
+         project.pr = ifelse(edr %in% c("EDR 1 - Northwest", "EDR 2 - Headwaters", "EDR 4 - West Central"), "Northwest",
+                             ifelse(edr == "EDR 3 - Arrowhead", "Northeast",
+                                    ifelse(edr %in% c("EDR 5 - North Central", "EDR 7E- East Central", "EDR 7W- Central"), "Central",
+                                           ifelse(edr %in% c("EDR 6E- Southwest Central", "EDR 6W- Upper Minnesota Valley", "EDR 8 - Southwest"), "Southwest",
+                                                  ifelse(edr %in% c("EDR 9 - South Central", "EDR 10 - Southeast"), "Southern", as.character(planning.region)))))),
+         project.pr = fct_relevel(project.pr, "Northwest", "Northeast", "Central", "Seven County Mpls-St Paul", "Southwest", "Southern"))
+
+
+color.ruca <- c("Entirely rural" = "#009933", "Town/rural mix" = "#99CC33", "Urban/town/rural mix" = "#CC9966", "Entirely urban" = "#754C29", "Minnesota" = "black")
+
+color.pr <- c("Northwest" = 	"#4575b4", "Northeast" = "grey", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black")
+
+color.edr <- c("EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365", "Minnesota" = "black")
+
+color.edr.simple <- c("EDR 1" = "#b3cde3", "EDR 2" = "#8c96c6", "EDR 3" = "#fe9929", "EDR 4" = "#8856a7", "EDR 5" = "#810f7c", "EDR 6E" = "#e5f5f9", "EDR 6W" = "#bdc9e1", "EDR 7E" = "#99d8c9", "EDR 7W" = "#2ca25f", "EDR 8" = "#74a9cf", "EDR 9" = "#0570b0", "EDR 10" = "#d7301f", "EDR 11" = "#d8b365", "Minnesota" = "black")
+
+color.pr.edr <- c ("Northwest" = "#4575b4","Northeast" = "#e0f3f8", "Central" = "#fee090", "Seven County Mpls-St Paul" = "#d73027", "Southwest" = "#91bfdb", "Southeast" = "#fc8d59", "Minnesota" = "black", "EDR 1 - Northwest" = "#b3cde3", "EDR 2 - Headwaters" = "#8c96c6", "EDR 3 - Arrowhead" = "#fe9929", "EDR 4 - West Central" = "#8856a7", "EDR 5 - North Central" = "#810f7c", "EDR 6E- Southwest Central" = "#e5f5f9", "EDR 6W- Upper Minnesota Valley" = "#bdc9e1", "EDR 7E- East Central" = "#99d8c9", "EDR 7W- Central" = "#2ca25f", "EDR 8 - Southwest" = "#74a9cf", "EDR 9 - South Central" = "#0570b0", "EDR 10 - Southeast" = "#d7301f", "EDR 11 - 7 County Twin Cities" = "#d8b365")
+
+mn_counties <- st_read("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Data Prep/R Projects/Shapefiles/County shapefiles/MNCounties_MNDOT.shp", quiet = TRUE) %>%
+  ms_simplify(keep = .01, keep_shapes = TRUE) %>%
+  rename(countyfp = FIPS_CODE)
+```
+
+```{r master}
+master.original <- read_csv("Data/SLEDS/Masters/Master-report-dataset.csv") 
+
+kable(names(master.original))
+
+kable(head(master.original))
+```
+
+# Multivariate Confirmation Analysis: Disconnection Persistence Among Non–Postsecondary Graduates
+
+## Introduction
+
+The bivariate analysis of workforce disconnection among non-college graduates identified two distinct disconnection mechanisms operating within a single combined measure. Non-sustained employment (working, but below the sustained-employment threshold) and absence of any Minnesota employment record behave as structurally different phenomena: the former is front-loaded and largely resolves within five years, while the latter is bimodal and behaves as a durable end-state once established. Separating these two mechanisms revealed that different demographic and high-school-accomplishment variables predict each one — most notably, Special Education status and English learner status appeared to drive no-record persistence specifically, while Economic status and Gender appeared to drive non-sustained persistence specifically, and different racial/ethnic groups showed disparities concentrated in one mechanism or the other.
+
+This multivariate analysis exists to confirm whether that mechanism-split pattern holds once all variables are considered simultaneously, rather than one at a time. This step is necessary because earlier work in this project has shown that bivariate relationships — particularly those involving English learner status — can substantially attenuate or shift once other variables, especially missing-data patterns in academic assessment scores, are accounted for in the same model. Before this mechanism-split finding is presented as a confirmed result, it should be tested under the same conditions.
+
+## Methodology
+
+### Study Population
+
+The analytic sample is restricted to individuals who did **not** complete a postsecondary credential, consistent with the non-college-graduate population used throughout this project. The sample is further restricted to individuals who graduated (or exited postsecondary attendance, for those who attended without completing) after 2010, consistent with the cohort restriction applied elsewhere in this project to avoid the PSEO participation tracking gap present in earlier cohorts.
+
+### Dependent Variables
+
+This analysis models two outcomes, each derived from the disconnection-persistence categories established in the bivariate analysis. Each graduate's workforce status was tracked across the first five years after exiting formal education (high school for direct-to-workforce graduates, or postsecondary attendance for those who attended without completing).
+
+- **Persistent non-sustained employment** — binary (1 = non-sustained workforce participation in 4 or 5 of the first 5 years, 0 = otherwise). This isolates the instability mechanism identified in the bivariate work.
+- **Persistent no-record status** — binary (1 = no Minnesota employment record in 4 or 5 of the first 5 years, 0 = otherwise). This isolates the disappearance-from-the-system mechanism identified in the bivariate work.
+
+Each outcome is modeled separately, in its own specification, rather than as levels of a single combined variable. This mirrors the logic of the bivariate analysis: combining the two mechanisms into one model would risk re-obscuring the distinction this analysis is specifically designed to confirm.
+
+### Independent Variables
+
+The independent variable set is consistent with the variables used throughout this project's non-college-graduate analyses, with two adjustments made based on findings from this project's earlier work.
+
+**Demographics**
+
+- `Gender`
+- `RaceEthnicity`
+- `economic.status`
+- `SpecialEdStatus`
+- `english.learner`
+
+**High school characteristics**
+
+- `Dem_Desc`
+- `avg.wages.pct.state`
+- `avg.unemp.rate`
+
+**High school accomplishments**
+
+- `pseo.participant`
+- `ap.exam`
+- `took.ACT`
+- `ACTCompositeScore` (recoded to 0 for non-test-takers, entered alongside `took.ACT`, per the missing-indicator approach established earlier in this project)
+- `cte.achievement`
+- `MCA.M`
+
+**Postsecondary variable**
+
+- `attended.ps` — included specifically because it was the single strongest predictor of overall disconnection in the bivariate analysis, and it is the one variable found to meaningfully affect both disconnection mechanisms rather than only one.
+
+**Adjustments from the bivariate variable list:**
+
+- **MCA Reading (`MCA.R`) is excluded.** The bivariate analysis tested MCA Math and Reading separately; consistent with the multicollinearity resolution used throughout this project's other multivariate models, only one MCA subject is retained here. MCA Math is retained on the same grounds established previously — lower missingness and a comparable or stronger association with the outcomes of interest.
+- **`total.cte.courses.taken` is excluded**, consistent with the redundancy this project has established between the continuous course-count measure and the categorical `cte.achievement` variable.
+
+### Modeling Approach
+
+Each outcome (persistent non-sustained status, persistent no-record status) is modeled using a single logistic regression containing the full variable set above, rather than a staged block-entry sequence. This reflects the confirmatory purpose of this analysis: the goal is to test whether the mechanism-split pattern identified bivariately — particularly the English learner and Special Education findings — holds once every variable is controlled for simultaneously, not to trace how each block of variables contributes incrementally.
+
+### Evaluation Criteria
+
+Results will be reported using odds ratios, 95% confidence intervals, and statistical significance levels. Interpretation will focus specifically on whether the demographic variables identified as mechanism-specific in the bivariate analysis (Special Education and English learner status for no-record persistence; Economic status and Gender for non-sustained persistence; racial/ethnic groups for whichever mechanism their bivariate disparity was concentrated in) remain significant, attenuate, or reverse once the full variable set is included. Findings will be described as associations holding other included variables constant. No causal claims will be made.
