@@ -64,6 +64,8 @@ website:
             href: analysis_multivariate_confirmation_non_college_grads.qmd
           - text: Further analysis on non-college grads
             href: analysis_non_college_deeper.qmd
+          - text: Multivariate Confirmation Analysis on Persistent Disconnection
+            href: analysis_multivariate_confirmation_disconnection_persistence.qmd
       - text: One-page summaries of pathways
         icon: fa-gear
         menu:
