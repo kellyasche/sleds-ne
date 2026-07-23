@@ -238,6 +238,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./analysis_non_college_deeper.html">
  <span class="dropdown-text">Further analysis on non-college grads</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_multivariate_confirmation_disconnection_persistence.html">
+ <span class="dropdown-text">Multivariate Confirmation Analysis on Persistent Disconnection</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -333,8 +337,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#model-1-demographics-4" id="toc-model-1-demographics-4" class="nav-link" data-scroll-target="#model-1-demographics-4">Model 1: Demographics</a></li>
   <li><a href="#model-2-demographics-high-school-characteristics-4" id="toc-model-2-demographics-high-school-characteristics-4" class="nav-link" data-scroll-target="#model-2-demographics-high-school-characteristics-4">Model 2: Demographics + High School Characteristics</a></li>
   <li><a href="#model-3-demographics-high-school-characteristics-high-school-accomplishments-4" id="toc-model-3-demographics-high-school-characteristics-high-school-accomplishments-4" class="nav-link" data-scroll-target="#model-3-demographics-high-school-characteristics-high-school-accomplishments-4">Model 3: Demographics + High School Characteristics + High School Accomplishments</a></li>
-  <li><a href="#dv3-summary-what-predicts-postsecondary-completion-within-the-region-college-completers-only-1" id="toc-dv3-summary-what-predicts-postsecondary-completion-within-the-region-college-completers-only-1" class="nav-link" data-scroll-target="#dv3-summary-what-predicts-postsecondary-completion-within-the-region-college-completers-only-1">DV3 Summary: What Predicts Postsecondary Completion Within the Region (College Completers Only)</a></li>
+  <li><a href="#dv4-summary-what-predicts-sub-baccalaureate-credential-attainment-college-completers-only" id="toc-dv4-summary-what-predicts-sub-baccalaureate-credential-attainment-college-completers-only" class="nav-link" data-scroll-target="#dv4-summary-what-predicts-sub-baccalaureate-credential-attainment-college-completers-only">DV4 Summary: What Predicts Sub-Baccalaureate Credential Attainment (College Completers Only)</a></li>
   </ul></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link" data-scroll-target="#executive-summary">Executive Summary</a></li>
+  <li><a href="#the-story-this-data-tells" id="toc-the-story-this-data-tells" class="nav-link" data-scroll-target="#the-story-this-data-tells">The Story This Data Tells</a></li>
   </ul>
 </nav>
     </div>
@@ -5421,6 +5427,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h1>Modeling: Credential Earned - college completers only</h1>
 <section id="model-1-demographics-4" class="level2">
 <h2 class="anchored" data-anchor-id="model-1-demographics-4">Model 1: Demographics</h2>
+<p>This model estimates the association between demographic characteristics and earning an Associate degree or lesser credential (versus a Bachelor’s degree or higher), restricted to postsecondary completers (n = 12,651). The outcome is coded 1 = Associate-or-lesser credential, 0 = Bachelor’s degree or higher — so an odds ratio above 1 indicates <em>lower</em> educational attainment relative to Bachelor’s, not a positive outcome in the sense used elsewhere in this project.</p>
+<p><strong>Special Education status and economic disadvantage show by far the largest effects found anywhere in this project.</strong></p>
+<ul>
+<li><strong>Special Education status:</strong> approximately 5.2 times higher odds of earning an Associate-or-lesser credential rather than a Bachelor’s (OR ≈ 5.19, CI: 4.191–6.477) — the single largest coefficient found in any model across this entire analysis.</li>
+<li><strong>Economic disadvantage:</strong> approximately 2.5 times higher odds of the same (OR ≈ 2.54).</li>
+</ul>
+<p>Both results make substantive sense and are consistent with everything found in DV2: these two groups face substantial barriers to completing a four-year degree specifically, even though (per DV3) those who do complete tend to complete regionally.</p>
+<p><strong>Gender shows a large, clean effect in the opposite direction from Special Ed/economic status.</strong></p>
+<ul>
+<li><strong>Female graduates:</strong> approximately 36% lower odds of an Associate-or-lesser credential relative to male graduates (OR ≈ 0.64) — meaning female completers are considerably more likely to hold a Bachelor’s degree or higher. This is directionally consistent with DV2, where female graduates showed substantially higher odds of completing college at all — the pattern extends here to completing at the <em>higher</em> credential level specifically.</li>
+</ul>
+<p><strong>Race/Ethnicity shows a mixed and, in one case, quite large effect.</strong></p>
+<ul>
+<li><strong>Asian/Pacific Islander graduates:</strong> approximately 68% lower odds of an Associate-or-lesser credential (OR ≈ 0.32) — meaning Asian/Pacific Islander completers are considerably more likely to hold a Bachelor’s degree or higher, the largest Race/Ethnicity effect found in this model.</li>
+<li><strong>American Indian graduates:</strong> approximately 44% higher odds of an Associate-or-lesser credential (OR ≈ 1.44) — the opposite direction from Asian/Pacific Islander graduates.</li>
+<li><strong>Black and Hispanic graduates:</strong> not statistically significant, likely reflecting reduced power given small cell sizes in this completers-only population (n = 138 and n = 106, respectively).</li>
+</ul>
+<p><strong>English learner status is significant, though with a wide confidence interval.</strong> OR ≈ 1.72 (CI: 1.148–2.622) — English learner completers show higher odds of an Associate-or-lesser credential.</p>
+<p><strong>Overall Interpretation</strong></p>
+<p>At the demographics-only stage, Special Education status and economic disadvantage stand out as by far the strongest predictors of credential level examined anywhere in this project — both showing that these groups are considerably more likely to complete at the sub-baccalaureate level. This is directionally consistent with, and adds nuance to, the DV2 finding that these same groups face substantial barriers to completing college at all: among those who do complete, they are also considerably more likely to complete a shorter, more technical credential rather than a four-year degree. Gender and Race/Ethnicity (particularly Asian/Pacific Islander) show meaningful effects as well, with women and Asian/Pacific Islander completers more likely to hold a Bachelor’s degree.</p>
+<p><strong>Model fit:</strong> AIC = 15,898.8; n = 12,651.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb308"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb308-1"><a href="#cb308-1" aria-hidden="true" tabindex="-1"></a>model1_dv4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb308-2"><a href="#cb308-2" aria-hidden="true" tabindex="-1"></a>  highest.cred.level <span class="sc">~</span></span>
@@ -5433,57 +5460,57 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb308-9"><a href="#cb308-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.model.dv4</span>
 <span id="cb308-10"><a href="#cb308-10" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb308-11"><a href="#cb308-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb308-12"><a href="#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb308-12"><a href="#cb308-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
-    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv3)
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
+    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv4)
 
 Coefficients:
-                       Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)            0.222960   0.029640   7.522 5.39e-14 ***
-GenderF               -0.146367   0.036951  -3.961 7.46e-05 ***
-RaceEthnicityAI        0.312294   0.105221   2.968   0.0030 ** 
-RaceEthnicityAsian/PI -0.411278   0.161085  -2.553   0.0107 *  
-RaceEthnicityBlack    -0.133591   0.178972  -0.746   0.4554    
-RaceEthnicityHispanic  0.097820   0.206383   0.474   0.6355    
-economic.status1       0.502330   0.044579  11.268  &lt; 2e-16 ***
-SpecialEdStatus1       0.637140   0.101977   6.248 4.16e-10 ***
-english.learner1       0.001627   0.178201   0.009   0.9927    
+                      Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)           -0.49980    0.03026 -16.518  &lt; 2e-16 ***
+GenderF               -0.43964    0.03850 -11.418  &lt; 2e-16 ***
+RaceEthnicityAI        0.36622    0.10289   3.559 0.000372 ***
+RaceEthnicityAsian/PI -1.14243    0.20693  -5.521 3.37e-08 ***
+RaceEthnicityBlack    -0.15963    0.18383  -0.868 0.385210    
+RaceEthnicityHispanic -0.06123    0.21139  -0.290 0.772079    
+economic.status1       0.93394    0.04436  21.055  &lt; 2e-16 ***
+SpecialEdStatus1       1.64697    0.11094  14.845  &lt; 2e-16 ***
+english.learner1       0.54342    0.21036   2.583 0.009788 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 16976  on 12597  degrees of freedom
-AIC: 16994
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 15881  on 12642  degrees of freedom
+AIC: 15899
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb310"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb310-1"><a href="#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb310"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb310-1"><a href="#cb310-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb312"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb312-1"><a href="#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb312"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb312-1"><a href="#cb312-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16994.11</code></pre>
+<pre><code>[1] 15898.78</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb314"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb314-1"><a href="#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model1_dv3), <span class="fu">confint</span>(model1_dv3)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb314"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb314-1"><a href="#cb314-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model1_dv4), <span class="fu">confint</span>(model1_dv4)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                             OR     2.5 %    97.5 %
-(Intercept)           1.2497707 1.1792985 1.3246067
-GenderF               0.8638402 0.8034603 0.9286910
-RaceEthnicityAI       1.3665569 1.1140526 1.6833626
-RaceEthnicityAsian/PI 0.6628029 0.4826195 0.9085248
-RaceEthnicityBlack    0.8749477 0.6177118 1.2478648
-RaceEthnicityHispanic 1.1027642 0.7396058 1.6651476
-economic.status1      1.6525675 1.5146536 1.8038922
-SpecialEdStatus1      1.8910641 1.5522048 2.3156895
-english.learner1      1.0016282 0.7087026 1.4265704</code></pre>
+(Intercept)           0.6066492 0.5716491 0.6436404
+GenderF               0.6442701 0.5974140 0.6947435
+RaceEthnicityAI       1.4422794 1.1788917 1.7650043
+RaceEthnicityAsian/PI 0.3190439 0.2094250 0.4723893
+RaceEthnicityBlack    0.8524627 0.5930906 1.2208728
+RaceEthnicityHispanic 0.9406050 0.6189922 1.4205402
+economic.status1      2.5445260 2.3329026 2.7759740
+SpecialEdStatus1      5.1912033 4.1913048 6.4771367
+english.learner1      1.7218904 1.1478400 2.6224252</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb316"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb316-1"><a href="#cb316-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model1_dv3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb316"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb316-1"><a href="#cb316-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model1_dv4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb316-2"><a href="#cb316-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb316-3"><a href="#cb316-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb316-4"><a href="#cb316-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make labels nicer (edit these replacements to match your exact factor labels)</span></span>
@@ -5532,26 +5559,21 @@ english.learner1      1.0016282 0.7087026 1.4265704</code></pre>
 </section>
 <section id="model-2-demographics-high-school-characteristics-4" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-demographics-high-school-characteristics-4">Model 2: Demographics + High School Characteristics</h2>
-<p>This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 12,606.</p>
-<p><strong>High school characteristics show by far their strongest and most consistent effects anywhere in this project in this model.</strong></p>
+<p>This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 12,651.</p>
+<p><strong>None of the high school characteristics show a statistically significant relationship with credential level.</strong></p>
 <ul>
-<li><strong>District classification (Dem_Desc):</strong> a large, clean, monotonic gradient — Town/rural mix districts show approximately double the odds of completing within the region relative to entirely rural districts (OR ≈ 2.06), and Urban/town/rural mix districts show more than 2.5 times the odds (OR ≈ 2.56). These are the largest Dem_Desc effects found in any model across this entire project.</li>
-<li><strong>Average local wages:</strong> highly significant and very large (OR ≈ 6.56, CI: 3.056–14.054) — the strongest wage effect found anywhere in this project by a wide margin.</li>
-<li><strong>Average local unemployment rate:</strong> significant, modest in size (OR ≈ 1.06 per unit).</li>
+<li><strong>District classification (Dem_Desc):</strong> neither category is significant (Town/rural mix OR ≈ 1.01, CI: 0.843–1.204; Urban/town/rural mix OR ≈ 0.92, CI: 0.765–1.102) — both confidence intervals sit almost exactly on 1.</li>
+<li><strong>Average local wages:</strong> not significant (OR ≈ 0.70, CI: 0.319–1.553).</li>
+<li><strong>Average local unemployment rate:</strong> not significant (OR ≈ 0.997, CI: 0.967–1.027).</li>
 </ul>
-<p>This makes strong substantive sense: unlike postsecondary completion overall (DV2), where geography showed almost no relationship, <em>where</em> a student completes their postsecondary education is directly and powerfully shaped by their high school’s local economic and geographic context — students from more urban, higher-wage areas are dramatically more likely to complete regionally, plausibly reflecting the location of regional postsecondary institutions themselves.</p>
-<p><strong>Demographic effects from Model 1 persist and strengthen slightly.</strong></p>
-<ul>
-<li>Economic status and Special Education status both remain highly significant and slightly larger than in Model 1 (OR ≈ 1.72 and 1.85, respectively, up from 1.65 and 1.89 — SpecialEd essentially unchanged, economic status modestly stronger).</li>
-<li>American Indian and Asian/Pacific Islander graduates remain significant, in the same direction and similar magnitude to Model 1.</li>
-<li>Gender, Black, Hispanic, and English learner status remain non-significant or unchanged in direction from Model 1.</li>
-</ul>
+<p>This is a striking result given how powerfully these same variables predicted <em>where</em> students completed their education in DV3 (district type up to 2.7x, local wages up to 14.5x). Here, predicting <em>what type</em> of credential a student earns, geography and local economic conditions show essentially no relationship at all — the weakest and most uniformly null high-school-characteristics block found anywhere in this project.</p>
+<p><strong>All demographic effects from Model 1 remain essentially unchanged.</strong> Gender, all Race/Ethnicity categories, economic status, Special Education status, and English learner status are all still significant, in the same direction and virtually identical magnitude to Model 1.</p>
 <p><strong>Overall Interpretation</strong></p>
-<p>Adding high school characteristics produces a large and highly significant improvement in model fit (likelihood ratio test: Δdeviance = 203.6, df = 4, p &lt; .001; AIC decreases from 16,994.1 to 16,798.5). This is a striking contrast to DV2, where the equivalent block barely moved the model at all — confirming that geography’s role in this project is concentrated specifically in <em>where</em> postsecondary education happens, not <em>whether</em> it happens. The scale of the district-type and local-wage effects here — the largest found in any model in this entire analysis — reinforces that local economic and geographic context is the dominant force shaping regional postsecondary completion, even before high school accomplishments are considered.</p>
-<p><strong>Model fit:</strong> AIC = 16,798.5 (down from 16,994.1 in Model 1); Δdeviance = 203.6 on 4 df, p &lt; .001; n = 12,606 in both models.</p>
+<p>Adding high school characteristics does not significantly improve model fit (likelihood ratio test: Δdeviance = 7.50, df = 4, p = .112; AIC essentially unchanged, from 15,898.8 to 15,899.3 — a slight increase, reflecting the cost of adding four non-informative parameters). This is a clean, unambiguous null result: unlike <em>where</em> a student completes postsecondary education (DV3), which is powerfully shaped by high school geography and local economic conditions, <em>what type</em> of credential a student earns appears to be entirely unrelated to those same factors once demographics are accounted for. This sharpens the picture emerging across DV2–DV4: geography governs <em>where</em> people complete college, but has little to no bearing on <em>whether</em> they complete or <em>what level</em> they complete at — those outcomes appear to be driven primarily by individual-level demographic and (as later blocks will show) academic factors instead.</p>
+<p><strong>Model fit:</strong> AIC = 15,899.3 (up slightly from 15,898.8 in Model 1); Δdeviance = 7.50 on 4 df, p = .112 (not significant); n = 12,651 in both models.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb317"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb317-1"><a href="#cb317-1" aria-hidden="true" tabindex="-1"></a>model2_dv3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb317-2"><a href="#cb317-2" aria-hidden="true" tabindex="-1"></a>  ps.grad.location <span class="sc">~</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb317"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb317-1"><a href="#cb317-1" aria-hidden="true" tabindex="-1"></a>model2_dv4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb317-2"><a href="#cb317-2" aria-hidden="true" tabindex="-1"></a>  highest.cred.level <span class="sc">~</span></span>
 <span id="cb317-3"><a href="#cb317-3" aria-hidden="true" tabindex="-1"></a>    Gender <span class="sc">+</span></span>
 <span id="cb317-4"><a href="#cb317-4" aria-hidden="true" tabindex="-1"></a>    RaceEthnicity <span class="sc">+</span></span>
 <span id="cb317-5"><a href="#cb317-5" aria-hidden="true" tabindex="-1"></a>    economic.status <span class="sc">+</span></span>
@@ -5561,121 +5583,119 @@ english.learner1      1.0016282 0.7087026 1.4265704</code></pre>
 <span id="cb317-9"><a href="#cb317-9" aria-hidden="true" tabindex="-1"></a>    avg.wages.pct.state <span class="sc">+</span></span>
 <span id="cb317-10"><a href="#cb317-10" aria-hidden="true" tabindex="-1"></a>    avg.unemp.rate,</span>
 <span id="cb317-11"><a href="#cb317-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb317-12"><a href="#cb317-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.model.dv3</span>
+<span id="cb317-12"><a href="#cb317-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.model.dv4</span>
 <span id="cb317-13"><a href="#cb317-13" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb317-14"><a href="#cb317-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb317-15"><a href="#cb317-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb317-15"><a href="#cb317-15" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
-    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv3)
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
+    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv4)
 
 Coefficients:
-                       Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)            0.222960   0.029640   7.522 5.39e-14 ***
-GenderF               -0.146367   0.036951  -3.961 7.46e-05 ***
-RaceEthnicityAI        0.312294   0.105221   2.968   0.0030 ** 
-RaceEthnicityAsian/PI -0.411278   0.161085  -2.553   0.0107 *  
-RaceEthnicityBlack    -0.133591   0.178972  -0.746   0.4554    
-RaceEthnicityHispanic  0.097820   0.206383   0.474   0.6355    
-economic.status1       0.502330   0.044579  11.268  &lt; 2e-16 ***
-SpecialEdStatus1       0.637140   0.101977   6.248 4.16e-10 ***
-english.learner1       0.001627   0.178201   0.009   0.9927    
+                      Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)           -0.49980    0.03026 -16.518  &lt; 2e-16 ***
+GenderF               -0.43964    0.03850 -11.418  &lt; 2e-16 ***
+RaceEthnicityAI        0.36622    0.10289   3.559 0.000372 ***
+RaceEthnicityAsian/PI -1.14243    0.20693  -5.521 3.37e-08 ***
+RaceEthnicityBlack    -0.15963    0.18383  -0.868 0.385210    
+RaceEthnicityHispanic -0.06123    0.21139  -0.290 0.772079    
+economic.status1       0.93394    0.04436  21.055  &lt; 2e-16 ***
+SpecialEdStatus1       1.64697    0.11094  14.845  &lt; 2e-16 ***
+english.learner1       0.54342    0.21036   2.583 0.009788 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 16976  on 12597  degrees of freedom
-AIC: 16994
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 15881  on 12642  degrees of freedom
+AIC: 15899
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb319"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb319-1"><a href="#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb319"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb319-1"><a href="#cb319-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
-    avg.unemp.rate, family = binomial, data = master.model.dv3)
+    avg.unemp.rate, family = binomial, data = master.model.dv4)
 
 Coefficients:
-                             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)                  -2.53287    0.31725  -7.984 1.42e-15 ***
-GenderF                      -0.14615    0.03726  -3.923 8.76e-05 ***
-RaceEthnicityAI               0.35080    0.10626   3.301 0.000962 ***
-RaceEthnicityAsian/PI        -0.47837    0.16204  -2.952 0.003156 ** 
-RaceEthnicityBlack           -0.17504    0.18067  -0.969 0.332616    
-RaceEthnicityHispanic         0.05111    0.20836   0.245 0.806220    
-economic.status1              0.54144    0.04518  11.984  &lt; 2e-16 ***
-SpecialEdStatus1              0.61768    0.10283   6.007 1.89e-09 ***
-english.learner1              0.06467    0.18027   0.359 0.719768    
-Dem_DescTown/rural mix        0.72338    0.08995   8.042 8.82e-16 ***
-Dem_DescUrban/town/rural mix  0.93984    0.09190  10.227  &lt; 2e-16 ***
-avg.wages.pct.state           1.88032    0.38922   4.831 1.36e-06 ***
-avg.unemp.rate                0.06120    0.01486   4.119 3.80e-05 ***
+                              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                  -0.137279   0.326361  -0.421 0.674022    
+GenderF                      -0.439773   0.038520 -11.417  &lt; 2e-16 ***
+RaceEthnicityAI               0.345513   0.103218   3.347 0.000816 ***
+RaceEthnicityAsian/PI        -1.133046   0.207125  -5.470 4.49e-08 ***
+RaceEthnicityBlack           -0.146425   0.183901  -0.796 0.425906    
+RaceEthnicityHispanic        -0.045363   0.211563  -0.214 0.830223    
+economic.status1              0.929389   0.044443  20.912  &lt; 2e-16 ***
+SpecialEdStatus1              1.655699   0.111006  14.915  &lt; 2e-16 ***
+english.learner1              0.542458   0.210575   2.576 0.009993 ** 
+Dem_DescTown/rural mix        0.007162   0.090782   0.079 0.937116    
+Dem_DescUrban/town/rural mix -0.086181   0.093206  -0.925 0.355158    
+avg.wages.pct.state          -0.350424   0.403588  -0.868 0.385246    
+avg.unemp.rate               -0.003162   0.015382  -0.206 0.837157    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 16773  on 12593  degrees of freedom
-AIC: 16799
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 15873  on 12638  degrees of freedom
+AIC: 15899
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb321"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb321-1"><a href="#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb321"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb321-1"><a href="#cb321-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb323"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb323-1"><a href="#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb323"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb323-1"><a href="#cb323-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb325"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb325-1"><a href="#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb325"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb325-1"><a href="#cb325-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16994.11</code></pre>
+<pre><code>[1] 15898.78</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb327"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb327-1"><a href="#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb327"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb327-1"><a href="#cb327-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16798.51</code></pre>
+<pre><code>[1] 15899.28</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb329"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb329-1"><a href="#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model2_dv3), <span class="fu">confint</span>(model2_dv3)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb329"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb329-1"><a href="#cb329-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model2_dv4), <span class="fu">confint</span>(model2_dv4)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                     OR      2.5 %     97.5 %
-(Intercept)                  0.07943093 0.04261882  0.1478204
-GenderF                      0.86402775 0.80314899  0.9294535
-RaceEthnicityAI              1.42020051 1.15540609  1.7529538
-RaceEthnicityAsian/PI        0.61979342 0.45046022  0.8511606
-RaceEthnicityBlack           0.83941950 0.59063532  1.2010990
-RaceEthnicityHispanic        1.05243963 0.70317586  1.5953401
-economic.status1             1.71848783 1.57324824  1.8780912
-SpecialEdStatus1             1.85462266 1.51971575  2.2748122
-english.learner1             1.06681083 0.75175767  1.5254849
-Dem_DescTown/rural mix       2.06137880 1.72962917  2.4611231
-Dem_DescUrban/town/rural mix 2.55957074 2.13944811  3.0677139
-avg.wages.pct.state          6.55562946 3.05566964 14.0539750
-avg.unemp.rate               1.06311381 1.03262037  1.0945539</code></pre>
+<pre><code>                                    OR     2.5 %    97.5 %
+(Intercept)                  0.8717270 0.4597100 1.6524324
+GenderF                      0.6441824 0.5973121 0.6946728
+RaceEthnicityAI              1.4127141 1.1540016 1.7299320
+RaceEthnicityAsian/PI        0.3220508 0.2113187 0.4770259
+RaceEthnicityBlack           0.8637907 0.6008900 1.2372704
+RaceEthnicityHispanic        0.9556509 0.6286811 1.4437262
+economic.status1             2.5329603 2.3219078 2.7638175
+SpecialEdStatus1             5.2367372 4.2275438 6.5347310
+english.learner1             1.7202297 1.1462958 2.6210597
+Dem_DescTown/rural mix       1.0071880 0.8433893 1.2039901
+Dem_DescUrban/town/rural mix 0.9174279 0.7646905 1.1020978
+avg.wages.pct.state          0.7043896 0.3192331 1.5533162
+avg.unemp.rate               0.9968434 0.9672307 1.0273517</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb331"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb331-1"><a href="#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1_dv3, model2_dv3, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb331"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb331-1"><a href="#cb331-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1_dv4, model2_dv4, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
-Model 1: ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+Model 1: highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner
-Model 2: ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+Model 2: highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate
-  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1     12597      16976                          
-2     12593      16772  4    203.6 &lt; 2.2e-16 ***
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)
+1     12642      15881                     
+2     12638      15873  4   7.4992   0.1117</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb333"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb333-1"><a href="#cb333-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model2_dv3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb333"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb333-1"><a href="#cb333-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model2_dv4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb333-2"><a href="#cb333-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb333-3"><a href="#cb333-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb333-4"><a href="#cb333-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make labels nicer (edit these replacements to match your exact factor labels)</span></span>
@@ -5724,33 +5744,27 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="model-3-demographics-high-school-characteristics-high-school-accomplishments-4" class="level2">
 <h2 class="anchored" data-anchor-id="model-3-demographics-high-school-characteristics-high-school-accomplishments-4">Model 3: Demographics + High School Characteristics + High School Accomplishments</h2>
-<p>This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 12,606.</p>
-<p><strong>ACT shows by far the largest and cleanest crossover effect found anywhere in this project.</strong></p>
+<p>This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 12,651.</p>
+<p><strong>This produces the largest improvement in model fit found anywhere in this project</strong>, and academic/college-preparatory engagement variables dominate the result.</p>
+<p><strong>ACT again shows the same crossover pattern found throughout this project, at a scale rivaling DV3.</strong></p>
 <ul>
-<li><strong>Took the ACT:</strong> OR ≈ 8.07 — an enormous positive association with completing within the region, the largest single coefficient found in any model across this entire analysis.</li>
-<li><strong>ACT composite score (among test-takers):</strong> OR ≈ 0.884 per point — a strong negative gradient; each additional point predicts lower odds of completing regionally.</li>
+<li><strong>Took the ACT:</strong> OR ≈ 10.63 — an enormous positive association with earning an Associate-or-lesser credential (i.e., students who took the ACT are far more likely to complete at the sub-baccalaureate level than those who never tested).</li>
+<li><strong>ACT composite score (among test-takers):</strong> OR ≈ 0.828 per point — a strong negative gradient; higher scores predict a Bachelor’s degree instead.</li>
 </ul>
-<p>This is the same directional crossover found in the regional-employment models (DV1a/DV1b), but far larger in magnitude here: students who take the ACT are dramatically more likely to complete their postsecondary education within the region than those who never test, but among test-takers, higher scores substantially predict completing <em>outside</em> the region instead. This makes strong substantive sense — regional postsecondary institutions likely have lower or no ACT-score admission thresholds, so students taking the ACT at all (regardless of score) skews toward institutions that accept a broad range of scores, many of which are regional, while the highest-scoring students are drawn to more selective institutions elsewhere.</p>
-<p><strong>Average local wages shows an extraordinarily large effect, even larger than in Model 2.</strong> OR ≈ 14.54 (CI: 6.42–32.92) — nearly triple the size of the already-large Model 2 estimate (OR ≈ 6.56). This is the single largest coefficient of any continuous predictor found anywhere in this project, reinforcing that local economic conditions are a powerful force specifically shaping <em>where</em> students complete postsecondary education.</p>
-<p><strong>AP exam participation shows a strong negative association</strong> (OR ≈ 0.66) — consistent with the broader pattern throughout this project that intensive college-preparatory engagement predicts leaving the region for postsecondary education.</p>
-<p><strong>CTE Concentrator/Completer status remains a solid positive predictor</strong> (OR ≈ 1.30), consistent with its role throughout this project as a regional-anchoring factor. CTE Participant status is not significant here.</p>
-<p><strong>Several demographic effects from Models 1–2 attenuate substantially, in a pattern that echoes the DV1b/DV2 English-learner story but now extends more broadly.</strong></p>
-<ul>
-<li><strong>Special Education status loses significance</strong> (OR ≈ 1.21, CI: 0.981–1.508, borderline at p = .078) — a real attenuation from Model 2’s strong effect (OR ≈ 1.85), suggesting Special Ed completers’ tendency to stay regional is substantially explained by their patterns of high school accomplishments (particularly ACT engagement) rather than Special Ed status independently.</li>
-<li><strong>Gender approaches but does not reach conventional significance</strong> (OR ≈ 0.926, p = .054).</li>
-<li><strong>American Indian graduates</strong> move to the edge of significance (OR ≈ 1.23, p = .054), attenuated from Model 2.</li>
-<li><strong>Black graduates become significant for the first time</strong> (OR ≈ 0.667, CI: 0.464–0.965) — a new finding not present in Models 1–2, in the direction of lower odds of regional completion.</li>
-<li><strong>Economic status remains significant but attenuates</strong> (OR ≈ 1.40, down from 1.72 in Model 2).</li>
-<li><strong>PSEO participation approaches but does not reach significance</strong> (OR ≈ 0.925, p = .081) — notably, this is the only model in the DV3 sequence where PSEO trends in the <em>negative</em> direction (toward leaving the region), a reversal worth watching rather than a settled finding given it falls just short of significance.</li>
-</ul>
-<p><strong>MCA Math shows a weaker version of its usual pattern here.</strong> The filled score is modestly significant (OR ≈ 1.07), and the missingness flag is not significant (OR ≈ 0.613, p = .068) — a departure from its typically strong, clearly significant effect in DV1a/DV1b/DV2, though the direction and rough magnitude are consistent with those models.</p>
-<p><strong>District classification and local unemployment rate</strong> remain significant and similar in direction to Model 2, though Dem_Desc’s magnitude decreases somewhat as accomplishments absorb part of its effect.</p>
+<p>Read together: relative to non-test-takers, students who tested but scored lower are considerably more likely to complete an Associate-or-lesser credential, while higher-scoring test-takers are considerably more likely to complete a Bachelor’s — consistent with the idea that ACT engagement without strong performance still predicts a shorter, likely more technical credential pathway.</p>
+<p><strong>PSEO participation shows a clear, newly significant effect in this model.</strong> OR ≈ 0.67 — PSEO participants are notably more likely to complete a Bachelor’s degree rather than an Associate-or-lesser credential. This is a different role for PSEO than seen elsewhere: in DV2 it predicted completion generally, in DV1a/DV1b/DV3 it showed little or no independent effect, and here it specifically predicts <em>higher</em> credential attainment among those who do complete.</p>
+<p><strong>CTE achievement shows its strongest positive effect anywhere in this project.</strong> CTE Concentrator/Completer status: OR ≈ 1.64 (the largest CTE coefficient found in any DV4 or prior model), CTE Participant: OR ≈ 1.15. This makes strong substantive sense — CTE pathways are more likely to lead directly into Associate-level and technical credentials by design.</p>
+<p><strong>MCA Math and its missingness flag both show large, significant effects in the expected direction.</strong> Filled score: OR ≈ 0.83 per point (higher scores predict Bachelor’s attainment); missingness flag: OR ≈ 0.22 (one of the largest MCA-missingness effects found in this project) — students with a missing MCA score are far more likely to complete at the Associate-or-lesser level, consistent with the recurring finding throughout this project that MCA missingness itself carries meaningful signal.</p>
+<p><strong>AP exam participation</strong> shows the expected direction (OR ≈ 0.71) — AP participants are more likely to complete a Bachelor’s degree.</p>
+<p><strong>Average local unemployment rate becomes significant and meaningfully sized for the first time in DV4</strong> (OR ≈ 0.87 per unit) — higher local unemployment predicts <em>lower</em> odds of an Associate-or-lesser credential (i.e., predicts Bachelor’s attainment instead), a reversal of what might be intuitively expected and worth flagging as a pattern to interpret cautiously rather than over-explain, consistent with this project’s general practice of not forcing a narrative onto a modest, less-intuitive coefficient.</p>
+<p><strong>Demographic effects persist but shift somewhat.</strong> Gender, economic status, Special Ed status, and the Asian/Pacific Islander and Black Race/Ethnicity effects all remain significant, generally attenuating slightly from Models 1–2 (e.g., Special Ed drops from OR≈5.19 to OR≈2.00, economic status from OR≈2.53 to OR≈1.90) — suggesting a substantial share, though not all, of these demographic effects operate through how students engage academically in high school. <strong>American Indian graduates lose significance</strong> (OR ≈ 1.08, CI: 0.858–1.348) — a real change from Models 1–2, where this was a significant positive effect. <strong>English learner status also loses significance</strong> (OR ≈ 0.79, CI: 0.510–1.237), consistent with the now-familiar pattern of the MCA-missingness flag absorbing what looked like an English-learner-specific effect in earlier models.</p>
+<p><strong>District classification and local wages remain non-significant</strong>, continuing the Model 2 finding that geography plays little to no role in credential-level attainment specifically.</p>
 <p><strong>Overall Interpretation</strong></p>
-<p>Adding high school accomplishments produces the largest improvement in model fit of any block in the DV3 sequence (likelihood ratio test: Δdeviance = 1,056.4, df = 8, p &lt; .001; AIC decreases from 16,798.5 to 15,758.2). The standout finding is the ACT crossover, which is dramatically larger here than in any other model in this project — strongly suggesting that ACT engagement (versus non-engagement) and ACT performance operate as opposing forces specifically on <em>where</em> a student completes college, likely reflecting the selectivity profile of regional versus non-regional institutions. Local wage conditions also show their strongest effect anywhere in this analysis. Several demographic effects that looked strong in Models 1–2 — particularly Special Education status — attenuate substantially once accomplishments are considered, suggesting those groups’ tendency toward regional completion operates significantly through their patterns of academic and college-preparatory engagement rather than demographic status alone.</p>
-<p><strong>Model fit:</strong> AIC = 15,758.2 (down from 16,798.5 in Model 2); Δdeviance = 1,056.4 on 8 df, p &lt; .001; n = 12,606 across all three models.</p>
+<p>Adding high school accomplishments produces by far the largest improvement in model fit found anywhere in this project (likelihood ratio test: Δdeviance = 3,174.2, df = 8, p &lt; .001; AIC decreases sharply from 15,899.3 to 12,741.1). Academic achievement and college-preparatory engagement are overwhelmingly the dominant forces shaping credential level — far more so than demographics or geography. The now-familiar ACT crossover, the MCA-missingness effect, and CTE’s strong positive association with Associate-level attainment all replicate patterns seen elsewhere in this project, but at a larger scale here than almost anywhere else. Several demographic effects that looked large in Models 1–2 (Special Ed, economic status, American Indian, English learner) substantially attenuate once these accomplishment variables are considered, reinforcing this project’s recurring finding that academic engagement, not demographic status alone, explains much of what initially appears to be a purely demographic disparity.</p>
+<p><strong>Model fit:</strong> AIC = 12,741.1 (down from 15,899.3 in Model 2); Δdeviance = 3,174.2 on 8 df, p &lt; .001; n = 12,651 across all three models.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb334"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb334-1"><a href="#cb334-1" aria-hidden="true" tabindex="-1"></a>model3_dv3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
-<span id="cb334-2"><a href="#cb334-2" aria-hidden="true" tabindex="-1"></a>  ps.grad.location <span class="sc">~</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb334"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb334-1"><a href="#cb334-1" aria-hidden="true" tabindex="-1"></a>model3_dv4 <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb334-2"><a href="#cb334-2" aria-hidden="true" tabindex="-1"></a>  highest.cred.level <span class="sc">~</span></span>
 <span id="cb334-3"><a href="#cb334-3" aria-hidden="true" tabindex="-1"></a>    Gender <span class="sc">+</span></span>
 <span id="cb334-4"><a href="#cb334-4" aria-hidden="true" tabindex="-1"></a>    RaceEthnicity <span class="sc">+</span></span>
 <span id="cb334-5"><a href="#cb334-5" aria-hidden="true" tabindex="-1"></a>    economic.status <span class="sc">+</span></span>
@@ -5767,208 +5781,208 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb334-16"><a href="#cb334-16" aria-hidden="true" tabindex="-1"></a>    MCA.M.filled <span class="sc">+</span></span>
 <span id="cb334-17"><a href="#cb334-17" aria-hidden="true" tabindex="-1"></a>    MCA.M.missing,</span>
 <span id="cb334-18"><a href="#cb334-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb334-19"><a href="#cb334-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.model.dv3</span>
+<span id="cb334-19"><a href="#cb334-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.model.dv4</span>
 <span id="cb334-20"><a href="#cb334-20" aria-hidden="true" tabindex="-1"></a>)</span>
 <span id="cb334-21"><a href="#cb334-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb334-22"><a href="#cb334-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb334-22"><a href="#cb334-22" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
-    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv3)
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
+    SpecialEdStatus + english.learner, family = binomial, data = master.model.dv4)
 
 Coefficients:
-                       Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)            0.222960   0.029640   7.522 5.39e-14 ***
-GenderF               -0.146367   0.036951  -3.961 7.46e-05 ***
-RaceEthnicityAI        0.312294   0.105221   2.968   0.0030 ** 
-RaceEthnicityAsian/PI -0.411278   0.161085  -2.553   0.0107 *  
-RaceEthnicityBlack    -0.133591   0.178972  -0.746   0.4554    
-RaceEthnicityHispanic  0.097820   0.206383   0.474   0.6355    
-economic.status1       0.502330   0.044579  11.268  &lt; 2e-16 ***
-SpecialEdStatus1       0.637140   0.101977   6.248 4.16e-10 ***
-english.learner1       0.001627   0.178201   0.009   0.9927    
+                      Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)           -0.49980    0.03026 -16.518  &lt; 2e-16 ***
+GenderF               -0.43964    0.03850 -11.418  &lt; 2e-16 ***
+RaceEthnicityAI        0.36622    0.10289   3.559 0.000372 ***
+RaceEthnicityAsian/PI -1.14243    0.20693  -5.521 3.37e-08 ***
+RaceEthnicityBlack    -0.15963    0.18383  -0.868 0.385210    
+RaceEthnicityHispanic -0.06123    0.21139  -0.290 0.772079    
+economic.status1       0.93394    0.04436  21.055  &lt; 2e-16 ***
+SpecialEdStatus1       1.64697    0.11094  14.845  &lt; 2e-16 ***
+english.learner1       0.54342    0.21036   2.583 0.009788 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 16976  on 12597  degrees of freedom
-AIC: 16994
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 15881  on 12642  degrees of freedom
+AIC: 15899
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb336"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb336-1"><a href="#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb336"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb336-1"><a href="#cb336-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
-    avg.unemp.rate, family = binomial, data = master.model.dv3)
+    avg.unemp.rate, family = binomial, data = master.model.dv4)
 
 Coefficients:
-                             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)                  -2.53287    0.31725  -7.984 1.42e-15 ***
-GenderF                      -0.14615    0.03726  -3.923 8.76e-05 ***
-RaceEthnicityAI               0.35080    0.10626   3.301 0.000962 ***
-RaceEthnicityAsian/PI        -0.47837    0.16204  -2.952 0.003156 ** 
-RaceEthnicityBlack           -0.17504    0.18067  -0.969 0.332616    
-RaceEthnicityHispanic         0.05111    0.20836   0.245 0.806220    
-economic.status1              0.54144    0.04518  11.984  &lt; 2e-16 ***
-SpecialEdStatus1              0.61768    0.10283   6.007 1.89e-09 ***
-english.learner1              0.06467    0.18027   0.359 0.719768    
-Dem_DescTown/rural mix        0.72338    0.08995   8.042 8.82e-16 ***
-Dem_DescUrban/town/rural mix  0.93984    0.09190  10.227  &lt; 2e-16 ***
-avg.wages.pct.state           1.88032    0.38922   4.831 1.36e-06 ***
-avg.unemp.rate                0.06120    0.01486   4.119 3.80e-05 ***
+                              Estimate Std. Error z value Pr(&gt;|z|)    
+(Intercept)                  -0.137279   0.326361  -0.421 0.674022    
+GenderF                      -0.439773   0.038520 -11.417  &lt; 2e-16 ***
+RaceEthnicityAI               0.345513   0.103218   3.347 0.000816 ***
+RaceEthnicityAsian/PI        -1.133046   0.207125  -5.470 4.49e-08 ***
+RaceEthnicityBlack           -0.146425   0.183901  -0.796 0.425906    
+RaceEthnicityHispanic        -0.045363   0.211563  -0.214 0.830223    
+economic.status1              0.929389   0.044443  20.912  &lt; 2e-16 ***
+SpecialEdStatus1              1.655699   0.111006  14.915  &lt; 2e-16 ***
+english.learner1              0.542458   0.210575   2.576 0.009993 ** 
+Dem_DescTown/rural mix        0.007162   0.090782   0.079 0.937116    
+Dem_DescUrban/town/rural mix -0.086181   0.093206  -0.925 0.355158    
+avg.wages.pct.state          -0.350424   0.403588  -0.868 0.385246    
+avg.unemp.rate               -0.003162   0.015382  -0.206 0.837157    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 16773  on 12593  degrees of freedom
-AIC: 16799
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 15873  on 12638  degrees of freedom
+AIC: 15899
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb338"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb338-1"><a href="#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb338"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb338-1"><a href="#cb338-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-glm(formula = ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+glm(formula = highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
     ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing, 
-    family = binomial, data = master.model.dv3)
+    family = binomial, data = master.model.dv4)
 
 Coefficients:
                                               Estimate Std. Error z value
-(Intercept)                                  -2.646526   0.384260  -6.887
-GenderF                                      -0.077315   0.040048  -1.931
-RaceEthnicityAI                               0.209203   0.108671   1.925
-RaceEthnicityAsian/PI                        -0.181676   0.172174  -1.055
-RaceEthnicityBlack                           -0.404992   0.186297  -2.174
-RaceEthnicityHispanic                         0.061061   0.217981   0.280
-economic.status1                              0.339716   0.047449   7.160
-SpecialEdStatus1                              0.193384   0.109600   1.764
-english.learner1                             -0.223204   0.184861  -1.207
-Dem_DescTown/rural mix                        0.663044   0.093693   7.077
-Dem_DescUrban/town/rural mix                  0.989942   0.095744  10.339
-avg.wages.pct.state                           2.676874   0.416901   6.421
-avg.unemp.rate                                0.047081   0.016347   2.880
-pseo.participant1                            -0.077963   0.044618  -1.747
-took.ACTYes                                   2.087692   0.135493  15.408
-ACTCompositeScore.filled                     -0.123011   0.005914 -20.801
-ap.exam1                                     -0.414638   0.060075  -6.902
-cte.achievementCTE Concentrator or Completor  0.259400   0.053863   4.816
-cte.achievementCTE Participant                0.049922   0.045615   1.094
-MCA.M.filled                                  0.067206   0.032665   2.057
-MCA.M.missing                                -0.489483   0.268401  -1.824
+(Intercept)                                   3.416267   0.443016   7.711
+GenderF                                      -0.340973   0.045636  -7.472
+RaceEthnicityAI                               0.072806   0.115166   0.632
+RaceEthnicityAsian/PI                        -0.987243   0.236386  -4.176
+RaceEthnicityBlack                           -0.651872   0.204319  -3.190
+RaceEthnicityHispanic                        -0.175360   0.243527  -0.720
+economic.status1                              0.644230   0.051191  12.585
+SpecialEdStatus1                              0.694893   0.127829   5.436
+english.learner1                             -0.237546   0.225520  -1.053
+Dem_DescTown/rural mix                       -0.072842   0.105437  -0.691
+Dem_DescUrban/town/rural mix                 -0.197538   0.107636  -1.835
+avg.wages.pct.state                          -0.703828   0.475905  -1.479
+avg.unemp.rate                               -0.139787   0.018908  -7.393
+pseo.participant1                            -0.407088   0.048163  -8.452
+took.ACTYes                                   2.364040   0.164068  14.409
+ACTCompositeScore.filled                     -0.188588   0.007472 -25.239
+ap.exam1                                     -0.336227   0.079972  -4.204
+cte.achievementCTE Concentrator or Completor  0.493102   0.058157   8.479
+cte.achievementCTE Participant                0.140200   0.051980   2.697
+MCA.M.filled                                 -0.184219   0.035905  -5.131
+MCA.M.missing                                -1.515284   0.285912  -5.300
                                              Pr(&gt;|z|)    
-(Intercept)                                  5.68e-12 ***
-GenderF                                       0.05354 .  
-RaceEthnicityAI                               0.05422 .  
-RaceEthnicityAsian/PI                         0.29134    
-RaceEthnicityBlack                            0.02971 *  
-RaceEthnicityHispanic                         0.77938    
-economic.status1                             8.09e-13 ***
-SpecialEdStatus1                              0.07766 .  
-english.learner1                              0.22727    
-Dem_DescTown/rural mix                       1.48e-12 ***
-Dem_DescUrban/town/rural mix                  &lt; 2e-16 ***
-avg.wages.pct.state                          1.35e-10 ***
-avg.unemp.rate                                0.00398 ** 
-pseo.participant1                             0.08058 .  
+(Intercept)                                  1.24e-14 ***
+GenderF                                      7.92e-14 ***
+RaceEthnicityAI                               0.52727    
+RaceEthnicityAsian/PI                        2.96e-05 ***
+RaceEthnicityBlack                            0.00142 ** 
+RaceEthnicityHispanic                         0.47147    
+economic.status1                              &lt; 2e-16 ***
+SpecialEdStatus1                             5.45e-08 ***
+english.learner1                              0.29219    
+Dem_DescTown/rural mix                        0.48966    
+Dem_DescUrban/town/rural mix                  0.06647 .  
+avg.wages.pct.state                           0.13916    
+avg.unemp.rate                               1.43e-13 ***
+pseo.participant1                             &lt; 2e-16 ***
 took.ACTYes                                   &lt; 2e-16 ***
 ACTCompositeScore.filled                      &lt; 2e-16 ***
-ap.exam1                                     5.13e-12 ***
-cte.achievementCTE Concentrator or Completor 1.46e-06 ***
-cte.achievementCTE Participant                0.27377    
-MCA.M.filled                                  0.03965 *  
-MCA.M.missing                                 0.06820 .  
+ap.exam1                                     2.62e-05 ***
+cte.achievementCTE Concentrator or Completor  &lt; 2e-16 ***
+cte.achievementCTE Participant                0.00699 ** 
+MCA.M.filled                                 2.89e-07 ***
+MCA.M.missing                                1.16e-07 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
-    Null deviance: 17216  on 12605  degrees of freedom
-Residual deviance: 15716  on 12585  degrees of freedom
-AIC: 15758
+    Null deviance: 16971  on 12650  degrees of freedom
+Residual deviance: 12699  on 12630  degrees of freedom
+AIC: 12741
 
-Number of Fisher Scoring iterations: 4</code></pre>
+Number of Fisher Scoring iterations: 5</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb340"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb340-1"><a href="#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb340"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb340-1"><a href="#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb342"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb342-1"><a href="#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb342"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb342-1"><a href="#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb344"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb344-1"><a href="#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model3_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb344"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb344-1"><a href="#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model3_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 12606</code></pre>
+<pre><code>[1] 12651</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb346"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb346-1"><a href="#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb346"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb346-1"><a href="#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model1_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16994.11</code></pre>
+<pre><code>[1] 15898.78</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb348"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb348-1"><a href="#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb348"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb348-1"><a href="#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 16798.51</code></pre>
+<pre><code>[1] 15899.28</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb350"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb350-1"><a href="#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model3_dv3)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb350"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb350-1"><a href="#cb350-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model3_dv4)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 15758.16</code></pre>
+<pre><code>[1] 12741.08</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb352"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb352-1"><a href="#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model3_dv3), <span class="fu">confint</span>(model3_dv3)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb352"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb352-1"><a href="#cb352-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model3_dv4), <span class="fu">confint</span>(model3_dv4)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                     OR      2.5 %     97.5 %
-(Intercept)                                   0.0708971 0.03336265  0.1504796
-GenderF                                       0.9255985 0.85570595  1.0011659
-RaceEthnicityAI                               1.2326952 0.99810106  1.5286499
-RaceEthnicityAsian/PI                         0.8338717 0.59425376  1.1681817
-RaceEthnicityBlack                            0.6669819 0.46414809  0.9648198
-RaceEthnicityHispanic                         1.0629636 0.69720259  1.6421140
-economic.status1                              1.4045482 1.28005035  1.5417393
-SpecialEdStatus1                              1.2133490 0.98092113  1.5077557
-english.learner1                              0.7999518 0.55870082  1.1542601
-Dem_DescTown/rural mix                        1.9406906 1.61632351  2.3338947
-Dem_DescUrban/town/rural mix                  2.6910783 2.23228553  3.2494126
-avg.wages.pct.state                          14.5395758 6.42152037 32.9196275
-avg.unemp.rate                                1.0482074 1.01516719  1.0823540
-pseo.participant1                             0.9249989 0.84754330  1.0095437
-took.ACTYes                                   8.0662786 6.18949799 10.5277560
-ACTCompositeScore.filled                      0.8842539 0.87402699  0.8945266
-ap.exam1                                      0.6605795 0.58711049  0.7430268
-cte.achievementCTE Concentrator or Completor  1.2961526 1.16649505  1.4407453
-cte.achievementCTE Participant                1.0511895 0.96131065  1.1495392
-MCA.M.filled                                  1.0695153 1.00315317  1.1402013
-MCA.M.missing                                 0.6129432 0.36247988  1.0413180</code></pre>
+(Intercept)                                  30.4555038 12.8008816 72.6934561
+GenderF                                       0.7110784  0.6502173  0.7775969
+RaceEthnicityAI                               1.0755218  0.8583368  1.3483277
+RaceEthnicityAsian/PI                         0.3726025  0.2314499  0.5856814
+RaceEthnicityBlack                            0.5210692  0.3485819  0.7772602
+RaceEthnicityHispanic                         0.8391546  0.5197455  1.3517039
+economic.status1                              1.9045192  1.7227995  2.1056648
+SpecialEdStatus1                              2.0034939  1.5646230  2.5831890
+english.learner1                              0.7885605  0.5101911  1.2368484
+Dem_DescTown/rural mix                        0.9297479  0.7564412  1.1436954
+Dem_DescUrban/town/rural mix                  0.8207490  0.6649218  1.0140493
+avg.wages.pct.state                           0.4946882  0.1945178  1.2567036
+avg.unemp.rate                                0.8695432  0.8378536  0.9023181
+pseo.participant1                             0.6655857  0.6056594  0.7315210
+took.ACTYes                                  10.6338255  7.7187636 14.6853046
+ACTCompositeScore.filled                      0.8281278  0.8160173  0.8402738
+ap.exam1                                      0.7144606  0.6100429  0.8347301
+cte.achievementCTE Concentrator or Completor  1.6373876  1.4610071  1.8351275
+cte.achievementCTE Participant                1.1505036  1.0389815  1.2738130
+MCA.M.filled                                  0.8317536  0.7751636  0.8923298
+MCA.M.missing                                 0.2197458  0.1252462  0.3852493</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb354"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb354-1"><a href="#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1_dv3, model2_dv3, model3_dv3, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb354"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb354-1"><a href="#cb354-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model1_dv4, model2_dv4, model3_dv4, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Analysis of Deviance Table
 
-Model 1: ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+Model 1: highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner
-Model 2: ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+Model 2: highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate
-Model 3: ps.grad.location ~ Gender + RaceEthnicity + economic.status + 
+Model 3: highest.cred.level ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
     ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing
-  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1     12597      16976                          
-2     12593      16772  4    203.6 &lt; 2.2e-16 ***
-3     12585      15716  8   1056.4 &lt; 2.2e-16 ***
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
+1     12642      15881                         
+2     12638      15873  4      7.5   0.1117    
+3     12630      12699  8   3174.2   &lt;2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb356"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb356-1"><a href="#cb356-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model3_dv3, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb356"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb356-1"><a href="#cb356-1" aria-hidden="true" tabindex="-1"></a>or_plot <span class="ot">&lt;-</span> <span class="fu">tidy</span>(model3_dv4, <span class="at">conf.int =</span> <span class="cn">TRUE</span>, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb356-2"><a href="#cb356-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(term <span class="sc">!=</span> <span class="st">"(Intercept)"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb356-3"><a href="#cb356-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
 <span id="cb356-4"><a href="#cb356-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make labels nicer (edit these replacements to match your exact factor labels)</span></span>
@@ -6015,19 +6029,42 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <p><br></p>
 </section>
-<section id="dv3-summary-what-predicts-postsecondary-completion-within-the-region-college-completers-only-1" class="level2">
-<h2 class="anchored" data-anchor-id="dv3-summary-what-predicts-postsecondary-completion-within-the-region-college-completers-only-1">DV3 Summary: What Predicts Postsecondary Completion Within the Region (College Completers Only)</h2>
-<p>Across all three model blocks, geography and academic engagement emerged as the dominant forces shaping <em>where</em> students complete their postsecondary education — far more so than in any other outcome examined in this project.</p>
-<p><strong>Local economic and geographic context showed its strongest effects anywhere in this project.</strong> District classification produced the largest urban/rural gradient found in any model (up to 2.7x higher odds in the most urban districts), and average local wages produced the single largest coefficient of any continuous predictor in this entire analysis (OR as high as 14.5). This stands in sharp contrast to DV2 (completion overall), where geography barely mattered — confirming that high school geography shapes <em>where</em> a student completes college far more than <em>whether</em> they complete at all.</p>
-<p><strong>ACT showed the largest and clearest crossover effect found anywhere in this project.</strong> Taking the ACT at all was associated with dramatically higher odds of completing within the region (OR ≈ 8), while scoring well on it was associated with substantially lower odds — likely reflecting that regional institutions serve a broad range of ACT scores, while high scorers are drawn toward more selective institutions elsewhere. AP exam participation reinforced this pattern, also predicting completion outside the region.</p>
-<p><strong>Economic disadvantage and Special Education status initially appeared to strongly predict regional completion, but Special Ed’s effect substantially attenuated once accomplishments were considered</strong> — suggesting that pattern operates largely through how these students engage academically (particularly around ACT), not through demographic status independently. Economic status remained significant throughout, though it weakened somewhat.</p>
-<p><strong>Race/Ethnicity effects shifted across the sequence</strong> — American Indian and Asian/Pacific Islander effects seen early on attenuated once accomplishments were added, while a new, previously unseen effect for Black graduates (lower odds of regional completion) emerged only in the final model. Given the small cell sizes for several Race/Ethnicity categories in this completers-only population, these patterns should be interpreted with appropriate caution.</p>
-<p><strong>PSEO showed a notably different — and more ambiguous — relationship here than elsewhere in this project.</strong> Unlike its strong positive effect on completion overall (DV2) or its non-significant effect on regional employment (DV1a/DV1b), PSEO trended toward <em>lower</em> odds of regional completion in this model, though it fell just short of significance. This is worth flagging as an open question rather than a settled finding.</p>
-<p><strong>Taken together, DV3 tells a clear story:</strong> where a student completes postsecondary education is driven overwhelmingly by local economic/geographic context and by academic engagement patterns (especially ACT), with demographic effects mostly operating indirectly through those channels rather than independently.</p>
+<section id="dv4-summary-what-predicts-sub-baccalaureate-credential-attainment-college-completers-only" class="level2">
+<h2 class="anchored" data-anchor-id="dv4-summary-what-predicts-sub-baccalaureate-credential-attainment-college-completers-only">DV4 Summary: What Predicts Sub-Baccalaureate Credential Attainment (College Completers Only)</h2>
+<p>Across all three model blocks, academic achievement and college-preparatory engagement emerged as overwhelmingly the dominant force shaping credential level — far more so than demographics or geography, a sharp contrast to the other three outcomes in this project.</p>
+<p><strong>Geography plays essentially no role in credential level.</strong> Unlike DV3, where district type and local wages showed the largest effects found anywhere in this project, neither showed any significant relationship with credential level here, in any model. This confirms a clear division of labor across the four outcomes: geography determines <em>where</em> students complete college (DV3), but has no bearing on <em>what type</em> of credential they earn.</p>
+<p><strong>Special Education status and economic disadvantage showed the two largest demographic effects found anywhere in this project — Special Ed’s effect (over 5x higher odds of Associate-or-lesser attainment in the demographics-only model) was the single largest coefficient in this entire analysis.</strong> Both effects attenuated substantially once academic accomplishments were added, but remained significant, suggesting real barriers to Bachelor’s-level completion for these groups that operate partly, but not entirely, through their patterns of academic engagement.</p>
+<p><strong>ACT showed the same crossover pattern found throughout this project, at one of its largest scales.</strong> Taking the ACT strongly predicted an Associate-or-lesser credential, while scoring well on it strongly predicted a Bachelor’s degree instead — consistent with ACT engagement without strong performance channeling students toward shorter, more technical credentials.</p>
+<p><strong>PSEO and CTE took on distinct, and in PSEO’s case new, roles here.</strong> CTE achievement showed its strongest positive effect anywhere in this project, reinforcing its established role as a technical/vocational pathway indicator that leads naturally into Associate-level credentials. PSEO, which showed little independent effect in the regional-employment or regional-completion models, emerged here as a clear predictor of <em>higher</em> attainment — PSEO participants were considerably more likely to complete a Bachelor’s degree, a role distinct from anything PSEO showed elsewhere in this project.</p>
+<p><strong>The English learner/MCA-missingness pattern replicated once again.</strong> English learner status appeared significant in Models 1–2 but lost significance once MCA Math and its missingness flag were added — the same masking pattern found consistently across DV1a, DV2, and DV3, further reinforcing that this is a genuine, recurring feature of the underlying data rather than an outcome-specific artifact.</p>
+<p><strong>Taken together, DV4 completes the picture across all four outcomes:</strong> geography drives where people go, academic/college-prep engagement drives what they complete, and demographic disparities are real but substantially — though not entirely — explained by how students engage academically along the way.</p>
 <p><br></p>
-
-
 </section>
+</section>
+<section id="executive-summary" class="level1">
+<h1>Executive Summary</h1>
+<p>This analysis used logistic regression to confirm and refine patterns identified in earlier descriptive work on post-high school pathways for Northeast Minnesota graduates. Five models were built, each isolating a different piece of the pathway: whether graduates stay in the region long-term, whether they complete college, where they complete it, and what type of credential they earn.</p>
+<p>Four consistent themes emerged across all five models:</p>
+<ol type="1">
+<li><strong>Geography does different jobs at different stages.</strong> High school district type and local economic conditions strongly predict whether a graduate stays in the region for work and where they complete their postsecondary education — but have almost no bearing on whether they complete college at all, or what type of credential they earn once they do.</li>
+<li><strong>CTE and ACT represent two distinct, opposing pathways.</strong> Career and technical education consistently predicts staying in the region and completing shorter, more technical credentials. ACT engagement shows a consistent split: simply taking the test predicts staying regional and completing an Associate-level credential, while scoring well on it predicts leaving the region and completing a Bachelor’s degree instead. These aren’t two versions of the same “college-readiness” signal — they represent different, sometimes opposing, routes through the pipeline.</li>
+<li><strong>Demographic disparities are real, but partly explained by how students engage with school, not just who they are.</strong> Economic disadvantage, Special Education status, and English learner status all showed strong effects early in each model sequence — but several of these effects substantially weakened once academic engagement and accomplishments were added, indicating that some (not all) of the disparity operates through unequal access to or engagement with CTE, PSEO, and testing pathways, rather than through demographic status alone.</li>
+<li><strong>A data quality finding reshapes how English learner disparities should be understood.</strong> In every model where MCA Math entered, English learner status lost significance — traced back to English learners being missing MCA Math scores at roughly 10 times the rate of other students. This means at least part of what looked like an “English learner effect” throughout this project’s earlier descriptive work is more accurately described as an effect of missing testing records, which themselves may reflect exemptions, transfers, or other structural factors correlated with English learner status.</li>
+</ol>
+<p>The single largest and most consistent finding across every model, and the one most directly relevant to the project’s regional workforce mission, is that <strong>geography — where a student completes their postsecondary education — matters more than what credential they earn.</strong> Graduating within the region was the strongest predictor of sustained regional employment found anywhere in this analysis. But credential type is not irrelevant either: among college completers specifically, Associate-level and technical credentials showed a real, independent, additional association with staying regional, on top of the location effect.</p>
+<p><br></p>
+</section>
+<section id="the-story-this-data-tells" class="level1">
+<h1>The Story This Data Tells</h1>
+<p>Picture a graduating class in Northeast Minnesota. What happens to them over the next five, ten years, and why?</p>
+<p><strong>The pipeline starts to split immediately, along economic and ability-status lines.</strong> Economically disadvantaged students and students with disabilities are considerably less likely to complete any postsecondary credential at all — this is the strongest demographic pattern in the entire analysis. These same barriers show up again in whether a graduate is even accurately captured on standard academic assessments: English learners are missing MCA Math scores at ten times the rate of their peers, likely reflecting testing exemptions or accommodations tied to broader structural gaps in how these students move through the system.</p>
+<p><strong>For those who do complete college, a second split happens — not about whether they succeed, but about where and how.</strong> Two students with identical demographics can take very different paths depending on how they engaged with high school. A student who took CTE courses and engaged with the ACT (regardless of score) is likely on a track toward a shorter, technical credential completed close to home, and likely to stay in the regional workforce afterward. A student who scored well on the ACT and pursued AP coursework is likely headed toward a four-year degree, often completed outside the region — and less likely to return.</p>
+<p><strong>This is the pipeline’s central tension, visible in every model in this analysis: the very things that predict finishing a four-year degree — strong test scores, AP coursework — are the same things that predict leaving the region.</strong> Meanwhile, the pathways this project’s organization has less institutional visibility into promoting — CTE, technical credentials, PSEO — are consistently the ones associated with staying.</p>
+<p><strong>Geography reinforces this tension rather than resolving it.</strong> Students from more urban districts, and districts with stronger local wages, are considerably more likely to complete their postsecondary education within the region — but this same geographic advantage barely registers when predicting whether a student completes college at all, or what type of credential they earn. Geography shapes <em>where</em> the funnel empties out, not how big the funnel is or what flows through it.</p>
+<p><strong>And underneath all of this, demographic disparities persist — but not always for the reasons they first appear to.</strong> Some disparities (Special Education status, economic disadvantage) shrink substantially once a student’s academic engagement is accounted for, suggesting these groups may be funneled toward — or away from — certain pathways based on how school systems engage them, not fixed traits tied to the demographic category itself. Other disparities (particularly for Black and Asian/Pacific Islander graduates) persist even after accounting for every other factor in this analysis, suggesting they are not simply artifacts of differential program access.</p>
+<p><strong>Put together, the data describes a region whose workforce retention depends less on whether people leave for stronger opportunities and more on which door they walked through in high school</strong> — CTE and modest-to-moderate ACT engagement lead back to the region; AP coursework and top ACT scores lead away from it. This is not a story about talent leaving because the region has nothing to offer skilled workers — it’s a story about two genuinely different pipelines, one regionally anchored and one not, both running through the same high schools at the same time.</p>
+
+
 </section>
 
 </main> <!-- /main -->

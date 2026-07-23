@@ -144,21 +144,21 @@ Here is a list of **school districts commonly considered to be on the Iron Range
 
 These are located directly within the Mesabi Iron Range and are almost always considered part of it:
 
--   **Rock Ridge Public Schools (ISD 2909)** – Formed by the merger of Virginia and Eveleth-Gilbert district
--   **Mountain Iron-Buhl (ISD 712)**
--   **Chisholm (ISD 695)**
--   **Hibbing (ISD 701)**
--   **Nashwauk-Keewatin (ISD 319)**
--   **Ely (ISD 696)**
--   **Mesabi East (ISD 2711)** – Based in Aurora, serving Aurora, Hoyt Lakes, and Biwabik.
+- **Rock Ridge Public Schools (ISD 2909)** – Formed by the merger of Virginia and Eveleth-Gilbert district
+- **Mountain Iron-Buhl (ISD 712)**
+- **Chisholm (ISD 695)**
+- **Hibbing (ISD 701)**
+- **Nashwauk-Keewatin (ISD 319)**
+- **Ely (ISD 696)**
+- **Mesabi East (ISD 2711)** – Based in Aurora, serving Aurora, Hoyt Lakes, and Biwabik.
 
 ## Borderline or Secondary Iron Range School Districts
 
 These districts are near the Iron Range and are sometimes included depending on the context:
 
--   **Cook County (ISD 166)** – More North Shore than Iron Range, but very rural and sometimes lumped into broader regional definitions.
--   **Northland Community Schools (ISD 118, in Remer)** – Not on the Mesabi Range, but sometimes included in broader northeastern discussions.
--   **Floodwood (ISD 698)** – Located west of Duluth and near the southern edge of Iron Range influence.
+- **Cook County (ISD 166)** – More North Shore than Iron Range, but very rural and sometimes lumped into broader regional definitions.
+- **Northland Community Schools (ISD 118, in Remer)** – Not on the Mesabi Range, but sometimes included in broader northeastern discussions.
+- **Floodwood (ISD 698)** – Located west of Duluth and near the southern edge of Iron Range influence.
 
 **Deer River (ISD 317)** – South and west of Grand Rapids; sometimes considered part of the western fringe.
 
@@ -168,10 +168,10 @@ These districts are near the Iron Range and are sometimes included depending on 
 
 These are **nearby but not part of the Iron Range proper**:
 
--   **Duluth Public Schools (ISD 709)** – Major city in NE MN, but culturally and economically separate from the Iron Range.
--   **Two Harbors/Silver Bay (Lake Superior ISD 381)** – On the North Shore.
--   **Carlton, Cloquet, Moose Lake** – More in the Carlton County area, not considered Iron Range.
--   **International Falls (ISD 361)** – Farther north, part of the borderlands, not the Range.
+- **Duluth Public Schools (ISD 709)** – Major city in NE MN, but culturally and economically separate from the Iron Range.
+- **Two Harbors/Silver Bay (Lake Superior ISD 381)** – On the North Shore.
+- **Carlton, Cloquet, Moose Lake** – More in the Carlton County area, not considered Iron Range.
+- **International Falls (ISD 361)** – Farther north, part of the borderlands, not the Range.
 
 Below is a list of districts and their county location using the master dataset. As we can see, we will not be able to filter appropriately using this list.
 
@@ -194,39 +194,39 @@ datatable(districts.original,
 
 So, in order to appropriately filter, I will need to merge the city location of each district. I think filtering by city will be easiest. Here is the list of cities that we will categorize as "Iron Range Schools";
 
--   Rock Ridge Public Schools
-    -   Virginia
-    -   Eveleth
-    -   Gilbert
--   Mountain Iron-Buhl
-    -   Mountain Iron
-    -   Buhl
-    -   Kinney
--   Chisholm
-    -   Chisholm
--   Hibbing
-    -   Hibbing
--   Nashwauk-Keewatin
-    -   Nashwauk
-    -   Keewatin
--   Ely
-    -   Ely
--   Mesabi East
-    -   Aurora
-    -   Hoyt Lakes
-    -   Biwabik
+- Rock Ridge Public Schools
+  - Virginia
+  - Eveleth
+  - Gilbert
+- Mountain Iron-Buhl
+  - Mountain Iron
+  - Buhl
+  - Kinney
+- Chisholm
+  - Chisholm
+- Hibbing
+  - Hibbing
+- Nashwauk-Keewatin
+  - Nashwauk
+  - Keewatin
+- Ely
+  - Ely
+- Mesabi East
+  - Aurora
+  - Hoyt Lakes
+  - Biwabik
 
 So, any school districts located within these communities will be categorized as "Iron Range schools". When I first did the filtering, there were a couple more I added that was on the other list;
 
--   Tower
--   Babbitt
+- Tower
+- Babbitt
 
 In addition, I can't get Iron converted to Iron Junction.
 
 <br>
 
 ```{r k12 organization cities}
-k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
+k12organization <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY27/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization.csv") 
 
 districts <- districts.original %>%
   left_join(k12organization[,c(1,10)]) %>%

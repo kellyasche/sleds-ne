@@ -151,12 +151,12 @@ The one metric that wasn't included when I joined the enrollment data with the o
 <br>
 
 ```{r enrollment joined with n years attended}
-enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
+enrollment.original <- read_csv("/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY27/OHE Journey to meaningful employment/Data/SLEDS/K12 Enrollment/K12Enrollment.csv")  %>%
   mutate(PersonID = as.integer(PersonID),
          K12OrganizationID = as.integer(K12OrganizationID)) %>%
   drop_na(PersonID)
 
-k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization-updated.csv") %>%
+k12.org.original <- read_csv("~/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY27/OHE Journey to meaningful employment/Data/SLEDS/K12 Orgs/K12Organization-updated.csv") %>%
   distinct(K12OrganizationID, .keep_all = TRUE) %>%
   drop_na(K12OrganizationID) %>%
   mutate(K12OrganizationID = as.integer(K12OrganizationID))
@@ -228,13 +228,13 @@ datatable(k12.org.summary.ruca, class = "cell-border stripe", filter = "top")
 
 Below is a map with the percentages of graduates graduating from high schools located within each county. This is the breakdown;
 
--   St. Louis: 55%
--   Itasca: 16%
--   Carlton: 15%
--   Aitkin: 5%
--   Koochiching: 4%
--   Lake: 4%
--   Cook: 1%
+- St. Louis: 55%
+- Itasca: 16%
+- Carlton: 15%
+- Aitkin: 5%
+- Koochiching: 4%
+- Lake: 4%
+- Cook: 1%
 
 <br>
 
@@ -265,20 +265,20 @@ girafe(ggobj = k12.org.summary.county.map) %>%
 
 The following analysis looks to see if there are any statistical differences due to rural-ness and geographic location of the high school for the following graduate demographics;
 
--   Were eligible for free or reduced lunch at some point in the dataset
--   Are Female
--   Have been homeless at some point in the dataset
--   Had limited english proficiency at some point in the dataset
--   Had non english speakders in home at some point in the dataset
--   Participated in a PSEO course at some point in the dataset.
+- Were eligible for free or reduced lunch at some point in the dataset
+- Are Female
+- Have been homeless at some point in the dataset
+- Had limited english proficiency at some point in the dataset
+- Had non english speakders in home at some point in the dataset
+- Participated in a PSEO course at some point in the dataset.
 
 The cross-tabs below indicate that there are 4 demographic variables that have proportions statistically different across RUCA categories. Each of the variables are indicated with an asterisk.
 
--   Free or reduced lunch: the more rural a district is, the higher the percentage of graduates that qualified for free or reduced lunch.
--   Homeless: as a school district becomes more urban, the percentage of it's graduates indicating they experienced homelessness at some point increases significantly.
--   Limited English: the entirely rural districts had a slightly higher percentage of graduates with limited English.
--   Non-English in home: town/rural mix districts had a significantly higher percentage of graduates with non-English speakers in the home.
--   PSEO: a significantly lower percentage of graduates from entirely rural districts participated in a PSEO program.
+- Free or reduced lunch: the more rural a district is, the higher the percentage of graduates that qualified for free or reduced lunch.
+- Homeless: as a school district becomes more urban, the percentage of it's graduates indicating they experienced homelessness at some point increases significantly.
+- Limited English: the entirely rural districts had a slightly higher percentage of graduates with limited English.
+- Non-English in home: town/rural mix districts had a significantly higher percentage of graduates with non-English speakers in the home.
+- PSEO: a significantly lower percentage of graduates from entirely rural districts participated in a PSEO program.
 
 ::: panel-tabset
 ### RUCA Free or Reduced Lunch

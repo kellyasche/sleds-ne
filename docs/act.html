@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-1.9.38">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>ACT – Pathways taken after high school - Northeast</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,8 +24,9 @@ ul.task-list li input[type="checkbox"] {
   vertical-align: middle;
 }
 /* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -33,7 +37,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -64,15 +68,16 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-158031087360bce0ff56dc785ce39e06.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -124,7 +129,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed">
+<body class="nav-fixed quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -253,6 +258,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./analysis_non_college_deeper.html">
  <span class="dropdown-text">Further analysis on non-college grads</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./analysis_multivariate_confirmation_disconnection_persistence.html">
+ <span class="dropdown-text">Multivariate Confirmation Analysis on Persistent Disconnection</span></a>
+  </li>  
     </ul>
   </li>
   <li class="nav-item dropdown ">
@@ -324,10 +333,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Next up is to join the ACT data. I’ll first load the entire ACT dataset, clean it up, and then join with my master/NE graduate dataset to finalize.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>act.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY26/OHE Journey to meaningful employment/Data/SLEDS/ACT/ACT.csv'</span>) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>act.original <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">'/Users/kellyasche/Library/CloudStorage/GoogleDrive-kasche@ruralmn.org/My Drive/Research/FY25-27/FY27/OHE Journey to meaningful employment/Data/SLEDS/ACT/ACT.csv'</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PersonID =</span> <span class="fu">as.integer</span>(PersonID))</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(act.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(act.original))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -408,7 +417,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(act.original))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(act.original))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -447,7 +456,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Out of the scores provided, I’m just going to use the composite score. Since an individual may have taken the test multiple times I will only use the highest composite score for each individual. This is how colleges do it as well.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>act.highest.comp <span class="ot">&lt;-</span> act.original <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>act.highest.comp <span class="ot">&lt;-</span> act.original <span class="sc">%&gt;%</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID, ACTCompositeScore) <span class="sc">%&gt;%</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">PersonID =</span> <span class="fu">as.integer</span>(PersonID)) <span class="sc">%&gt;%</span></span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(PersonID) <span class="sc">%&gt;%</span></span>
@@ -455,7 +464,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ungroup</span>() <span class="sc">%&gt;%</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(PersonID, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(act.highest.comp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(act.highest.comp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -492,7 +501,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(act.highest.comp))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(act.highest.comp))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -516,14 +525,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Now we will join it up with the master.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>master<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/master-1.csv"</span>) <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>master<span class="fl">.2</span> <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/master-1.csv"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(act.highest.comp, <span class="at">by =</span> <span class="st">"PersonID"</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>act.master <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"Data/SLEDS/Masters/master-1.csv"</span>) <span class="sc">%&gt;%</span></span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(PersonID) <span class="sc">%&gt;%</span></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(act.highest.comp, <span class="at">by =</span> <span class="st">"PersonID"</span>)</span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(master<span class="fl">.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">head</span>(master<span class="fl">.2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -708,7 +717,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 </div>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(master<span class="fl">.2</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">names</span>(master<span class="fl">.2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <thead>
@@ -791,17 +800,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The table below shows that 43% of graduates from Northeast Minnesota have taken the ACT at some point in the dataset.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>act.pct.taken <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>act.pct.taken <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ACTCompositeScore), <span class="st">"ACT not taken"</span>, <span class="st">"ACT taken"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(act.taken) <span class="sc">%&gt;%</span></span>
 <span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent =</span> scales<span class="sc">::</span><span class="fu">percent</span>(percent, <span class="at">accuracy =</span> .<span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="st">`</span><span class="at">n observations</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">2</span>,</span>
 <span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>         <span class="st">`</span><span class="at">% of total observations</span><span class="st">`</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
 <span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(act.pct.taken, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">filter =</span> <span class="st">"top"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(act.pct.taken, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">filter =</span> <span class="st">"top"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-a0e341dd9339ec868cd6" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-a0e341dd9339ec868cd6">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"21320\" data-max=\"28496\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["ACT not taken","ACT taken"],[21320,28496],["42.8%","57.2%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>act.taken<\/th>\n      <th>n observations<\/th>\n      <th>% of total observations<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1},{"name":"act.taken","targets":0},{"name":"n observations","targets":1},{"name":"% of total observations","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4a6a93b92bc55900b58c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4a6a93b92bc55900b58c">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"integer\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"21320\" data-max=\"28496\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["ACT not taken","ACT taken"],[21320,28496],["42.8%","57.2%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>act.taken<\/th>\n      <th>n observations<\/th>\n      <th>% of total observations<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":1},{"name":"act.taken","targets":0},{"name":"n observations","targets":1},{"name":"% of total observations","targets":2}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <p><br></p>
@@ -809,28 +818,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The cross-tabs for the percentage of students who have taken the ACT by RUCA category has a p-value of less than .01, indicating that RUCA category is related. Graduates from town/rural mix districts had the lowest percentage of individuals who didn’t take the ACT with 54%, followed by urban/town/rural mix with 58.1% and entirely rural with 60.2%.</p>
 <p><br></p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true">RUCA Table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false">RUCA Cross-tabs</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">RUCA Table</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">RUCA Cross-tabs</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>act.taken.ruca <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>act.taken.ruca <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ACTCompositeScore), <span class="st">"ACT not taken"</span>, <span class="st">"ACT taken"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(Dem_Desc, act.taken) <span class="sc">%&gt;%</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Percent ACT taken</span><span class="st">`</span> <span class="ot">=</span> scales<span class="sc">::</span><span class="fu">percent</span>(<span class="st">`</span><span class="at">ACT taken</span><span class="st">`</span> <span class="sc">/</span> (<span class="st">`</span><span class="at">ACT not taken</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">ACT taken</span><span class="st">`</span>), <span class="at">accuracy =</span> .<span class="dv">1</span>))</span>
 <span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(act.taken.ruca, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">filter =</span> <span class="st">"top"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">datatable</span>(act.taken.ruca, <span class="at">class =</span> <span class="st">"cell-border stripe"</span>, <span class="at">filter =</span> <span class="st">"top"</span>, <span class="at">rownames =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-1fa5e5d8177a8031ec4c" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-1fa5e5d8177a8031ec4c">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1164\" data-max=\"14550\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1762\" data-max=\"20201\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Entirely rural","Town/rural mix","Urban/town/rural mix"],[1164,5606,14550],[1762,6533,20201],["60.2%","53.8%","58.1%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Dem_Desc<\/th>\n      <th>ACT not taken<\/th>\n      <th>ACT taken<\/th>\n      <th>Percent ACT taken<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"Dem_Desc","targets":0},{"name":"ACT not taken","targets":1},{"name":"ACT taken","targets":2},{"name":"Percent ACT taken","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-f2baee5131e08200fc0a" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-f2baee5131e08200fc0a">{"x":{"filter":"top","vertical":false,"filterHTML":"<tr>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1164\" data-max=\"14550\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"number\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n    <div style=\"display: none;position: absolute;width: 200px;opacity: 1\">\n      <div data-min=\"1762\" data-max=\"20201\"><\/div>\n      <span style=\"float: left;\"><\/span>\n      <span style=\"float: right;\"><\/span>\n    <\/div>\n  <\/td>\n  <td data-type=\"character\" style=\"vertical-align: top;\">\n    <div class=\"form-group has-feedback\" style=\"margin-bottom: auto;\">\n      <input type=\"search\" placeholder=\"All\" class=\"form-control\" style=\"width: 100%;\"/>\n      <span class=\"glyphicon glyphicon-remove-circle form-control-feedback\"><\/span>\n    <\/div>\n  <\/td>\n<\/tr>","data":[["Entirely rural","Town/rural mix","Urban/town/rural mix"],[1164,5606,14550],[1762,6533,20201],["60.2%","53.8%","58.1%"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Dem_Desc<\/th>\n      <th>ACT not taken<\/th>\n      <th>ACT taken<\/th>\n      <th>Percent ACT taken<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2]},{"name":"Dem_Desc","targets":0},{"name":"ACT not taken","targets":1},{"name":"ACT taken","targets":2},{"name":"Percent ACT taken","targets":3}],"order":[],"autoWidth":false,"orderClasses":false,"orderCellsTop":true},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>act.taken.ruca.cross.tabs <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>act.taken.ruca.cross.tabs <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ACTCompositeScore), <span class="st">"ACT not taken"</span>, <span class="st">"ACT taken"</span>))</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(act.taken.ruca.cross.tabs<span class="sc">$</span>Dem_Desc, act.taken.ruca.cross.tabs<span class="sc">$</span>act.taken, <span class="at">expected =</span> <span class="cn">TRUE</span>, <span class="at">prop.t =</span> <span class="cn">FALSE</span>, <span class="at">prop.c =</span> <span class="cn">FALSE</span>, <span class="at">prop.chisq =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">CrossTable</span>(act.taken.ruca.cross.tabs<span class="sc">$</span>Dem_Desc, act.taken.ruca.cross.tabs<span class="sc">$</span>act.taken, <span class="at">expected =</span> <span class="cn">TRUE</span>, <span class="at">prop.t =</span> <span class="cn">FALSE</span>, <span class="at">prop.c =</span> <span class="cn">FALSE</span>, <span class="at">prop.chisq =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
  
@@ -882,7 +891,7 @@ Chi^2 =  79.89287     d.f. =  2     p =  4.482117e-18
 <p>Finally, here’s a look at the percentages by county. The largest percentage comes from Cook County with only 66.4% of graduates taking the ACT. The lowest was in Itaska County with 52.0%.</p>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>act.taken.county <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>act.taken.county <span class="ot">&lt;-</span> master<span class="fl">.2</span> <span class="sc">%&gt;%</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">act.taken =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ACTCompositeScore), <span class="st">"ACT not taken"</span>, <span class="st">"ACT taken"</span>)) <span class="sc">%&gt;%</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tabyl</span>(county.name, act.taken) <span class="sc">%&gt;%</span></span>
 <span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="st">`</span><span class="at">Percent ACT taken</span><span class="st">`</span> <span class="ot">=</span><span class="st">`</span><span class="at">ACT taken</span><span class="st">`</span> <span class="sc">/</span> (<span class="st">`</span><span class="at">ACT not taken</span><span class="st">`</span> <span class="sc">+</span> <span class="st">`</span><span class="at">ACT taken</span><span class="st">`</span>), <span class="at">accuracy =</span> .<span class="dv">1</span>) <span class="sc">%&gt;%</span></span>
@@ -898,10 +907,10 @@ Chi^2 =  79.89287     d.f. =  2     p =  4.482117e-18
 <span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">18</span>))</span>
 <span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="fu">girafe</span>(<span class="at">ggobj =</span> act.taken.county.map) <span class="sc">%&gt;%</span></span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">girafe_options</span>(<span class="fu">opts_sizing</span>(<span class="at">rescale =</span> <span class="cn">FALSE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">girafe_options</span>(<span class="fu">opts_sizing</span>(<span class="at">rescale =</span> <span class="cn">FALSE</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output-display">
-<div class="girafe html-widget html-fill-item" id="htmlwidget-37bf538c1065bd372c8a" style="width:100%;height:464px;"></div>
-<script type="application/json" data-for="htmlwidget-37bf538c1065bd372c8a">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_a0e341dd9339ec86' viewBox='0 0 504 360'>\n <defs id='svg_a0e341dd9339ec86_defs'>\n  <clipPath id='svg_a0e341dd9339ec86_c1'>\n   <rect x='0' y='0' width='504' height='360'/>\n  <\/clipPath>\n  <clipPath id='svg_a0e341dd9339ec86_c2'>\n   <rect x='62.29' y='0' width='379.42' height='360'/>\n  <\/clipPath>\n  <clipPath id='svg_a0e341dd9339ec86_c3'>\n   <rect x='67.77' y='30.97' width='411.93' height='323.55'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_a0e341dd9339ec86_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_a0e341dd9339ec86_c1)'>\n   <rect x='0' y='0' width='504' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n  <\/g>\n  <g clip-path='url(#svg_a0e341dd9339ec86_c2)'>\n   <rect x='62.29' y='0' width='379.42' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_a0e341dd9339ec86_c3)'>\n   <polyline points='93.48,354.52 93.48,353.00 93.48,348.83 93.48,344.66 93.48,340.50 93.48,336.33 93.48,332.16 93.48,327.99 93.48,323.82 93.48,319.65 93.48,315.48 93.48,311.32 93.48,307.15 93.48,302.98 93.48,298.81 93.48,294.64 93.48,290.47 93.48,286.30 93.48,282.14 93.48,277.97 93.48,273.80 93.48,269.63 93.48,265.46 93.48,261.29 93.48,257.12 93.48,252.96 93.48,248.79 93.48,244.62 93.48,240.45 93.48,236.28 93.48,232.11 93.48,227.94 93.48,223.78 93.48,219.61 93.48,215.44 93.48,211.27 93.48,207.10 93.48,202.93 93.48,198.76 93.48,194.60 93.48,190.43 93.48,186.26 93.48,182.09 93.48,177.92 93.48,173.75 93.48,169.58 93.48,165.42 93.48,161.25 93.48,157.08 93.48,152.91 93.48,148.74 93.48,144.57 93.48,140.40 93.48,136.24 93.48,132.07 93.48,127.90 93.48,123.73 93.48,119.56 93.48,115.39 93.48,111.22 93.48,107.06 93.48,102.89 93.48,98.72 93.48,94.55 93.48,90.38 93.48,86.21 93.48,82.04 93.48,77.88 93.48,73.71 93.48,69.54 93.48,65.37 93.48,61.20 93.48,57.03 93.48,52.87 93.48,48.70 93.48,44.53 93.48,40.36 93.48,36.19 93.48,32.02 93.48,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='145.06,354.52 145.06,353.00 145.06,348.83 145.06,344.66 145.06,340.50 145.06,336.33 145.06,332.16 145.06,327.99 145.06,323.82 145.06,319.65 145.06,315.48 145.06,311.32 145.06,307.15 145.06,302.98 145.06,298.81 145.06,294.64 145.06,290.47 145.06,286.30 145.06,282.14 145.06,277.97 145.06,273.80 145.06,269.63 145.06,265.46 145.06,261.29 145.06,257.12 145.06,252.96 145.06,248.79 145.06,244.62 145.06,240.45 145.06,236.28 145.06,232.11 145.06,227.94 145.06,223.78 145.06,219.61 145.06,215.44 145.06,211.27 145.06,207.10 145.06,202.93 145.06,198.76 145.06,194.60 145.06,190.43 145.06,186.26 145.06,182.09 145.06,177.92 145.06,173.75 145.06,169.58 145.06,165.42 145.06,161.25 145.06,157.08 145.06,152.91 145.06,148.74 145.06,144.57 145.06,140.40 145.06,136.24 145.06,132.07 145.06,127.90 145.06,123.73 145.06,119.56 145.06,115.39 145.06,111.22 145.06,107.06 145.06,102.89 145.06,98.72 145.06,94.55 145.06,90.38 145.06,86.21 145.06,82.04 145.06,77.88 145.06,73.71 145.06,69.54 145.06,65.37 145.06,61.20 145.06,57.03 145.06,52.87 145.06,48.70 145.06,44.53 145.06,40.36 145.06,36.19 145.06,32.02 145.06,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='196.65,354.52 196.65,353.00 196.65,348.83 196.65,344.66 196.65,340.50 196.65,336.33 196.65,332.16 196.65,327.99 196.65,323.82 196.65,319.65 196.65,315.48 196.65,311.32 196.65,307.15 196.65,302.98 196.65,298.81 196.65,294.64 196.65,290.47 196.65,286.30 196.65,282.14 196.65,277.97 196.65,273.80 196.65,269.63 196.65,265.46 196.65,261.29 196.65,257.12 196.65,252.96 196.65,248.79 196.65,244.62 196.65,240.45 196.65,236.28 196.65,232.11 196.65,227.94 196.65,223.78 196.65,219.61 196.65,215.44 196.65,211.27 196.65,207.10 196.65,202.93 196.65,198.76 196.65,194.60 196.65,190.43 196.65,186.26 196.65,182.09 196.65,177.92 196.65,173.75 196.65,169.58 196.65,165.42 196.65,161.25 196.65,157.08 196.65,152.91 196.65,148.74 196.65,144.57 196.65,140.40 196.65,136.24 196.65,132.07 196.65,127.90 196.65,123.73 196.65,119.56 196.65,115.39 196.65,111.22 196.65,107.06 196.65,102.89 196.65,98.72 196.65,94.55 196.65,90.38 196.65,86.21 196.65,82.04 196.65,77.88 196.65,73.71 196.65,69.54 196.65,65.37 196.65,61.20 196.65,57.03 196.65,52.87 196.65,48.70 196.65,44.53 196.65,40.36 196.65,36.19 196.65,32.02 196.65,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='248.23,354.52 248.23,353.00 248.23,348.83 248.23,344.66 248.23,340.50 248.23,336.33 248.23,332.16 248.23,327.99 248.23,323.82 248.23,319.65 248.23,315.48 248.23,311.32 248.23,307.15 248.23,302.98 248.23,298.81 248.23,294.64 248.23,290.47 248.23,286.30 248.23,282.14 248.23,277.97 248.23,273.80 248.23,269.63 248.23,265.46 248.23,261.29 248.23,257.12 248.23,252.96 248.23,248.79 248.23,244.62 248.23,240.45 248.23,236.28 248.23,232.11 248.23,227.94 248.23,223.78 248.23,219.61 248.23,215.44 248.23,211.27 248.23,207.10 248.23,202.93 248.23,198.76 248.23,194.60 248.23,190.43 248.23,186.26 248.23,182.09 248.23,177.92 248.23,173.75 248.23,169.58 248.23,165.42 248.23,161.25 248.23,157.08 248.23,152.91 248.23,148.74 248.23,144.57 248.23,140.40 248.23,136.24 248.23,132.07 248.23,127.90 248.23,123.73 248.23,119.56 248.23,115.39 248.23,111.22 248.23,107.06 248.23,102.89 248.23,98.72 248.23,94.55 248.23,90.38 248.23,86.21 248.23,82.04 248.23,77.88 248.23,73.71 248.23,69.54 248.23,65.37 248.23,61.20 248.23,57.03 248.23,52.87 248.23,48.70 248.23,44.53 248.23,40.36 248.23,36.19 248.23,32.02 248.23,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='299.82,354.52 299.82,353.00 299.82,348.83 299.82,344.66 299.82,340.50 299.82,336.33 299.82,332.16 299.82,327.99 299.82,323.82 299.82,319.65 299.82,315.48 299.82,311.32 299.82,307.15 299.82,302.98 299.82,298.81 299.82,294.64 299.82,290.47 299.82,286.30 299.82,282.14 299.82,277.97 299.82,273.80 299.82,269.63 299.82,265.46 299.82,261.29 299.82,257.12 299.82,252.96 299.82,248.79 299.82,244.62 299.82,240.45 299.82,236.28 299.82,232.11 299.82,227.94 299.82,223.78 299.82,219.61 299.82,215.44 299.82,211.27 299.82,207.10 299.82,202.93 299.82,198.76 299.82,194.60 299.82,190.43 299.82,186.26 299.82,182.09 299.82,177.92 299.82,173.75 299.82,169.58 299.82,165.42 299.82,161.25 299.82,157.08 299.82,152.91 299.82,148.74 299.82,144.57 299.82,140.40 299.82,136.24 299.82,132.07 299.82,127.90 299.82,123.73 299.82,119.56 299.82,115.39 299.82,111.22 299.82,107.06 299.82,102.89 299.82,98.72 299.82,94.55 299.82,90.38 299.82,86.21 299.82,82.04 299.82,77.88 299.82,73.71 299.82,69.54 299.82,65.37 299.82,61.20 299.82,57.03 299.82,52.87 299.82,48.70 299.82,44.53 299.82,40.36 299.82,36.19 299.82,32.02 299.82,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='351.41,354.52 351.41,353.00 351.41,348.83 351.41,344.66 351.41,340.50 351.41,336.33 351.41,332.16 351.41,327.99 351.41,323.82 351.41,319.65 351.41,315.48 351.41,311.32 351.41,307.15 351.41,302.98 351.41,298.81 351.41,294.64 351.41,290.47 351.41,286.30 351.41,282.14 351.41,277.97 351.41,273.80 351.41,269.63 351.41,265.46 351.41,261.29 351.41,257.12 351.41,252.96 351.41,248.79 351.41,244.62 351.41,240.45 351.41,236.28 351.41,232.11 351.41,227.94 351.41,223.78 351.41,219.61 351.41,215.44 351.41,211.27 351.41,207.10 351.41,202.93 351.41,198.76 351.41,194.60 351.41,190.43 351.41,186.26 351.41,182.09 351.41,177.92 351.41,173.75 351.41,169.58 351.41,165.42 351.41,161.25 351.41,157.08 351.41,152.91 351.41,148.74 351.41,144.57 351.41,140.40 351.41,136.24 351.41,132.07 351.41,127.90 351.41,123.73 351.41,119.56 351.41,115.39 351.41,111.22 351.41,107.06 351.41,102.89 351.41,98.72 351.41,94.55 351.41,90.38 351.41,86.21 351.41,82.04 351.41,77.88 351.41,73.71 351.41,69.54 351.41,65.37 351.41,61.20 351.41,57.03 351.41,52.87 351.41,48.70 351.41,44.53 351.41,40.36 351.41,36.19 351.41,32.02 351.41,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='402.99,354.52 402.99,353.00 402.99,348.83 402.99,344.66 402.99,340.50 402.99,336.33 402.99,332.16 402.99,327.99 402.99,323.82 402.99,319.65 402.99,315.48 402.99,311.32 402.99,307.15 402.99,302.98 402.99,298.81 402.99,294.64 402.99,290.47 402.99,286.30 402.99,282.14 402.99,277.97 402.99,273.80 402.99,269.63 402.99,265.46 402.99,261.29 402.99,257.12 402.99,252.96 402.99,248.79 402.99,244.62 402.99,240.45 402.99,236.28 402.99,232.11 402.99,227.94 402.99,223.78 402.99,219.61 402.99,215.44 402.99,211.27 402.99,207.10 402.99,202.93 402.99,198.76 402.99,194.60 402.99,190.43 402.99,186.26 402.99,182.09 402.99,177.92 402.99,173.75 402.99,169.58 402.99,165.42 402.99,161.25 402.99,157.08 402.99,152.91 402.99,148.74 402.99,144.57 402.99,140.40 402.99,136.24 402.99,132.07 402.99,127.90 402.99,123.73 402.99,119.56 402.99,115.39 402.99,111.22 402.99,107.06 402.99,102.89 402.99,98.72 402.99,94.55 402.99,90.38 402.99,86.21 402.99,82.04 402.99,77.88 402.99,73.71 402.99,69.54 402.99,65.37 402.99,61.20 402.99,57.03 402.99,52.87 402.99,48.70 402.99,44.53 402.99,40.36 402.99,36.19 402.99,32.02 402.99,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='454.58,354.52 454.58,353.00 454.58,348.83 454.58,344.66 454.58,340.50 454.58,336.33 454.58,332.16 454.58,327.99 454.58,323.82 454.58,319.65 454.58,315.48 454.58,311.32 454.58,307.15 454.58,302.98 454.58,298.81 454.58,294.64 454.58,290.47 454.58,286.30 454.58,282.14 454.58,277.97 454.58,273.80 454.58,269.63 454.58,265.46 454.58,261.29 454.58,257.12 454.58,252.96 454.58,248.79 454.58,244.62 454.58,240.45 454.58,236.28 454.58,232.11 454.58,227.94 454.58,223.78 454.58,219.61 454.58,215.44 454.58,211.27 454.58,207.10 454.58,202.93 454.58,198.76 454.58,194.60 454.58,190.43 454.58,186.26 454.58,182.09 454.58,177.92 454.58,173.75 454.58,169.58 454.58,165.42 454.58,161.25 454.58,157.08 454.58,152.91 454.58,148.74 454.58,144.57 454.58,140.40 454.58,136.24 454.58,132.07 454.58,127.90 454.58,123.73 454.58,119.56 454.58,115.39 454.58,111.22 454.58,107.06 454.58,102.89 454.58,98.72 454.58,94.55 454.58,90.38 454.58,86.21 454.58,82.04 454.58,77.88 454.58,73.71 454.58,69.54 454.58,65.37 454.58,61.20 454.58,57.03 454.58,52.87 454.58,48.70 454.58,44.53 454.58,40.36 454.58,36.19 454.58,32.02 454.58,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,351.44 70.03,351.44 74.72,351.44 79.41,351.44 84.10,351.44 88.79,351.44 93.48,351.44 98.17,351.44 102.86,351.44 107.55,351.44 112.23,351.44 116.92,351.44 121.61,351.44 126.30,351.44 130.99,351.44 135.68,351.44 140.37,351.44 145.06,351.44 149.75,351.44 154.44,351.44 159.13,351.44 163.82,351.44 168.51,351.44 173.20,351.44 177.89,351.44 182.58,351.44 187.27,351.44 191.96,351.44 196.65,351.44 201.34,351.44 206.03,351.44 210.72,351.44 215.41,351.44 220.10,351.44 224.79,351.44 229.48,351.44 234.17,351.44 238.85,351.44 243.54,351.44 248.23,351.44 252.92,351.44 257.61,351.44 262.30,351.44 266.99,351.44 271.68,351.44 276.37,351.44 281.06,351.44 285.75,351.44 290.44,351.44 295.13,351.44 299.82,351.44 304.51,351.44 309.20,351.44 313.89,351.44 318.58,351.44 323.27,351.44 327.96,351.44 332.65,351.44 337.34,351.44 342.03,351.44 346.72,351.44 351.41,351.44 356.10,351.44 360.78,351.44 365.47,351.44 370.16,351.44 374.85,351.44 379.54,351.44 384.23,351.44 388.92,351.44 393.61,351.44 398.30,351.44 402.99,351.44 407.68,351.44 412.37,351.44 417.06,351.44 421.75,351.44 426.44,351.44 431.13,351.44 435.82,351.44 440.51,351.44 445.20,351.44 449.89,351.44 454.58,351.44 459.27,351.44 463.96,351.44 468.65,351.44 473.34,351.44 478.03,351.44 479.70,351.44' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,299.85 70.03,299.85 74.72,299.85 79.41,299.85 84.10,299.85 88.79,299.85 93.48,299.85 98.17,299.85 102.86,299.85 107.55,299.85 112.23,299.85 116.92,299.85 121.61,299.85 126.30,299.85 130.99,299.85 135.68,299.85 140.37,299.85 145.06,299.85 149.75,299.85 154.44,299.85 159.13,299.85 163.82,299.85 168.51,299.85 173.20,299.85 177.89,299.85 182.58,299.85 187.27,299.85 191.96,299.85 196.65,299.85 201.34,299.85 206.03,299.85 210.72,299.85 215.41,299.85 220.10,299.85 224.79,299.85 229.48,299.85 234.17,299.85 238.85,299.85 243.54,299.85 248.23,299.85 252.92,299.85 257.61,299.85 262.30,299.85 266.99,299.85 271.68,299.85 276.37,299.85 281.06,299.85 285.75,299.85 290.44,299.85 295.13,299.85 299.82,299.85 304.51,299.85 309.20,299.85 313.89,299.85 318.58,299.85 323.27,299.85 327.96,299.85 332.65,299.85 337.34,299.85 342.03,299.85 346.72,299.85 351.41,299.85 356.10,299.85 360.78,299.85 365.47,299.85 370.16,299.85 374.85,299.85 379.54,299.85 384.23,299.85 388.92,299.85 393.61,299.85 398.30,299.85 402.99,299.85 407.68,299.85 412.37,299.85 417.06,299.85 421.75,299.85 426.44,299.85 431.13,299.85 435.82,299.85 440.51,299.85 445.20,299.85 449.89,299.85 454.58,299.85 459.27,299.85 463.96,299.85 468.65,299.85 473.34,299.85 478.03,299.85 479.70,299.85' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,248.27 70.03,248.27 74.72,248.27 79.41,248.27 84.10,248.27 88.79,248.27 93.48,248.27 98.17,248.27 102.86,248.27 107.55,248.27 112.23,248.27 116.92,248.27 121.61,248.27 126.30,248.27 130.99,248.27 135.68,248.27 140.37,248.27 145.06,248.27 149.75,248.27 154.44,248.27 159.13,248.27 163.82,248.27 168.51,248.27 173.20,248.27 177.89,248.27 182.58,248.27 187.27,248.27 191.96,248.27 196.65,248.27 201.34,248.27 206.03,248.27 210.72,248.27 215.41,248.27 220.10,248.27 224.79,248.27 229.48,248.27 234.17,248.27 238.85,248.27 243.54,248.27 248.23,248.27 252.92,248.27 257.61,248.27 262.30,248.27 266.99,248.27 271.68,248.27 276.37,248.27 281.06,248.27 285.75,248.27 290.44,248.27 295.13,248.27 299.82,248.27 304.51,248.27 309.20,248.27 313.89,248.27 318.58,248.27 323.27,248.27 327.96,248.27 332.65,248.27 337.34,248.27 342.03,248.27 346.72,248.27 351.41,248.27 356.10,248.27 360.78,248.27 365.47,248.27 370.16,248.27 374.85,248.27 379.54,248.27 384.23,248.27 388.92,248.27 393.61,248.27 398.30,248.27 402.99,248.27 407.68,248.27 412.37,248.27 417.06,248.27 421.75,248.27 426.44,248.27 431.13,248.27 435.82,248.27 440.51,248.27 445.20,248.27 449.89,248.27 454.58,248.27 459.27,248.27 463.96,248.27 468.65,248.27 473.34,248.27 478.03,248.27 479.70,248.27' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,196.68 70.03,196.68 74.72,196.68 79.41,196.68 84.10,196.68 88.79,196.68 93.48,196.68 98.17,196.68 102.86,196.68 107.55,196.68 112.23,196.68 116.92,196.68 121.61,196.68 126.30,196.68 130.99,196.68 135.68,196.68 140.37,196.68 145.06,196.68 149.75,196.68 154.44,196.68 159.13,196.68 163.82,196.68 168.51,196.68 173.20,196.68 177.89,196.68 182.58,196.68 187.27,196.68 191.96,196.68 196.65,196.68 201.34,196.68 206.03,196.68 210.72,196.68 215.41,196.68 220.10,196.68 224.79,196.68 229.48,196.68 234.17,196.68 238.85,196.68 243.54,196.68 248.23,196.68 252.92,196.68 257.61,196.68 262.30,196.68 266.99,196.68 271.68,196.68 276.37,196.68 281.06,196.68 285.75,196.68 290.44,196.68 295.13,196.68 299.82,196.68 304.51,196.68 309.20,196.68 313.89,196.68 318.58,196.68 323.27,196.68 327.96,196.68 332.65,196.68 337.34,196.68 342.03,196.68 346.72,196.68 351.41,196.68 356.10,196.68 360.78,196.68 365.47,196.68 370.16,196.68 374.85,196.68 379.54,196.68 384.23,196.68 388.92,196.68 393.61,196.68 398.30,196.68 402.99,196.68 407.68,196.68 412.37,196.68 417.06,196.68 421.75,196.68 426.44,196.68 431.13,196.68 435.82,196.68 440.51,196.68 445.20,196.68 449.89,196.68 454.58,196.68 459.27,196.68 463.96,196.68 468.65,196.68 473.34,196.68 478.03,196.68 479.70,196.68' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,145.09 70.03,145.09 74.72,145.09 79.41,145.09 84.10,145.09 88.79,145.09 93.48,145.09 98.17,145.09 102.86,145.09 107.55,145.09 112.23,145.09 116.92,145.09 121.61,145.09 126.30,145.09 130.99,145.09 135.68,145.09 140.37,145.09 145.06,145.09 149.75,145.09 154.44,145.09 159.13,145.09 163.82,145.09 168.51,145.09 173.20,145.09 177.89,145.09 182.58,145.09 187.27,145.09 191.96,145.09 196.65,145.09 201.34,145.09 206.03,145.09 210.72,145.09 215.41,145.09 220.10,145.09 224.79,145.09 229.48,145.09 234.17,145.09 238.85,145.09 243.54,145.09 248.23,145.09 252.92,145.09 257.61,145.09 262.30,145.09 266.99,145.09 271.68,145.09 276.37,145.09 281.06,145.09 285.75,145.09 290.44,145.09 295.13,145.09 299.82,145.09 304.51,145.09 309.20,145.09 313.89,145.09 318.58,145.09 323.27,145.09 327.96,145.09 332.65,145.09 337.34,145.09 342.03,145.09 346.72,145.09 351.41,145.09 356.10,145.09 360.78,145.09 365.47,145.09 370.16,145.09 374.85,145.09 379.54,145.09 384.23,145.09 388.92,145.09 393.61,145.09 398.30,145.09 402.99,145.09 407.68,145.09 412.37,145.09 417.06,145.09 421.75,145.09 426.44,145.09 431.13,145.09 435.82,145.09 440.51,145.09 445.20,145.09 449.89,145.09 454.58,145.09 459.27,145.09 463.96,145.09 468.65,145.09 473.34,145.09 478.03,145.09 479.70,145.09' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,93.51 70.03,93.51 74.72,93.51 79.41,93.51 84.10,93.51 88.79,93.51 93.48,93.51 98.17,93.51 102.86,93.51 107.55,93.51 112.23,93.51 116.92,93.51 121.61,93.51 126.30,93.51 130.99,93.51 135.68,93.51 140.37,93.51 145.06,93.51 149.75,93.51 154.44,93.51 159.13,93.51 163.82,93.51 168.51,93.51 173.20,93.51 177.89,93.51 182.58,93.51 187.27,93.51 191.96,93.51 196.65,93.51 201.34,93.51 206.03,93.51 210.72,93.51 215.41,93.51 220.10,93.51 224.79,93.51 229.48,93.51 234.17,93.51 238.85,93.51 243.54,93.51 248.23,93.51 252.92,93.51 257.61,93.51 262.30,93.51 266.99,93.51 271.68,93.51 276.37,93.51 281.06,93.51 285.75,93.51 290.44,93.51 295.13,93.51 299.82,93.51 304.51,93.51 309.20,93.51 313.89,93.51 318.58,93.51 323.27,93.51 327.96,93.51 332.65,93.51 337.34,93.51 342.03,93.51 346.72,93.51 351.41,93.51 356.10,93.51 360.78,93.51 365.47,93.51 370.16,93.51 374.85,93.51 379.54,93.51 384.23,93.51 388.92,93.51 393.61,93.51 398.30,93.51 402.99,93.51 407.68,93.51 412.37,93.51 417.06,93.51 421.75,93.51 426.44,93.51 431.13,93.51 435.82,93.51 440.51,93.51 445.20,93.51 449.89,93.51 454.58,93.51 459.27,93.51 463.96,93.51 468.65,93.51 473.34,93.51 478.03,93.51 479.70,93.51' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,41.92 70.03,41.92 74.72,41.92 79.41,41.92 84.10,41.92 88.79,41.92 93.48,41.92 98.17,41.92 102.86,41.92 107.55,41.92 112.23,41.92 116.92,41.92 121.61,41.92 126.30,41.92 130.99,41.92 135.68,41.92 140.37,41.92 145.06,41.92 149.75,41.92 154.44,41.92 159.13,41.92 163.82,41.92 168.51,41.92 173.20,41.92 177.89,41.92 182.58,41.92 187.27,41.92 191.96,41.92 196.65,41.92 201.34,41.92 206.03,41.92 210.72,41.92 215.41,41.92 220.10,41.92 224.79,41.92 229.48,41.92 234.17,41.92 238.85,41.92 243.54,41.92 248.23,41.92 252.92,41.92 257.61,41.92 262.30,41.92 266.99,41.92 271.68,41.92 276.37,41.92 281.06,41.92 285.75,41.92 290.44,41.92 295.13,41.92 299.82,41.92 304.51,41.92 309.20,41.92 313.89,41.92 318.58,41.92 323.27,41.92 327.96,41.92 332.65,41.92 337.34,41.92 342.03,41.92 346.72,41.92 351.41,41.92 356.10,41.92 360.78,41.92 365.47,41.92 370.16,41.92 374.85,41.92 379.54,41.92 384.23,41.92 388.92,41.92 393.61,41.92 398.30,41.92 402.99,41.92 407.68,41.92 412.37,41.92 417.06,41.92 421.75,41.92 426.44,41.92 431.13,41.92 435.82,41.92 440.51,41.92 445.20,41.92 449.89,41.92 454.58,41.92 459.27,41.92 463.96,41.92 468.65,41.92 473.34,41.92 478.03,41.92 479.70,41.92' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <path id='svg_a0e341dd9339ec86_e1' d='M 192.254090 239.899918 L 181.662972 240.032803 L 171.816753 239.634200 L 161.777128 239.611997 L 135.866771 239.166791 L 135.558741 265.239355 L 135.157187 289.708930 L 132.503034 290.264551 L 132.172101 328.469958 L 133.310940 329.391900 L 154.586713 329.106630 L 162.389906 329.268466 L 162.243443 339.813600 L 174.084487 339.265243 L 192.345305 339.432495 L 192.401564 322.815253 L 192.278893 309.534542 L 192.243154 292.903032 L 191.682932 289.564665 L 191.547241 279.634660 L 191.799217 269.694183 L 192.254090 239.899918 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='001' title='Aitkin&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,302&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.3%'/>\n   <path id='svg_a0e341dd9339ec86_e2' d='M 191.799217 269.694183 L 191.547241 279.634660 L 191.682932 289.564665 L 192.243154 292.903032 L 192.278893 309.534542 L 212.233181 309.596724 L 252.726915 309.497380 L 252.517941 281.198918 L 251.796482 280.880231 L 251.660956 269.737742 L 225.131218 269.600679 L 221.824721 269.364478 L 211.731808 269.739589 L 191.799217 269.694183 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='017' title='Carlton&amp;lt;br/&amp;gt;Number of students taken the ACT: 4,264&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.0%'/>\n   <path id='svg_a0e341dd9339ec86_e3' d='M 347.622111 104.692508 L 347.955005 118.994629 L 348.504177 118.985891 L 348.841105 139.141466 L 349.446578 148.811499 L 350.375556 187.661585 L 357.356224 181.518641 L 360.464951 178.249306 L 372.294171 168.642435 L 386.221304 160.820269 L 387.793135 159.010029 L 394.614846 156.594677 L 394.926053 155.747772 L 402.111340 154.011186 L 410.522534 150.169940 L 414.001596 149.925846 L 415.998639 148.004779 L 422.191601 146.717465 L 422.873596 145.608370 L 430.221792 143.126410 L 433.756938 140.673060 L 434.063059 139.290642 L 443.876160 135.635683 L 448.246739 132.408318 L 456.960195 122.985361 L 457.663289 124.798758 L 460.972717 123.239452 L 456.822440 121.331756 L 450.387912 122.128912 L 447.967329 120.485253 L 441.433932 121.457574 L 440.493904 123.319802 L 437.481941 125.019607 L 435.353747 124.855316 L 427.869323 120.553894 L 427.766492 118.121591 L 425.343382 114.141620 L 420.016773 112.064485 L 416.839911 111.383769 L 409.747034 112.032719 L 404.863022 113.252435 L 403.566969 112.601267 L 400.521362 113.985882 L 397.761685 114.189326 L 396.081493 112.864819 L 393.399411 113.688242 L 391.142809 112.609386 L 389.695713 113.768324 L 384.329125 114.300019 L 382.777475 111.511825 L 377.789373 113.635852 L 370.144300 114.890398 L 368.590731 114.501771 L 365.740655 109.870890 L 365.055337 105.476097 L 362.890527 106.034369 L 362.163363 98.482152 L 358.583306 97.848595 L 355.512505 99.781279 L 351.672249 101.060639 L 347.622111 104.692508 Z ' fill='#045A8D' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='031' title='Cook&amp;lt;br/&amp;gt;Number of students taken the ACT: 460&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 66.4%'/>\n   <path id='svg_a0e341dd9339ec86_e4' d='M 87.139617 144.940395 L 86.883287 155.940166 L 86.977266 174.689079 L 86.495052 190.938895 L 88.039811 192.866875 L 93.179256 194.186389 L 95.578812 193.359808 L 109.745242 187.198510 L 112.690813 188.649361 L 114.070332 192.138163 L 116.386784 195.115078 L 115.444909 199.583175 L 116.619983 202.045821 L 120.767793 203.735391 L 122.283994 206.028660 L 125.312103 208.190374 L 127.293700 206.326980 L 129.951134 205.947051 L 132.139859 207.536978 L 134.943446 207.219931 L 136.088559 210.700118 L 133.297982 215.132012 L 134.464833 217.681229 L 136.175409 218.442048 L 135.866771 239.166791 L 161.777128 239.611997 L 171.816753 239.634200 L 181.662972 240.032803 L 192.254090 239.899918 L 192.251202 230.399066 L 191.453932 230.398354 L 191.622257 200.344561 L 191.273753 198.687449 L 191.295615 190.450512 L 191.671160 182.295596 L 191.882363 160.340335 L 190.278301 160.327655 L 190.174655 148.662901 L 190.409979 140.639622 L 163.988603 140.296741 L 152.467464 139.794729 L 136.825184 139.566038 L 136.733991 145.595865 L 116.550600 145.211520 L 106.654115 145.255894 L 87.139617 144.940395 Z ' fill='#F1EEF6' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='061' title='Itasca&amp;lt;br/&amp;gt;Number of students taken the ACT: 4,147&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 52.0%'/>\n   <path id='svg_a0e341dd9339ec86_e5' d='M 87.479877 85.109752 L 87.550106 102.744988 L 87.128217 124.998601 L 87.572763 124.998880 L 87.139617 144.940395 L 106.654115 145.255894 L 116.550600 145.211520 L 136.733991 145.595865 L 136.825184 139.566038 L 152.467464 139.794729 L 163.988603 140.296741 L 190.409979 140.639622 L 190.417583 130.733863 L 189.869030 130.732614 L 189.797975 120.500265 L 189.232192 120.502318 L 189.163377 100.457652 L 189.343535 98.756991 L 189.499139 80.729403 L 189.923866 56.291315 L 183.084946 56.787014 L 180.871645 54.572269 L 177.285532 54.527658 L 170.139501 56.381147 L 169.645072 58.103206 L 161.103128 60.694239 L 161.808131 63.986704 L 161.058393 65.503483 L 155.328693 67.353681 L 147.329783 68.703558 L 136.201109 68.748644 L 134.306454 66.998904 L 135.446491 62.558726 L 134.180966 58.084202 L 132.185234 55.582113 L 124.200965 55.109278 L 120.111229 54.002473 L 113.704774 53.860973 L 102.089677 52.564662 L 100.907422 47.605406 L 97.315253 45.975449 L 94.692547 46.714993 L 91.234140 45.674652 L 88.095616 46.855750 L 87.479877 85.109752 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='071' title='Koochiching&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,208&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 57.9%'/>\n   <path id='svg_a0e341dd9339ec86_e6' d='M 347.622111 104.692508 L 343.699277 105.677705 L 341.258813 107.417251 L 336.637960 112.225495 L 331.129129 117.104555 L 328.069285 118.313428 L 321.848848 118.960696 L 317.381948 121.465147 L 315.764846 119.158198 L 312.828983 119.297768 L 306.170572 121.644759 L 306.538699 116.510008 L 305.025996 115.529083 L 301.128944 116.218837 L 300.087013 114.779468 L 295.573026 114.301381 L 296.590433 111.194108 L 295.122062 104.581392 L 288.759414 104.271805 L 288.979851 126.882805 L 289.328096 138.531072 L 289.344893 150.144611 L 289.611014 159.656183 L 290.743478 179.508589 L 290.726949 199.488535 L 291.182875 229.392111 L 291.305309 249.125529 L 298.318393 241.437465 L 301.643110 240.088867 L 304.183052 236.324091 L 307.497360 233.550734 L 308.219035 231.765616 L 312.394289 229.916481 L 314.165943 227.751124 L 317.049983 226.293732 L 318.928254 223.418832 L 325.149588 217.834109 L 327.394212 214.133620 L 331.079246 210.865574 L 333.975966 206.522831 L 338.079475 202.395108 L 338.933540 199.802899 L 342.367103 195.386027 L 344.823703 193.655849 L 348.756071 188.607308 L 350.375556 187.661585 L 349.446578 148.811499 L 348.841105 139.141466 L 348.504177 118.985891 L 347.955005 118.994629 L 347.622111 104.692508 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='075' title='Lake&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,178&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 56.9%'/>\n   <path id='svg_a0e341dd9339ec86_e7' d='M 189.923866 56.291315 L 189.499139 80.729403 L 189.343535 98.756991 L 189.163377 100.457652 L 189.232192 120.502318 L 189.797975 120.500265 L 189.869030 130.732614 L 190.417583 130.733863 L 190.409979 140.639622 L 190.174655 148.662901 L 190.278301 160.327655 L 191.882363 160.340335 L 191.671160 182.295596 L 191.295615 190.450512 L 191.273753 198.687449 L 191.622257 200.344561 L 191.453932 230.398354 L 192.251202 230.399066 L 192.254090 239.899918 L 191.799217 269.694183 L 211.731808 269.739589 L 221.824721 269.364478 L 225.131218 269.600679 L 251.660956 269.737742 L 251.796482 280.880231 L 252.517941 281.198918 L 258.520407 282.773060 L 261.230500 279.252461 L 259.482018 277.322088 L 260.563051 274.963883 L 263.944317 275.105981 L 264.580257 272.395125 L 266.302099 271.316207 L 270.010553 271.171189 L 267.956663 266.877638 L 271.833741 263.186754 L 275.178298 261.081732 L 282.036583 255.665003 L 287.315960 251.066384 L 291.305309 249.125529 L 291.182875 229.392111 L 290.726949 199.488535 L 290.743478 179.508589 L 289.611014 159.656183 L 289.344893 150.144611 L 289.328096 138.531072 L 288.979851 126.882805 L 288.759414 104.271805 L 287.434597 103.279562 L 283.690714 103.897086 L 281.443367 100.373299 L 276.444730 100.993742 L 272.715147 97.344364 L 272.172897 93.678334 L 273.126214 90.960958 L 269.519198 89.430241 L 268.856743 86.628284 L 266.689911 87.297156 L 262.090209 87.080320 L 260.679625 86.260487 L 257.281037 88.318969 L 253.014021 87.301170 L 251.021323 88.716623 L 250.114671 94.969414 L 251.772309 99.997929 L 247.501105 101.031482 L 245.212851 102.398538 L 241.358522 94.265722 L 240.117171 93.121496 L 237.175901 87.759520 L 236.644371 85.489857 L 238.155269 82.125367 L 234.220766 76.788400 L 222.885573 78.162223 L 220.446584 77.342731 L 218.566549 75.144339 L 219.613649 71.488213 L 224.305081 70.946191 L 225.208555 69.401370 L 224.441897 65.997489 L 222.693839 65.585318 L 217.327416 66.385508 L 202.003586 58.679688 L 200.463429 55.997792 L 197.821935 56.739472 L 189.923866 56.291315 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='137' title='St. Louis&amp;lt;br/&amp;gt;Number of students taken the ACT: 15,937&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.2%'/>\n  <\/g>\n  <g clip-path='url(#svg_a0e341dd9339ec86_c1)'>\n   <rect x='391.03' y='181.65' width='45.2' height='72' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='239.25' width='14.4' height='14.4' fill='#F1EEF6' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='224.85' width='14.4' height='14.4' fill='#BDC9E1' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='210.45' width='14.4' height='14.4' fill='#74A9CF' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='196.05' width='14.4' height='14.4' fill='#2B8CBE' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='181.65' width='14.4' height='14.4' fill='#045A8D' fill-opacity='1' stroke='none'/>\n   <text x='407.42' y='244.4' font-size='10.8pt' font-family='Arial'>52%<\/text>\n   <text x='407.42' y='230' font-size='10.8pt' font-family='Arial'>56%<\/text>\n   <text x='407.42' y='215.6' font-size='10.8pt' font-family='Arial'>60%<\/text>\n   <text x='407.42' y='201.2' font-size='10.8pt' font-family='Arial'>64%<\/text>\n   <text x='67.77' y='20.94' font-size='16.2pt' font-weight='bold' font-family='Arial'>Percent of students taken ACT in county location of high school<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_a0e341dd9339ec86","ratio":1.4,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:9999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null,"linked":false},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_data_SVGID_ { stroke:none;fill:red; }\ncircle.select_data_SVGID_ { fill:red;stroke:black; }\nline.select_data_SVGID_, polyline.select_data_SVGID_ { fill:none;stroke:red; }\nrect.select_data_SVGID_, polygon.select_data_SVGID_, path.select_data_SVGID_ { fill:red;stroke:none; }\nimage.select_data_SVGID_ { stroke:red; }","type":"multiple","only_shiny":true,"selected":[],"linked":false},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300,"default_on":false},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":false,"width":1}}},"evals":[],"jsHooks":[]}</script>
+<div class="girafe html-widget html-fill-item" id="htmlwidget-67a70f672c5843693b82" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-67a70f672c5843693b82">{"x":{"html":"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' class='ggiraph-svg' role='graphics-document' id='svg_4a6a93b92bc55900' viewBox='0 0 504 360'>\n <defs id='svg_4a6a93b92bc55900_defs'>\n  <clipPath id='svg_4a6a93b92bc55900_c1'>\n   <rect x='0' y='0' width='504' height='360'/>\n  <\/clipPath>\n  <clipPath id='svg_4a6a93b92bc55900_c2'>\n   <rect x='62.29' y='0' width='379.42' height='360'/>\n  <\/clipPath>\n  <clipPath id='svg_4a6a93b92bc55900_c3'>\n   <rect x='67.77' y='30.97' width='411.93' height='323.55'/>\n  <\/clipPath>\n <\/defs>\n <g id='svg_4a6a93b92bc55900_rootg' class='ggiraph-svg-rootg'>\n  <g clip-path='url(#svg_4a6a93b92bc55900_c1)'>\n   <rect x='0' y='0' width='504' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='0.75' stroke-linejoin='round' stroke-linecap='round' class='ggiraph-svg-bg'/>\n  <\/g>\n  <g clip-path='url(#svg_4a6a93b92bc55900_c2)'>\n   <rect x='62.29' y='0' width='379.42' height='360' fill='#FFFFFF' fill-opacity='1' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n  <\/g>\n  <g clip-path='url(#svg_4a6a93b92bc55900_c3)'>\n   <polyline points='93.48,354.52 93.48,353.00 93.48,348.83 93.48,344.66 93.48,340.50 93.48,336.33 93.48,332.16 93.48,327.99 93.48,323.82 93.48,319.65 93.48,315.48 93.48,311.32 93.48,307.15 93.48,302.98 93.48,298.81 93.48,294.64 93.48,290.47 93.48,286.30 93.48,282.14 93.48,277.97 93.48,273.80 93.48,269.63 93.48,265.46 93.48,261.29 93.48,257.12 93.48,252.96 93.48,248.79 93.48,244.62 93.48,240.45 93.48,236.28 93.48,232.11 93.48,227.94 93.48,223.78 93.48,219.61 93.48,215.44 93.48,211.27 93.48,207.10 93.48,202.93 93.48,198.76 93.48,194.60 93.48,190.43 93.48,186.26 93.48,182.09 93.48,177.92 93.48,173.75 93.48,169.58 93.48,165.42 93.48,161.25 93.48,157.08 93.48,152.91 93.48,148.74 93.48,144.57 93.48,140.40 93.48,136.24 93.48,132.07 93.48,127.90 93.48,123.73 93.48,119.56 93.48,115.39 93.48,111.22 93.48,107.06 93.48,102.89 93.48,98.72 93.48,94.55 93.48,90.38 93.48,86.21 93.48,82.04 93.48,77.88 93.48,73.71 93.48,69.54 93.48,65.37 93.48,61.20 93.48,57.03 93.48,52.87 93.48,48.70 93.48,44.53 93.48,40.36 93.48,36.19 93.48,32.02 93.48,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='145.06,354.52 145.06,353.00 145.06,348.83 145.06,344.66 145.06,340.50 145.06,336.33 145.06,332.16 145.06,327.99 145.06,323.82 145.06,319.65 145.06,315.48 145.06,311.32 145.06,307.15 145.06,302.98 145.06,298.81 145.06,294.64 145.06,290.47 145.06,286.30 145.06,282.14 145.06,277.97 145.06,273.80 145.06,269.63 145.06,265.46 145.06,261.29 145.06,257.12 145.06,252.96 145.06,248.79 145.06,244.62 145.06,240.45 145.06,236.28 145.06,232.11 145.06,227.94 145.06,223.78 145.06,219.61 145.06,215.44 145.06,211.27 145.06,207.10 145.06,202.93 145.06,198.76 145.06,194.60 145.06,190.43 145.06,186.26 145.06,182.09 145.06,177.92 145.06,173.75 145.06,169.58 145.06,165.42 145.06,161.25 145.06,157.08 145.06,152.91 145.06,148.74 145.06,144.57 145.06,140.40 145.06,136.24 145.06,132.07 145.06,127.90 145.06,123.73 145.06,119.56 145.06,115.39 145.06,111.22 145.06,107.06 145.06,102.89 145.06,98.72 145.06,94.55 145.06,90.38 145.06,86.21 145.06,82.04 145.06,77.88 145.06,73.71 145.06,69.54 145.06,65.37 145.06,61.20 145.06,57.03 145.06,52.87 145.06,48.70 145.06,44.53 145.06,40.36 145.06,36.19 145.06,32.02 145.06,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='196.65,354.52 196.65,353.00 196.65,348.83 196.65,344.66 196.65,340.50 196.65,336.33 196.65,332.16 196.65,327.99 196.65,323.82 196.65,319.65 196.65,315.48 196.65,311.32 196.65,307.15 196.65,302.98 196.65,298.81 196.65,294.64 196.65,290.47 196.65,286.30 196.65,282.14 196.65,277.97 196.65,273.80 196.65,269.63 196.65,265.46 196.65,261.29 196.65,257.12 196.65,252.96 196.65,248.79 196.65,244.62 196.65,240.45 196.65,236.28 196.65,232.11 196.65,227.94 196.65,223.78 196.65,219.61 196.65,215.44 196.65,211.27 196.65,207.10 196.65,202.93 196.65,198.76 196.65,194.60 196.65,190.43 196.65,186.26 196.65,182.09 196.65,177.92 196.65,173.75 196.65,169.58 196.65,165.42 196.65,161.25 196.65,157.08 196.65,152.91 196.65,148.74 196.65,144.57 196.65,140.40 196.65,136.24 196.65,132.07 196.65,127.90 196.65,123.73 196.65,119.56 196.65,115.39 196.65,111.22 196.65,107.06 196.65,102.89 196.65,98.72 196.65,94.55 196.65,90.38 196.65,86.21 196.65,82.04 196.65,77.88 196.65,73.71 196.65,69.54 196.65,65.37 196.65,61.20 196.65,57.03 196.65,52.87 196.65,48.70 196.65,44.53 196.65,40.36 196.65,36.19 196.65,32.02 196.65,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='248.23,354.52 248.23,353.00 248.23,348.83 248.23,344.66 248.23,340.50 248.23,336.33 248.23,332.16 248.23,327.99 248.23,323.82 248.23,319.65 248.23,315.48 248.23,311.32 248.23,307.15 248.23,302.98 248.23,298.81 248.23,294.64 248.23,290.47 248.23,286.30 248.23,282.14 248.23,277.97 248.23,273.80 248.23,269.63 248.23,265.46 248.23,261.29 248.23,257.12 248.23,252.96 248.23,248.79 248.23,244.62 248.23,240.45 248.23,236.28 248.23,232.11 248.23,227.94 248.23,223.78 248.23,219.61 248.23,215.44 248.23,211.27 248.23,207.10 248.23,202.93 248.23,198.76 248.23,194.60 248.23,190.43 248.23,186.26 248.23,182.09 248.23,177.92 248.23,173.75 248.23,169.58 248.23,165.42 248.23,161.25 248.23,157.08 248.23,152.91 248.23,148.74 248.23,144.57 248.23,140.40 248.23,136.24 248.23,132.07 248.23,127.90 248.23,123.73 248.23,119.56 248.23,115.39 248.23,111.22 248.23,107.06 248.23,102.89 248.23,98.72 248.23,94.55 248.23,90.38 248.23,86.21 248.23,82.04 248.23,77.88 248.23,73.71 248.23,69.54 248.23,65.37 248.23,61.20 248.23,57.03 248.23,52.87 248.23,48.70 248.23,44.53 248.23,40.36 248.23,36.19 248.23,32.02 248.23,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='299.82,354.52 299.82,353.00 299.82,348.83 299.82,344.66 299.82,340.50 299.82,336.33 299.82,332.16 299.82,327.99 299.82,323.82 299.82,319.65 299.82,315.48 299.82,311.32 299.82,307.15 299.82,302.98 299.82,298.81 299.82,294.64 299.82,290.47 299.82,286.30 299.82,282.14 299.82,277.97 299.82,273.80 299.82,269.63 299.82,265.46 299.82,261.29 299.82,257.12 299.82,252.96 299.82,248.79 299.82,244.62 299.82,240.45 299.82,236.28 299.82,232.11 299.82,227.94 299.82,223.78 299.82,219.61 299.82,215.44 299.82,211.27 299.82,207.10 299.82,202.93 299.82,198.76 299.82,194.60 299.82,190.43 299.82,186.26 299.82,182.09 299.82,177.92 299.82,173.75 299.82,169.58 299.82,165.42 299.82,161.25 299.82,157.08 299.82,152.91 299.82,148.74 299.82,144.57 299.82,140.40 299.82,136.24 299.82,132.07 299.82,127.90 299.82,123.73 299.82,119.56 299.82,115.39 299.82,111.22 299.82,107.06 299.82,102.89 299.82,98.72 299.82,94.55 299.82,90.38 299.82,86.21 299.82,82.04 299.82,77.88 299.82,73.71 299.82,69.54 299.82,65.37 299.82,61.20 299.82,57.03 299.82,52.87 299.82,48.70 299.82,44.53 299.82,40.36 299.82,36.19 299.82,32.02 299.82,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='351.41,354.52 351.41,353.00 351.41,348.83 351.41,344.66 351.41,340.50 351.41,336.33 351.41,332.16 351.41,327.99 351.41,323.82 351.41,319.65 351.41,315.48 351.41,311.32 351.41,307.15 351.41,302.98 351.41,298.81 351.41,294.64 351.41,290.47 351.41,286.30 351.41,282.14 351.41,277.97 351.41,273.80 351.41,269.63 351.41,265.46 351.41,261.29 351.41,257.12 351.41,252.96 351.41,248.79 351.41,244.62 351.41,240.45 351.41,236.28 351.41,232.11 351.41,227.94 351.41,223.78 351.41,219.61 351.41,215.44 351.41,211.27 351.41,207.10 351.41,202.93 351.41,198.76 351.41,194.60 351.41,190.43 351.41,186.26 351.41,182.09 351.41,177.92 351.41,173.75 351.41,169.58 351.41,165.42 351.41,161.25 351.41,157.08 351.41,152.91 351.41,148.74 351.41,144.57 351.41,140.40 351.41,136.24 351.41,132.07 351.41,127.90 351.41,123.73 351.41,119.56 351.41,115.39 351.41,111.22 351.41,107.06 351.41,102.89 351.41,98.72 351.41,94.55 351.41,90.38 351.41,86.21 351.41,82.04 351.41,77.88 351.41,73.71 351.41,69.54 351.41,65.37 351.41,61.20 351.41,57.03 351.41,52.87 351.41,48.70 351.41,44.53 351.41,40.36 351.41,36.19 351.41,32.02 351.41,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='402.99,354.52 402.99,353.00 402.99,348.83 402.99,344.66 402.99,340.50 402.99,336.33 402.99,332.16 402.99,327.99 402.99,323.82 402.99,319.65 402.99,315.48 402.99,311.32 402.99,307.15 402.99,302.98 402.99,298.81 402.99,294.64 402.99,290.47 402.99,286.30 402.99,282.14 402.99,277.97 402.99,273.80 402.99,269.63 402.99,265.46 402.99,261.29 402.99,257.12 402.99,252.96 402.99,248.79 402.99,244.62 402.99,240.45 402.99,236.28 402.99,232.11 402.99,227.94 402.99,223.78 402.99,219.61 402.99,215.44 402.99,211.27 402.99,207.10 402.99,202.93 402.99,198.76 402.99,194.60 402.99,190.43 402.99,186.26 402.99,182.09 402.99,177.92 402.99,173.75 402.99,169.58 402.99,165.42 402.99,161.25 402.99,157.08 402.99,152.91 402.99,148.74 402.99,144.57 402.99,140.40 402.99,136.24 402.99,132.07 402.99,127.90 402.99,123.73 402.99,119.56 402.99,115.39 402.99,111.22 402.99,107.06 402.99,102.89 402.99,98.72 402.99,94.55 402.99,90.38 402.99,86.21 402.99,82.04 402.99,77.88 402.99,73.71 402.99,69.54 402.99,65.37 402.99,61.20 402.99,57.03 402.99,52.87 402.99,48.70 402.99,44.53 402.99,40.36 402.99,36.19 402.99,32.02 402.99,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='454.58,354.52 454.58,353.00 454.58,348.83 454.58,344.66 454.58,340.50 454.58,336.33 454.58,332.16 454.58,327.99 454.58,323.82 454.58,319.65 454.58,315.48 454.58,311.32 454.58,307.15 454.58,302.98 454.58,298.81 454.58,294.64 454.58,290.47 454.58,286.30 454.58,282.14 454.58,277.97 454.58,273.80 454.58,269.63 454.58,265.46 454.58,261.29 454.58,257.12 454.58,252.96 454.58,248.79 454.58,244.62 454.58,240.45 454.58,236.28 454.58,232.11 454.58,227.94 454.58,223.78 454.58,219.61 454.58,215.44 454.58,211.27 454.58,207.10 454.58,202.93 454.58,198.76 454.58,194.60 454.58,190.43 454.58,186.26 454.58,182.09 454.58,177.92 454.58,173.75 454.58,169.58 454.58,165.42 454.58,161.25 454.58,157.08 454.58,152.91 454.58,148.74 454.58,144.57 454.58,140.40 454.58,136.24 454.58,132.07 454.58,127.90 454.58,123.73 454.58,119.56 454.58,115.39 454.58,111.22 454.58,107.06 454.58,102.89 454.58,98.72 454.58,94.55 454.58,90.38 454.58,86.21 454.58,82.04 454.58,77.88 454.58,73.71 454.58,69.54 454.58,65.37 454.58,61.20 454.58,57.03 454.58,52.87 454.58,48.70 454.58,44.53 454.58,40.36 454.58,36.19 454.58,32.02 454.58,30.97' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,351.44 70.03,351.44 74.72,351.44 79.41,351.44 84.10,351.44 88.79,351.44 93.48,351.44 98.17,351.44 102.86,351.44 107.55,351.44 112.23,351.44 116.92,351.44 121.61,351.44 126.30,351.44 130.99,351.44 135.68,351.44 140.37,351.44 145.06,351.44 149.75,351.44 154.44,351.44 159.13,351.44 163.82,351.44 168.51,351.44 173.20,351.44 177.89,351.44 182.58,351.44 187.27,351.44 191.96,351.44 196.65,351.44 201.34,351.44 206.03,351.44 210.72,351.44 215.41,351.44 220.10,351.44 224.79,351.44 229.48,351.44 234.17,351.44 238.85,351.44 243.54,351.44 248.23,351.44 252.92,351.44 257.61,351.44 262.30,351.44 266.99,351.44 271.68,351.44 276.37,351.44 281.06,351.44 285.75,351.44 290.44,351.44 295.13,351.44 299.82,351.44 304.51,351.44 309.20,351.44 313.89,351.44 318.58,351.44 323.27,351.44 327.96,351.44 332.65,351.44 337.34,351.44 342.03,351.44 346.72,351.44 351.41,351.44 356.10,351.44 360.78,351.44 365.47,351.44 370.16,351.44 374.85,351.44 379.54,351.44 384.23,351.44 388.92,351.44 393.61,351.44 398.30,351.44 402.99,351.44 407.68,351.44 412.37,351.44 417.06,351.44 421.75,351.44 426.44,351.44 431.13,351.44 435.82,351.44 440.51,351.44 445.20,351.44 449.89,351.44 454.58,351.44 459.27,351.44 463.96,351.44 468.65,351.44 473.34,351.44 478.03,351.44 479.70,351.44' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,299.85 70.03,299.85 74.72,299.85 79.41,299.85 84.10,299.85 88.79,299.85 93.48,299.85 98.17,299.85 102.86,299.85 107.55,299.85 112.23,299.85 116.92,299.85 121.61,299.85 126.30,299.85 130.99,299.85 135.68,299.85 140.37,299.85 145.06,299.85 149.75,299.85 154.44,299.85 159.13,299.85 163.82,299.85 168.51,299.85 173.20,299.85 177.89,299.85 182.58,299.85 187.27,299.85 191.96,299.85 196.65,299.85 201.34,299.85 206.03,299.85 210.72,299.85 215.41,299.85 220.10,299.85 224.79,299.85 229.48,299.85 234.17,299.85 238.85,299.85 243.54,299.85 248.23,299.85 252.92,299.85 257.61,299.85 262.30,299.85 266.99,299.85 271.68,299.85 276.37,299.85 281.06,299.85 285.75,299.85 290.44,299.85 295.13,299.85 299.82,299.85 304.51,299.85 309.20,299.85 313.89,299.85 318.58,299.85 323.27,299.85 327.96,299.85 332.65,299.85 337.34,299.85 342.03,299.85 346.72,299.85 351.41,299.85 356.10,299.85 360.78,299.85 365.47,299.85 370.16,299.85 374.85,299.85 379.54,299.85 384.23,299.85 388.92,299.85 393.61,299.85 398.30,299.85 402.99,299.85 407.68,299.85 412.37,299.85 417.06,299.85 421.75,299.85 426.44,299.85 431.13,299.85 435.82,299.85 440.51,299.85 445.20,299.85 449.89,299.85 454.58,299.85 459.27,299.85 463.96,299.85 468.65,299.85 473.34,299.85 478.03,299.85 479.70,299.85' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,248.27 70.03,248.27 74.72,248.27 79.41,248.27 84.10,248.27 88.79,248.27 93.48,248.27 98.17,248.27 102.86,248.27 107.55,248.27 112.23,248.27 116.92,248.27 121.61,248.27 126.30,248.27 130.99,248.27 135.68,248.27 140.37,248.27 145.06,248.27 149.75,248.27 154.44,248.27 159.13,248.27 163.82,248.27 168.51,248.27 173.20,248.27 177.89,248.27 182.58,248.27 187.27,248.27 191.96,248.27 196.65,248.27 201.34,248.27 206.03,248.27 210.72,248.27 215.41,248.27 220.10,248.27 224.79,248.27 229.48,248.27 234.17,248.27 238.85,248.27 243.54,248.27 248.23,248.27 252.92,248.27 257.61,248.27 262.30,248.27 266.99,248.27 271.68,248.27 276.37,248.27 281.06,248.27 285.75,248.27 290.44,248.27 295.13,248.27 299.82,248.27 304.51,248.27 309.20,248.27 313.89,248.27 318.58,248.27 323.27,248.27 327.96,248.27 332.65,248.27 337.34,248.27 342.03,248.27 346.72,248.27 351.41,248.27 356.10,248.27 360.78,248.27 365.47,248.27 370.16,248.27 374.85,248.27 379.54,248.27 384.23,248.27 388.92,248.27 393.61,248.27 398.30,248.27 402.99,248.27 407.68,248.27 412.37,248.27 417.06,248.27 421.75,248.27 426.44,248.27 431.13,248.27 435.82,248.27 440.51,248.27 445.20,248.27 449.89,248.27 454.58,248.27 459.27,248.27 463.96,248.27 468.65,248.27 473.34,248.27 478.03,248.27 479.70,248.27' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,196.68 70.03,196.68 74.72,196.68 79.41,196.68 84.10,196.68 88.79,196.68 93.48,196.68 98.17,196.68 102.86,196.68 107.55,196.68 112.23,196.68 116.92,196.68 121.61,196.68 126.30,196.68 130.99,196.68 135.68,196.68 140.37,196.68 145.06,196.68 149.75,196.68 154.44,196.68 159.13,196.68 163.82,196.68 168.51,196.68 173.20,196.68 177.89,196.68 182.58,196.68 187.27,196.68 191.96,196.68 196.65,196.68 201.34,196.68 206.03,196.68 210.72,196.68 215.41,196.68 220.10,196.68 224.79,196.68 229.48,196.68 234.17,196.68 238.85,196.68 243.54,196.68 248.23,196.68 252.92,196.68 257.61,196.68 262.30,196.68 266.99,196.68 271.68,196.68 276.37,196.68 281.06,196.68 285.75,196.68 290.44,196.68 295.13,196.68 299.82,196.68 304.51,196.68 309.20,196.68 313.89,196.68 318.58,196.68 323.27,196.68 327.96,196.68 332.65,196.68 337.34,196.68 342.03,196.68 346.72,196.68 351.41,196.68 356.10,196.68 360.78,196.68 365.47,196.68 370.16,196.68 374.85,196.68 379.54,196.68 384.23,196.68 388.92,196.68 393.61,196.68 398.30,196.68 402.99,196.68 407.68,196.68 412.37,196.68 417.06,196.68 421.75,196.68 426.44,196.68 431.13,196.68 435.82,196.68 440.51,196.68 445.20,196.68 449.89,196.68 454.58,196.68 459.27,196.68 463.96,196.68 468.65,196.68 473.34,196.68 478.03,196.68 479.70,196.68' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,145.09 70.03,145.09 74.72,145.09 79.41,145.09 84.10,145.09 88.79,145.09 93.48,145.09 98.17,145.09 102.86,145.09 107.55,145.09 112.23,145.09 116.92,145.09 121.61,145.09 126.30,145.09 130.99,145.09 135.68,145.09 140.37,145.09 145.06,145.09 149.75,145.09 154.44,145.09 159.13,145.09 163.82,145.09 168.51,145.09 173.20,145.09 177.89,145.09 182.58,145.09 187.27,145.09 191.96,145.09 196.65,145.09 201.34,145.09 206.03,145.09 210.72,145.09 215.41,145.09 220.10,145.09 224.79,145.09 229.48,145.09 234.17,145.09 238.85,145.09 243.54,145.09 248.23,145.09 252.92,145.09 257.61,145.09 262.30,145.09 266.99,145.09 271.68,145.09 276.37,145.09 281.06,145.09 285.75,145.09 290.44,145.09 295.13,145.09 299.82,145.09 304.51,145.09 309.20,145.09 313.89,145.09 318.58,145.09 323.27,145.09 327.96,145.09 332.65,145.09 337.34,145.09 342.03,145.09 346.72,145.09 351.41,145.09 356.10,145.09 360.78,145.09 365.47,145.09 370.16,145.09 374.85,145.09 379.54,145.09 384.23,145.09 388.92,145.09 393.61,145.09 398.30,145.09 402.99,145.09 407.68,145.09 412.37,145.09 417.06,145.09 421.75,145.09 426.44,145.09 431.13,145.09 435.82,145.09 440.51,145.09 445.20,145.09 449.89,145.09 454.58,145.09 459.27,145.09 463.96,145.09 468.65,145.09 473.34,145.09 478.03,145.09 479.70,145.09' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,93.51 70.03,93.51 74.72,93.51 79.41,93.51 84.10,93.51 88.79,93.51 93.48,93.51 98.17,93.51 102.86,93.51 107.55,93.51 112.23,93.51 116.92,93.51 121.61,93.51 126.30,93.51 130.99,93.51 135.68,93.51 140.37,93.51 145.06,93.51 149.75,93.51 154.44,93.51 159.13,93.51 163.82,93.51 168.51,93.51 173.20,93.51 177.89,93.51 182.58,93.51 187.27,93.51 191.96,93.51 196.65,93.51 201.34,93.51 206.03,93.51 210.72,93.51 215.41,93.51 220.10,93.51 224.79,93.51 229.48,93.51 234.17,93.51 238.85,93.51 243.54,93.51 248.23,93.51 252.92,93.51 257.61,93.51 262.30,93.51 266.99,93.51 271.68,93.51 276.37,93.51 281.06,93.51 285.75,93.51 290.44,93.51 295.13,93.51 299.82,93.51 304.51,93.51 309.20,93.51 313.89,93.51 318.58,93.51 323.27,93.51 327.96,93.51 332.65,93.51 337.34,93.51 342.03,93.51 346.72,93.51 351.41,93.51 356.10,93.51 360.78,93.51 365.47,93.51 370.16,93.51 374.85,93.51 379.54,93.51 384.23,93.51 388.92,93.51 393.61,93.51 398.30,93.51 402.99,93.51 407.68,93.51 412.37,93.51 417.06,93.51 421.75,93.51 426.44,93.51 431.13,93.51 435.82,93.51 440.51,93.51 445.20,93.51 449.89,93.51 454.58,93.51 459.27,93.51 463.96,93.51 468.65,93.51 473.34,93.51 478.03,93.51 479.70,93.51' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <polyline points='67.77,41.92 70.03,41.92 74.72,41.92 79.41,41.92 84.10,41.92 88.79,41.92 93.48,41.92 98.17,41.92 102.86,41.92 107.55,41.92 112.23,41.92 116.92,41.92 121.61,41.92 126.30,41.92 130.99,41.92 135.68,41.92 140.37,41.92 145.06,41.92 149.75,41.92 154.44,41.92 159.13,41.92 163.82,41.92 168.51,41.92 173.20,41.92 177.89,41.92 182.58,41.92 187.27,41.92 191.96,41.92 196.65,41.92 201.34,41.92 206.03,41.92 210.72,41.92 215.41,41.92 220.10,41.92 224.79,41.92 229.48,41.92 234.17,41.92 238.85,41.92 243.54,41.92 248.23,41.92 252.92,41.92 257.61,41.92 262.30,41.92 266.99,41.92 271.68,41.92 276.37,41.92 281.06,41.92 285.75,41.92 290.44,41.92 295.13,41.92 299.82,41.92 304.51,41.92 309.20,41.92 313.89,41.92 318.58,41.92 323.27,41.92 327.96,41.92 332.65,41.92 337.34,41.92 342.03,41.92 346.72,41.92 351.41,41.92 356.10,41.92 360.78,41.92 365.47,41.92 370.16,41.92 374.85,41.92 379.54,41.92 384.23,41.92 388.92,41.92 393.61,41.92 398.30,41.92 402.99,41.92 407.68,41.92 412.37,41.92 417.06,41.92 421.75,41.92 426.44,41.92 431.13,41.92 435.82,41.92 440.51,41.92 445.20,41.92 449.89,41.92 454.58,41.92 459.27,41.92 463.96,41.92 468.65,41.92 473.34,41.92 478.03,41.92 479.70,41.92' fill='none' stroke='#FFFFFF' stroke-opacity='1' stroke-width='1.07' stroke-linejoin='round' stroke-linecap='round'/>\n   <path id='svg_4a6a93b92bc55900_e1' d='M 192.254090 239.899918 L 181.662972 240.032803 L 171.816753 239.634200 L 161.777128 239.611997 L 135.866771 239.166791 L 135.558741 265.239355 L 135.157187 289.708930 L 132.503034 290.264551 L 132.172101 328.469958 L 133.310940 329.391900 L 154.586713 329.106630 L 162.389906 329.268466 L 162.243443 339.813600 L 174.084487 339.265243 L 192.345305 339.432495 L 192.401564 322.815253 L 192.278893 309.534542 L 192.243154 292.903032 L 191.682932 289.564665 L 191.547241 279.634660 L 191.799217 269.694183 L 192.254090 239.899918 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='001' title='Aitkin&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,302&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.3%'/>\n   <path id='svg_4a6a93b92bc55900_e2' d='M 191.799217 269.694183 L 191.547241 279.634660 L 191.682932 289.564665 L 192.243154 292.903032 L 192.278893 309.534542 L 212.233181 309.596724 L 252.726915 309.497380 L 252.517941 281.198918 L 251.796482 280.880231 L 251.660956 269.737742 L 225.131218 269.600679 L 221.824721 269.364478 L 211.731808 269.739589 L 191.799217 269.694183 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='017' title='Carlton&amp;lt;br/&amp;gt;Number of students taken the ACT: 4,264&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.0%'/>\n   <path id='svg_4a6a93b92bc55900_e3' d='M 347.622111 104.692508 L 347.955005 118.994629 L 348.504177 118.985891 L 348.841105 139.141466 L 349.446578 148.811499 L 350.375556 187.661585 L 357.356224 181.518641 L 360.464951 178.249306 L 372.294171 168.642435 L 386.221304 160.820269 L 387.793135 159.010029 L 394.614846 156.594677 L 394.926053 155.747772 L 402.111340 154.011186 L 410.522534 150.169940 L 414.001596 149.925846 L 415.998639 148.004779 L 422.191601 146.717465 L 422.873596 145.608370 L 430.221792 143.126410 L 433.756938 140.673060 L 434.063059 139.290642 L 443.876160 135.635683 L 448.246739 132.408318 L 456.960195 122.985361 L 457.663289 124.798758 L 460.972717 123.239452 L 456.822440 121.331756 L 450.387912 122.128912 L 447.967329 120.485253 L 441.433932 121.457574 L 440.493904 123.319802 L 437.481941 125.019607 L 435.353747 124.855316 L 427.869323 120.553894 L 427.766492 118.121591 L 425.343382 114.141620 L 420.016773 112.064485 L 416.839911 111.383769 L 409.747034 112.032719 L 404.863022 113.252435 L 403.566969 112.601267 L 400.521362 113.985882 L 397.761685 114.189326 L 396.081493 112.864819 L 393.399411 113.688242 L 391.142809 112.609386 L 389.695713 113.768324 L 384.329125 114.300019 L 382.777475 111.511825 L 377.789373 113.635852 L 370.144300 114.890398 L 368.590731 114.501771 L 365.740655 109.870890 L 365.055337 105.476097 L 362.890527 106.034369 L 362.163363 98.482152 L 358.583306 97.848595 L 355.512505 99.781279 L 351.672249 101.060639 L 347.622111 104.692508 Z ' fill='#045A8D' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='031' title='Cook&amp;lt;br/&amp;gt;Number of students taken the ACT: 460&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 66.4%'/>\n   <path id='svg_4a6a93b92bc55900_e4' d='M 87.139617 144.940395 L 86.883287 155.940166 L 86.977266 174.689079 L 86.495052 190.938895 L 88.039811 192.866875 L 93.179256 194.186389 L 95.578812 193.359808 L 109.745242 187.198510 L 112.690813 188.649361 L 114.070332 192.138163 L 116.386784 195.115078 L 115.444909 199.583175 L 116.619983 202.045821 L 120.767793 203.735391 L 122.283994 206.028660 L 125.312103 208.190374 L 127.293700 206.326980 L 129.951134 205.947051 L 132.139859 207.536978 L 134.943446 207.219931 L 136.088559 210.700118 L 133.297982 215.132012 L 134.464833 217.681229 L 136.175409 218.442048 L 135.866771 239.166791 L 161.777128 239.611997 L 171.816753 239.634200 L 181.662972 240.032803 L 192.254090 239.899918 L 192.251202 230.399066 L 191.453932 230.398354 L 191.622257 200.344561 L 191.273753 198.687449 L 191.295615 190.450512 L 191.671160 182.295596 L 191.882363 160.340335 L 190.278301 160.327655 L 190.174655 148.662901 L 190.409979 140.639622 L 163.988603 140.296741 L 152.467464 139.794729 L 136.825184 139.566038 L 136.733991 145.595865 L 116.550600 145.211520 L 106.654115 145.255894 L 87.139617 144.940395 Z ' fill='#F1EEF6' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='061' title='Itasca&amp;lt;br/&amp;gt;Number of students taken the ACT: 4,147&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 52.0%'/>\n   <path id='svg_4a6a93b92bc55900_e5' d='M 87.479877 85.109752 L 87.550106 102.744988 L 87.128217 124.998601 L 87.572763 124.998880 L 87.139617 144.940395 L 106.654115 145.255894 L 116.550600 145.211520 L 136.733991 145.595865 L 136.825184 139.566038 L 152.467464 139.794729 L 163.988603 140.296741 L 190.409979 140.639622 L 190.417583 130.733863 L 189.869030 130.732614 L 189.797975 120.500265 L 189.232192 120.502318 L 189.163377 100.457652 L 189.343535 98.756991 L 189.499139 80.729403 L 189.923866 56.291315 L 183.084946 56.787014 L 180.871645 54.572269 L 177.285532 54.527658 L 170.139501 56.381147 L 169.645072 58.103206 L 161.103128 60.694239 L 161.808131 63.986704 L 161.058393 65.503483 L 155.328693 67.353681 L 147.329783 68.703558 L 136.201109 68.748644 L 134.306454 66.998904 L 135.446491 62.558726 L 134.180966 58.084202 L 132.185234 55.582113 L 124.200965 55.109278 L 120.111229 54.002473 L 113.704774 53.860973 L 102.089677 52.564662 L 100.907422 47.605406 L 97.315253 45.975449 L 94.692547 46.714993 L 91.234140 45.674652 L 88.095616 46.855750 L 87.479877 85.109752 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='071' title='Koochiching&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,208&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 57.9%'/>\n   <path id='svg_4a6a93b92bc55900_e6' d='M 347.622111 104.692508 L 343.699277 105.677705 L 341.258813 107.417251 L 336.637960 112.225495 L 331.129129 117.104555 L 328.069285 118.313428 L 321.848848 118.960696 L 317.381948 121.465147 L 315.764846 119.158198 L 312.828983 119.297768 L 306.170572 121.644759 L 306.538699 116.510008 L 305.025996 115.529083 L 301.128944 116.218837 L 300.087013 114.779468 L 295.573026 114.301381 L 296.590433 111.194108 L 295.122062 104.581392 L 288.759414 104.271805 L 288.979851 126.882805 L 289.328096 138.531072 L 289.344893 150.144611 L 289.611014 159.656183 L 290.743478 179.508589 L 290.726949 199.488535 L 291.182875 229.392111 L 291.305309 249.125529 L 298.318393 241.437465 L 301.643110 240.088867 L 304.183052 236.324091 L 307.497360 233.550734 L 308.219035 231.765616 L 312.394289 229.916481 L 314.165943 227.751124 L 317.049983 226.293732 L 318.928254 223.418832 L 325.149588 217.834109 L 327.394212 214.133620 L 331.079246 210.865574 L 333.975966 206.522831 L 338.079475 202.395108 L 338.933540 199.802899 L 342.367103 195.386027 L 344.823703 193.655849 L 348.756071 188.607308 L 350.375556 187.661585 L 349.446578 148.811499 L 348.841105 139.141466 L 348.504177 118.985891 L 347.955005 118.994629 L 347.622111 104.692508 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='075' title='Lake&amp;lt;br/&amp;gt;Number of students taken the ACT: 1,178&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 56.9%'/>\n   <path id='svg_4a6a93b92bc55900_e7' d='M 189.923866 56.291315 L 189.499139 80.729403 L 189.343535 98.756991 L 189.163377 100.457652 L 189.232192 120.502318 L 189.797975 120.500265 L 189.869030 130.732614 L 190.417583 130.733863 L 190.409979 140.639622 L 190.174655 148.662901 L 190.278301 160.327655 L 191.882363 160.340335 L 191.671160 182.295596 L 191.295615 190.450512 L 191.273753 198.687449 L 191.622257 200.344561 L 191.453932 230.398354 L 192.251202 230.399066 L 192.254090 239.899918 L 191.799217 269.694183 L 211.731808 269.739589 L 221.824721 269.364478 L 225.131218 269.600679 L 251.660956 269.737742 L 251.796482 280.880231 L 252.517941 281.198918 L 258.520407 282.773060 L 261.230500 279.252461 L 259.482018 277.322088 L 260.563051 274.963883 L 263.944317 275.105981 L 264.580257 272.395125 L 266.302099 271.316207 L 270.010553 271.171189 L 267.956663 266.877638 L 271.833741 263.186754 L 275.178298 261.081732 L 282.036583 255.665003 L 287.315960 251.066384 L 291.305309 249.125529 L 291.182875 229.392111 L 290.726949 199.488535 L 290.743478 179.508589 L 289.611014 159.656183 L 289.344893 150.144611 L 289.328096 138.531072 L 288.979851 126.882805 L 288.759414 104.271805 L 287.434597 103.279562 L 283.690714 103.897086 L 281.443367 100.373299 L 276.444730 100.993742 L 272.715147 97.344364 L 272.172897 93.678334 L 273.126214 90.960958 L 269.519198 89.430241 L 268.856743 86.628284 L 266.689911 87.297156 L 262.090209 87.080320 L 260.679625 86.260487 L 257.281037 88.318969 L 253.014021 87.301170 L 251.021323 88.716623 L 250.114671 94.969414 L 251.772309 99.997929 L 247.501105 101.031482 L 245.212851 102.398538 L 241.358522 94.265722 L 240.117171 93.121496 L 237.175901 87.759520 L 236.644371 85.489857 L 238.155269 82.125367 L 234.220766 76.788400 L 222.885573 78.162223 L 220.446584 77.342731 L 218.566549 75.144339 L 219.613649 71.488213 L 224.305081 70.946191 L 225.208555 69.401370 L 224.441897 65.997489 L 222.693839 65.585318 L 217.327416 66.385508 L 202.003586 58.679688 L 200.463429 55.997792 L 197.821935 56.739472 L 189.923866 56.291315 Z ' fill='#74A9CF' fill-opacity='1' fill-rule='evenodd' stroke='#D9D9D9' stroke-opacity='1' stroke-width='0.43' stroke-linejoin='round' stroke-linecap='butt' data-id='137' title='St. Louis&amp;lt;br/&amp;gt;Number of students taken the ACT: 15,937&amp;lt;br/&amp;gt;Percent of students in the county taken ACT: 58.2%'/>\n  <\/g>\n  <g clip-path='url(#svg_4a6a93b92bc55900_c1)'>\n   <rect x='391.03' y='181.65' width='45.2' height='72' fill='#FFFFFF' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='239.25' width='14.4' height='14.4' fill='#F1EEF6' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='224.85' width='14.4' height='14.4' fill='#BDC9E1' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='210.45' width='14.4' height='14.4' fill='#74A9CF' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='196.05' width='14.4' height='14.4' fill='#2B8CBE' fill-opacity='1' stroke='none'/>\n   <rect x='391.03' y='181.65' width='14.4' height='14.4' fill='#045A8D' fill-opacity='1' stroke='none'/>\n   <text x='407.42' y='244.4' font-size='10.8pt' font-family='Arial'>52%<\/text>\n   <text x='407.42' y='230' font-size='10.8pt' font-family='Arial'>56%<\/text>\n   <text x='407.42' y='215.6' font-size='10.8pt' font-family='Arial'>60%<\/text>\n   <text x='407.42' y='201.2' font-size='10.8pt' font-family='Arial'>64%<\/text>\n   <text x='67.77' y='20.94' font-size='16.2pt' font-weight='bold' font-family='Arial'>Percent of students taken ACT in county location of high school<\/text>\n  <\/g>\n <\/g>\n<\/svg>","js":null,"uid":"svg_4a6a93b92bc55900","ratio":1.4,"settings":{"tooltip":{"css":".tooltip_SVGID_ { padding:5px;background:black;color:white;border-radius:2px;text-align:left; ; position:absolute;pointer-events:none;z-index:9999;}","placement":"doc","opacity":0.9,"offx":10,"offy":10,"use_cursor_pos":true,"use_fill":false,"use_stroke":false,"delay_over":200,"delay_out":500},"hover":{"css":".hover_data_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_data_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_data_SVGID_ { fill:orange;stroke:black; }\nline.hover_data_SVGID_, polyline.hover_data_SVGID_ { fill:none;stroke:orange; }\nrect.hover_data_SVGID_, polygon.hover_data_SVGID_, path.hover_data_SVGID_ { fill:orange;stroke:none; }\nimage.hover_data_SVGID_ { stroke:orange; }","reactive":true,"nearest_distance":null,"linked":false},"hover_inv":{"css":""},"hover_key":{"css":".hover_key_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_key_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_key_SVGID_ { fill:orange;stroke:black; }\nline.hover_key_SVGID_, polyline.hover_key_SVGID_ { fill:none;stroke:orange; }\nrect.hover_key_SVGID_, polygon.hover_key_SVGID_, path.hover_key_SVGID_ { fill:orange;stroke:none; }\nimage.hover_key_SVGID_ { stroke:orange; }","reactive":true},"hover_theme":{"css":".hover_theme_SVGID_ { fill:orange;stroke:black;cursor:pointer; }\ntext.hover_theme_SVGID_ { stroke:none;fill:orange; }\ncircle.hover_theme_SVGID_ { fill:orange;stroke:black; }\nline.hover_theme_SVGID_, polyline.hover_theme_SVGID_ { fill:none;stroke:orange; }\nrect.hover_theme_SVGID_, polygon.hover_theme_SVGID_, path.hover_theme_SVGID_ { fill:orange;stroke:none; }\nimage.hover_theme_SVGID_ { stroke:orange; }","reactive":true},"select":{"css":".select_data_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_data_SVGID_ { stroke:none;fill:red; }\ncircle.select_data_SVGID_ { fill:red;stroke:black; }\nline.select_data_SVGID_, polyline.select_data_SVGID_ { fill:none;stroke:red; }\nrect.select_data_SVGID_, polygon.select_data_SVGID_, path.select_data_SVGID_ { fill:red;stroke:none; }\nimage.select_data_SVGID_ { stroke:red; }","type":"multiple","only_shiny":true,"selected":[],"linked":false},"select_inv":{"css":""},"select_key":{"css":".select_key_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_key_SVGID_ { stroke:none;fill:red; }\ncircle.select_key_SVGID_ { fill:red;stroke:black; }\nline.select_key_SVGID_, polyline.select_key_SVGID_ { fill:none;stroke:red; }\nrect.select_key_SVGID_, polygon.select_key_SVGID_, path.select_key_SVGID_ { fill:red;stroke:none; }\nimage.select_key_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"select_theme":{"css":".select_theme_SVGID_ { fill:red;stroke:black;cursor:pointer; }\ntext.select_theme_SVGID_ { stroke:none;fill:red; }\ncircle.select_theme_SVGID_ { fill:red;stroke:black; }\nline.select_theme_SVGID_, polyline.select_theme_SVGID_ { fill:none;stroke:red; }\nrect.select_theme_SVGID_, polygon.select_theme_SVGID_, path.select_theme_SVGID_ { fill:red;stroke:none; }\nimage.select_theme_SVGID_ { stroke:red; }","type":"single","only_shiny":true,"selected":[]},"zoom":{"min":1,"max":1,"duration":300,"default_on":false},"toolbar":{"position":"topright","pngname":"diagram","tooltips":null,"fixed":false,"hidden":[],"delay_over":200,"delay_out":500},"sizing":{"rescale":false,"width":1}}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 
@@ -910,239 +919,243 @@ Chi^2 =  79.89287     d.f. =  2     p =  4.482117e-18
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
-window.document.addEventListener("DOMContentLoaded", function (event) {
-  const toggleBodyColorMode = (bsSheetEl) => {
-    const mode = bsSheetEl.getAttribute("data-mode");
-    const bodyEl = window.document.querySelector("body");
-    if (mode === "dark") {
-      bodyEl.classList.add("quarto-dark");
-      bodyEl.classList.remove("quarto-light");
-    } else {
-      bodyEl.classList.add("quarto-light");
-      bodyEl.classList.remove("quarto-dark");
-    }
-  }
-  const toggleBodyColorPrimary = () => {
-    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
-    if (bsSheetEl) {
-      toggleBodyColorMode(bsSheetEl);
-    }
-  }
-  toggleBodyColorPrimary();  
-  const icon = "";
-  const anchorJS = new window.AnchorJS();
-  anchorJS.options = {
-    placement: 'right',
-    icon: icon
-  };
-  anchorJS.add('.anchored');
-  const isCodeAnnotation = (el) => {
-    for (const clz of el.classList) {
-      if (clz.startsWith('code-annotation-')) {                     
-        return true;
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
       }
+      return false;
     }
-    return false;
-  }
-  const onCopySuccess = function(e) {
-    // button target
-    const button = e.trigger;
-    // don't keep focus
-    button.blur();
-    // flash "checked"
-    button.classList.add('code-copy-button-checked');
-    var currentTitle = button.getAttribute("title");
-    button.setAttribute("title", "Copied!");
-    let tooltip;
-    if (window.bootstrap) {
-      button.setAttribute("data-bs-toggle", "tooltip");
-      button.setAttribute("data-bs-placement", "left");
-      button.setAttribute("data-bs-title", "Copied!");
-      tooltip = new bootstrap.Tooltip(button, 
-        { trigger: "manual", 
-          customClass: "code-copy-button-tooltip",
-          offset: [0, -8]});
-      tooltip.show();    
-    }
-    setTimeout(function() {
-      if (tooltip) {
-        tooltip.hide();
-        button.removeAttribute("data-bs-title");
-        button.removeAttribute("data-bs-toggle");
-        button.removeAttribute("data-bs-placement");
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
       }
-      button.setAttribute("title", currentTitle);
-      button.classList.remove('code-copy-button-checked');
-    }, 1000);
-    // clear code selection
-    e.clearSelection();
-  }
-  const getTextToCopy = function(trigger) {
-      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
       for (const childEl of codeEl.children) {
         if (isCodeAnnotation(childEl)) {
           childEl.remove();
         }
       }
       return codeEl.innerText;
-  }
-  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
-    text: getTextToCopy
-  });
-  clipboard.on('success', onCopySuccess);
-  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
-    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
-      text: getTextToCopy,
-      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
     });
-    clipboardModal.on('success', onCopySuccess);
-  }
-    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
-    var mailtoRegex = new RegExp(/^mailto:/);
-      var filterRegex = new RegExp('/' + window.location.host + '/');
-    var isInternal = (href) => {
-        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
     }
-    // Inspect non-navigation links and adorn them if external
- 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
-    for (var i=0; i<links.length; i++) {
-      const link = links[i];
-      if (!isInternal(link.href)) {
-        // undo the damage that might have been done by quarto-nav.js in the case of
-        // links that we want to consider external
-        if (link.dataset.originalHref !== undefined) {
-          link.href = link.dataset.originalHref;
-        }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
       }
-    }
-  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
-    const config = {
-      allowHTML: true,
-      maxWidth: 500,
-      delay: 100,
-      arrow: false,
-      appendTo: function(el) {
-          return el.parentElement;
-      },
-      interactive: true,
-      interactiveBorder: 10,
-      theme: 'quarto',
-      placement: 'bottom-start',
-    };
-    if (contentFn) {
-      config.content = contentFn;
-    }
-    if (onTriggerFn) {
-      config.onTrigger = onTriggerFn;
-    }
-    if (onUntriggerFn) {
-      config.onUntrigger = onUntriggerFn;
-    }
-    window.tippy(el, config); 
-  }
-  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
-  for (var i=0; i<noterefs.length; i++) {
-    const ref = noterefs[i];
-    tippyHover(ref, function() {
-      // use id or data attribute instead here
-      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
-      try { href = new URL(href).hash; } catch {}
-      const id = href.replace(/^#\/?/, "");
-      const note = window.document.getElementById(id);
-      if (note) {
-        return note.innerHTML;
-      } else {
-        return "";
-      }
-    });
-  }
-  const xrefs = window.document.querySelectorAll('a.quarto-xref');
-  const processXRef = (id, note) => {
-    // Strip column container classes
-    const stripColumnClz = (el) => {
-      el.classList.remove("page-full", "page-columns");
-      if (el.children) {
-        for (const child of el.children) {
-          stripColumnClz(child);
-        }
-      }
-    }
-    stripColumnClz(note)
-    if (id === null || id.startsWith('sec-')) {
-      // Special case sections, only their first couple elements
-      const container = document.createElement("div");
-      if (note.children && note.children.length > 2) {
-        container.appendChild(note.children[0].cloneNode(true));
-        for (let i = 1; i < note.children.length; i++) {
-          const child = note.children[i];
-          if (child.tagName === "P" && child.innerText === "") {
-            continue;
-          } else {
-            container.appendChild(child.cloneNode(true));
-            break;
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
           }
         }
-        if (window.Quarto?.typesetMath) {
-          window.Quarto.typesetMath(container);
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
         }
-        return container.innerHTML
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
       } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
         if (window.Quarto?.typesetMath) {
           window.Quarto.typesetMath(note);
         }
-        return note.innerHTML;
-      }
-    } else {
-      // Remove any anchor links if they are present
-      const anchorLink = note.querySelector('a.anchorjs-link');
-      if (anchorLink) {
-        anchorLink.remove();
-      }
-      if (window.Quarto?.typesetMath) {
-        window.Quarto.typesetMath(note);
-      }
-      // TODO in 1.5, we should make sure this works without a callout special case
-      if (note.classList.contains("callout")) {
-        return note.outerHTML;
-      } else {
-        return note.innerHTML;
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
       }
     }
-  }
-  for (var i=0; i<xrefs.length; i++) {
-    const xref = xrefs[i];
-    tippyHover(xref, undefined, function(instance) {
-      instance.disable();
-      let url = xref.getAttribute('href');
-      let hash = undefined; 
-      if (url.startsWith('#')) {
-        hash = url;
-      } else {
-        try { hash = new URL(url).hash; } catch {}
-      }
-      if (hash) {
-        const id = hash.replace(/^#\/?/, "");
-        const note = window.document.getElementById(id);
-        if (note !== null) {
-          try {
-            const html = processXRef(id, note.cloneNode(true));
-            instance.setContent(html);
-          } finally {
-            instance.enable();
-            instance.show();
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
           }
         } else {
-          // See if we can fetch this
-          fetch(url.split('#')[0])
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
           .then(res => res.text())
           .then(html => {
             const parser = new DOMParser();
             const htmlDoc = parser.parseFromString(html, "text/html");
-            const note = htmlDoc.getElementById(id);
+            const note = htmlDoc.querySelector('main.content');
             if (note !== null) {
-              const html = processXRef(id, note);
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
               instance.setContent(html);
             } 
           }).finally(() => {
@@ -1150,185 +1163,161 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
             instance.show();
           });
         }
-      } else {
-        // See if we can fetch a full url (with no hash to target)
-        // This is a special case and we should probably do some content thinning / targeting
-        fetch(url)
-        .then(res => res.text())
-        .then(html => {
-          const parser = new DOMParser();
-          const htmlDoc = parser.parseFromString(html, "text/html");
-          const note = htmlDoc.querySelector('main.content');
-          if (note !== null) {
-            // This should only happen for chapter cross references
-            // (since there is no id in the URL)
-            // remove the first header
-            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
-              note.children[0].remove();
-            }
-            const html = processXRef(null, note);
-            instance.setContent(html);
-          } 
-        }).finally(() => {
-          instance.enable();
-          instance.show();
-        });
-      }
-    }, function(instance) {
-    });
-  }
-      let selectedAnnoteEl;
-      const selectorForAnnotation = ( cell, annotation) => {
-        let cellAttr = 'data-code-cell="' + cell + '"';
-        let lineAttr = 'data-code-annotation="' +  annotation + '"';
-        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
-        return selector;
-      }
-      const selectCodeLines = (annoteEl) => {
-        const doc = window.document;
-        const targetCell = annoteEl.getAttribute("data-target-cell");
-        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
-        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
-        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
-        const lineIds = lines.map((line) => {
-          return targetCell + "-" + line;
-        })
-        let top = null;
-        let height = null;
-        let parent = null;
-        if (lineIds.length > 0) {
-            //compute the position of the single el (top and bottom and make a div)
-            const el = window.document.getElementById(lineIds[0]);
-            top = el.offsetTop;
-            height = el.offsetHeight;
-            parent = el.parentElement.parentElement;
-          if (lineIds.length > 1) {
-            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
-            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
-            height = bottom - top;
-          }
-          if (top !== null && height !== null && parent !== null) {
-            // cook up a div (if necessary) and position it 
-            let div = window.document.getElementById("code-annotation-line-highlight");
-            if (div === null) {
-              div = window.document.createElement("div");
-              div.setAttribute("id", "code-annotation-line-highlight");
-              div.style.position = 'absolute';
-              parent.appendChild(div);
-            }
-            div.style.top = top - 2 + "px";
-            div.style.height = height + 4 + "px";
-            div.style.left = 0;
-            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
-            if (gutterDiv === null) {
-              gutterDiv = window.document.createElement("div");
-              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
-              gutterDiv.style.position = 'absolute';
-              const codeCell = window.document.getElementById(targetCell);
-              const gutter = codeCell.querySelector('.code-annotation-gutter');
-              gutter.appendChild(gutterDiv);
-            }
-            gutterDiv.style.top = top - 2 + "px";
-            gutterDiv.style.height = height + 4 + "px";
-          }
-          selectedAnnoteEl = annoteEl;
-        }
-      };
-      const unselectCodeLines = () => {
-        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
-        elementsIds.forEach((elId) => {
-          const div = window.document.getElementById(elId);
-          if (div) {
-            div.remove();
-          }
-        });
-        selectedAnnoteEl = undefined;
-      };
-        // Handle positioning of the toggle
-    window.addEventListener(
-      "resize",
-      throttle(() => {
-        elRect = undefined;
-        if (selectedAnnoteEl) {
-          selectCodeLines(selectedAnnoteEl);
-        }
-      }, 10)
-    );
-    function throttle(fn, ms) {
-    let throttle = false;
-    let timer;
-      return (...args) => {
-        if(!throttle) { // first call gets through
-            fn.apply(this, args);
-            throttle = true;
-        } else { // all the others get throttled
-            if(timer) clearTimeout(timer); // cancel #2
-            timer = setTimeout(() => {
-              fn.apply(this, args);
-              timer = throttle = false;
-            }, ms);
-        }
-      };
-    }
-      // Attach click handler to the DT
-      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
-      for (const annoteDlNode of annoteDls) {
-        annoteDlNode.addEventListener('click', (event) => {
-          const clickedEl = event.target;
-          if (clickedEl !== selectedAnnoteEl) {
-            unselectCodeLines();
-            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
-            if (activeEl) {
-              activeEl.classList.remove('code-annotation-active');
-            }
-            selectCodeLines(clickedEl);
-            clickedEl.classList.add('code-annotation-active');
-          } else {
-            // Unselect the line
-            unselectCodeLines();
-            clickedEl.classList.remove('code-annotation-active');
-          }
-        });
-      }
-  const findCites = (el) => {
-    const parentEl = el.parentElement;
-    if (parentEl) {
-      const cites = parentEl.dataset.cites;
-      if (cites) {
-        return {
-          el,
-          cites: cites.split(' ')
-        };
-      } else {
-        return findCites(el.parentElement)
-      }
-    } else {
-      return undefined;
-    }
-  };
-  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
-  for (var i=0; i<bibliorefs.length; i++) {
-    const ref = bibliorefs[i];
-    const citeInfo = findCites(ref);
-    if (citeInfo) {
-      tippyHover(citeInfo.el, function() {
-        var popup = window.document.createElement('div');
-        citeInfo.cites.forEach(function(cite) {
-          var citeDiv = window.document.createElement('div');
-          citeDiv.classList.add('hanging-indent');
-          citeDiv.classList.add('csl-entry');
-          var biblioDiv = window.document.getElementById('ref-' + cite);
-          if (biblioDiv) {
-            citeDiv.innerHTML = biblioDiv.innerHTML;
-          }
-          popup.appendChild(citeDiv);
-        });
-        return popup.innerHTML;
+      }, function(instance) {
       });
     }
-  }
-});
-</script>
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
 </div> <!-- /content -->
 
 
