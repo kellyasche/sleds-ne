@@ -179,7 +179,7 @@ This analysis models five distinct outcomes, each restricted to the appropriate 
 
 ### **Sample**
 
-All four models are restricted to the **2011–2019 graduating cohorts**. Earlier cohorts (2008–2010) are excluded because PSEO participation was not consistently tracked in the data system prior to 2011 — missingness in that variable is concentrated almost entirely in those years rather than distributed randomly, and including them would risk misclassifying genuine PSEO participants as non-participants. And PSEO participation was identified as having a very strong relationship to our dependent variables in the bivariate analysis.
+All four models are restricted to the **2011–2023 graduating cohorts**. Earlier cohorts (2008–2010) are excluded because PSEO participation was not consistently tracked in the data system prior to 2011 — missingness in that variable is concentrated almost entirely in those years rather than distributed randomly, and including them would risk misclassifying genuine PSEO participants as non-participants. And PSEO participation was identified as having a very strong relationship to our dependent variables in the bivariate analysis.
 
 ### Independent Variables
 
@@ -196,6 +196,7 @@ Variables were selected based on (1) a demonstrated bivariate relationship with 
 **High school characteristics**
 
 - **`Dem_Desc`** (district rural/urban classification)
+- `range.school`
 - **`avg.wages.pct.state`** (local average wages as a percentage of the state average)
 - **`avg.unemp.rate`** (local average unemployment rate)
 
@@ -205,8 +206,8 @@ Variables were selected based on (1) a demonstrated bivariate relationship with 
 - **`took.ACT`** (whether the student took the ACT)
 - **`ACTCompositeScore`** (ACT composite score, recoded to 0 for non-test-takers — see note below)
 - **`ap.exam`** (AP exam participation)
+- `sat.taken`
 - **`cte.achievement`** (CTE concentration/completion level)
-- **`MCA.M`** (MCA Math proficiency)
 
 **Postsecondary variables**
 
@@ -216,15 +217,15 @@ Variables were selected based on (1) a demonstrated bivariate relationship with 
 
 **Notes on Variable Selection**
 
-**Academic achievement (MCA).** MCA Math, Reading, and Science scores are highly correlated with one another (r = 0.63–0.75) and with ACT performance. Including all three MCA subject scores in the same model produces unstable, difficult-to-interpret coefficients without adding meaningful explanatory power. MCA Math was retained as the single representative of academic proficiency; it has the lowest missingness of the three subjects and a comparable or stronger bivariate relationship with the outcomes examined.
+**Academic achievement (MCA).** MCA Math, Reading, and Science scores are highly correlated with one another (r = 0.63–0.75) and with ACT performance, and all three are excluded from this analysis. MCA Math's missingness rate differs sharply by English learner status (26.1% vs. 2.4% for other students), and this pattern cannot be reliably classified as an independent confounder versus a mediator of unequal access, resourcing, or administrative practice across student populations. Controlling for it — whether through the raw score or a missingness indicator — risks statistically absorbing a real disparity under the guise of a data-quality correction. No MCA subject is retained as a substitute for another; the concern applies to the construct as a whole, not to Math specifically.
 
-**CTE engagement.** `cte.achievement` (concentrator/completer/participant/no CTE) was retained over `total.cte.courses.taken`, a continuous measure of the same underlying construct. The two are redundant, and the categorical version is more directly interpretable for a non-technical audience.
+**CTE engagement.** `cte.achievement` (concentrator/completer/participant/no CTE) is retained over `total.cte.courses.taken`, a continuous measure of the same underlying construct. The two are redundant, and the categorical version is more directly interpretable for a non-technical audience.
 
-**ACT participation and score.** Students who did not take the ACT have no composite score by definition — this is a structural absence tied entirely to an observed variable (`took.ACT`), not missing data in the conventional sense. To retain the full sample rather than dropping non-test-takers, `ACTCompositeScore` was recoded to 0 for non-test-takers and entered into the model alongside `took.ACT`. With both terms present, `took.ACT` captures the effect of test participation itself, while `ACTCompositeScore` captures the achievement gradient specifically among test-takers, without the two effects being confounded.
+**ACT and SAT participation and score.** Students who did not take the ACT have no composite score by definition — this is a structural absence tied entirely to an observed variable (`took.ACT`), not missing data in the conventional sense. To retain the full sample rather than dropping non-test-takers, `ACTCompositeScore` is recoded to 0 for non-test-takers and entered into the model alongside `took.ACT`. With both terms present, `took.ACT` captures the effect of test participation itself, while `ACTCompositeScore` captures the achievement gradient specifically among test-takers, without the two effects being confounded. `sat.taken` is entered separately, capturing a distinct, smaller subgroup of test-takers not fully overlapping with ACT participation. Because `took.ACT` shows a participation gap by English learner status (41.4% vs. 11.2%) of a similar scale to the MCA missingness gap that led to MCA's exclusion, any attenuation of the English learner coefficient once `took.ACT` enters the model should be interpreted with the same caution — as a variable that may partly reflect unequal access rather than a fully independent behavior — rather than treated as the disparity being explained away.
 
-**Academic achievement missingness (MCA Math).** MCA Math scores are missing at a substantially higher rate for English learner students (26.1%) than for other students (2.4%), a pattern that is not random and initially appeared to mask English learner status as a significant predictor via complete-case deletion. To address this, a missing-data indicator (`MCA.M.missing`) was created alongside a filled score (`MCA.M.filled`, coded 0 for missing cases), with both entered as separate terms in place of raw `MCA.M`. This preserves the full analytic sample and prevents this specific missingness pattern from being conflated with English learner status itself.
+**District and school context.** `range.school` is included alongside `Dem_Desc`; both show real, stable bivariate relationships with the outcomes examined and are treated as distinct measures of school/community context rather than redundant with one another.
 
-**Variables dropped.** `range.school`, `total.cte.courses.taken`, `sat.taken`, `MCA.R`, and `MCA.S` were excluded due to a combination of weak bivariate association, redundancy with a retained variable, or both.
+**Variables dropped.** `total.cte.courses.taken`, `MCA.M`, `MCA.R`, and `MCA.S` are excluded — the CTE course-count measure due to redundancy with `cte.achievement`, and all three MCA subjects for the reasons described above.
 
 ### Modeling Approach
 
@@ -297,9 +298,9 @@ The first thing I need to do is setup my dataset for modeling. I'm going to crea
 ```{r}
 
 model_vars_final <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                      "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam",
-                      "cte.achievement", "MCA.M", "ps.grad",
+                      "english.learner", "Dem_Desc", "range.school", "avg.wages.pct.state", "avg.unemp.rate",
+                      "pseo.participant", "took.ACT", "ACTCompositeScore", "sat.taken", "ap.exam",
+                      "cte.achievement", "ps.grad",
                       "grad.year.5")
 
 master.model <- master %>%
@@ -319,45 +320,36 @@ master.model <- master %>%
          english.learner = as_factor(english.learner),
          english.learner = fct_relevel(english.learner, "0"),
          Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
          pseo.participant = as.character(pseo.participant),
          pseo.participant = fct_relevel(pseo.participant, "0"),
          took.ACT = fct_relevel(took.ACT, "No"),
          ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
          ap.exam = as_factor(ap.exam),
          ap.exam = fct_relevel(ap.exam, "0"),
          cte.achievement = fct_relevel(cte.achievement, "No CTE"),
          ps.grad = ifelse(ps.grad == "Y", "Yes", ps.grad),
          ps.grad = fct_relevel(ps.grad, "No")) 
 
-nrow(master.model)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
-
 kable(head(master.model))
 
 kable(names(master.model))
 
-#Check for missingness
-
-model_vars_check <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                      "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                      "cte.achievement", "MCA.M.filled", "MCA.M.missing", "ps.grad", "grad.year.5")
-
-colSums(is.na(master.model[, model_vars_check]))
-nrow(master.model)
-table(master.model$grad.year.5)
-table(master.model$ps.grad)
-table(master.model$RaceEthnicity)
-
-
+master %>% filter(grad.year > 2010) %>% nrow()
+master %>% filter(grad.year > 2010, grad.year.5 != "After 2023") %>% nrow()
+master %>% filter(grad.year > 2010, grad.year.5 != "After 2023", 
+                  grad.year.5 != "Attending ps") %>% nrow()
+master %>% filter(grad.year > 2010, grad.year.5 != "After 2023", 
+                  grad.year.5 != "Attending ps", ps.grad != "Attending ps") %>% nrow()
 ```
 
 We now have `r comma(nrow(master.model))` individuals to model with `r ncol(master.model) - 2` variables not including `grad.year.5`.
 
 <br>
 
-# Modeling: Sustained WF - Region (full population) 
+# Modeling: Sustained WF - Region (full population)
 
 ## Model 1: Demographics
 
@@ -452,30 +444,23 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 2: Demographics + High School Characteristics
 
-This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline established in Model 1. The analytic sample remains n = 20,198.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline (n = 20,198).
 
-**District classification (Dem_Desc)** is again the strongest new predictor in this block, showing the same clear, increasing gradient found in the earlier exploratory work.
+**District classification shows a strong, significant relationship with sustained regional attachment**, consistent with the bivariate finding. Graduates from Town/rural mix districts show 30% higher odds of sustained regional attachment than those from Entirely rural districts (OR ≈ 1.30, CI: 1.127-1.510, p \< .001), and graduates from Urban/town/rural mix districts show 57% higher odds (OR ≈ 1.57, CI: 1.355-1.830, p \< .001) — a clear, ordered gradient matching what the bivariate cross-tabs showed.
 
-- **Town/rural mix districts:** approximately 30% higher odds of sustained regional attachment relative to entirely rural districts (OR ≈ 1.30).
-- **Urban/town/rural mix districts:** approximately 61% higher odds relative to entirely rural districts (OR ≈ 1.61).
+**Range school status is a significant, independent predictor in its own right.** Range graduates show 18% higher odds of sustained regional attachment than non-Range graduates (OR ≈ 1.18, CI: 1.097-1.279, p \< .001), confirming the bivariate finding survives multivariate control alongside demographics and district classification — **this variable is pulling real, non-redundant weight in the model**, not just echoing Dem_Desc.
 
-**Local economic conditions again show no independent effect at this stage.**
+**Local wages and unemployment rate do not hold up as independent predictors.** Average wages as a percent of the state average shows a wide confidence interval crossing 1 (OR ≈ 1.06, CI: 0.555-2.010, p = .865), and average unemployment rate is similarly non-significant (OR ≈ 1.01, CI: 0.984-1.035, p = .476). Neither local economic indicator adds explanatory power once district classification and Range status are in the model — consistent with this project's broader, recurring finding that individual and school-level factors matter more than county-level economic conditions.
 
-- **Average local wages (% of state average)** is not statistically significant (OR ≈ 1.43, CI: 0.76–2.67, crosses 1).
-- **Average local unemployment rate** is not statistically significant (OR ≈ 1.01, CI: 0.983–1.034, crosses 1).
+**Economic status weakens to only marginal significance** once district context is added (OR ≈ 0.94, CI: 0.884-1.006, p = .073), down from a clearly significant effect in Model 1 (p = .031). This suggests some of economic status's apparent relationship with regional attachment may run through where a student's school is located, rather than economic status operating entirely independently of geography. Worth tracking through Model 3 rather than treating this as settled.
 
-Consistent with the earlier exploratory model, both are retained but not built into the narrative interpretation, since neither holds up as an independent predictor once entered alongside demographics and district type.
-
-**Demographic effects from Model 1 persist, with one variable now at the edge of significance.**
-
-- Gender, Race/Ethnicity (all four categories), Special Education status, and English learner status remain statistically significant, in the same direction and similar magnitude to Model 1.
-- **Economic status is no longer statistically significant** (OR ≈ 0.951, CI: 0.892–1.014, crosses 1) — the same attenuation pattern observed in the earlier exploratory work, suggesting some of the economic-status effect on regional attachment may be explained by geographic/community context rather than economic status operating independently. Whether this persists or reverses will be tracked through Models 3 and 4.
+Gender, Race/Ethnicity, Special Education status, and English learner status **all remain significant and stable** in direction and magnitude from Model 1 — none of the demographic effects are meaningfully explained by the addition of district or economic context.
 
 **Overall Interpretation**
 
-Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 81.89, df = 4, p \< .001; AIC decreases from 25,094.7 to 25,020.8). As in the earlier exploratory analysis, district rural/urban classification is the one high-school-characteristic variable that shows a clear, significant, and interpretable relationship with sustained regional attachment, while local wage and unemployment levels do not hold up independently. The attenuation of the economic-status effect continues to be the most substantively interesting development in this block.
+Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 100.53, df = 5, p \< .001; AIC decreases from 25,094.7 to 25,004.2). **District classification and Range school status both confirm as genuine, independent predictors** of regional workforce attachment — this is the clearest signal in this block. Local wage and unemployment conditions, by contrast, show no independent relationship once these more specific measures of place are accounted for. **Economic status's attenuation to marginal significance is the one finding worth watching closely** as high school accomplishments are added in Model 3.
 
-**Model fit:** AIC = 25,020.8 (down from 25,094.7 in Model 1); Δdeviance = 81.89 on 4 df, p \< .001; n = 20,198 in both models.
+Model fit: AIC = 25,004.2 (down from 25,094.7 in Model 1); Δdeviance = 100.53 on 5 df, p \< .001; n = 20,198 in both models.
 
 ```{r}
 model2_dv1 <- glm(
@@ -486,11 +471,14 @@ model2_dv1 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate,
   family = binomial,
   data = master.model
 )
+
+summary(model2_dv1)
 
 nobs(model1_dv1)
 nobs(model2_dv1)
@@ -546,42 +534,35 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the growing specification. The analytic sample remains n = 20,198.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification (n = 20,198).
 
-**CTE achievement continues to anchor students regionally.**
+**English learner status is a significant, independent predictor of reduced regional attachment — the central finding of this model.** OR ≈ 0.741 (CI: 0.629-0.872, p \< .001), meaning English learners show roughly 26% lower odds of sustained regional workforce attachment, holding up fully alongside every high school accomplishment variable in the model. This is not explained away by academic engagement or preparation.
 
-- **CTE Concentrators/Completers:** approximately 37% higher odds of sustained regional attachment relative to no CTE involvement (OR ≈ 1.37).
-- **CTE Participants:** approximately 18% higher odds (OR ≈ 1.18).
+**Race/Ethnicity effects persist across all four categories, fully independent of high school accomplishments.** American Indian (OR ≈ 0.85, p = .012), Asian/Pacific Islander (OR ≈ 0.66, p = .006), Black (OR ≈ 0.43, p \< .001), and Hispanic graduates (OR ≈ 0.59, p \< .001) all show significantly lower odds of sustained regional attachment relative to White graduates — none of these disparities are explained by academic engagement patterns.
 
-**AP exam participation is associated with lower odds of regional attachment** (OR ≈ 0.68), consistent with the pattern that college-preparatory engagement pulls graduates away from the region.
+**CTE achievement continues to anchor students regionally.** CTE Concentrators/Completers show 42% higher odds of sustained regional attachment (OR ≈ 1.42, p \< .001), and CTE Participants show 22% higher odds (OR ≈ 1.22, p \< .001) — the clearest "stay local" signal in the model.
 
-**PSEO participation is not statistically significant** in this specification (OR ≈ 1.01, CI: 0.939–1.078, crosses 1). As in the earlier exploratory work, PSEO's apparent bivariate influence does not hold up as an independent effect once ACT participation, ACT score, AP exam, and CTE are considered together.
+**ACT shows a genuine crossover pattern that requires a joint reading.** Taking the ACT is associated with substantially *higher* odds of regional attachment (OR ≈ 3.77, p \< .001), while among test-takers, each additional composite point is associated with *lower* odds (OR ≈ 0.938, p \< .001). Together these describe a threshold effect: simply engaging with the ACT is not a signal of leaving the region — it's specifically high-scoring ACT engagement that predicts departure, likely reflecting pursuit of selective, non-regional postsecondary options.
 
-**ACT shows the same crossover pattern found in the earlier exploratory model, and again requires a joint reading rather than a single headline coefficient.**
+**SAT participation moves in the opposite direction from ACT participation** — a real, substantively important contrast, not a contradiction. SAT-takers show 60% lower odds of regional attachment (OR ≈ 0.40, p \< .001). Unlike the ACT, which nearly every college-bound student in this region takes, SAT-taking identifies a smaller, more selective subgroup specifically oriented toward postsecondary options outside Minnesota — consistent with the bivariate finding that SAT-takers are the most mobile subgroup in this analysis.
 
-- **Took the ACT (vs. did not):** OR ≈ 3.86 — a large, positive association with sustained regional attachment.
-- **ACT composite score (among test-takers):** OR ≈ 0.93 per point — each additional point is associated with *lower* odds of regional attachment.
+**AP exam participation is associated with lower odds of regional attachment** (OR ≈ 0.71, p \< .001), consistent with the pattern that college-preparatory engagement pulls graduates away from the region.
 
-Together, these describe a crossover: relative to non-test-takers, students who took the ACT and scored below approximately the high-teens/low-20s show *higher* odds of regional attachment, while higher-scoring test-takers show *lower* odds. Simply engaging with the ACT is not itself a signal of leaving the region — it is specifically high-scoring ACT engagement that predicts departure.
+**PSEO participation is not statistically significant here** (OR ≈ 1.04, CI: 0.969-1.111, p = .290) — its bivariate influence does not hold up as an independent effect once ACT, SAT, AP, and CTE are considered together.
 
-**MCA Math again shows the missing-data flag doing the substantive work, not the score itself.** The filled score is not significant (OR ≈ 1.02, CI: 0.978–1.068, crosses 1), while the missing-data indicator is strongly significant and substantively large (OR ≈ 0.190): students with a missing MCA Math score show dramatically lower odds of sustained regional attachment than students with an observed score.
+**Economic status and Special Education status both strengthen rather than attenuate.** Economic status returns to clear significance (OR ≈ 0.86, p \< .001), reversing the marginal result from Model 2. Special Ed status also strengthens (OR ≈ 0.77, p \< .001, down from OR ≈ 0.85 in Model 2). Neither effect is explained by academic engagement — if anything, accounting for it sharpens both.
 
-**English learner status remains non-significant** in this model (OR ≈ 0.914, CI: 0.771–1.081), consistent with the earlier finding that a substantial share of the apparent English-learner effect in Models 1–2 is better explained by whatever circumstances are associated with a missing MCA score, rather than English learner status independently.
+**Range school status and Gender both weaken to non-significance.** Range school (OR ≈ 1.06, p = .136) and Gender (OR ≈ 0.94, p = .069) were both significant in Model 2 but fall short of conventional significance here — suggesting their apparent relationships with regional attachment may run substantially through students' patterns of academic and CTE engagement rather than operating independently.
 
-**Several other coefficients shift from Model 2, in the same directions found previously:**
+**Average local wages becomes significant for the first time** (OR ≈ 2.20, CI: 1.139-4.248, p = .019) — higher local wages relative to the state average now show a real, if modest, positive relationship with regional attachment once accomplishment patterns are accounted for. Average unemployment rate remains non-significant (p = .141).
 
-- **Economic status returns to significance**, more strongly than in Model 1 (OR ≈ 0.846, CI: 0.791–0.905).
-- **Average local wages becomes significant** for the first time (OR ≈ 2.40, CI: 1.259–4.579), having shown no independent effect in Model 2.
-- **Gender is no longer significant** (OR ≈ 0.947, CI: 0.889–1.008, crosses 1), a change from Models 1 and 2.
-- **Special Education status strengthens** (OR ≈ 0.763, compared to OR ≈ 0.851 in Model 2).
-- Race/Ethnicity effects persist across all four categories, stable in direction and magnitude relative to prior models.
-- District classification (Dem_Desc) remains significant and essentially unchanged from Model 2.
+District classification (Dem_Desc) remains significant and stable, essentially unchanged from Model 2.
 
 **Overall Interpretation**
 
-Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 676.34, df = 8, p \< .001; AIC decreases from 25,020.8 to 24,360.5) — the largest improvement of any block so far, and consistent in scale with the earlier exploratory version of this model. Academic and college-preparatory engagement (ACT, AP) continues to point away from regional attachment, while CTE engagement continues to anchor students to the region — replicating the "dual pathways" pattern found throughout this project's descriptive work. As before, the attenuation of the English learner effect alongside the strong MCA-missingness flag suggests the apparent English-learner disparity in earlier models is at least partly explained by whatever circumstances are associated with missing academic records for that population, rather than English learner status alone.
+Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 493.50, df = 7, p \< .001; AIC decreases from 25,004.2 to 24,524.7). **English learner status and all four Race/Ethnicity categories are confirmed as genuine, independent predictors of reduced regional attachment, fully robust to every accomplishment variable in the model.** Academic and college-preparatory engagement (ACT score, AP, SAT) continues to point away from regional attachment, while CTE engagement anchors students to the region — the "dual pathways" pattern found throughout this project's descriptive work. Range school status and Gender, both significant in Model 2, do not hold up independently once accomplishment patterns are considered.
 
-**Model fit:** AIC = 24,360.5 (down from 25,020.8 in Model 2); Δdeviance = 676.34 on 8 df, p \< .001; n = 20,198 across all three models.
+Model fit: AIC = 24,524.7 (down from 25,004.2 in Model 2); Δdeviance = 493.50 on 7 df, p \< .001; n = 20,198 across all three models.
 
 ```{r}
 model3_dv1 <- glm(
@@ -592,15 +573,15 @@ model3_dv1 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
+    sat.taken +
     ap.exam + 
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
+    cte.achievement,
   family = binomial,
   data = master.model
 )
@@ -613,6 +594,8 @@ nobs(model3_dv1)
 AIC(model1_dv1)
 AIC(model2_dv1)
 AIC(model3_dv1)
+
+summary(model3_dv1)
 
 exp(cbind(OR = coef(model3_dv1), confint(model3_dv1)))
 
@@ -662,36 +645,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 4: Demographics + High School Characteristics + High School Accomplishments + Postsecondary Completion
 
-This model adds postsecondary completion (`ps.grad`: completed a postsecondary credential, yes/no) to the full specification. The analytic sample remains n = 20,198.
+This model adds ps.grad (completed a postsecondary credential, regardless of location or credential level) to the full specification (n = 20,198).
 
-**Postsecondary completion is strongly and cleanly associated with sustained regional workforce attachment.**
+**Postsecondary completion shows a strong, independent positive effect on regional attachment.** OR ≈ 1.72 (CI: 1.601-1.837, p \< .001) — graduates who completed a postsecondary credential show 72% higher odds of sustained regional workforce attachment than those who did not, holding up fully alongside every other variable in the model.
 
-- **Completed a postsecondary credential:** approximately 67% higher odds of sustained regional attachment relative to non-completers (OR ≈ 1.67, CI: 1.561–1.791).
+**English learner status remains fully robust — essentially unchanged from Model 3.** OR ≈ 0.741 (CI: 0.629-0.872, p \< .001), identical in magnitude to Model 3. Completing this final block confirms the finding holds regardless of what else is controlled for: this is not an artifact of any single specification choice.
 
-Unlike the collinearity problems encountered when `highest.cred.level` and `ps.grad.location` were both entered into this full-cohort model, `ps.grad` produces a single, precisely estimated, unambiguous effect — completing any postsecondary credential meaningfully raises the odds of sustained regional attachment, independent of demographics, high school context, and academic preparation.
+**Race/Ethnicity mostly holds, with one exception worth flagging.** Black (OR ≈ 0.44, p \< .001), Hispanic (OR ≈ 0.62, p = .002), and Asian/Pacific Islander graduates (OR ≈ 0.69, p = .015) all remain significant. American Indian graduates fall to marginal significance here (OR ≈ 0.88, p = .059) — the first time in this sequence this group hasn't cleared the conventional threshold, though the direction and magnitude are consistent with every prior model.
 
-**Several accomplishments-block coefficients strengthen once postsecondary completion is added, rather than attenuating:**
+**The ACT crossover pattern strengthens further.** Taking the ACT now shows an even larger positive association (OR ≈ 4.18, p \< .001), while the composite-score penalty among test-takers also strengthens slightly (OR ≈ 0.928 per point, p \< .001) — consistent with high-scoring ACT-takers disproportionately completing credentials outside the region, which `ps.grad` doesn't fully capture (it measures completion, not location).
 
-- **Took the ACT:** OR increases from 3.86 (Model 3) to 4.20 — larger, not smaller, once completion is controlled for.
-- **ACT composite score:** OR moves from 0.932 to 0.924 — the negative gradient among test-takers strengthens slightly.
-- **Special Education status strengthens further** (OR ≈ 0.804, compared to OR ≈ 0.763 in Model 3).
-- **Economic status strengthens further** (OR ≈ 0.910, compared to OR ≈ 0.846 in Model 3).
+**Range school status fades to fully non-significant** (OR ≈ 1.01, p = .833), continuing its decline from Model 2 (significant) through Model 3 (marginal) to here (essentially null) — its apparent regional- attachment advantage appears to run almost entirely through the combination of accomplishment patterns and postsecondary completion, not independently.
 
-This pattern — effects strengthening rather than attenuating once completion is added — suggests these variables' associations with regional attachment are not simply proxies for "did they finish college," but operate at least partly through separate pathways (e.g., CTE/technical engagement, ACT engagement) independent of completion itself.
+**Gender returns to significance** (OR ≈ 0.90, p = .001), reversing its marginal status in Model 3. **Economic status and Special Education status both remain significant**, though Economic status weakens somewhat (OR ≈ 0.93, p = .029, down from p \< .001 in Model 3).
 
-**PSEO participation remains non-significant** (OR ≈ 0.960, CI: 0.895–1.029), continuing the pattern from Model 3.
-
-**Most other predictors remain stable:**
-
-- Gender, all four Race/Ethnicity categories, Dem_Desc, average local wages, AP exam, CTE achievement, and the MCA-missingness flag all remain significant, similar in direction and magnitude to Model 3.
-- Average local unemployment rate remains non-significant.
-- English learner status remains non-significant (OR ≈ 0.900, CI: 0.759–1.065), consistent with the interpretation that the MCA-missingness flag — not English learner status itself — is carrying the relevant signal.
+**Average local wages strengthens further** (OR ≈ 2.50, CI: 1.290-4.843, p = .007) — now the most significant it has been anywhere in this sequence. PSEO participation remains non-significant (OR ≈ 0.98, p = .653). SAT, AP exam, and CTE achievement all remain essentially unchanged from Model 3 in direction and magnitude.
 
 **Overall Interpretation**
 
-Adding postsecondary completion significantly improves model fit (likelihood ratio test: Δdeviance = 218.01, df = 1, p \< .001; AIC decreases from 24,360.5 to 24,144.5). Completing a postsecondary credential of any kind is a strong, independent, and cleanly estimated predictor of sustained regional workforce attachment — confirming, at the simplest level, that postsecondary completion itself matters for regional workforce outcomes. This model deliberately does not distinguish credential type or completion location; that finer-grained question — which mattered most in the earlier exploratory work, and which the original combined model could not answer cleanly due to collinearity — is addressed separately in DV1b, restricted to postsecondary completers, where credential level and graduation location can be evaluated without competing against a "did they complete at all" question that this model already answers.
+Adding postsecondary completion significantly improves model fit (likelihood ratio test: Δdeviance = 239.06, df = 1, p \< .001; AIC decreases from 24,524.7 to 24,287.6), confirming `ps.grad` as a large, genuine, independent predictor of regional attachment — unsurprising, but worth confirming rather than assuming. Across the full four-model sequence, **English learner status and the Black, Hispanic, and Asian/Pacific Islander disparities are the standout findings: all are confirmed as robust, independent predictors of reduced regional attachment that survive full control for demographics, geography, academic accomplishments, and postsecondary completion.** American Indian graduates' disadvantage weakens to marginal only in the final, fullest model. The ACT crossover pattern (protective participation, adverse score-among-takers) replicates and strengthens throughout, and CTE achievement is confirmed as the clearest "stay local" signal in the entire analysis.
 
-**Model fit:** AIC = 24,144.5 (down from 24,360.5 in Model 3); Δdeviance = 218.01 on 1 df, p \< .001; n = 20,198 across all four models.
+Model fit: AIC = 24,287.6 (down from 24,524.7 in Model 3); Δdeviance = 239.06 on 1 df, p \< .001; n = 20,198 across all four models.
 
 ```{r}
 model4_dv1 <- glm(
@@ -702,15 +676,15 @@ model4_dv1 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
+    sat.taken +
     cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing +
     ps.grad,
   family = binomial,
   data = master.model
@@ -725,6 +699,8 @@ AIC(model1_dv1)
 AIC(model2_dv1)
 AIC(model3_dv1)
 AIC(model4_dv1)
+
+summary(model4_dv1)
 
 exp(cbind(OR = coef(model4_dv1), confint(model4_dv1)))
 
@@ -775,19 +751,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## DV1a Summary: What Predicts Sustained Regional Workforce Attachment (Full Cohort)
 
-Across all four model blocks, a consistent story emerged:
+Across all four models, this analysis identifies a clear, consistent set of demographic, academic, and postsecondary predictors of sustained regional workforce attachment.
 
-**Demographics matter, but not in isolation.** Race/ethnicity produced the largest disparities of any demographic factor (Black and Asian/Pacific Islander graduates showing the steepest gaps), and these held up across every model. Economic status, by contrast, was unstable — significant, then not, then significant again — as high school context and academic variables entered, suggesting its apparent effect is partly explained by *where* students grow up and what they engage with in school, not economic status acting alone.
+**English learner status is a robust, independent predictor of reduced regional attachment.** OR remains at approximately 0.74 from the point academic accomplishments enter the model (Model 3) through the fully specified model (Model 4), significant at every stage (p \< .001). English learners show roughly 26% lower odds of sustained regional workforce attachment than non-English-learners, and this holds up fully alongside demographics, geography, academic engagement, and postsecondary completion — this is one of the clearest and most consequential findings in this analysis.
 
-**Geography matters from the start.** District type (rural vs. urban) showed a clean, consistent, increasing gradient in every model: more urban districts predicted higher odds of regional attachment, and this never washed out as other blocks were added.
+**Race/Ethnicity disparities are largely confirmed as independent, with one exception in the final model.** Black, Hispanic, and Asian/Pacific Islander graduates all show significantly lower odds of sustained regional attachment across every model in the sequence. Black graduates show the largest and most stable disparity (OR ≈ 0.43–0.47 throughout). American Indian graduates show a consistent, significant disadvantage through Model 3, weakening to marginal significance (p = .059) only once postsecondary completion is added in the final model — the sole exception to an otherwise uniform pattern of independent racial disparities.
 
-**Two distinct, opposing pathways emerged in high school accomplishments.** CTE engagement consistently predicted *staying* regional. ACT and AP engagement told a more complex story: simply taking the ACT predicted staying, but scoring well on it predicted leaving — a crossover suggesting it's specifically high academic achievement, not college-prep engagement itself, that pulls graduates away from the region. PSEO never showed an independent effect once these other variables were in the model.
+**Career and Technical Education engagement is the clearest "stay local" signal identified anywhere in this analysis.** CTE Concentrators/ Completers show 41–42% higher odds of sustained regional attachment, and CTE Participants show 21–22% higher odds, holding stable and significant across every model from the point CTE enters the specification.
 
-**Postsecondary completion is a strong, standalone predictor.** Completing any credential raised the odds of regional attachment by about 67%, and unlike the credential-type/location breakdown, this variable produced a clean estimate with no collinearity problems.
+**ACT participation and score show a genuine crossover pattern, not a single consistent effect.** Simply taking the ACT is associated with substantially higher odds of regional attachment (OR growing from ≈ 3.77 to ≈ 4.18 across Models 3–4), while among test-takers, each additional composite point is associated with lower odds (OR ≈ 0.93–0.94 per point). Together, these describe a threshold effect: engaging with the ACT itself is not a signal of leaving the region — it is specifically high-scoring ACT engagement that predicts departure, most plausibly reflecting pursuit of selective, non-regional postsecondary options.
 
-**One important data-quality finding shaped every model:** English learner status looked like a significant predictor early on, but that effect was substantially explained by an unrelated pattern — English learners are far more likely to have a missing MCA Math score, and it's the *missingness itself*, not English learner status, that carries the real signal. That distinction matters for how any disparity findings involving English learners should be framed going forward.
+**SAT participation and AP exam participation both point in the opposite direction from CTE, consistent with a dual-pathway structure to these outcomes.** SAT-takers show 60% lower odds of regional attachment (OR ≈ 0.40) — the largest single reduction of any accomplishment variable — identifying a small, highly mobile subgroup oriented toward postsecondary options outside Minnesota. AP exam participation shows a smaller but consistent reduction (OR ≈ 0.71). PSEO participation, despite a strong bivariate relationship with this outcome, does not hold up as an independent predictor once ACT, SAT, AP, and CTE are considered together.
 
-**The one open question this model deliberately left aside:** *what kind* of credential and *where* it was earned. That's DV1b's job — the same postsecondary-completion population, but able to actually separate credential depth from completion location without the collinearity problem that broke the original combined model.
+**Postsecondary completion is confirmed as a large, independent predictor of regional attachment.** Graduates who completed a postsecondary credential show 72% higher odds of sustained regional attachment (OR ≈ 1.72, p \< .001) — a substantial effect that holds up fully alongside every academic accomplishment and demographic variable already in the model.
+
+**Economic status and Special Education status both strengthen once academic accomplishments are considered, rather than being explained by them.** Both remain significant, independent predictors of reduced regional attachment through the final model, with Special Ed showing the larger and more stable effect of the two (OR ≈ 0.77–0.82).
+
+**Gender shows a real but modest and somewhat inconsistent relationship with regional attachment**, remaining significant in Models 1, 2, and 4, but falling to marginal significance in Model 3 — its relationship with this outcome appears to be partly, though not entirely, connected to academic accomplishment patterns.
+
+**District classification (Dem_Desc) is a stable, significant predictor throughout.** Graduates from Urban/town/rural mix and Town/rural mix districts consistently show higher odds of regional attachment than those from Entirely rural districts, holding steady across all four models.
+
+**Range school status and local wage/unemployment conditions tell a more complicated story.** Range school status is significant on its own (Model 2) but fades to non-significance once academic accomplishments and postsecondary completion are considered (Models 3–4) — its apparent advantage appears to run through students' accomplishment and completion patterns rather than operating independently. Average local wages, by contrast, shows no relationship on its own (Model 2) but becomes significant and strengthens once accomplishments and completion are added (OR ≈ 2.20–2.50 in Models 3–4) — a real, if modest, effect that only emerges once other factors are accounted for. Average local unemployment rate remains non-significant throughout.
 
 <br>
 
@@ -798,9 +782,9 @@ The first thing I need to do is setup my dataset for modeling. I'm going to crea
 ```{r}
 
 model_vars_dv1b <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                      "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam",
-                      "cte.achievement", "MCA.M", "highest.cred.level", "ps.grad.location", "grad.year.5")
+                      "english.learner", "Dem_Desc", "range.school", "avg.wages.pct.state", "avg.unemp.rate",
+                      "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam", "sat.taken",
+                      "cte.achievement", "highest.cred.level", "ps.grad.location", "grad.year.5")
 
 master.model.dv1b <- master %>%
   filter(grad.year > 2010,
@@ -820,53 +804,31 @@ master.model.dv1b <- master %>%
          english.learner = as_factor(english.learner),
          english.learner = fct_relevel(english.learner, "0"),
          Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
          pseo.participant = as.character(pseo.participant),
          pseo.participant = fct_relevel(pseo.participant, "0"),
          took.ACT = fct_relevel(took.ACT, "No"),
          ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
          ap.exam = as_factor(ap.exam),
          ap.exam = fct_relevel(ap.exam, "0"),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
          cte.achievement = fct_relevel(cte.achievement, "No CTE"),
          highest.cred.level = ifelse(highest.cred.level %in% c("Associate degree", "Less than Associate Degree"), "Associate or lesser credential", as.character(highest.cred.level)),
          highest.cred.level = fct_relevel(highest.cred.level, "Bachelor degree or higher"),
          ps.grad.location = ifelse(ps.grad.location == "PS grad Region", "PS grad Region", "PS grad outside region"),
          ps.grad.location = fct_relevel(ps.grad.location, "PS grad outside region")) 
 
-levels(master.model.dv1b$highest.cred.level)
-levels(master.model.dv1b$ps.grad.location)
-
-
-nrow(master.model.dv1b)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
-
 kable(head(master.model.dv1b))
 
 kable(names(master.model.dv1b))
-
-#Check for missingness
-
-model_vars_check_dv1b <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                      "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                      "cte.achievement", "MCA.M.filled", "MCA.M.missing", "highest.cred.level", "ps.grad.location", "grad.year.5")
-
-colSums(is.na(master.model.dv1b[, model_vars_check_dv1b]))
-nrow(master.model.dv1b)
-table(master.model.dv1b$grad.year.5)
-table(master.model.dv1b$highest.cred.level)
-table(master.model.dv1b$ps.grad.location)
-table(master.model.dv1b$RaceEthnicity)
-table(master.model.dv1b$Dem_Desc)
-
-
 ```
 
 We now have `r comma(nrow(master.model))` individuals to model with `r ncol(master.model) - 2` variables not including `grad.year.5`.
 
 <br>
 
-# Modeling: Sustained WF - Region (college completers only) 
+# Modeling: Sustained WF - Region (college completers only)
 
 ## Model 1: Demographics
 
@@ -959,31 +921,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 2: Demographics + High School Characteristics
 
-This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 8,500.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline, restricted to postsecondary completers (n = 8,500).
 
-**District classification (Dem_Desc) again shows the strongest and clearest gradient among the new variables**, and the effect is larger here than in DV1a.
+**District classification and Range school status both show strong, significant relationships with regional attachment among completers.** Graduates from Town/rural mix districts show 46% higher odds of regional attachment than those from Entirely rural districts (OR ≈ 1.46, p = .001), and Urban/town/rural mix districts show 79% higher odds (OR ≈ 1.79, p \< .001). Range school graduates show 32% higher odds than non-Range graduates (OR ≈ 1.32, p \< .001) — a larger effect than seen in the full- population model, suggesting Range school status matters even more once the population is narrowed to completers specifically.
 
-- **Town/rural mix districts:** approximately 46% higher odds of sustained regional attachment relative to entirely rural districts (OR ≈ 1.46).
-- **Urban/town/rural mix districts:** approximately 87% higher odds relative to entirely rural districts (OR ≈ 1.87).
+**Several demographic effects point in the opposite direction from the full-population model — this is a real, substantively important divergence, not noise.** Economic status shows *higher*, not lower, odds of regional attachment among completers (OR ≈ 1.22, p \< .001). Special Education status also shows *higher* odds (OR ≈ 1.39, p = .002). American Indian graduates show *higher* odds relative to White graduates (OR ≈ 1.35, p = .015) — the opposite direction from the full-population finding. Among graduates who complete a postsecondary credential, economic disadvantage, Special Ed status, and American Indian identity are associated with *staying* in the region, not leaving it — a meaningfully different story than the one told by the full graduating population.
 
-Both effects are somewhat larger in magnitude than the corresponding DV1a coefficients (1.30 and 1.61), suggesting district context matters even more strongly for regional attachment among students who complete college than it does across the full cohort.
+**English learner status shows no relationship with regional attachment in this population** (OR ≈ 1.08, CI: 0.730-1.584, p = .707) — a real non-finding worth stating plainly rather than glossing over. Whatever drives English learners' reduced regional attachment in the full population does not appear to operate among those who go on to complete a postsecondary credential.
 
-**Local economic conditions again fail to show an independent effect**, consistent with every other model in this project.
+**Black and Asian/Pacific Islander graduates remain significant, consistent in direction with the full-population model.** Asian/Pacific Islander graduates show substantially lower odds of regional attachment (OR ≈ 0.48, p = .003), and Black graduates show lower odds as well (OR ≈ 0.57, p = .027). Hispanic graduates fall just short of conventional significance here (OR ≈ 0.60, p = .069).
 
-- **Average local wages:** not statistically significant (OR ≈ 1.91, CI: 0.747–4.847, crosses 1).
-- **Average local unemployment rate:** not statistically significant (OR ≈ 1.03, CI: 0.987–1.065, crosses 1).
+**Local wages and unemployment rate remain non-significant**, consistent with the full-population model (wages: OR ≈ 1.06, p = .903; unemployment: OR ≈ 1.03, p = .193).
 
-**Demographic effects from Model 1 persist essentially unchanged**, including the reversed-direction findings noted previously:
-
-- Economic status, Special Education status, and American Indian graduates all remain significant with the same *positive* direction found in Model 1 — economically disadvantaged, Special Ed, and American Indian completers continue to show higher odds of regional attachment than their counterparts.
-- Gender, Asian/Pacific Islander, Black, and Hispanic graduates remain significant (or near-significant, for Hispanic) in the same negative direction as Model 1.
-- English learner status remains non-significant, consistent with Model 1.
+**Gender remains significant and stable** (OR ≈ 0.90, p = .022), close to its Model 1 magnitude.
 
 **Overall Interpretation**
 
-Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 55.90, df = 4, p \< .001; AIC decreases from 11,147.3 to 11,099.4). As in every other model in this project, district rural/urban classification is the one high-school-characteristic variable with a clear, robust, independent relationship to regional attachment — and its effect is notably stronger in this completers-only population than across the full cohort. Local wage and unemployment measures continue to show no independent effect once other variables are accounted for. The demographic reversals identified in Model 1 (economic status, Special Ed, American Indian) persist unchanged, reinforcing that these are not artifacts of the demographics-only specification.
+Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 79.97, df = 5, p \< .001; AIC decreases from 11,147.3 to 11,077.4). **The standout finding here is that several demographic patterns reverse direction once the population is restricted to postsecondary completers** — economic disadvantage, Special Ed status, and American Indian identity all predict *higher* odds of regional attachment among completers, the opposite of their relationship in the full graduating population. English learner status, a significant predictor in the full population, shows no relationship at all here. District classification and Range school status are confirmed as strong, independent predictors, both larger in magnitude than in the full- population model.
 
-**Model fit:** AIC = 11,099.4 (down from 11,147.3 in Model 1); Δdeviance = 55.90 on 4 df, p \< .001; n = 8,500 in both models.
+Model fit: AIC = 11,077.4 (down from 11,147.3 in Model 1); Δdeviance = 79.97 on 5 df, p \< .001; n = 8,500 in both models.
 
 ```{r}
 model2_dv1b <- glm(
@@ -994,6 +950,7 @@ model2_dv1b <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate,
   family = binomial,
@@ -1006,6 +963,8 @@ nobs(model2_dv1b)
 
 AIC(model1_dv1b)
 AIC(model2_dv1b)
+
+summary(model2_dv1b)
 
 exp(cbind(OR = coef(model2_dv1b), confint(model2_dv1b)))
 
@@ -1054,39 +1013,33 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 8,500.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the specification, restricted to postsecondary completers (n = 8,500).
 
-**CTE achievement continues to anchor students regionally, with a larger effect than in DV1a.**
+**Four demographic effects that were significant in Model 2 lose significance here — a real, substantive finding, not noise.** Economic status (OR ≈ 1.04, p = .524), Special Education status (OR ≈ 0.98, p = .856), American Indian graduates (OR ≈ 1.23, p = .099), and **Gender** (OR ≈ 0.98, p = .732) all fall to non-significance. This suggests their apparent "stay local" advantage among completers is substantially explained by patterns of academic engagement — likely lower ACT/AP participation and stronger CTE involvement — rather than these characteristics operating independently of how students engaged academically in high school.
 
-- **CTE Concentrators/Completers:** approximately 40% higher odds of sustained regional attachment relative to no CTE involvement (OR ≈ 1.40).
-- **CTE Participants:** approximately 22% higher odds (OR ≈ 1.22).
+**Range school status follows the same pattern.** Its Model 2 effect (OR ≈ 1.32, significant) fades to clearly non-significant here (OR ≈ 1.08, p = .202) — Range schools' apparent regional-attachment advantage among completers appears to run through accomplishment patterns rather than operating independently, echoing what was found in the full-population model.
 
-**AP exam participation is again associated with lower odds of regional attachment** (OR ≈ 0.70), consistent with DV1a.
+**English learner status remains non-significant, consistent with Model 2.** OR ≈ 0.87 (p = .497) — among postsecondary completers specifically, English learner status shows no relationship with regional attachment at any stage of this model sequence, a genuine contrast with the full-population finding.
 
-**ACT shows the same crossover pattern found throughout this project.**
+**District classification remains strong and significant.** Town/rural mix (OR ≈ 1.41, p = .004) and Urban/town/rural mix (OR ≈ 1.88, p \< .001) districts both continue to show meaningfully higher odds of regional attachment than Entirely rural districts, essentially unchanged from Model 2.
 
-- **Took the ACT:** OR ≈ 4.34 — the largest "took ACT" effect seen in any model so far.
-- **ACT composite score (among test-takers):** OR ≈ 0.92 per point — a stronger negative gradient than in DV1a (0.92–0.93 range there too, essentially consistent).
+**Black graduates remain significant; Asian/Pacific Islander and Hispanic graduates both fall just short of conventional significance.** Black graduates show OR ≈ 0.47 (p = .004). Asian/Pacific Islander graduates show OR ≈ 0.62 (p = .057) and Hispanic graduates show OR ≈ 0.61 (p = .086) — both worth treating as fragile, trending findings rather than confirmed effects at this stage, not as settled non-findings either.
 
-**Several previously significant demographic effects lose significance once accomplishments are added — this is the most important development in this block.**
+**The ACT crossover pattern replicates precisely, matching the full- population model.** Taking the ACT shows a large, highly significant, positive relationship with regional attachment (OR ≈ 4.28, p \< .001), while among test-takers, each additional composite point is associated with significantly lower odds (OR ≈ 0.917 per point, p \< .001) — the same threshold effect: engagement itself is protective, while high performance specifically predicts leaving the region.
 
-- **Economic status is no longer significant** (OR ≈ 1.04, CI: 0.931–1.155, crosses 1) — the positive effect found in Models 1–2 among completers washes out once academic/college-prep engagement is accounted for.
-- **Special Education status is no longer significant** (OR ≈ 0.95, CI: 0.758–1.193, crosses 1) — same pattern; the Model 1–2 reversal does not hold once accomplishments enter.
-- **American Indian graduates are no longer significant** (OR ≈ 1.22, CI: 0.954–1.564, crosses 1), though the direction remains positive.
+**SAT and AP exam participation both show a significant negative relationship with regional attachment, consistent with the full- population model.** SAT participation OR ≈ 0.47 (p \< .001), AP exam OR ≈ 0.72 (p \< .001).
 
-This is a meaningful pattern: the demographic reversals that looked so striking in Models 1–2 (economic disadvantage and Special Ed predicting *higher* regional attachment among completers) appear to be substantially explained by *how* these students engage with high school accomplishments — particularly CTE and ACT patterns — rather than being independent effects of economic or Special Ed status themselves.
+**CTE achievement continues to anchor students regionally, both categories clearly significant.** Concentrators/Completers (OR ≈ 1.38, p \< .001) and Participants (OR ≈ 1.21, p \< .001) both remain significant and essentially unchanged from what CTE showed in the full-population model.
 
-**The MCA-missingness flag, strongly significant throughout DV1a, is not significant here.** OR ≈ 0.54 (CI: 0.268–1.055) — a large point estimate but a wide interval that crosses 1. Given the much smaller sample in this completers-only population, this is most likely a power issue rather than evidence the underlying pattern disappears among completers — but it's worth naming rather than glossing over, since it's a genuine departure from every DV1a model.
+**PSEO participation remains non-significant** (OR ≈ 0.98, p = .699), consistent with the full-population finding that PSEO's bivariate influence doesn't hold up once other accomplishment variables are considered.
 
-**Race/Ethnicity for Black, Asian/Pacific Islander, and Hispanic graduates** remain significant (Hispanic just barely, p ≈ .049 based on the CI boundary) and in the same negative direction as Models 1–2.
-
-**District classification (Dem_Desc) and average local wages** remain significant, similar in magnitude to Model 2. Average unemployment rate remains non-significant. English learner status and PSEO participation remain non-significant, consistent with prior models.
+**Local wages just misses conventional significance** (OR ≈ 2.74, p = .051) — close enough to the threshold to watch rather than dismiss, but not a confirmed effect at this stage. Average unemployment rate remains clearly non-significant (p = .864).
 
 **Overall Interpretation**
 
-Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 442.73, df = 8, p \< .001; AIC decreases from 11,099.4 to 10,672.7) — again the largest improvement of any block. The central finding here is that the demographic reversals unique to this completers-only population (economic status, Special Ed, American Indian) do not survive once high school accomplishments are accounted for — suggesting these groups' apparent regional-attachment advantage among completers operates through their patterns of CTE, ACT, and other accomplishment engagement, not through economic or Special Ed status directly. Academic achievement (ACT score) and college-preparatory engagement continue to show the same "engagement helps, high achievement pulls away" crossover pattern found throughout this project, and CTE continues to show the strongest, most consistent regional-anchoring effect of any single predictor examined so far.
+Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 433.58, df = 7, p \< .001; AIC decreases from 11,077.4 to 10,657.8). **The standout finding in this model is that economic status, Special Education status, American Indian identity, Gender, and Range school status — all significant, positive predictors of regional attachment in Model 2 — lose significance once academic accomplishments are considered.** This suggests their apparent advantage among completers runs substantially through how these groups engage academically in high school, not through the characteristics themselves. English learner status remains a clean, consistent null throughout this entire sequence — a genuinely different story from the full-population model, where it was one of the most robust findings. The ACT crossover, CTE's anchoring effect, and SAT/AP's pull-away pattern all replicate the full-population model closely.
 
-**Model fit:** AIC = 10,672.7 (down from 11,099.4 in Model 2); Δdeviance = 442.73 on 8 df, p \< .001; n = 8,500 across all three models.
+Model fit: AIC = 10,657.8 (down from 11,077.4 in Model 2); Δdeviance = 433.58 on 7 df, p \< .001; n = 8,500 in both models.
 
 ```{r}
 model3_dv1b <- glm(
@@ -1097,15 +1050,15 @@ model3_dv1b <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
+    sat.taken +
+    cte.achievement,
   family = binomial,
   data = master.model.dv1b
 )
@@ -1118,6 +1071,8 @@ nobs(model3_dv1b)
 AIC(model1_dv1b)
 AIC(model2_dv1b)
 AIC(model3_dv1b)
+
+summary(model3_dv1b)
 
 exp(cbind(OR = coef(model3_dv1b), confint(model3_dv1b)))
 
@@ -1167,34 +1122,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 4: Demographics + High School Characteristics + High School Accomplishments + Highest Credential Earned
 
-This model adds highest credential level attained (Associate degree or less, relative to Bachelor's degree or higher) to the specification. The analytic sample remains n = 8,500.
+This model adds highest.cred.level (Associate or lesser credential vs. Bachelor's degree or higher) to the full specification, restricted to postsecondary completers (n = 8,500).
 
-**Credential level shows a large, cleanly estimated, and precisely significant effect — the strongest single addition to this model sequence so far.**
+**Credential level is a strong, independent predictor of regional attachment — the standout finding in this block.** Graduates whose highest credential is an Associate degree or less show 78% higher odds of sustained regional attachment than those with a Bachelor's degree or higher (OR ≈ 1.78, CI: 1.594-1.985, p \< .001). This is intuitive and substantively important: sub-baccalaureate credentials are disproportionately tied to programs and occupations rooted in the local and regional economy, while Bachelor's-level credentials open doors to opportunities that pull graduates further afield.
 
-- **Associate degree or less credential:** approximately 78% higher odds of sustained regional attachment relative to a Bachelor's degree or higher (OR ≈ 1.78, CI: 1.595–1.987).
+**Took-ACT's effect shrinks meaningfully once credential level is added, though it remains large and highly significant.** OR drops from ≈ 4.28 in Model 3 to ≈ 3.25 here (p \< .001 in both) — credential level is absorbing some, but not all, of what ACT participation was capturing, which makes sense given how closely ACT engagement tracks with pursuing a Bachelor's degree specifically.
 
-Unlike DV1a's earlier exploratory attempt to include both credential level and graduation location in a full-cohort model — where collinearity between the two variables produced wide, unstable confidence intervals — this coefficient is precise and unambiguous. In a population restricted to completers only, credential level behaves as a well-defined, independently interpretable predictor: shorter, typically more technical credentials are associated with substantially higher odds of remaining regionally employed than four-year degrees.
+**Local wages becomes significant for the first time in this sequence.** OR ≈ 2.90 (CI: 1.042-8.020, p = .041) — a real, if modest, positive relationship between local wage strength and regional attachment once credential level is accounted for, crossing the threshold it had only approached in Model 3 (p = .051).
 
-**Several accomplishments-block coefficients shift once credential level is added, suggesting some of their effect operates through eventual credential choice:**
+**All demographic effects that were non-significant in Model 3 remain non-significant here.** Gender (p = .629), economic status (p = .559), Special Education status (p = .435), English learner status (p = .572), American Indian graduates (p = .132), and Range school status (p = .314) all continue to show no independent relationship with regional attachment among completers, once credential level joins academic accomplishments in the model.
 
-- **Took the ACT:** OR drops from 4.34 (Model 3) to 3.37 — still large and highly significant, but a real attenuation, consistent with ACT-taking being associated with pursuing (and eventually completing) a Bachelor's degree.
-- **Average local wages:** strengthens slightly (OR ≈ 2.98, up from 2.84 in Model 3).
-- **Gender becomes non-significant** (OR ≈ 1.02, CI: 0.926–1.123, crosses 1) — a change from Model 3, where it was borderline non-significant already; now clearly centered near 1.
+**Black graduates remain the clearest significant Race/Ethnicity finding** (OR ≈ 0.51, p = .009). Asian/Pacific Islander (OR ≈ 0.65, p = .092) and Hispanic graduates (OR ≈ 0.62, p = .095) both remain in the same marginal, trending-but-unconfirmed territory as Model 3.
 
-**Most other predictors remain stable relative to Model 3:**
-
-- Race/Ethnicity effects persist for Black, Asian/Pacific Islander, and Hispanic graduates (Hispanic remains borderline, CI: 0.327–1.021).
-- District classification (Dem_Desc), AP exam, and CTE achievement remain significant with similar magnitudes to Model 3.
-- Economic status, Special Education status, American Indian ethnicity, English learner status, PSEO participation, and average unemployment rate all remain non-significant, consistent with Model 3.
-- MCA Math (filled score) remains non-significant; the MCA-missingness flag remains non-significant in this population, as in Model 3, though the point estimate continues to suggest a meaningful effect (OR ≈ 0.62) that this sample size cannot precisely confirm.
+**District classification, ACT composite score, SAT, AP exam, and CTE achievement all remain significant and essentially stable** in direction and magnitude from Model 3 — none of these relationships are meaningfully altered by adding credential level to the specification.
 
 **Overall Interpretation**
 
-Adding credential level significantly improves model fit (likelihood ratio test: Δdeviance = 106.03, df = 1, p \< .001; AIC decreases from 10,672.7 to 10,568.7). This is the clearest evidence yet, anywhere in this project, that credential depth itself — independent of where it was earned — has a real, substantial, and precisely estimable relationship with sustained regional workforce attachment. Associate-or-less credential holders show notably higher odds of regional attachment than Bachelor's degree holders, even after accounting for demographics, high school context, and academic/college-prep engagement.
+Adding highest credential earned significantly improves model fit (likelihood ratio test: Δdeviance = 105.85, df = 1, p \< .001; AIC decreases from 10,657.8 to 10,553.9), confirming credential level as a large, genuine, independent predictor of regional attachment among completers — sub-baccalaureate credential holders are substantially more likely to stay regionally attached than Bachelor's-degree holders. English learner status remains a clean null throughout this entire sequence, consistent with every prior model in the completers-only population. The demographic effects that lost significance in Model 3 — economic status, Special Ed, American Indian identity, Gender, and Range school status — remain non-significant here as well, reinforcing that their earlier relationships with regional attachment ran through academic engagement and credential level, not through the characteristics themselves.
 
-The critical remaining question is whether this effect survives once graduation location is also considered — since DV1a's earlier exploratory work found that a very similar credential effect (in that case, in a mixed population including non-completers) was substantially explained away once location was added. Model 5 will test whether that same explanation holds in this cleaner, completers-only population, or whether credential level here reflects something more than just a proxy for regional completion.
-
-**Model fit:** AIC = 10,568.7 (down from 10,672.7 in Model 3); Δdeviance = 106.03 on 1 df, p \< .001; n = 8,500 across all four models.
+Model fit: AIC = 10,553.9 (down from 10,657.8 in Model 3); Δdeviance = 105.85 on 1 df, p \< .001; n = 8,500 in both models.
 
 ```{r}
 model4_dv1b <- glm(
@@ -1205,15 +1151,15 @@ model4_dv1b <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
+    sat.taken +
     cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing +
     highest.cred.level,
   family = binomial,
   data = master.model.dv1b
@@ -1228,6 +1174,8 @@ AIC(model1_dv1b)
 AIC(model2_dv1b)
 AIC(model3_dv1b)
 AIC(model4_dv1b)
+
+summary(model4_dv1b)
 
 exp(cbind(OR = coef(model4_dv1b), confint(model4_dv1b)))
 
@@ -1276,29 +1224,31 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 5: Full Specification — Demographics + High School Characteristics + High School Accomplishments + Highest Credential Earned + Graduation Location 
+## Model 5: Full Specification — Demographics + High School Characteristics + High School Accomplishments + Highest Credential Earned + Graduation Location
 
-This model adds postsecondary graduation location (region vs. outside region) to the full specification. The analytic sample remains n = 8,500.
+Model 5: Full Specification — Add Postsecondary Graduation Location
 
-**This is the central result of the DV1b sequence, and it resolves the question DV1a's exploratory work left open: in a clean, completers-only population, credential level and graduation location both retain strong, independent, statistically significant effects.**
+This model adds ps.grad.location (graduated regionally vs. graduated elsewhere in Minnesota) to the full specification — the final model in this sequence (n = 8,500).
 
-- **Graduated within the region:** approximately 225% higher odds of sustained regional attachment relative to graduating outside the region (OR ≈ 3.25, CI: 2.924–3.618) — by a wide margin, the largest effect of any predictor in this entire model sequence.
-- **Associate degree or less credential:** approximately 39% higher odds relative to a Bachelor's degree or higher (OR ≈ 1.39, CI: 1.238–1.557) — attenuated from Model 4 (OR ≈ 1.78), but still clearly significant, not washed out.
+**Graduating from a postsecondary institution within the region is by far the single largest predictor in this entire analysis.** OR ≈ 3.22 (CI: 2.893-3.582, p \< .001) — graduates who completed their credential regionally show more than triple the odds of sustained regional workforce attachment compared to those who completed elsewhere in Minnesota. This dwarfs every other effect in the model, demographic or otherwise.
 
-**Several accomplishments-block coefficients attenuate further once location is added, consistent with location absorbing some of their effect:**
+**Several accomplishment-block and credential effects shrink substantially once graduation location is added — a real, expected consequence, not a data problem.** Highest credential level's effect nearly halves (OR ≈ 1.40, down from ≈ 1.78 in Model 4, still p \< .001) — much of the "sub-baccalaureate credentials predict regional attachment" story turns out to run through *where* those credentials were earned, since associate-level and technical programs are disproportionately regional. Took-ACT's effect continues shrinking as well (OR ≈ 2.40, down from ≈ 3.25 in Model 4, still p \< .001), and SAT participation's negative effect weakens too (OR ≈ 0.61, up from ≈ 0.48, p = .013) — some of what these variables were capturing was proximity to a regional postsecondary option, now measured directly.
 
-- **Took the ACT:** OR drops from 3.37 (Model 4) to 2.35 — a substantial further attenuation, suggesting ACT-taking is associated with pursuing postsecondary education outside the region.
-- **AP exam:** OR moves from 0.706 to 0.776, still significant but closer to 1.
-- **Dem_Desc (Urban/town/rural mix):** OR drops from 1.98 to 1.53, and the Town/rural mix category loses significance entirely (OR ≈ 1.19, CI: 0.934–1.512, crosses 1) — geography's high-school-level effect is partly, though not entirely, absorbed by where students complete their postsecondary education.
-- **Average local wages** loses significance for the first time in this sequence (OR ≈ 1.22, CI: 0.441–3.390, crosses 1).
+**Hispanic graduates become significant here — the first time in this entire completers-only sequence.** OR ≈ 0.55 (CI: 0.304-0.970, p = .044), crossing into significance from marginal status in every prior model. Black graduates remain significant (OR ≈ 0.51, p = .012). Asian/Pacific Islander graduates remain just short of significance (OR ≈ 0.61, p = .061). American Indian graduates remain clearly non-significant (OR ≈ 1.11, p = .410).
 
-**Race/Ethnicity, English learner, PSEO, MCA Math, and economic/Special Ed status** remain in patterns consistent with Model 4 — no new reversals, though American Indian graduates lose significance here (OR ≈ 1.11, CI: 0.860–1.436).
+**Dem_Desc's Town/rural mix effect disappears once graduation location is controlled — a genuine reversal worth flagging plainly.** OR ≈ 1.18 (p = .185), down from significant in Models 2 through 4. Urban/town/rural mix remains significant (OR ≈ 1.53, p \< .001), but the Town/rural mix advantage appears to run largely through where its graduates attend postsecondary, not through district classification independently.
+
+**Local wages loses significance entirely.** OR ≈ 1.43 (CI: 0.500-4.076, p = .504), down from significant in Model 4 (p = .041) — the apparent wage effect there appears to have been substantially explained by graduation location rather than reflecting an independent local-economy relationship.
+
+**Range school status, Gender, economic status, Special Education status, and English learner status all remain non-significant**, consistent with every model from Model 3 onward. English learner status in particular remains a clean, stable null across this entire five-model sequence — the clearest contrast with the full-population model, where it was one of the most robust findings.
+
+**CTE achievement, ACT composite score, and AP exam all remain significant**, each somewhat attenuated in magnitude from Model 4 but still clearly holding up in the same direction.
 
 **Overall Interpretation**
 
-Adding graduation location produces the largest single-block improvement in fit across the entire DV1b sequence (likelihood ratio test: Δdeviance = 497.84, df = 1, p \< .001; AIC decreases from 10,568.7 to 10,072.8). This cleaner completers-only model shows that **both credential depth and graduation location matter independently** for sustained regional workforce attachment — location shows by far the larger effect, but credential level is not simply a stand-in for it. This nuances the earlier finding that "geography dominates credential type": geography dominates, but credential type still carries a real, additional, non-redundant signal once the comparison is done in the population where both variables are actually well-defined.
+Adding postsecondary graduation location produces the largest single improvement in model fit anywhere in this sequence (likelihood ratio test: Δdeviance = 487.14, df = 1, p \< .001; AIC decreases from 10,553.9 to 10,068.8). **Graduation location is confirmed as the dominant predictor of regional workforce attachment among completers** — larger than demographics, academic accomplishments, or credential level combined. Its addition substantially explains away the apparent effects of credential level, Town/rural mix district classification, and local wages, confirming those were partly proxies for where students completed their education rather than fully independent relationships. Black and, newly, Hispanic graduates are confirmed as facing significantly lower odds of regional attachment even after full control for where and what they studied. English learner status remains a robust null throughout the entire completers-only sequence — a fundamentally different finding from the full-population model, where it was among the strongest and most consequential predictors identified.
 
-**Model fit:** AIC = 10,072.8 (down from 10,568.7 in Model 4); Δdeviance = 497.84 on 1 df, p \< .001; n = 8,500 across all five models.
+Model fit: AIC = 10,068.8 (down from 10,553.9 in Model 4); Δdeviance = 487.14 on 1 df, p \< .001; n = 8,500 across all five models.
 
 ```{r}
 model5_dv1b <- glm(
@@ -1309,15 +1259,15 @@ model5_dv1b <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
+    sat.taken +
     cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing +
     highest.cred.level +
     ps.grad.location,
   family = binomial,
@@ -1335,6 +1285,8 @@ AIC(model2_dv1b)
 AIC(model3_dv1b)
 AIC(model4_dv1b)
 AIC(model5_dv1b)
+
+summary(model5_dv1b)
 
 exp(cbind(OR = coef(model5_dv1b), confint(model5_dv1b)))
 
@@ -1381,23 +1333,31 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 vif(model5_dv1b)
 ```
 
-**A variance inflation factor (VIF) check confirms Model 5 is statistically stable.** Both postsecondary variables show low VIFs — `highest.cred.level` (1.47) and `ps.grad.location` (1.10) — well below the range that would indicate meaningful collinearity. This contrasts sharply with the earlier exploratory attempt to combine these two variables in a mixed population spanning completers and non-completers (DV1a), where VIFs of 11.75 and 4.96 indicated severe collinearity and made individual coefficients unreliable. Restricting the model to postsecondary completers resolves this: credential depth and graduation location are genuinely distinct, independently estimable mechanisms in this population, and Model 5 is retained as the final specification for this outcome.
-
 <br>
 
 ## DV1b Summary: What Predicts Sustained Regional Workforce Attachment (College Completers Only)
 
-Across all five model blocks, a distinct picture emerged — one that both confirms and refines the DV1a findings.
+Across all five models, this analysis identifies a fundamentally different pattern of predictors than the full-population model — the same outcome, but a genuinely distinct story once the population is restricted to students who completed a postsecondary credential.
 
-**Demographic effects reverse direction among completers.** Economic disadvantage, Special Education status, and American Indian ethnicity all predicted *lower* regional attachment in DV1a's full-cohort model, but predicted *higher* attachment here in Models 1–2. That reversal did not hold up, though — once high school accomplishments were added in Model 3, all three effects lost significance, indicating the apparent "completer advantage" for these groups was really being carried by their patterns of CTE and ACT engagement, not by economic or Special Ed status directly. Race/Ethnicity disparities for Black and Asian/Pacific Islander graduates, by contrast, persisted in the same negative direction as DV1a across every model, suggesting those gaps are not explained away by completion status or engagement patterns.
+**Postsecondary graduation location is the single largest predictor identified in this entire analysis, full population included.** Graduates who completed their credential within the region show more than triple the odds of sustained regional workforce attachment compared to those who completed elsewhere in Minnesota (OR ≈ 3.22, p \< .001) — an effect larger than any demographic, academic, or credential-level variable in either model sequence.
 
-**District geography matters even more among completers than across the full cohort**, showing a stronger urban/rural gradient than in DV1a, though it attenuated somewhat once graduation location was added — as expected, since where a student's high school sits and where they complete college are related.
+**English learner status shows no relationship with regional attachment at any stage of this sequence — a clean, stable null across all five models.** This stands in sharp contrast to the full-population model, where English learner status was one of the most robust and consequential findings identified. Among students who go on to complete a postsecondary credential, whatever drives reduced regional attachment for English learners in the broader population does not appear to operate.
 
-**The ACT/CTE "dual pathways" pattern held throughout.** CTE engagement consistently predicted staying regional; ACT engagement showed the same crossover as DV1a — taking the test predicted staying, but scoring well on it predicted leaving.
+**Highest credential level is a strong, independent predictor, though much of its apparent strength runs through where that credential was earned.** Sub-baccalaureate credential holders show substantially higher odds of regional attachment than Bachelor's-degree holders throughout (OR ≈ 1.78 before graduation location is considered, OR ≈ 1.40 once it is) — a real, independent effect that survives full specification, but one that is partly explained by the fact that associate-level and technical credentials are disproportionately regional.
 
-**The central finding: credential depth and graduation location are both real, independent predictors — not one masquerading as the other.** This is the key result the whole DV1a/DV1b split was designed to test. In DV1a's mixed population, combining these two variables caused severe collinearity (VIFs near 12 and 5) and washed out credential level's significance entirely. Here, in a population restricted to completers, both variables came back clean (VIFs of 1.47 and 1.10) and both remained significant in the final model: graduating within the region showed by far the largest effect of any predictor in this project (OR ≈ 3.25), while completing an associate-or-less credential still showed a real, independent effect on top of that (OR ≈ 1.39).
+**Race/Ethnicity findings differ meaningfully by specification, and one group's disparity only emerges in the fully specified model.** Black graduates show a consistent, significant disadvantage across every model (OR ≈ 0.47–0.57). Hispanic graduates remain marginal through four models before becoming significant only in the full specification (OR ≈ 0.55, p = .044) — their disadvantage among completers is real but only detectable once location, credential level, and full academic engagement are jointly accounted for. Asian/Pacific Islander graduates remain consistently at the edge of significance throughout (never quite crossing the threshold in the fully controlled models). American Indian graduates tell the most distinct story of any group: they show significantly *higher* odds of regional attachment in the demographics-only and characteristics models — the opposite direction from the full-population finding — before fading to non-significance once academic accomplishments enter the specification.
 
-**Refined takeaway for the report:** "geography dominates credential type" still holds as the headline finding, but it's not the whole story — credential depth adds real, additional explanatory power once location is properly accounted for in the right population. This nuance was only visible because DV1b isolated the completers-only question rather than forcing DV1a's full-cohort model to answer it.
+**Economic status, Special Education status, and Gender all show a positive relationship with regional attachment early in the sequence, then lose significance once academic accomplishments are considered.** All three are significant, protective predictors in the demographics-only and characteristics models, but none hold up independently once ACT, SAT, AP, and CTE engagement are in the model — their apparent advantage among completers appears to run through how these groups engage academically in high school, not through the characteristics themselves.
+
+**The ACT crossover pattern replicates precisely, and mirrors the full- population finding exactly.** Taking the ACT is associated with substantially higher odds of regional attachment throughout the sequence, while among test-takers, each additional composite point predicts lower odds — the same threshold effect found in the full population: engagement itself is protective, while high-scoring engagement specifically predicts leaving the region. Both effects shrink somewhat once credential level and graduation location are added, as those variables absorb some of what ACT participation and score were capturing.
+
+**SAT participation and AP exam participation both show a consistent negative relationship with regional attachment**, weakening somewhat by the full specification but remaining significant throughout — consistent with the full-population finding that these measures identify a subgroup oriented toward postsecondary and career options outside the region.
+
+**CTE achievement continues to anchor students regionally across every model in this sequence**, holding significant and stable in both category levels from the point it enters the specification.
+
+**PSEO participation shows no relationship with regional attachment at any stage** — consistent with the full-population model, where PSEO's strong bivariate influence likewise failed to hold up once other academic accomplishment variables were considered.
+
+**District classification and local economic conditions are substantially explained by graduation location.** Urban/town/rural mix district classification remains significant throughout, but Town/rural mix loses significance once graduation location is added — its apparent advantage runs largely through where its graduates attend postsecondary. Local wages briefly becomes significant once credential level is added, then loses significance entirely once graduation location is controlled for — the wage effect was substantially a proxy for regional postsecondary attendance, not an independent local-economy relationship. Local unemployment rate and Range school status remain non-significant from the point academic accomplishments enter the model onward.
 
 <br>
 
@@ -1405,13 +1365,11 @@ Across all five model blocks, a distinct picture emerged — one that both confi
 
 This dataset is going to be the entire master set not filtered by post-secondary completion. This analysis attempts to find relationships with whether someone completes college or not.
 
-**Race/Ethnicity data completeness.** Race/Ethnicity is recorded as "Unknown" for a substantial and rapidly increasing share of the most recent cohorts (5.6% in 2020, rising to 83–87% in 2021–2023), reflecting a data-completeness lag rather than a meaningful "unknown" category. The postsecondary completion model (DV2) is therefore restricted to 2011–2019 cohorts, one year tighter than the 2011–2020 window used elsewhere, to avoid this artifact.
-
 ```{r}
 model_vars_dv2<- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                     "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                     "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam",
-                     "cte.achievement", "MCA.M", "ps.grad")
+                     "english.learner", "Dem_Desc", "range.school", "avg.wages.pct.state", "avg.unemp.rate",
+                     "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam", "sat.taken",
+                     "cte.achievement", "ps.grad")
 
 master.model.dv2 <- master %>%
   filter(grad.year > 2010,
@@ -1430,30 +1388,17 @@ master.model.dv2 <- master %>%
          english.learner = as_factor(english.learner),
          english.learner = fct_relevel(english.learner, "0"),
          Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
          pseo.participant = as.character(pseo.participant),
          pseo.participant = fct_relevel(pseo.participant, "0"),
          took.ACT = fct_relevel(took.ACT, "No"),
          ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
          ap.exam = as_factor(ap.exam),
          ap.exam = fct_relevel(ap.exam, "0"),
          cte.achievement = fct_relevel(cte.achievement, "No CTE"))
 
-#Check for missingness
-
-
-model_vars_check_dv2 <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                           "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                           "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                           "cte.achievement", "MCA.M.filled", "MCA.M.missing", "ps.grad")
-
-nrow(master.model.dv2)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
-
-colSums(is.na(master.model.dv2[, model_vars_check_dv2]))
-table(master.model.dv2$ps.grad)
-table(master.model.dv2$RaceEthnicity)
-table(master.model.dv2$Dem_Desc)
 
 ```
 
@@ -1507,6 +1452,8 @@ model1_dv2 <- glm(
 nobs(model1_dv2)
 AIC(model1_dv2)
 
+summary(model1_dv2)
+
 exp(cbind(
   OR = coef(model1_dv2),
   confint(model1_dv2)
@@ -1554,23 +1501,23 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2: Demographics + High School Characteristics 
+## Model 2: Demographics + High School Characteristics
 
-This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 26,327.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline (n = 26,327).
 
-**This is the weakest high-school-characteristics block found anywhere in this project so far, both in terms of individual coefficients and overall model improvement.**
+**Range school status shows a strong, significant positive relationship with postsecondary completion — a genuinely different pattern than seen in the workforce-attachment models.** Range graduates show 34% higher odds of completing a postsecondary credential than non-Range graduates (OR ≈ 1.34, CI: 1.254-1.438, p \< .001). In the regional-attachment sequences, Range status was about staying local; here, it's associated with a genuinely different outcome — completing postsecondary education at all, regardless of where.
 
-- **District classification (Dem_Desc):** only partially significant. Urban/town/rural mix districts show marginally higher odds of completion relative to entirely rural districts (OR ≈ 1.18, CI: 1.046–1.341), but Town/rural mix districts do not reach significance (OR ≈ 1.10, CI: 0.976–1.244, crosses 1) — a much weaker and less consistent gradient than the clean, increasing pattern found in every DV1a/DV1b model.
-- **Average local wages:** not significant (OR ≈ 0.87, CI: 0.497–1.509, crosses 1).
-- **Average local unemployment rate:** technically significant but only barely (OR ≈ 1.024, CI: 1.003–1.045, p just under .05) — the weakest and least substantively meaningful significant effect found in any model in this project.
+**Local wages and unemployment rate both become significant here, and in directions that tell a coherent "opportunity cost" story.** Higher local wages relative to the state average are associated with *lower* odds of postsecondary completion (OR ≈ 0.53, CI: 0.299-0.930, p = .027) — where local jobs pay comparatively well, the incentive to pursue further education appears to weaken. Higher local unemployment is associated with *higher* odds of completion (OR ≈ 1.03 per unit, CI: 1.005-1.048, p = .015) — where local job prospects are weaker, students appear more likely to pursue a credential instead. This is the first model in this entire project where both local economic indicators show a real, intuitive, significant relationship simultaneously.
 
-**Demographic effects from Model 1 are essentially unchanged** — Gender, all Race/Ethnicity categories, economic status, Special Education status, and English learner status all remain significant, in the same direction and nearly identical magnitude to Model 1.
+**District classification shows only a marginal relationship here.** Urban/town/rural mix districts show higher odds of completion that just misses conventional significance (OR ≈ 1.13, p = .053), and Town/rural mix is clearly non-significant (OR ≈ 1.10, p = .129) — a much weaker relationship than Dem_Desc showed for regional workforce attachment.
+
+**All five demographic effects from Model 1 remain essentially unchanged in direction and magnitude.** Economic status (OR ≈ 0.36), Special Education status (OR ≈ 0.26), English learner status (OR ≈ 0.67), and the Race/Ethnicity pattern (American Indian, Black, and Hispanic all significantly lower than White; Asian/Pacific Islander non-significant) all hold steady from Model 1 — none of the demographic disparities in postsecondary completion are explained by district context, Range school status, or local economic conditions.
 
 **Overall Interpretation**
 
-Adding high school characteristics produces only a marginal improvement in model fit (likelihood ratio test: Δdeviance = 10.35, df = 4, p = .035; AIC essentially unchanged, from 32,334.4 to 32,332.0) — by a wide margin the weakest block improvement found anywhere in this project. Unlike every DV1a/DV1b model, where district classification showed a strong, clean, monotonic relationship with the outcome, here the relationship is inconsistent (one category significant, one not) and the local economic variables show essentially no relationship at all. This suggests that *where* a student's high school is located has little bearing on *whether* they complete a postsecondary credential — geography's importance in this project appears to operate much more strongly on *where* graduates end up working and *where* they complete college, not on the basic decision of whether to complete at all. Given the marginal significance (p = .035) and negligible AIC change, this block should be interpreted cautiously and not built into a strong narrative claim.
+Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 81.68, df = 5, p \< .001; AIC decreases from 32,334.4 to 32,262.7). **Range school status and local economic conditions are the standout findings in this block** — Range status is associated with substantially higher odds of completing a credential at all (a different relationship than its "stay local" role in the workforce- attachment models), and local wages and unemployment both show coherent, significant relationships with completion for the first time in this project, consistent with an opportunity-cost interpretation. District classification, by contrast, shows only a weak, largely non-significant relationship with completion — geography matters far less here than it does for where graduates end up working.
 
-**Model fit:** AIC = 32,332.0 (down from 32,334.4 in Model 1); Δdeviance = 10.35 on 4 df, p = .035; n = 26,327 in both models.
+Model fit: AIC = 32,262.7 (down from 32,334.4 in Model 1); Δdeviance = 81.68 on 5 df, p \< .001; n = 26,327 in both models.
 
 ```{r}
 model2_dv2 <- glm(
@@ -1581,6 +1528,7 @@ model2_dv2 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate,
   family = binomial,
@@ -1592,6 +1540,8 @@ nobs(model2_dv2)
 
 AIC(model1_dv2)
 AIC(model2_dv2)
+
+summary(model2_dv2)
 
 exp(cbind(
   OR = coef(model2_dv2),
@@ -1645,39 +1595,29 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 26,327.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification (n = 26,327).
 
-**This is the largest single-block improvement in model fit found anywhere in this project.** Adding high school accomplishments here produces a far bigger jump than in any DV1a or DV1b model (Δdeviance = 2,578.62, compared to a maximum of \~695 in any other block across this entire analysis) — unsurprising given that these are the variables most directly tied to whether a student pursues and completes postsecondary education in the first place.
+**English learner status loses significance entirely — a clean, real null, not an artifact of any missing-data control.** OR ≈ 0.90 (CI: 0.749-1.080, p = .264), down from significant in Models 1 and 2. Unlike the regional-attachment models, where English learner status held up as one of the most robust findings, its relationship with overall postsecondary completion appears to run substantially through academic engagement and preparation — this is a genuinely different mechanism for a genuinely different outcome, not a repeat of any prior masking concern, since no missingness-based control is anywhere in this specification.
 
-**PSEO participation shows its strongest, cleanest effect anywhere in this project.**
+**PSEO participation shows the strongest accomplishment-block effect in this model, and it makes clear mechanical sense.** OR ≈ 1.65 (CI: 1.557-1.757, p \< .001) — PSEO participants show 65% higher odds of completing a postsecondary credential, unsurprising given PSEO directly provides college credit while still in high school.
 
-- **PSEO participation:** approximately 60% higher odds of postsecondary completion relative to non-participants (OR ≈ 1.60) — a far larger and more consistent effect than PSEO showed in any DV1a/DV1b model, where it was never statistically significant. This makes substantive sense: PSEO is itself a form of early postsecondary enrollment, so its strong relationship with eventual completion is more direct here than its relationship with downstream regional employment.
+**ACT shows a crossover pattern, but in the opposite configuration from the regional-attachment models — a genuinely different, DV-specific pattern worth stating on its own terms.** Simply taking the ACT is associated with *lower* odds of completion (OR ≈ 0.56, p \< .001), while among test-takers, each additional composite point is associated with *higher* odds (OR ≈ 1.08 per point, p \< .001). Read together: students who take the ACT but don't perform strongly on it appear less likely to complete a credential, while strong performers complete at higher rates — a different mechanism than the "engagement is protective, high scores predict leaving" pattern found for regional attachment.
 
-**ACT again shows a crossover pattern, but the direction reverses relative to DV1a/DV1b.**
+**SAT, AP exam, and CTE Concentrator/Completer status are all non- significant here** — a sharp contrast with the regional-attachment models, where these were some of the strongest predictors. SAT (OR ≈ 1.04, p = .715) and AP exam (OR ≈ 1.04, p = .434) show no relationship with overall completion, and CTE Concentrator/Completer status is likewise non-significant (OR ≈ 1.04, p = .270). CTE Participant status shows a small but significant positive effect (OR ≈ 1.09, p = .010).
 
-- **Took the ACT:** OR ≈ 0.62 — students who took the ACT show *lower* odds of completion than those who never took it, once ACT score itself is accounted for.
-- **ACT composite score (among test-takers):** OR ≈ 1.07 per point — higher scores predict higher odds of completion.
+**Asian/Pacific Islander graduates become significant here for the first time in this sequence.** OR ≈ 0.77 (CI: 0.605-0.987, p = .039) — this group showed no significant relationship with completion in Models 1 or 2, but a real, if modest, disparity emerges once academic accomplishments are accounted for.
 
-This is the opposite crossover from the regional-employment models, where taking the ACT predicted staying regional but high scores predicted leaving. Here, taking the ACT alone (without a strong score) is actually associated with lower completion odds than never testing at all, while a strong score reverses that. Read together: for postsecondary completion, it is specifically *ACT performance*, not mere participation, that predicts finishing college — low-scoring test-takers appear to fare worse than non-test-takers, a pattern worth flagging carefully rather than summarizing as "ACT participation helps."
+**Economic status, Special Education status, and the other Race/Ethnicity disparities all remain significant, though substantially attenuated.** Economic status (OR ≈ 0.48, down from ≈ 0.36) and Special Ed status (OR ≈ 0.48, down from ≈ 0.26) both weaken considerably but remain among the strongest predictors in the model — academic accomplishments explain a meaningful share of these disparities, but far from all of it. American Indian (OR ≈ 0.69), Black (OR ≈ 0.66), and Hispanic graduates (OR ≈ 0.68) all remain significantly less likely to complete a credential, each somewhat attenuated from Models 1-2 but clearly independent of academic engagement.
 
-**MCA Math and its missingness flag again tell a two-part story, and again point toward the same population-level pattern found throughout this project.**
+**Local wages and unemployment rate both strengthen further**, continuing the pattern from Model 2 (wages: OR ≈ 0.46, p = .012; unemployment: OR ≈ 1.12 per unit, p \< .001) — the opportunity-cost story continues to hold up as academic accomplishments are added.
 
-- **MCA Math (filled score):** OR ≈ 1.13 per point — a real, significant, positive relationship with completion.
-- **MCA Math missingness:** OR ≈ 0.38 — students with a missing MCA Math score show substantially lower odds of completion, a large and highly significant effect, consistent in direction and similar in magnitude to every DV1a/DV1b model.
-
-**English learner status flips from significant to non-significant**, mirroring the exact pattern found in DV1a/DV1b: OR moves from ≈0.66 (Models 1–2) to ≈1.09, not significant (CI: 0.900–1.307, crosses 1). This reinforces the project's now well-established finding that a meaningful share of the apparent English-learner disparity is actually explained by the MCA-missingness pattern, not English learner status independently.
-
-**CTE achievement shows a notably weaker relationship with completion than with regional employment.** CTE Concentrator/Completer status is not significant here (OR ≈ 1.05, CI: 0.974–1.125, crosses 1) — a sharp contrast to every DV1a/DV1b model, where this was one of the most consistent positive predictors. CTE Participant status is significant but modest (OR ≈ 1.08). This makes sense given CTE's role throughout this project: it appears to anchor graduates regionally and into the workforce directly, rather than specifically driving postsecondary *completion*.
-
-**Local economic characteristics strengthen notably in this block** — average local unemployment rate becomes clearly significant (OR ≈ 1.13, up from a marginal 1.024 in Model 2), and district classification's Town/rural mix category reaches significance for the first time (OR ≈ 1.13, CI: 0.997–1.291, borderline).
-
-**Race/Ethnicity, economic status, Special Education status, and Gender** all remain significant and directionally consistent with Models 1–2, with economic status and Special Ed status both attenuating somewhat (moving from OR ≈ 0.36/0.27 to OR ≈ 0.48/0.51) once academic engagement is accounted for — suggesting some, but not all, of their effect on completion operates through high school accomplishments.
+**Range school status and Gender both remain strong and significant**, Range school strengthening further (OR ≈ 1.56, up from ≈ 1.34) and Gender attenuating somewhat but remaining large (OR ≈ 1.58, down from ≈ 1.75).
 
 **Overall Interpretation**
 
-Adding high school accomplishments dramatically improves model fit (likelihood ratio test: Δdeviance = 2,578.62, df = 8, p \< .001; AIC decreases from 32,332.0 to 29,769.4) — by far the strongest block effect found in this entire project, consistent with the intuitive expectation that academic engagement and achievement variables are the most proximate predictors of postsecondary completion itself. PSEO participation emerges as a standout predictor here in a way it never was for regional employment outcomes, while CTE — the strongest and most consistent predictor throughout the regional-employment models — plays a much smaller role in completion specifically. This divergence is a genuinely useful finding for the report: PSEO and CTE appear to serve different functions in the overall pathway story, with PSEO driving completion and CTE driving regional anchoring and workforce attachment.
+Adding high school accomplishments produces the largest improvement in model fit of any block in this sequence (likelihood ratio test: Δdeviance = 2,491.21, df = 7, p \< .001; AIC decreases from 32,262.7 to 29,785.5) — substantially larger than the corresponding block in either regional-attachment model. **English learner status is the standout finding here: it emerges as a clean, genuine null once academic accomplishments are considered — a fundamentally different result from its robust, independent role in the regional-attachment models.** PSEO participation is confirmed as the single strongest accomplishment predictor of completion, mechanically consistent with what PSEO actually provides. The ACT crossover reappears but in a different configuration than seen elsewhere in this project, and SAT/AP/CTE-Concentrator status — all strong predictors of regional attachment — show little to no independent relationship with completion itself. Economic status and Special Ed status remain the two largest demographic predictors in the entire model, substantially attenuated but far from explained away.
 
-**Model fit:** AIC = 29,769.4 (down from 32,332.0 in Model 2); Δdeviance = 2,578.62 on 8 df, p \< .001; n = 26,327 across all three models.
+Model fit: AIC = 29,785.5 (down from 32,262.7 in Model 2); Δdeviance = 2,491.21 on 7 df, p \< .001; n = 26,327 in both models.
 
 ```{r}
 model3_dv2 <- glm(
@@ -1688,16 +1628,16 @@ model3_dv2 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
-  family = binomial,
+    sat.taken +
+    cte.achievement,
+    family = binomial,
   data = master.model.dv2
 )
 
@@ -1708,6 +1648,8 @@ nobs(model3_dv2)
 AIC(model1_dv2)
 AIC(model2_dv2)
 AIC(model3_dv2)
+
+summary(model3_dv2)
 
 exp(cbind(
   OR = coef(model3_dv2),
@@ -1761,19 +1703,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## DV2 Summary: What Predicts Postsecondary Completion (All High School Graduates)
 
-Across all three model blocks, a pattern emerged that both parallels and meaningfully diverges from the regional-employment findings (DV1a/DV1b).
+Across all three models, this analysis identifies a distinct pattern of predictors for postsecondary completion — related to, but genuinely different from, what predicts regional workforce attachment.
 
-**Economic status and Special Education status are the strongest demographic predictors found anywhere in this project.** Both showed dramatically larger effects on completion (60–70% lower odds) than they ever showed on regional employment outcomes — consistent with completion being a more direct, proximate consequence of the barriers these statuses represent. Race/Ethnicity gaps were present across nearly every category and persisted through every block.
+**English learner status is a clean, genuine null once academic accomplishments are considered — the standout finding of this sequence.** Significant in the demographics-only and characteristics models (OR ≈ 0.66–0.67), English learner status loses significance entirely once PSEO, ACT, SAT, AP, and CTE engagement are added (OR ≈ 0.90, p = .264). This is a fundamentally different result from the regional-attachment models, where English learner status held up as one of the most robust, independent findings in the full-population sequence. For postsecondary completion specifically, whatever reduces English learners' odds appears to run through academic engagement and preparation, not through English learner status independently.
 
-**Gender shows a striking reversal from the regional-employment models.** Female graduates completed postsecondary education at substantially higher rates (OR ≈ 1.6–1.7 throughout), the opposite direction from DV1a/DV1b, where women showed modestly *lower* odds of regional workforce attachment. This suggests completion and regional attachment are driven by at least partially distinct mechanisms for gender specifically — women complete college more often, but are somewhat less likely to remain regionally employed afterward.
+**Economic status and Special Education status are the two largest demographic predictors identified anywhere in this project, and remain substantial even after significant attenuation.** Both show extremely large effects in the demographics-only model (economic status OR ≈ 0.36; Special Ed OR ≈ 0.27) that weaken considerably once academic accomplishments are added (OR ≈ 0.48 for both) — academic engagement explains a meaningful share of these disparities, but far from all of it. Both remain among the strongest predictors in the fully specified model.
 
-**High school geography barely matters for completion — a sharp contrast to every other outcome in this project.** District classification showed only a weak, inconsistent relationship, and local wage/unemployment measures showed little to no meaningful effect. This suggests geography's importance in this project operates primarily on *where* graduates end up working and *where* they complete college, not on the basic decision of whether to complete at all.
+**Race/Ethnicity disparities are confirmed as independent and robust, with one group's disparity only emerging once academic accomplishments are considered.** American Indian (OR ≈ 0.69), Black (OR ≈ 0.66), and Hispanic graduates (OR ≈ 0.68) all remain significantly less likely to complete a postsecondary credential across the full model sequence, each somewhat attenuated from the demographics-only model but clearly independent of academic engagement. Asian/Pacific Islander graduates show no significant relationship in the demographics-only or characteristics models, but become significant once accomplishments are added (OR ≈ 0.77, p = .039) — a disparity only detectable in the fully specified model.
 
-**PSEO and CTE appear to serve different functions in the overall pathway.** PSEO participation showed its strongest and cleanest effect anywhere in this project (OR ≈ 1.60) — unsurprising, since PSEO is itself a form of early postsecondary enrollment. CTE, by contrast — the single most consistent predictor of regional workforce attachment throughout DV1a/DV1b — showed little relationship with completion itself. Together, this points toward a genuinely useful distinction for the report: PSEO drives completion, while CTE drives regional anchoring and workforce attachment, and the two shouldn't be treated as interchangeable "college-readiness" measures.
+**PSEO participation is the strongest single accomplishment predictor of completion, and the relationship is directly mechanical.** OR ≈ 1.65 — PSEO participants show 65% higher odds of completing a postsecondary credential, consistent with PSEO providing actual college credit while students are still in high school.
 
-**ACT tells a different story here than in the regional-employment models.** For completion, it's specifically ACT *performance* that matters — low-scoring test-takers actually showed lower completion odds than students who never tested at all, the reverse pattern from DV1a/DV1b, where merely taking the ACT (regardless of score) predicted staying regional.
+**ACT shows a crossover pattern, but in a different configuration than found in the regional-attachment models.** Simply taking the ACT is associated with *lower* odds of completion (OR ≈ 0.56), while among test-takers, each additional composite point predicts *higher* odds (OR ≈ 1.08 per point) — students who engage with the ACT but don't score well appear less likely to complete a credential, while strong performers complete at higher rates. This is a genuinely different mechanism from the regional-attachment pattern, where ACT engagement itself was protective and high scores predicted leaving the region.
 
-**The English learner/MCA-missingness pattern replicated exactly as seen throughout this project.** English learner status appeared significant early on but lost significance once MCA Math (and its missingness flag) entered the model — reinforcing that this masking pattern is a genuine, recurring feature of the data, not a one-time artifact specific to the employment outcome.
+**SAT participation, AP exam participation, and CTE Concentrator/ Completer status all show little to no independent relationship with completion** — a sharp contrast with the regional-attachment models, where these were some of the strongest predictors. CTE Participant status shows a small but significant positive effect (OR ≈ 1.09).
+
+**Range school status is a strong, independent, and strengthening predictor of completion — a genuinely different role than it plays for regional attachment.** OR grows from ≈ 1.34 (Model 2) to ≈ 1.56 (Model 3) — in the regional-attachment sequences, Range status was about staying local; here, it's associated with completing a credential at all, regardless of location.
+
+**Local wages and local unemployment rate both show a coherent opportunity-cost relationship with completion, strengthening as accomplishments are added.** Higher local wages relative to the state average predict lower odds of completion (OR ≈ 0.46 in the final model) — where local jobs pay well, the incentive to pursue further education appears to weaken. Higher local unemployment predicts higher odds of completion (OR ≈ 1.12 per unit) — where local job prospects are weaker, students appear more likely to pursue a credential instead.
+
+**Gender remains a large, stable, positive predictor throughout**, attenuating somewhat once accomplishments are added (OR ≈ 1.58 in the final model, down from ≈ 1.75) but remaining one of the strongest effects in the entire specification.
+
+**District classification (Dem_Desc) shows only a weak, largely non- significant relationship with completion** — a notably different pattern than seen for regional workforce attachment, where district context was one of the clearer, more consistent findings.
 
 <br>
 
@@ -1783,9 +1733,9 @@ Now we are focusing just on college completers. Since we saw that where someone 
 
 ```{r}
 model_vars_dv3<- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                   "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                   "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam",
-                   "cte.achievement", "MCA.M", "ps.grad.location")
+                   "english.learner", "Dem_Desc", "range.school", "avg.wages.pct.state", "avg.unemp.rate",
+                   "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam", "sat.taken",
+                   "cte.achievement", "ps.grad.location")
 
 master.model.dv3 <- master %>%
   filter(grad.year > 2010,
@@ -1806,30 +1756,17 @@ master.model.dv3 <- master %>%
          english.learner = as_factor(english.learner),
          english.learner = fct_relevel(english.learner, "0"),
          Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+    range.school = fct_relevel(range.school, "Non-range school"),
+    
          pseo.participant = as.character(pseo.participant),
          pseo.participant = fct_relevel(pseo.participant, "0"),
          took.ACT = fct_relevel(took.ACT, "No"),
          ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
-         ap.exam = as_factor(ap.exam),
+    sat.taken = as_factor(sat.taken),
+    sat.taken = fct_relevel(sat.taken, "0"),
+    ap.exam = as_factor(ap.exam),
          ap.exam = fct_relevel(ap.exam, "0"),
          cte.achievement = fct_relevel(cte.achievement, "No CTE"))
-
-#Check for missingness
-
-
-model_vars_check_dv3 <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                          "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                          "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                          "cte.achievement", "MCA.M.filled", "MCA.M.missing", "ps.grad.location")
-
-nrow(master.model.dv3)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
-
-colSums(is.na(master.model.dv3[, model_vars_check_dv3]))
-table(master.model.dv3$ps.grad.location)
-table(master.model.dv3$RaceEthnicity)
-table(master.model.dv3$Dem_Desc)
 
 ```
 
@@ -1921,29 +1858,23 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2: Demographics + High School Characteristics 
+## Model 2: Demographics + High School Characteristics
 
-This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 12,606.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline, restricted to postsecondary completers (n = 12,606).
 
-**High school characteristics show by far their strongest and most consistent effects anywhere in this project in this model.**
+**District classification shows by far the largest effects found anywhere in this project.** Graduates from Town/rural mix districts show more than double the odds of completing postsecondary education within the region compared to Entirely rural districts (OR ≈ 2.06, p \< .001), and Urban/town/rural mix districts show an even larger effect (OR ≈ 2.36, p \< .001). This makes strong practical sense for this specific outcome — where a student's high school district sits relative to regional postsecondary institutions plausibly shapes where they end up attending far more directly than it shapes broader employment outcomes.
 
-- **District classification (Dem_Desc):** a large, clean, monotonic gradient — Town/rural mix districts show approximately double the odds of completing within the region relative to entirely rural districts (OR ≈ 2.06), and Urban/town/rural mix districts show more than 2.5 times the odds (OR ≈ 2.56). These are the largest Dem_Desc effects found in any model across this entire project.
-- **Average local wages:** highly significant and very large (OR ≈ 6.56, CI: 3.056–14.054) — the strongest wage effect found anywhere in this project by a wide margin.
-- **Average local unemployment rate:** significant, modest in size (OR ≈ 1.06 per unit).
+**Range school status is also a strong, independent predictor.** Range graduates show 66% higher odds of completing within the region (OR ≈ 1.66, p \< .001) — consistent with Range communities' documented ties to specific regional institutions and programs.
 
-This makes strong substantive sense: unlike postsecondary completion overall (DV2), where geography showed almost no relationship, *where* a student completes their postsecondary education is directly and powerfully shaped by their high school's local economic and geographic context — students from more urban, higher-wage areas are dramatically more likely to complete regionally, plausibly reflecting the location of regional postsecondary institutions themselves.
+**Local wages and unemployment rate are both significant here, in the same direction found for DV2 (postsecondary completion overall) — an opportunity-cost-adjacent story, though the wage direction differs from what might be expected.** Higher local wages predict *higher* odds of completing within the region (OR ≈ 2.56, p = .018) — unlike DV2, where higher wages predicted *lower* odds of completing at all. Once a student has decided to pursue postsecondary education, stronger local wages may make staying regional more attractive rather than acting as a disincentive to enroll in the first place. Higher unemployment also predicts higher odds of regional completion (OR ≈ 1.07 per unit, p \< .001), consistent with the same opportunity-cost logic seen in DV2.
 
-**Demographic effects from Model 1 persist and strengthen slightly.**
-
-- Economic status and Special Education status both remain highly significant and slightly larger than in Model 1 (OR ≈ 1.72 and 1.85, respectively, up from 1.65 and 1.89 — SpecialEd essentially unchanged, economic status modestly stronger).
-- American Indian and Asian/Pacific Islander graduates remain significant, in the same direction and similar magnitude to Model 1.
-- Gender, Black, Hispanic, and English learner status remain non-significant or unchanged in direction from Model 1.
+**All five demographic effects remain essentially unchanged from Model 1.** Economic status (OR ≈ 1.68), Special Education status (OR ≈ 1.87), and American Indian graduates (OR ≈ 1.45) all remain significant and stable, confirming these groups are more likely to complete regionally once they complete at all. Asian/Pacific Islander graduates remain significantly less likely to complete regionally (OR ≈ 0.66). Black, Hispanic, and English learner status all remain non-significant, unchanged from Model 1.
 
 **Overall Interpretation**
 
-Adding high school characteristics produces a large and highly significant improvement in model fit (likelihood ratio test: Δdeviance = 203.6, df = 4, p \< .001; AIC decreases from 16,994.1 to 16,798.5). This is a striking contrast to DV2, where the equivalent block barely moved the model at all — confirming that geography's role in this project is concentrated specifically in *where* postsecondary education happens, not *whether* it happens. The scale of the district-type and local-wage effects here — the largest found in any model in this entire analysis — reinforces that local economic and geographic context is the dominant force shaping regional postsecondary completion, even before high school accomplishments are considered.
+Adding high school characteristics substantially improves model fit (likelihood ratio test: Δdeviance = 316.98, df = 5, p \< .001; AIC decreases from 16,994.1 to 16,687.1) — the largest improvement from this block seen in any model sequence in this project. **District classification is the standout finding, with effects roughly double the size seen for regional workforce attachment** — geography's relationship with *where* a student completes their credential is substantially stronger than its relationship with where they end up working afterward. Range school status and local economic conditions both confirm as genuine, independent predictors, and none of the demographic effects from Model 1 are explained away by adding these variables.
 
-**Model fit:** AIC = 16,798.5 (down from 16,994.1 in Model 1); Δdeviance = 203.6 on 4 df, p \< .001; n = 12,606 in both models.
+Model fit: AIC = 16,687.1 (down from 16,994.1 in Model 1); Δdeviance = 316.98 on 5 df, p \< .001; n = 12,606 in both models.
 
 ```{r}
 model2_dv3 <- glm(
@@ -1954,13 +1885,13 @@ model2_dv3 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate,
   family = binomial,
   data = master.model.dv3
 )
 
-summary(model1_dv3)
 summary(model2_dv3)
 
 nobs(model1_dv3)
@@ -2017,39 +1948,35 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 12,606.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification, restricted to postsecondary completers (n = 12,606).
 
-**ACT shows by far the largest and cleanest crossover effect found anywhere in this project.**
+**Took-ACT shows the single largest effect found anywhere in this entire project.** OR ≈ 6.58 (CI: 5.111-8.483, p \< .001) — students who took the ACT show more than six times the odds of completing their postsecondary credential within the region, compared to non-test-takers. Among test-takers, the same crossover pattern seen elsewhere reappears: each additional composite point predicts *lower* odds of regional completion (OR ≈ 0.895 per point, p \< .001) — engagement itself is strongly protective for staying regional, while high performance specifically predicts completing elsewhere.
 
-- **Took the ACT:** OR ≈ 8.07 — an enormous positive association with completing within the region, the largest single coefficient found in any model across this entire analysis.
-- **ACT composite score (among test-takers):** OR ≈ 0.884 per point — a strong negative gradient; each additional point predicts lower odds of completing regionally.
+**Local wages strengthens to an extraordinarily large effect.** OR ≈ 7.95 (CI: 3.435-18.405, p \< .001), up sharply from ≈ 2.56 in Model 2. This is a very wide interval alongside a very large point estimate — worth treating as a genuine, strong signal given how far the lower bound sits above 1, but also worth flagging the imprecision rather than leaning too hard on the exact magnitude.
 
-This is the same directional crossover found in the regional-employment models (DV1a/DV1b), but far larger in magnitude here: students who take the ACT are dramatically more likely to complete their postsecondary education within the region than those who never test, but among test-takers, higher scores substantially predict completing *outside* the region instead. This makes strong substantive sense — regional postsecondary institutions likely have lower or no ACT-score admission thresholds, so students taking the ACT at all (regardless of score) skews toward institutions that accept a broad range of scores, many of which are regional, while the highest-scoring students are drawn to more selective institutions elsewhere.
+**Special Education status loses significance entirely — a real, substantive change from Models 1 and 2.** OR ≈ 1.19 (CI: 0.964-1.476, p = .109), down from clearly significant (OR ≈ 1.87–1.89) in the prior two models. Special Ed completers' apparent tendency to complete regionally appears to run substantially through their patterns of academic engagement — likely lower ACT/AP participation and stronger CTE involvement — rather than Special Ed status operating independently.
 
-**Average local wages shows an extraordinarily large effect, even larger than in Model 2.** OR ≈ 14.54 (CI: 6.42–32.92) — nearly triple the size of the already-large Model 2 estimate (OR ≈ 6.56). This is the single largest coefficient of any continuous predictor found anywhere in this project, reinforcing that local economic conditions are a powerful force specifically shaping *where* students complete postsecondary education.
+**Race/Ethnicity shows real movement in both directions.** Black graduates become significant here for the first time in this sequence (OR ≈ 0.68, p = .035) — a real, if newly emergent, disparity. Asian/Pacific Islander graduates, by contrast, lose the significance they showed in Model 2 (OR ≈ 0.94, p = .711) — their apparent disadvantage in regional completion appears to run through academic engagement rather than being independent of it. American Indian graduates remain significant but weaken somewhat (OR ≈ 1.25, p = .043). Hispanic graduates remain non-significant.
 
-**AP exam participation shows a strong negative association** (OR ≈ 0.66) — consistent with the broader pattern throughout this project that intensive college-preparatory engagement predicts leaving the region for postsecondary education.
+**Economic status weakens but remains solidly significant** (OR ≈ 1.38, down from ≈ 1.68 in Model 2, still p \< .001) — academic engagement explains some, but far from all, of this relationship.
 
-**CTE Concentrator/Completer status remains a solid positive predictor** (OR ≈ 1.30), consistent with its role throughout this project as a regional-anchoring factor. CTE Participant status is not significant here.
+**SAT and AP exam participation both show a strong negative relationship with regional completion, consistent with their role throughout this project.** SAT participation OR ≈ 0.39 (p \< .001), AP exam OR ≈ 0.72 (p \< .001) — both identify students oriented toward options outside the region, mirroring their role in the workforce-attachment models.
 
-**Several demographic effects from Models 1–2 attenuate substantially, in a pattern that echoes the DV1b/DV2 English-learner story but now extends more broadly.**
+**CTE Concentrator/Completer status remains significant and positive** (OR ≈ 1.24, p \< .001), while CTE Participant status is not (OR ≈ 1.03, p = .528) — only the deeper level of CTE engagement shows an independent relationship with regional completion once other accomplishments are considered.
 
-- **Special Education status loses significance** (OR ≈ 1.21, CI: 0.981–1.508, borderline at p = .078) — a real attenuation from Model 2's strong effect (OR ≈ 1.85), suggesting Special Ed completers' tendency to stay regional is substantially explained by their patterns of high school accomplishments (particularly ACT engagement) rather than Special Ed status independently.
-- **Gender approaches but does not reach conventional significance** (OR ≈ 0.926, p = .054).
-- **American Indian graduates** move to the edge of significance (OR ≈ 1.23, p = .054), attenuated from Model 2.
-- **Black graduates become significant for the first time** (OR ≈ 0.667, CI: 0.464–0.965) — a new finding not present in Models 1–2, in the direction of lower odds of regional completion.
-- **Economic status remains significant but attenuates** (OR ≈ 1.40, down from 1.72 in Model 2).
-- **PSEO participation approaches but does not reach significance** (OR ≈ 0.925, p = .081) — notably, this is the only model in the DV3 sequence where PSEO trends in the *negative* direction (toward leaving the region), a reversal worth watching rather than a settled finding given it falls just short of significance.
+**PSEO participation is non-significant** (OR ≈ 0.94, p = .167) — consistent with the pattern found in every other model sequence in this project, PSEO's apparent influence doesn't hold up once ACT, SAT, AP, and CTE are jointly considered.
 
-**MCA Math shows a weaker version of its usual pattern here.** The filled score is modestly significant (OR ≈ 1.07), and the missingness flag is not significant (OR ≈ 0.613, p = .068) — a departure from its typically strong, clearly significant effect in DV1a/DV1b/DV2, though the direction and rough magnitude are consistent with those models.
+**Gender weakens to only marginal significance** (OR ≈ 0.92, p = .048), right at the conventional threshold — worth treating as a fragile finding at this stage rather than a confirmed one.
 
-**District classification and local unemployment rate** remain significant and similar in direction to Model 2, though Dem_Desc's magnitude decreases somewhat as accomplishments absorb part of its effect.
+**District classification and Range school status both remain strong and significant**, essentially unchanged in direction from Model 2 (Dem_Desc even strengthens slightly), and average unemployment rate remains significant as well (OR ≈ 1.05 per unit, p = .003).
+
+**English learner status remains non-significant throughout this entire sequence** (OR ≈ 0.77, p = .149), consistent with Models 1 and 2 — no relationship with regional completion at any stage.
 
 **Overall Interpretation**
 
-Adding high school accomplishments produces the largest improvement in model fit of any block in the DV3 sequence (likelihood ratio test: Δdeviance = 1,056.4, df = 8, p \< .001; AIC decreases from 16,798.5 to 15,758.2). The standout finding is the ACT crossover, which is dramatically larger here than in any other model in this project — strongly suggesting that ACT engagement (versus non-engagement) and ACT performance operate as opposing forces specifically on *where* a student completes college, likely reflecting the selectivity profile of regional versus non-regional institutions. Local wage conditions also show their strongest effect anywhere in this analysis. Several demographic effects that looked strong in Models 1–2 — particularly Special Education status — attenuate substantially once accomplishments are considered, suggesting those groups' tendency toward regional completion operates significantly through their patterns of academic and college-preparatory engagement rather than demographic status alone.
+Adding high school accomplishments produces a very large improvement in model fit (likelihood ratio test: Δdeviance = 1,033.23, df = 7, p \< .001; AIC decreases from 16,687.1 to 15,667.9). **Took-ACT's effect here (OR ≈ 6.58) is the largest coefficient found anywhere in this project** — ACT engagement is an extraordinarily strong predictor of completing postsecondary education regionally rather than elsewhere. Special Education status and Asian/Pacific Islander status both lose significance once academic accomplishments are considered, while Black graduates newly emerge as significant — a genuine reshuffling of which demographic disparities are independent versus explained by academic engagement. Economic status, American Indian identity, district classification, and Range school status all remain significant, confirming real, independent relationships with where completers finish their credential.
 
-**Model fit:** AIC = 15,758.2 (down from 16,798.5 in Model 2); Δdeviance = 1,056.4 on 8 df, p \< .001; n = 12,606 across all three models.
+Model fit: AIC = 15,667.9 (down from 16,687.1 in Model 2); Δdeviance = 1,033.23 on 7 df, p \< .001; n = 12,606 in both models.
 
 ```{r}
 model3_dv3 <- glm(
@@ -2060,21 +1987,19 @@ model3_dv3 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
+    sat.taken +
+    cte.achievement,
   family = binomial,
   data = master.model.dv3
 )
 
-summary(model1_dv3)
-summary(model2_dv3)
 summary(model3_dv3)
 
 nobs(model1_dv3)
@@ -2133,19 +2058,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## DV3 Summary: What Predicts Postsecondary Completion Within the Region (College Completers Only)
 
-Across all three model blocks, geography and academic engagement emerged as the dominant forces shaping *where* students complete their postsecondary education — far more so than in any other outcome examined in this project.
+Across all three models, this analysis identifies district geography and ACT engagement as the two dominant forces shaping where postsecondary completers finish their credential, alongside several demographic patterns that shift meaningfully once academic accomplishments are considered.
 
-**Local economic and geographic context showed its strongest effects anywhere in this project.** District classification produced the largest urban/rural gradient found in any model (up to 2.7x higher odds in the most urban districts), and average local wages produced the single largest coefficient of any continuous predictor in this entire analysis (OR as high as 14.5). This stands in sharp contrast to DV2 (completion overall), where geography barely mattered — confirming that high school geography shapes *where* a student completes college far more than *whether* they complete at all.
+**Took-ACT produces the largest single coefficient found anywhere in this project.** Students who took the ACT show more than six times the odds of completing their credential within the region compared to non-test-takers (OR ≈ 6.58, p \< .001). Among test-takers, the familiar crossover reappears: each additional composite point predicts lower odds of regional completion (OR ≈ 0.895 per point, p \< .001) — simply engaging with the ACT is strongly protective for staying regional, while strong performance specifically predicts completing elsewhere.
 
-**ACT showed the largest and clearest crossover effect found anywhere in this project.** Taking the ACT at all was associated with dramatically higher odds of completing within the region (OR ≈ 8), while scoring well on it was associated with substantially lower odds — likely reflecting that regional institutions serve a broad range of ACT scores, while high scorers are drawn toward more selective institutions elsewhere. AP exam participation reinforced this pattern, also predicting completion outside the region.
+**District classification shows the largest geographic effects found anywhere in this project, and they strengthen rather than attenuate as other variables are added.** Graduates from Urban/town/rural mix districts show more than double the odds of regional completion relative to Entirely rural districts throughout the sequence (OR ≈ 2.36–2.52), and Town/rural mix districts show a similarly strong, stable effect (OR ≈ 1.93–2.06). Range school status adds a further, independent effect on top of district classification (OR ≈ 1.36–1.66 across models) — geography matters substantially more for *where* a completer finishes their credential than it does for workforce outcomes afterward.
 
-**Economic disadvantage and Special Education status initially appeared to strongly predict regional completion, but Special Ed's effect substantially attenuated once accomplishments were considered** — suggesting that pattern operates largely through how these students engage academically (particularly around ACT), not through demographic status independently. Economic status remained significant throughout, though it weakened somewhat.
+**Special Education status loses significance entirely once academic accomplishments are considered — a real reversal, not a data artifact.** Significant and substantial in the demographics-only and characteristics models (OR ≈ 1.87–1.89), Special Ed status falls to non-significance in the final model (OR ≈ 1.19, p = .109) — its apparent tendency toward regional completion appears to run through academic engagement patterns rather than Special Ed status operating independently.
 
-**Race/Ethnicity effects shifted across the sequence** — American Indian and Asian/Pacific Islander effects seen early on attenuated once accomplishments were added, while a new, previously unseen effect for Black graduates (lower odds of regional completion) emerged only in the final model. Given the small cell sizes for several Race/Ethnicity categories in this completers-only population, these patterns should be interpreted with appropriate caution.
+**Economic status remains significant throughout, though substantially attenuated.** OR weakens from ≈ 1.68 (Model 2) to ≈ 1.38 (Model 3) — academic engagement explains some, but far from all, of economically disadvantaged completers' tendency to complete regionally.
 
-**PSEO showed a notably different — and more ambiguous — relationship here than elsewhere in this project.** Unlike its strong positive effect on completion overall (DV2) or its non-significant effect on regional employment (DV1a/DV1b), PSEO trended toward *lower* odds of regional completion in this model, though it fell just short of significance. This is worth flagging as an open question rather than a settled finding.
+**Race/Ethnicity findings shift meaningfully across the sequence, with no single stable pattern.** American Indian graduates remain significant across all three models (OR ≈ 1.25–1.45), showing a consistent tendency toward regional completion. Asian/Pacific Islander graduates are significant in the demographics-only and characteristics models (OR ≈ 0.66) but lose significance once academic accomplishments are added (OR ≈ 0.94) — their apparent disadvantage runs through academic engagement rather than being independent of it. Black graduates show the opposite trajectory: non-significant in the first two models, then significant in the final model (OR ≈ 0.68, p = .035) — a disparity only detectable once academic accomplishments are fully accounted for. Hispanic graduates and English learner status remain non-significant throughout the entire sequence.
 
-**Taken together, DV3 tells a clear story:** where a student completes postsecondary education is driven overwhelmingly by local economic/geographic context and by academic engagement patterns (especially ACT), with demographic effects mostly operating indirectly through those channels rather than independently.
+**SAT and AP exam participation both show a strong, stable negative relationship with regional completion**, consistent with their role throughout this project — both identify completers oriented toward postsecondary options outside the region (SAT: OR ≈ 0.39; AP: OR ≈ 0.72 in the final model).
+
+**CTE Concentrator/Completer status shows an independent, positive relationship with regional completion, while CTE Participant status does not** — only the deeper level of CTE engagement holds up once other accomplishment variables are considered.
+
+**PSEO participation shows no relationship with regional completion at any stage** — consistent with the pattern found in every other model sequence in this project.
+
+**Local wages and unemployment rate both show a positive, strengthening relationship with regional completion.** Local wages grows to an extremely large effect in the final model (OR ≈ 7.95, though with a wide confidence interval reflecting real imprecision), and unemployment rate remains significant and stable (OR ≈ 1.05–1.07 per unit) — both consistent with the opportunity-cost pattern found for postsecondary completion overall, though here the relationship concerns *where* students complete rather than *whether* they do.
+
+**Gender shows a weakening relationship across the sequence**, moving from clearly significant in Models 1–2 (OR ≈ 0.86–0.87) to only marginally significant in the final model (OR ≈ 0.92, p = .048) — worth treating as a fragile finding at the fully specified stage rather than a confirmed one.
 
 <br>
 
@@ -2155,9 +2088,9 @@ Another post-secondary independent variable that was strongly associated with wo
 
 ```{r}
 model_vars_dv4<- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                   "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                   "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam",
-                   "cte.achievement", "MCA.M", "highest.cred.level")
+                   "english.learner", "Dem_Desc", "range.school", "avg.wages.pct.state", "avg.unemp.rate",
+                   "pseo.participant", "took.ACT", "ACTCompositeScore", "ap.exam", "sat.taken",
+                   "cte.achievement","highest.cred.level")
 
 master.model.dv4 <- master %>%
   filter(grad.year > 2010,
@@ -2178,30 +2111,17 @@ master.model.dv4 <- master %>%
          english.learner = as_factor(english.learner),
          english.learner = fct_relevel(english.learner, "0"),
          Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
          pseo.participant = as.character(pseo.participant),
          pseo.participant = fct_relevel(pseo.participant, "0"),
          took.ACT = fct_relevel(took.ACT, "No"),
          ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-         MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-         MCA.M.filled = ifelse(is.na(MCA.M), 0, MCA.M),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
          ap.exam = as_factor(ap.exam),
          ap.exam = fct_relevel(ap.exam, "0"),
          cte.achievement = fct_relevel(cte.achievement, "No CTE"))
 
-#Check for missingness
-
-
-model_vars_check_dv4 <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
-                          "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
-                          "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                          "cte.achievement", "MCA.M.filled", "MCA.M.missing", "highest.cred.level")
-
-nrow(master.model.dv4)  # should now be back up near 20,386, since MCA.M no longer forces complete-case loss
-
-colSums(is.na(master.model.dv4[, model_vars_check_dv4]))
-table(master.model.dv4$highest.cred.level)
-table(master.model.dv4$RaceEthnicity)
-table(master.model.dv4$Dem_Desc)
 ```
 
 # Modeling: Credential Earned - college completers only
@@ -2294,25 +2214,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2: Demographics + High School Characteristics 
+## Model 2: Demographics + High School Characteristics
 
-This model adds high school characteristics — district rural/urban classification, local wage levels, and local unemployment rates — to the demographic baseline. The analytic sample remains n = 12,651.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline, restricted to postsecondary completers (n = 12,651). Recall the outcome here is coded 1 = Associate degree or less, 0 = Bachelor's degree or higher, so positive coefficients indicate higher odds of a sub-baccalaureate credential.
 
-**None of the high school characteristics show a statistically significant relationship with credential level.**
+**Range school status shows a strong, independent relationship with sub-baccalaureate attainment.** Range graduates show 57% higher odds of completing an Associate degree or less rather than a Bachelor's degree (OR ≈ 1.57, p \< .001) — consistent with Range communities' documented orientation toward technical and associate-level credentials tied to regional industry.
 
-- **District classification (Dem_Desc):** neither category is significant (Town/rural mix OR ≈ 1.01, CI: 0.843–1.204; Urban/town/rural mix OR ≈ 0.92, CI: 0.765–1.102) — both confidence intervals sit almost exactly on 1.
-- **Average local wages:** not significant (OR ≈ 0.70, CI: 0.319–1.553).
-- **Average local unemployment rate:** not significant (OR ≈ 0.997, CI: 0.967–1.027).
+**Local wages shows a striking reversal from every other DV in this project.** Higher local wages relative to the state average predict substantially *lower* odds of sub-baccalaureate attainment (OR ≈ 0.29, p = .003) — in other words, higher local wages predict *higher* odds of Bachelor's-level completion. This is the opposite direction from what higher wages predicted for overall postsecondary completion (DV2, where higher wages discouraged completion) and for completing within the region (DV3, where higher wages encouraged regional completion) — a genuinely distinct relationship for this specific outcome, worth stating plainly rather than trying to force it into the same "opportunity cost" framing used elsewhere.
 
-This is a striking result given how powerfully these same variables predicted *where* students completed their education in DV3 (district type up to 2.7x, local wages up to 14.5x). Here, predicting *what type* of credential a student earns, geography and local economic conditions show essentially no relationship at all — the weakest and most uniformly null high-school-characteristics block found anywhere in this project.
+**District classification shows no significant relationship here** — a sharp contrast with DV3, where Dem_Desc produced some of the largest effects in this project. Town/rural mix is clearly non-significant (OR ≈ 1.01, p = .932), and Urban/town/rural mix only approaches significance without crossing it (OR ≈ 0.85, p = .088). Credential *level* appears to have little to do with district geography, even though credential *location* (DV3) was strongly tied to it.
 
-**All demographic effects from Model 1 remain essentially unchanged.** Gender, all Race/Ethnicity categories, economic status, Special Education status, and English learner status are all still significant, in the same direction and virtually identical magnitude to Model 1.
+**All demographic effects from Model 1 remain essentially unchanged.** Gender (OR ≈ 0.65), economic status (OR ≈ 2.48), Special Education status (OR ≈ 5.31), English learner status (OR ≈ 1.73), American Indian graduates (OR ≈ 1.44), and Asian/Pacific Islander graduates (OR ≈ 0.34) all hold steady in direction and magnitude from Model 1. Special Education status in particular remains an extraordinarily large effect — Special Ed completers show more than five times the odds of a sub-baccalaureate credential relative to a Bachelor's degree.
+
+**Average unemployment rate remains non-significant** (OR ≈ 1.00, p = .934).
 
 **Overall Interpretation**
 
-Adding high school characteristics does not significantly improve model fit (likelihood ratio test: Δdeviance = 7.50, df = 4, p = .112; AIC essentially unchanged, from 15,898.8 to 15,899.3 — a slight increase, reflecting the cost of adding four non-informative parameters). This is a clean, unambiguous null result: unlike *where* a student completes postsecondary education (DV3), which is powerfully shaped by high school geography and local economic conditions, *what type* of credential a student earns appears to be entirely unrelated to those same factors once demographics are accounted for. This sharpens the picture emerging across DV2–DV4: geography governs *where* people complete college, but has little to no bearing on *whether* they complete or *what level* they complete at — those outcomes appear to be driven primarily by individual-level demographic and (as later blocks will show) academic factors instead.
+Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 93.58, df = 5, p \< .001; AIC decreases from 15,898.8 to 15,815.2). **Range school status and local wages are the standout findings in this block, and the wage direction is genuinely distinct from every other DV in this project** — here, higher local wages push toward Bachelor's-level attainment rather than away from postsecondary engagement generally or toward regional completion specifically. District classification, by contrast, shows essentially no relationship with credential level, despite being one of the strongest predictors of completion location in DV3 — a useful reminder that "where" and "what level" are separate questions with different drivers. All five demographic effects from Model 1 remain fully intact.
 
-**Model fit:** AIC = 15,899.3 (up slightly from 15,898.8 in Model 1); Δdeviance = 7.50 on 4 df, p = .112 (not significant); n = 12,651 in both models.
+Model fit: AIC = 15,815.2 (down from 15,898.8 in Model 1); Δdeviance = 93.58 on 5 df, p \< .001; n = 12,651 in both models.
 
 ```{r}
 model2_dv4 <- glm(
@@ -2323,13 +2243,13 @@ model2_dv4 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate,
   family = binomial,
   data = master.model.dv4
 )
 
-summary(model1_dv4)
 summary(model2_dv4)
 
 nobs(model1_dv4)
@@ -2386,36 +2306,33 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## Model 3: Demographics + High School Characteristics + High School Accomplishments
 
-This model adds high school accomplishments — PSEO participation, ACT participation and score, AP exam participation, CTE achievement, and MCA Math (with the missing-data adjustment) — to the specification. The analytic sample remains n = 12,651.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification, restricted to postsecondary completers (n = 12,651). Recall the outcome is coded 1 = Associate degree or less, 0 = Bachelor's degree or higher.
 
-**This produces the largest improvement in model fit found anywhere in this project**, and academic/college-preparatory engagement variables dominate the result.
+**ACT shows the same crossover pattern found throughout this project, at the largest scale seen anywhere in this entire analysis.** Taking the ACT shows an enormous positive association with earning an Associate-or-lesser credential (OR ≈ 14.12, p \< .001) — students who took the ACT are far more likely to complete at the sub-baccalaureate level than those who never tested. Among test-takers, each additional composite point predicts the opposite direction (OR ≈ 0.816 per point, p \< .001): higher scores predict a Bachelor's degree instead. Read together: ACT engagement without strong performance still predicts a shorter, more technical credential pathway.
 
-**ACT again shows the same crossover pattern found throughout this project, at a scale rivaling DV3.**
+**Black graduates become significant here for the first time in this sequence — a genuinely new finding, not present in Models 1 or 2.** OR ≈ 0.55 (CI: 0.368-0.811, p = .003) — once academic accomplishments are accounted for, Black completers show meaningfully higher odds of earning a Bachelor's degree specifically.
 
-- **Took the ACT:** OR ≈ 10.63 — an enormous positive association with earning an Associate-or-lesser credential (i.e., students who took the ACT are far more likely to complete at the sub-baccalaureate level than those who never tested).
-- **ACT composite score (among test-takers):** OR ≈ 0.828 per point — a strong negative gradient; higher scores predict a Bachelor's degree instead.
+**English learner status remains non-significant here — and this is a genuine, standalone null, not an artifact of any missingness control, since none is anywhere in this specification.** OR ≈ 0.84 (CI: 0.549-1.319, p = .448). Credential level shows no independent relationship with English learner status at any stage of this model sequence.
 
-Read together: relative to non-test-takers, students who tested but scored lower are considerably more likely to complete an Associate-or-lesser credential, while higher-scoring test-takers are considerably more likely to complete a Bachelor's — consistent with the idea that ACT engagement without strong performance still predicts a shorter, likely more technical credential pathway.
+**PSEO participation shows a clear, significant effect specific to this outcome.** OR ≈ 0.66 (p \< .001) — PSEO participants are notably more likely to complete a Bachelor's degree rather than an Associate-or-lesser credential. This is a different role for PSEO than seen in the other DVs in this project: elsewhere it predicted completion generally or showed no independent effect, while here it specifically predicts higher credential attainment among those who do complete.
 
-**PSEO participation shows a clear, newly significant effect in this model.** OR ≈ 0.67 — PSEO participants are notably more likely to complete a Bachelor's degree rather than an Associate-or-lesser credential. This is a different role for PSEO than seen elsewhere: in DV2 it predicted completion generally, in DV1a/DV1b/DV3 it showed little or no independent effect, and here it specifically predicts *higher* credential attainment among those who do complete.
+**CTE achievement shows its strongest positive effect anywhere in this project.** CTE Concentrator/Completer status: OR ≈ 1.61 (p \< .001) — the largest CTE coefficient found in any model sequence. CTE Participant: OR ≈ 1.14 (p = .010). This makes strong substantive sense — CTE pathways are more likely to lead directly into Associate-level and technical credentials by design.
 
-**CTE achievement shows its strongest positive effect anywhere in this project.** CTE Concentrator/Completer status: OR ≈ 1.64 (the largest CTE coefficient found in any DV4 or prior model), CTE Participant: OR ≈ 1.15. This makes strong substantive sense — CTE pathways are more likely to lead directly into Associate-level and technical credentials by design.
+**AP exam and SAT participation both point toward Bachelor's attainment**, consistent with their role throughout this project (AP: OR ≈ 0.74, p \< .001; SAT: OR ≈ 0.61, p = .007).
 
-**MCA Math and its missingness flag both show large, significant effects in the expected direction.** Filled score: OR ≈ 0.83 per point (higher scores predict Bachelor's attainment); missingness flag: OR ≈ 0.22 (one of the largest MCA-missingness effects found in this project) — students with a missing MCA score are far more likely to complete at the Associate-or-lesser level, consistent with the recurring finding throughout this project that MCA missingness itself carries meaningful signal.
+**Average local unemployment rate becomes significant and meaningfully sized for the first time in this sequence** (OR ≈ 0.89 per unit, p \< .001) — higher local unemployment predicts lower odds of an Associate-or-lesser credential (i.e., predicts Bachelor's attainment instead). This is a counterintuitive direction worth flagging plainly rather than forcing into a tidy explanation, consistent with this project's general practice of not over-narrating a modest, less-intuitive coefficient.
 
-**AP exam participation** shows the expected direction (OR ≈ 0.71) — AP participants are more likely to complete a Bachelor's degree.
+**Local wages loses the significance it showed in Model 2.** OR ≈ 0.56 (CI: 0.216-1.460, p = .237) — its apparent relationship with credential level appears to run through academic engagement rather than operating independently.
 
-**Average local unemployment rate becomes significant and meaningfully sized for the first time in DV4** (OR ≈ 0.87 per unit) — higher local unemployment predicts *lower* odds of an Associate-or-lesser credential (i.e., predicts Bachelor's attainment instead), a reversal of what might be intuitively expected and worth flagging as a pattern to interpret cautiously rather than over-explain, consistent with this project's general practice of not forcing a narrative onto a modest, less-intuitive coefficient.
+**Demographic effects persist but attenuate substantially.** Gender (OR ≈ 0.73), economic status (OR ≈ 1.90, down from ≈ 2.48), and Special Ed status (OR ≈ 2.16, down sharply from ≈ 5.31) all remain significant but meaningfully weaker — academic engagement explains a substantial share of these disparities, though far from all of it. Asian/Pacific Islander graduates remain significant and large (OR ≈ 0.39, p \< .001). American Indian graduates lose significance (OR ≈ 1.09, p = .448), a real change from Models 1-2.
 
-**Demographic effects persist but shift somewhat.** Gender, economic status, Special Ed status, and the Asian/Pacific Islander and Black Race/Ethnicity effects all remain significant, generally attenuating slightly from Models 1–2 (e.g., Special Ed drops from OR≈5.19 to OR≈2.00, economic status from OR≈2.53 to OR≈1.90) — suggesting a substantial share, though not all, of these demographic effects operate through how students engage academically in high school. **American Indian graduates lose significance** (OR ≈ 1.08, CI: 0.858–1.348) — a real change from Models 1–2, where this was a significant positive effect. **English learner status also loses significance** (OR ≈ 0.79, CI: 0.510–1.237), consistent with the now-familiar pattern of the MCA-missingness flag absorbing what looked like an English-learner-specific effect in earlier models.
-
-**District classification and local wages remain non-significant**, continuing the Model 2 finding that geography plays little to no role in credential-level attainment specifically.
+**District classification and Range school status both weaken.** Dem_Desc remains non-significant, as in Model 2. Range school status, significant and substantial in Model 2 (OR ≈ 1.57), weakens to only marginal significance here (OR ≈ 1.13, p = .031) — its apparent relationship with credential level runs substantially through academic accomplishments.
 
 **Overall Interpretation**
 
-Adding high school accomplishments produces by far the largest improvement in model fit found anywhere in this project (likelihood ratio test: Δdeviance = 3,174.2, df = 8, p \< .001; AIC decreases sharply from 15,899.3 to 12,741.1). Academic achievement and college-preparatory engagement are overwhelmingly the dominant forces shaping credential level — far more so than demographics or geography. The now-familiar ACT crossover, the MCA-missingness effect, and CTE's strong positive association with Associate-level attainment all replicate patterns seen elsewhere in this project, but at a larger scale here than almost anywhere else. Several demographic effects that looked large in Models 1–2 (Special Ed, economic status, American Indian, English learner) substantially attenuate once these accomplishment variables are considered, reinforcing this project's recurring finding that academic engagement, not demographic status alone, explains much of what initially appears to be a purely demographic disparity.
+Adding high school accomplishments produces by far the largest improvement in model fit found anywhere in this project (likelihood ratio test: Δdeviance = 3,060.72, df = 7, p \< .001; AIC decreases sharply from 15,815.2 to 12,768.5). **Academic achievement and college-preparatory engagement are overwhelmingly the dominant forces shaping credential level — far more so than demographics or geography.** The ACT crossover, at the largest scale found anywhere in this project, and CTE's strong positive association with Associate-level attainment are the standout findings. Black graduates emerge as a newly significant, independent predictor once academic engagement is considered, while American Indian graduates and Range school status both lose the significance they showed in earlier models. English learner status remains a clean, consistent null throughout this entire sequence.
 
-**Model fit:** AIC = 12,741.1 (down from 15,899.3 in Model 2); Δdeviance = 3,174.2 on 8 df, p \< .001; n = 12,651 across all three models.
+Model fit: AIC = 12,768.5 (down from 15,815.2 in Model 2); Δdeviance = 3,060.72 on 7 df, p \< .001; n = 12,651 in both models.
 
 ```{r}
 model3_dv4 <- glm(
@@ -2426,21 +2343,19 @@ model3_dv4 <- glm(
     SpecialEdStatus +
     english.learner +
     Dem_Desc +
+    range.school +
     avg.wages.pct.state +
     avg.unemp.rate +
     pseo.participant +
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam + 
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
-  family = binomial,
+    sat.taken +
+    cte.achievement,
+    family = binomial,
   data = master.model.dv4
 )
 
-summary(model1_dv4)
-summary(model2_dv4)
 summary(model3_dv4)
 
 nobs(model1_dv4)
@@ -2499,34 +2414,47 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 ## DV4 Summary: What Predicts Sub-Baccalaureate Credential Attainment (College Completers Only)
 
-Across all three model blocks, academic achievement and college-preparatory engagement emerged as overwhelmingly the dominant force shaping credential level — far more so than demographics or geography, a sharp contrast to the other three outcomes in this project.
+Across all three models, academic accomplishments emerge as overwhelmingly the dominant force shaping whether a postsecondary completer earns a Bachelor's degree or an Associate-or-lesser credential — far more so than demographics or geography, a genuinely different pattern than found in any other DV in this project. Recall the outcome is coded 1 = Associate degree or less, 0 = Bachelor's degree or higher, so all odds ratios below describe the odds of the sub-baccalaureate outcome unless noted otherwise.
 
-**Geography plays essentially no role in credential level.** Unlike DV3, where district type and local wages showed the largest effects found anywhere in this project, neither showed any significant relationship with credential level here, in any model. This confirms a clear division of labor across the four outcomes: geography determines *where* students complete college (DV3), but has no bearing on *what type* of credential they earn.
+**ACT engagement produces the single largest coefficient found anywhere in this entire analysis, and shows the clearest crossover pattern of any DV.** Simply taking the ACT is associated with dramatically higher odds of completing at the sub-baccalaureate level (OR ≈ 14.12) — an enormous effect, even relative to the large ACT effects found elsewhere in this project. Among test-takers, the direction reverses: each additional composite point predicts substantially lower odds of a sub-baccalaureate credential (OR ≈ 0.816 per point) — higher scorers complete Bachelor's degrees instead. Read together: ACT engagement without strong performance predicts a shorter, more technical credential pathway, while strong performance predicts the opposite.
 
-**Special Education status and economic disadvantage showed the two largest demographic effects found anywhere in this project — Special Ed's effect (over 5x higher odds of Associate-or-lesser attainment in the demographics-only model) was the single largest coefficient in this entire analysis.** Both effects attenuated substantially once academic accomplishments were added, but remained significant, suggesting real barriers to Bachelor's-level completion for these groups that operate partly, but not entirely, through their patterns of academic engagement.
+**Special Education status shows the single largest demographic effect found anywhere in this project, though it attenuates substantially once academic accomplishments are considered.** Special Ed completers show over five times the odds of a sub-baccalaureate credential in the demographics-only and characteristics models (OR ≈ 5.19–5.31), weakening to just over double the odds once academic engagement is accounted for (OR ≈ 2.16) — a real, substantial reduction, but the effect remains large and clearly significant throughout.
 
-**ACT showed the same crossover pattern found throughout this project, at one of its largest scales.** Taking the ACT strongly predicted an Associate-or-lesser credential, while scoring well on it strongly predicted a Bachelor's degree instead — consistent with ACT engagement without strong performance channeling students toward shorter, more technical credentials.
+**Economic status shows a similarly large, stable pattern.** Economically disadvantaged completers show substantially higher odds of a sub- baccalaureate credential across all three models (OR ≈ 1.90–2.54), weakening somewhat once academic accomplishments enter the model but remaining one of the strongest and most consistent predictors in this sequence.
 
-**PSEO and CTE took on distinct, and in PSEO's case new, roles here.** CTE achievement showed its strongest positive effect anywhere in this project, reinforcing its established role as a technical/vocational pathway indicator that leads naturally into Associate-level credentials. PSEO, which showed little independent effect in the regional-employment or regional-completion models, emerged here as a clear predictor of *higher* attainment — PSEO participants were considerably more likely to complete a Bachelor's degree, a role distinct from anything PSEO showed elsewhere in this project.
+**English learner status is significant early in the sequence but resolves to a clean, genuine null once academic accomplishments are considered — with no missingness control anywhere in the specification.** Significant in the demographics-only and characteristics models (OR ≈ 1.72–1.73, predicting higher odds of a sub-baccalaureate credential), English learner status loses significance entirely in the final model (OR ≈ 0.84). Whatever drives this early relationship appears to run through academic engagement rather than English learner status operating independently.
 
-**The English learner/MCA-missingness pattern replicated once again.** English learner status appeared significant in Models 1–2 but lost significance once MCA Math and its missingness flag were added — the same masking pattern found consistently across DV1a, DV2, and DV3, further reinforcing that this is a genuine, recurring feature of the underlying data rather than an outcome-specific artifact.
+**Race/Ethnicity findings shift meaningfully across the sequence.** Asian/Pacific Islander graduates show a large, stable, significant relationship with Bachelor's-level attainment throughout all three models (OR ≈ 0.32–0.39) — the most consistent Race/Ethnicity finding in this sequence. American Indian graduates are significant in the demographics- only and characteristics models (OR ≈ 1.44) but lose significance once academic accomplishments are added (OR ≈ 1.09). Black graduates show the opposite trajectory: non-significant in the first two models, then significant in the final model (OR ≈ 0.55) — a disparity favoring Bachelor's attainment that only emerges once academic engagement is fully accounted for. Hispanic graduates remain non-significant throughout.
 
-**Taken together, DV4 completes the picture across all four outcomes:** geography drives where people go, academic/college-prep engagement drives what they complete, and demographic disparities are real but substantially — though not entirely — explained by how students engage academically along the way.
+**PSEO participation shows a distinct role for this outcome compared to every other DV in this project.** OR ≈ 0.66 — PSEO participants are notably more likely to complete a Bachelor's degree specifically, a different relationship than PSEO showed for completion generally or for regional attachment, where it predicted little or showed a different direction entirely.
+
+**CTE achievement shows its strongest positive effect anywhere in this project.** CTE Concentrator/Completer status (OR ≈ 1.61) is the largest CTE coefficient found in any model sequence, with CTE Participant status showing a smaller but still significant effect (OR ≈ 1.14) — both substantively sensible, since CTE pathways are designed to lead directly into Associate-level and technical credentials.
+
+**AP exam and SAT participation both predict Bachelor's-level attainment**, consistent with their role throughout this project (AP: OR ≈ 0.74; SAT: OR ≈ 0.61).
+
+**Gender shows a large, stable, significant relationship throughout**, with female completers consistently more likely to earn a Bachelor's degree (OR ≈ 0.65–0.73 across all three models).
+
+**District classification shows no relationship with credential level at any stage** — a sharp contrast with this project's findings on completion *location*, where geography was one of the strongest predictors. Range school status is significant in the characteristics model (OR ≈ 1.57) but weakens to only marginal significance once academic accomplishments are considered (OR ≈ 1.13).
+
+**Local wages and unemployment rate both show effects that emerge or fade unpredictably across the sequence, worth treating as modest and provisional rather than forcing into a single coherent story.** Local wages is significant and protective toward Bachelor's attainment in the characteristics model (OR ≈ 0.29) but loses significance once academic accomplishments are added (OR ≈ 0.56). Local unemployment rate is non- significant until the final model, where it becomes significant in a counterintuitive direction (OR ≈ 0.89 per unit — higher unemployment predicting Bachelor's attainment rather than the reverse) — worth noting plainly rather than over-explaining.
 
 <br>
 
 # Executive Summary
 
-This analysis used logistic regression to confirm and refine patterns identified in earlier descriptive work on post-high school pathways for Northeast Minnesota graduates. Five models were built, each isolating a different piece of the pathway: whether graduates stay in the region long-term, whether they complete college, where they complete it, and what type of credential they earn.
+This analysis used logistic regression to confirm and refine patterns identified in earlier descriptive work on post-high school pathways for Northeast Minnesota graduates. Five models were built, each isolating a different piece of the pathway: whether graduates stay in the region long term, whether they complete college, where they complete it, and what type of credential they earn.
 
 Four consistent themes emerged across all five models:
 
-1.  **Geography does different jobs at different stages.** High school district type and local economic conditions strongly predict whether a graduate stays in the region for work and where they complete their postsecondary education — but have almost no bearing on whether they complete college at all, or what type of credential they earn once they do.
-2.  **CTE and ACT represent two distinct, opposing pathways.** Career and technical education consistently predicts staying in the region and completing shorter, more technical credentials. ACT engagement shows a consistent split: simply taking the test predicts staying regional and completing an Associate-level credential, while scoring well on it predicts leaving the region and completing a Bachelor's degree instead. These aren't two versions of the same "college-readiness" signal — they represent different, sometimes opposing, routes through the pipeline.
-3.  **Demographic disparities are real, but partly explained by how students engage with school, not just who they are.** Economic disadvantage, Special Education status, and English learner status all showed strong effects early in each model sequence — but several of these effects substantially weakened once academic engagement and accomplishments were added, indicating that some (not all) of the disparity operates through unequal access to or engagement with CTE, PSEO, and testing pathways, rather than through demographic status alone.
-4.  **A data quality finding reshapes how English learner disparities should be understood.** In every model where MCA Math entered, English learner status lost significance — traced back to English learners being missing MCA Math scores at roughly 10 times the rate of other students. This means at least part of what looked like an "English learner effect" throughout this project's earlier descriptive work is more accurately described as an effect of missing testing records, which themselves may reflect exemptions, transfers, or other structural factors correlated with English learner status.
+1.  **Geography does different jobs at different stages.** High school district type, Range school status, and local economic conditions strongly predict whether a graduate stays in the region for work and where they complete their postsecondary education — but have almost no bearing on whether they complete college at all, or what type of credential they earn once they do. Geography shapes *where* things happen, not *whether* or *what*.
 
-The single largest and most consistent finding across every model, and the one most directly relevant to the project's regional workforce mission, is that **geography — where a student completes their postsecondary education — matters more than what credential they earn.** Graduating within the region was the strongest predictor of sustained regional employment found anywhere in this analysis. But credential type is not irrelevant either: among college completers specifically, Associate-level and technical credentials showed a real, independent, additional association with staying regional, on top of the location effect.
+2.  **CTE and ACT represent two distinct, opposing pathways, and this project's clearest, largest, and most consistent finding.** Career and technical education consistently predicts staying in the region and completing shorter, more technical credentials. ACT engagement shows a striking split, visible in every model: simply taking the test predicts staying regional and completing an Associate-level credential — in one model, taking the ACT alone predicts fourteen times higher odds of a sub-baccalaureate credential — while scoring well on it predicts leaving the region and completing a Bachelor's degree instead. These aren't two versions of the same "college-readiness" signal; they represent different, sometimes opposing, routes through the pipeline.
+
+3.  **English learner status tells two entirely different stories, depending on which outcome is examined — one of the most important findings in this analysis.** For the full graduating population, English learner status is a robust, independent predictor of reduced odds of sustained regional workforce attachment, holding up fully alongside demographics, geography, academic accomplishments, and postsecondary completion — this is a real, standalone disparity, not explained by anything else in the model. But among students who go on to complete a postsecondary credential, English learner status shows no relationship at all with regional attachment, completion location, or credential level. In other words: the English learner disparity in this data is entirely about workforce attachment for those who don't complete a credential — it is not a story about academic preparation, and it disappears entirely once a student completes college.
+
+4.  **Demographic disparities are real, but some are explained by how students engage with school, while others are not.** Economic disadvantage and Special Education status both show very large effects early in the postsecondary-completion and credential-level models, and both weaken substantially — though remain significant — once academic engagement is added, indicating that some, not all, of the disparity operates through unequal access to or engagement with CTE, PSEO, and testing pathways. Black, Hispanic, and Asian/Pacific Islander graduates tell a different story: their disparities in regional workforce attachment and postsecondary completion largely persist regardless of academic engagement, and in several models a disparity only becomes visible once academic engagement is fully accounted for — these are not explained away by anything measured in this analysis.
+
+The single largest and most consistent finding across every model, and the one most directly relevant to the project's regional workforce mission, is that **geography — where a student completes their postsecondary education — matters more than what credential they earn.** Graduating within the region was the strongest predictor of sustained regional employment found among completers. But credential type is not irrelevant either: among college completers specifically, Associate-level and technical credentials showed a real, independent, additional association with staying regional, on top of the location effect.
 
 <br>
 
@@ -2534,14 +2462,16 @@ The single largest and most consistent finding across every model, and the one m
 
 Picture a graduating class in Northeast Minnesota. What happens to them over the next five, ten years, and why?
 
-**The pipeline starts to split immediately, along economic and ability-status lines.** Economically disadvantaged students and students with disabilities are considerably less likely to complete any postsecondary credential at all — this is the strongest demographic pattern in the entire analysis. These same barriers show up again in whether a graduate is even accurately captured on standard academic assessments: English learners are missing MCA Math scores at ten times the rate of their peers, likely reflecting testing exemptions or accommodations tied to broader structural gaps in how these students move through the system.
+**The pipeline starts to split immediately, along economic and ability- status lines.** Economically disadvantaged students and students with disabilities are considerably less likely to complete any postsecondary credential at all — among the strongest demographic patterns in the entire analysis. But these same students, if they do complete a credential, don't carry that disadvantage forward in the same form: much of what predicted non-completion in the first place turns out to run through *how* these students engaged with high school academically — CTE involvement, ACT participation, PSEO — rather than being a fixed consequence of the demographic category itself.
 
-**For those who do complete college, a second split happens — not about whether they succeed, but about where and how.** Two students with identical demographics can take very different paths depending on how they engaged with high school. A student who took CTE courses and engaged with the ACT (regardless of score) is likely on a track toward a shorter, technical credential completed close to home, and likely to stay in the regional workforce afterward. A student who scored well on the ACT and pursued AP coursework is likely headed toward a four-year degree, often completed outside the region — and less likely to return.
+**English learners face a genuinely different, more specific barrier — one that shows up at the front door, not throughout the building.** English learners are meaningfully less likely to be sustainably attached to the regional workforce, and this disadvantage holds up fully no matter what else is accounted for — academic preparation, geography, whether they attempted college at all. But this barrier is entirely specific to students who don't go on to complete a postsecondary credential. Among English learners who do complete a credential, there is no detectable disadvantage in staying regional, completing locally, or the level of credential earned. The English learner story in this data is a workforce- attachment story, not an academic-preparation story — and it resolves itself completely once a credential is in hand.
 
-**This is the pipeline's central tension, visible in every model in this analysis: the very things that predict finishing a four-year degree — strong test scores, AP coursework — are the same things that predict leaving the region.** Meanwhile, the pathways this project's organization has less institutional visibility into promoting — CTE, technical credentials, PSEO — are consistently the ones associated with staying.
+**For those who do complete college, a second split happens — not about whether they succeed, but about where and how.** Two students with identical demographics can take very different paths depending on how they engaged with high school. A student who took CTE courses and engaged with the ACT — regardless of score — is likely on a track toward a shorter, technical credential completed close to home, and likely to stay in the regional workforce afterward. A student who scored well on the ACT and pursued AP coursework or the SAT is likely headed toward a four-year degree, often completed outside the region — and less likely to return.
 
-**Geography reinforces this tension rather than resolving it.** Students from more urban districts, and districts with stronger local wages, are considerably more likely to complete their postsecondary education within the region — but this same geographic advantage barely registers when predicting whether a student completes college at all, or what type of credential they earn. Geography shapes *where* the funnel empties out, not how big the funnel is or what flows through it.
+**This is the pipeline's central tension, visible in every model in this analysis: the very things that predict finishing a four-year degree — strong test scores, AP coursework, SAT participation — are the same things that predict leaving the region.** Meanwhile, the pathways this project's organization has less institutional visibility into promoting — CTE, technical credentials, PSEO — are consistently the ones associated with staying.
 
-**And underneath all of this, demographic disparities persist — but not always for the reasons they first appear to.** Some disparities (Special Education status, economic disadvantage) shrink substantially once a student's academic engagement is accounted for, suggesting these groups may be funneled toward — or away from — certain pathways based on how school systems engage them, not fixed traits tied to the demographic category itself. Other disparities (particularly for Black and Asian/Pacific Islander graduates) persist even after accounting for every other factor in this analysis, suggesting they are not simply artifacts of differential program access.
+**Geography reinforces this tension rather than resolving it.** Students from more urban districts and Range school communities are considerably more likely to complete their postsecondary education within the region — this is the single largest set of effects found anywhere in this analysis — but this same geographic advantage barely registers when predicting whether a student completes college at all, or what type of credential they earn. Geography shapes *where* the funnel empties out, not how big the funnel is or what flows through it.
 
-**Put together, the data describes a region whose workforce retention depends less on whether people leave for stronger opportunities and more on which door they walked through in high school** — CTE and modest-to-moderate ACT engagement lead back to the region; AP coursework and top ACT scores lead away from it. This is not a story about talent leaving because the region has nothing to offer skilled workers — it's a story about two genuinely different pipelines, one regionally anchored and one not, both running through the same high schools at the same time.
+**And underneath all of this, demographic disparities persist — but not always for the same reasons, and not always visible at the same point in the analysis.** Some disparities — Special Education status, economic disadvantage, and, among completers, American Indian identity and Range school status — shrink substantially once a student's academic engagement is accounted for, suggesting these groups may be channeled toward or away from certain pathways based on how school systems engage them, not fixed traits tied to the demographic category itself. Other disparities — particularly for Black, Hispanic, and Asian/Pacific Islander graduates — persist even after accounting for every other factor in this analysis, and in several cases only become visible once academic engagement is fully accounted for, suggesting they are not artifacts of differential program access but something this analysis cannot fully explain.
+
+**Put together, the data describes a region whose workforce retention depends less on whether people leave for stronger opportunities elsewhere and more on which door they walked through in high school** — CTE and modest ACT engagement lead back to the region; AP coursework, strong ACT scores, and SAT participation lead away from it. This is not a story about talent leaving because the region has nothing to offer skilled workers — it's a story about two genuinely different pipelines, one regionally anchored and one not, both running through the same high schools at the same time.

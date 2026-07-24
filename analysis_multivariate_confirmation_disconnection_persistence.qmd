@@ -186,7 +186,6 @@ The independent variable set is consistent with the variables used throughout th
 - `took.ACT`
 - `ACTCompositeScore` (recoded to 0 for non-test-takers, entered alongside `took.ACT`, per the missing-indicator approach established earlier in this project)
 - `cte.achievement`
-- `MCA.M`
 
 **Postsecondary variable**
 
@@ -194,7 +193,7 @@ The independent variable set is consistent with the variables used throughout th
 
 **Adjustments from the bivariate variable list:**
 
-- **MCA Reading (`MCA.R`) is excluded.** The bivariate analysis tested MCA Math and Reading separately; consistent with the multicollinearity resolution used throughout this project's other multivariate models, only one MCA subject is retained here. MCA Math is retained on the same grounds established previously — lower missingness and a comparable or stronger association with the outcomes of interest.
+- **MCA tests are excluded.** There is enourmous amount of missing values and strangeness in the data so we are leaving them out entirely.
 - **`total.cte.courses.taken` is excluded**, consistent with the redundancy this project has established between the continuous course-count measure and the categorical `cte.achievement` variable.
 
 ### Modeling Approach
@@ -210,7 +209,7 @@ This baseline isolates whether structural and demographic positioning alone pred
 
 **Model 2: Add High School Accomplishments**
 
-- Adds: `pseo.participant`, `took.ACT`, `ACTCompositeScore.filled`, `ap.exam`, `cte.achievement`, `MCA.M.filled`, `MCA.M.missing`
+- Adds: `pseo.participant`, `took.ACT`, `ACTCompositeScore.filled`, `ap.exam`, `cte.achievement`
 
 This is the model of primary interest for this analysis. Because English learner status has previously been shown to correlate with MCA Math missingness, this block specifically tests whether the English learner effect identified in Model 1 attenuates once high school accomplishments — including the MCA missingness indicator — are introduced. The same logic applies to Special Education status and any other Model 1 effect that might operate through academic engagement rather than independently.
 
@@ -239,7 +238,6 @@ The modeling dataset begins from the merged file containing both the disconnecti
 **Missing-indicator recodes for two variables with structural or correlated missingness:**
 
 - **ACT composite score.** Students who did not take the ACT have no composite score by definition — confirmed here to be a fully deterministic relationship with `took.ACT` (zero mismatches between the two). `ACTCompositeScore` is recoded to 0 for non-test-takers and entered into the model alongside `took.ACT`, so that `took.ACT` absorbs the effect of test participation itself while the filled score captures the achievement gradient among test-takers only.
-- **MCA Math.** This project has previously found that MCA Math missingness correlates with English learner status specifically, and that this correlation can mask the true relationship between English learner status and an outcome when the raw (incomplete) score is used directly. Because this analysis is specifically designed to test whether the English learner effect identified bivariately survives multivariate control, the same missing-indicator approach is applied here: a missingness flag (`MCA.M.missing`) is entered alongside a filled score (`MCA.M.filled`, coded 0 for missing cases), preserving the full sample and preventing this known masking pattern from silently reappearing.
 
 **Dependent variable construction.** The two outcomes tested in this analysis are built directly from the bivariate persistence categories, collapsed to binary indicators:
 
@@ -272,14 +270,7 @@ master.disc <- master.original %>%
     # ACT missing-indicator recode - confirmed safe: missingness fully
     # explained by took.ACT (9,228 No/missing, 5,941 Yes/present, zero mismatches)
     ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
-    
-    # MCA Math missing-indicator recode - applied here specifically because
-    # English learner status is central to this confirmatory analysis, and
-    # MCA missingness has previously been shown to correlate with EL status
-    # and mask its true relationship with the outcome
-    MCA.M.missing = ifelse(is.na(MCA.M), 1, 0),
-    MCA.M.filled  = ifelse(is.na(MCA.M), 0, MCA.M),
-    
+
     # Dependent variables: binary persistence indicators
     persistent.non_sustained = ifelse(non_sustained.cat == "Persistently non-sustained", 1, 0),
     persistent.no_record     = ifelse(no_record.cat == "Persistently no-record", 1, 0)
@@ -290,7 +281,7 @@ nrow(master.disc)
 model_vars_disc <- c("Gender", "RaceEthnicity", "economic.status", "SpecialEdStatus",
                      "english.learner", "Dem_Desc", "avg.wages.pct.state", "avg.unemp.rate",
                      "pseo.participant", "took.ACT", "ACTCompositeScore.filled", "ap.exam",
-                     "cte.achievement", "MCA.M.filled", "MCA.M.missing", "attended.ps",
+                     "cte.achievement", "attended.ps",
                      "persistent.non_sustained", "persistent.no_record")
 
 colSums(is.na(master.disc[, model_vars_disc]))
@@ -298,11 +289,11 @@ colSums(is.na(master.disc[, model_vars_disc]))
 table(master.disc$persistent.non_sustained)
 table(master.disc$persistent.no_record)
 
-# confirm the EL/MCA-missingness correlation is present in this restricted,
-# cohort-adjusted sample before we see whether the model absorbs it
 master.disc %>%
   group_by(english.learner) %>%
-  summarise(pct_mca_missing = mean(MCA.M.missing), n = n())
+  summarise(pct_missing_pseo = mean(is.na(pseo.participant)), n = n())
+
+
 ```
 
 <br>
@@ -356,29 +347,27 @@ exp(cbind(OR = coef(model1_non_sustained), confint(model1_non_sustained)))
 
 ## Model 2: Add High School Accomplishments
 
-This model adds PSEO participation, ACT participation and score, AP exam, CTE achievement, and MCA Math (with the missing-data adjustment) to the demographic and district baseline (n = 10,128; 182 observations dropped for PSEO missingness, matching the expected small residual gap identified earlier).
+This model adds PSEO participation, ACT participation and score, AP exam, and CTE achievement to the demographic and district baseline (n = 10,128; 182 observations dropped for PSEO missingness, matching the expected small residual gap identified earlier).
 
-**Special Education status strengthens rather than attenuating — the reversal from Model 1 is not explained by academic engagement.** OR increases slightly, from 1.36 in Model 1 to 1.42 here (CI: 1.223-1.647, p \< .001). This rules out the hypothesis raised after Model 1 that Special Ed's unexpected positive association with instability might be a proxy for weaker academic preparation — controlling for accomplishments directly does not reduce the effect at all.
+Special Education status strengthens rather than attenuating — the reversal from Model 1 is not explained by academic engagement. OR increases slightly, from 1.36 in Model 1 to 1.45 here (CI: 1.255-1.676, p \< .001). This rules out the hypothesis raised after Model 1 that Special Ed's unexpected positive association with instability might be a proxy for weaker academic preparation — controlling for accomplishments directly does not reduce the effect at all.
 
-**Economic status remains non-significant** (OR ≈ 1.09, p = .139), consistent with Model 1 — its bivariate relationship with instability continues not to hold up once other variables are controlled.
+Economic status remains non-significant (OR ≈ 1.12, CI: 0.995-1.254, p = .062), consistent with Model 1 — its bivariate relationship with instability continues not to hold up once other variables are controlled.
 
-**PSEO participation is now significant, and in the adverse direction found bivariately.** OR ≈ 1.19 (CI: 1.047-1.349, p = .007) — PSEO participants show *higher*, not lower, odds of persistent non-sustained employment. This directly confirms the bivariate finding that PSEO's protective effect on overall disconnection runs almost entirely through avoiding no-record status, while showing a mild adverse relationship with instability specifically.
+PSEO participation is significant, and in the adverse direction found bivariately. OR ≈ 1.21 (CI: 1.068-1.372, p = .003) — PSEO participants show higher, not lower, odds of persistent non-sustained employment. This directly confirms the bivariate finding that PSEO's protective effect on overall disconnection runs almost entirely through avoiding no-record status, while showing a mild adverse relationship with instability specifically.
 
-**ACT shows a genuine reversal from the bivariate pattern, worth flagging directly rather than glossing over.** Taking the ACT is now significantly *protective* (OR ≈ 0.638, CI: 0.426-0.953, p = .029) — the opposite of the bivariate finding, where ACT test-takers showed a slightly *lower* "never non-sustained" rate than non-test-takers. ACT composite score remains in the expected adverse direction, though only barely significant (OR ≈ 1.02 per point, p = .049, CI: 1.00008-1.041) — higher scores modestly predicting greater odds of persistent instability, consistent with the bivariate crossover.
+ACT participation and score both fall short of conventional significance. Taking the ACT shows a protective direction (OR ≈ 0.694, CI: 0.468-1.027, p = .069), and ACT composite score shows the expected adverse direction among test-takers (OR ≈ 1.018 per point, CI: 0.999-1.038, p = .066) — but neither clears the p \< .05 threshold. Both are worth watching in Model 3 rather than dismissing outright, given how close each sits to significance.
 
-**MCA Math missingness is now strongly significant and protective — a new finding not visible bivariately.** OR ≈ 0.469 (CI: 0.339-0.641, p \< .001): students with a missing MCA Math score show substantially *lower* odds of persistent non-sustained employment. This is a different direction than the pattern found throughout the rest of this project, where MCA missingness typically predicted *worse* outcomes. This is worth flagging as a genuinely new, multivariate-only signal rather than assuming it replicates the usual pattern.
+CTE achievement and AP exam both remain non-significant. Neither CTE category holds up (Concentrator/Completor: OR ≈ 0.92, p = .266; Participant: OR ≈ 0.94, p = .352). AP exam similarly shows no significant relationship (OR ≈ 1.21, p = .128).
 
-**CTE achievement and AP exam both attenuate to non-significance.** Neither CTE category holds up (Concentrator/Completor: OR ≈ 0.89, p = .102; Participant: OR ≈ 0.91, p = .174), a real weakening from the bivariate finding of a genuine, if complex, CTE relationship with instability. AP exam similarly loses significance (OR ≈ 1.20, p = .156).
+English learner status remains non-significant, in the same direction as Model 1 (OR ≈ 0.97, p = .797) — consistent with the bivariate finding that English learner status was never a strong predictor of instability specifically.
 
-**English learner status remains non-significant, in the same direction as Model 1** (OR ≈ 1.11, p = .351) — no masking effect detected for this outcome, consistent with the bivariate finding that English learner status was never a strong predictor of instability specifically.
+Gender, Race/Ethnicity (AI and Black), and district/local-context variables remain essentially unchanged in direction and significance from Model 1.
 
-**Gender, Race/Ethnicity (AI and Black), and district/local-context variables** remain essentially unchanged in direction and significance from Model 1.
+Overall Interpretation
 
-**Overall Interpretation**
+Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 26.06, df = 6, p \< .001; AIC decreases from 9,092.4 to 8,896.2). The Special Education reversal identified in Model 1 is confirmed, not explained away, by this block — it is not a proxy for academic underpreparation. PSEO shows a genuine reversal from its bivariate relationship once controlled for other accomplishments. ACT participation and score both trend in the expected protective/adverse directions but do not reach significance here. CTE and AP exam, both real bivariate predictors of instability, do not hold up once entered alongside the other accomplishment variables.
 
-Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 56.22, df = 8, p \< .001; AIC decreases from 9,092.4 to 8,870.1). The Special Education reversal identified in Model 1 is confirmed, not explained away, by this block — it is not a proxy for academic underpreparation. PSEO and ACT both show genuine reversals from their bivariate relationships once controlled for other accomplishments, and MCA Math missingness emerges as a new, protective, multivariate-only predictor running counter to this project's usual pattern. CTE and AP exam, both real bivariate predictors of instability, do not hold up once entered alongside the other accomplishment variables.
-
-**Model fit:** AIC = 8,870.1 (down from 9,092.4 in Model 1); Δdeviance = 56.22 on 8 df, p \< .001; n = 10,128 in both models.
+Model fit: AIC = 8,896.2 (down from 9,092.4 in Model 1); Δdeviance = 26.06 on 6 df, p \< .001; n = 10,128 in both models.
 
 ```{r}
 model2_non_sustained <- glm(
@@ -395,9 +384,7 @@ model2_non_sustained <- glm(
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam +
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
+    cte.achievement, 
   family = binomial,
   data = master.disc
 )
@@ -432,27 +419,25 @@ anova(model1_non_sustained_matched, model2_non_sustained, test = "Chisq")
 
 ## Model 3: Add Postsecondary Attempt
 
-This model adds `attended.ps` to the full specification (n = 10,128, same complete-case sample as Model 2).
+This model adds attended.ps to the full specification (n = 10,128, same complete-case sample as Model 2).
 
-**Attempting postsecondary education shows a strong, independent protective effect on top of demographics, district context, and high school accomplishments — confirming this variable adds real explanatory power beyond what CTE, PSEO, and ACT already capture.** OR ≈ 0.694 (CI: 0.614-0.785, p \< .001): students who attempted postsecondary education, even without completing it, show roughly 31% lower odds of persistent non-sustained employment than those who never attempted it. This is a meaningful confirmation of the bivariate finding that `attended.ps` was the one variable affecting both disconnection mechanisms — its instability-side effect survives full multivariate control, not just partial control.
+Attempting postsecondary education shows a strong, independent protective effect on top of demographics, district context, and high school accomplishments — confirming this variable adds real explanatory power beyond what CTE, PSEO, and ACT already capture. OR ≈ 0.715 (CI: 0.632-0.808, p \< .001): students who attempted postsecondary education, even without completing it, show roughly 29% lower odds of persistent non-sustained employment than those who never attempted it. This confirms the bivariate finding that attended.ps was the one variable affecting both disconnection mechanisms — its instability-side effect survives full multivariate control, not just partial control.
 
-**PSEO's adverse effect from Model 2 persists essentially unchanged** (OR ≈ 1.20, CI: 1.053-1.358, p = .006) — even with postsecondary attempt now in the model, PSEO participation continues to show a mild, real association with *higher* odds of persistent instability, not lower.
+PSEO's adverse effect from Model 2 persists essentially unchanged (OR ≈ 1.22, CI: 1.076-1.384, p = .002) — even with postsecondary attempt now in the model, PSEO participation continues to show a mild, real association with higher odds of persistent instability, not lower.
 
-**Took-ACT and ACT score both attenuate to the edge of significance.** Took-ACT moves from significant in Model 2 (p = .029) to marginal here (OR ≈ 0.677, CI: 0.452-1.011, p = .057). ACT composite score similarly weakens (OR ≈ 1.019, p = .059, CI: 0.999-1.040, now crossing 1). This suggests some of ACT's apparent relationship with instability in Model 2 was capturing information that `attended.ps` explains more directly — sensible, since taking the ACT and attempting postsecondary education are closely related behaviors.
+Took-ACT and ACT score both weaken further and no longer approach significance. Took-ACT moves from marginal in Model 2 (p = .069) to clearly non-significant here (OR ≈ 0.734, CI: 0.495-1.086, p = .123). ACT composite score remains only marginal (OR ≈ 1.018, p = .074, CI: 0.998-1.037). This suggests some of ACT's apparent relationship with instability in Model 2 was capturing information that attended.ps explains more directly — sensible, since taking the ACT and attempting postsecondary education are closely related behaviors.
 
-**Special Education status remains essentially unchanged and still significant** (OR ≈ 1.39, CI: 1.199-1.616, p \< .001) — confirming again that this effect is not explained by postsecondary attempt any more than it was explained by high school accomplishments in Model 2. This is now the third model in a row where Special Ed's adverse association with instability holds up.
+Special Education status remains essentially unchanged and still significant (OR ≈ 1.43, CI: 1.232-1.647, p \< .001) — confirming again that this effect is not explained by postsecondary attempt any more than it was explained by high school accomplishments in Model 2. This is now the third model in a row where Special Ed's adverse association with instability holds up.
 
-**MCA Math missingness remains strongly protective**, and if anything strengthens slightly (OR ≈ 0.445, CI: 0.321-0.609, p \< .001) — this counter-to-pattern finding continues to hold up across every specification tested so far.
+Economic status and English learner status both remain non-significant (economic status: OR ≈ 1.11, p = .080; English learner: OR ≈ 0.95, p = .614), consistent with every prior model — neither shows any relationship with persistent instability once other variables are controlled for.
 
-**Economic status and English learner status both remain non-significant**, consistent with every prior model — neither shows any relationship with persistent instability once other variables are controlled for.
-
-**Gender and the Race/Ethnicity effects (AI, Black, Asian/PI) remain stable** in direction and magnitude relative to Model 2.
+Gender and the Race/Ethnicity effects (AI, Black, Asian/PI) remain stable in direction and magnitude relative to Model 2. Hispanic graduates remain non-significant (OR ≈ 1.08, p = .719).
 
 **Overall Interpretation**
 
-Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 34.94, df = 1, p \< .001; AIC decreases from 8,870.1 to 8,837.1). This confirms `attended.ps` as a genuine, independent predictor of instability specifically, not merely a proxy for the academic-preparation variables already in the model — it earns its place in the specification on its own merits. Across all three models, two findings have proven remarkably stable and are the clearest results of this analysis: Special Education status is a real, persistent, positive predictor of instability that survives every level of control tested, directly contradicting its weak bivariate relationship with this specific mechanism; and MCA Math missingness is a real, persistent, protective predictor that runs counter to the pattern found everywhere else in this project. Economic status and English learner status, by contrast, never emerge as significant predictors of instability at any stage, confirming the bivariate finding that whatever drives these two groups' overall disconnection, it is not this mechanism.
+Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 29.59, df = 1, p \< .001; AIC decreases from 8,896.2 to 8,868.7). This confirms attended.ps as a genuine, independent predictor of instability specifically, not merely a proxy for the academic-preparation variables already in the model — it earns its place in the specification on its own merits. Across all three models, Special Education status is the clearest and most stable finding of this analysis: a real, persistent, positive predictor of instability that survives every level of control tested, directly contradicting its weak bivariate relationship with this specific mechanism. Economic status and English learner status, by contrast, never emerge as significant predictors of instability at any stage, confirming the bivariate finding that whatever drives these two groups' overall disconnection, it is not this mechanism. ACT participation and score trend in the expected direction throughout but do not hold up as independent, reliable predictors once postsecondary attempt is accounted for.
 
-**Model fit:** AIC = 8,837.1 (down from 8,870.1 in Model 2); Δdeviance = 34.94 on 1 df, p \< .001; n = 10,128 across all three models.
+Model fit: AIC = 8,868.7 (down from 8,896.2 in Model 2); Δdeviance = 29.59 on 1 df, p \< .001; n = 10,128 across all three models.
 
 ```{r}
 model3_non_sustained <- glm(
@@ -470,8 +455,6 @@ model3_non_sustained <- glm(
     ACTCompositeScore.filled +
     ap.exam +
     cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing +
     attended.ps,
   family = binomial,
   data = master.disc
@@ -492,21 +475,25 @@ anova(model2_non_sustained, model3_non_sustained, test = "Chisq")
 
 ## Summary: Multivariate Confirmation — Persistent Non-Sustained Employment
 
-Across all three models, several bivariate findings held up, but two demographic effects reversed direction in a way worth treating as this analysis's central discovery.
+Summary: Multivariate Confirmation — Persistent Non-Sustained Employment
 
-**Special Education status is a genuine, positive predictor of instability — the opposite of what the bivariate analysis suggested.** Bivariately, Special Ed appeared to be almost entirely a no-record phenomenon with little relationship to instability specifically. Once demographics, district context, high school accomplishments, and postsecondary attempt are all controlled for, Special Ed shows a strong, stable, significant association with *higher* odds of persistent non-sustained employment (OR ≈ 1.36–1.42 across all three models) that never attenuates, no matter what else is added to the model. This is a real reversal, not a bivariate artifact resolving itself — Special Ed's relationship with instability appears to have been *suppressed* in the bivariate comparison, not masked by something the multivariate model then explains away.
+Across all three models, several bivariate findings held up, but one demographic effect reversed direction in a way worth treating as this analysis's central discovery.
 
-**Economic status and English learner status never emerge as predictors of instability at any stage**, confirming the bivariate finding cleanly: whatever drives these two groups toward overall disconnection, it is not the instability mechanism.
+Special Education status is a genuine, positive predictor of instability — the opposite of what the bivariate analysis suggested. Bivariately, Special Ed appeared to be almost entirely a no-record phenomenon with little relationship to instability specifically. Once demographics, district context, high school accomplishments, and postsecondary attempt are all controlled for, Special Ed shows a strong, stable, significant association with higher odds of persistent non-sustained employment (OR ≈ 1.36–1.45 across all three models) that never attenuates, no matter what else is added to the model. This is a real reversal, not a bivariate artifact resolving itself — Special Ed's relationship with instability appears to have been suppressed in the bivariate comparison, not masked by something the multivariate model then explains away.
 
-**PSEO participation and MCA Math missingness both behave in ways that run counter to expectations set elsewhere in this project.** PSEO shows a small but real *adverse* association with instability (consistent with the bivariate finding), holding steady across every model once other variables are controlled. MCA Math missingness is strongly *protective* against instability (OR consistently around 0.44–0.47) — the opposite of the pattern found throughout the rest of this project, where missing academic records typically predict worse outcomes. This is a genuinely new, multivariate-specific finding that couldn't have been seen bivariately, since the bivariate analysis only tested the raw score, not the missingness itself.
+Economic status and English learner status never emerge as predictors of instability at any stage, confirming the bivariate finding cleanly: whatever drives these two groups toward overall disconnection, it is not the instability mechanism.
 
-**Attempting postsecondary education is confirmed as an independent, genuine predictor of reduced instability**, surviving full control alongside CTE, PSEO, and ACT (OR ≈ 0.69 in the final model) — this is the clearest bivariate finding to survive multivariate testing fully intact.
+PSEO participation behaves in a way that runs counter to its usual "broadly protective" role elsewhere in this project. It shows a small but real adverse association with instability (OR ≈ 1.21–1.22, consistent with the bivariate finding), holding steady across every model once other variables are controlled.
 
-**Race/Ethnicity effects for American Indian, Black, and Asian/Pacific Islander graduates all replicate their bivariate direction and remain significant or near-significant across every model** — American Indian and Black graduates show elevated odds of instability, Asian/Pacific Islander graduates show reduced odds, consistent with the bivariate finding that these groups' disadvantage (or advantage) is genuinely instability-driven.
+ACT participation and score both trend in the expected protective/adverse directions, but neither holds up as a reliable, independent predictor. Both sit at the edge of significance once high school accomplishments are added, and both fall further from significance once postsecondary attempt enters the model — suggesting whatever relationship they have with instability is substantially overlapping with attempting postsecondary education itself, rather than representing a distinct, independent effect.
 
-**CTE achievement and AP exam, both real bivariate predictors of instability, do not survive multivariate control** — neither reaches significance once entered alongside the other accomplishment variables, suggesting their bivariate relationships were substantially explained by other correlated variables now in the model.
+Attempting postsecondary education is confirmed as an independent, genuine predictor of reduced instability, surviving full control alongside CTE, PSEO, and ACT (OR ≈ 0.72 in the final model) — this is the clearest bivariate finding to survive multivariate testing fully intact.
 
-**Local geographic and economic context (Dem_Desc, wages, unemployment) remains entirely non-predictive across all three models**, confirming this project's consistent finding that local labor market conditions do not meaningfully shape workforce instability for this population.
+Race/Ethnicity effects for American Indian, Black, and Asian/Pacific Islander graduates all replicate their bivariate direction and remain significant across every model — American Indian and Black graduates show elevated odds of instability, Asian/Pacific Islander graduates show reduced odds, consistent with the bivariate finding that these groups' disadvantage (or advantage) is genuinely instability-driven. Hispanic graduates show no significant effect at any stage, consistent with the bivariate finding that this group's disadvantage is concentrated in no-record status rather than instability.
+
+CTE achievement and AP exam, both real bivariate predictors of instability, do not survive multivariate control — neither reaches significance once entered alongside the other accomplishment variables, suggesting their bivariate relationships were substantially explained by other correlated variables now in the model.
+
+Local geographic and economic context (Dem_Desc, wages, unemployment) remains entirely non-predictive across all three models, confirming this project's consistent finding that local labor market conditions do not meaningfully shape workforce instability for this population.
 
 <br>
 
@@ -559,29 +546,31 @@ exp(cbind(OR = coef(model1_no_record), confint(model1_no_record)))
 
 ## Model 2: Add High School Accomplishments
 
-This model adds PSEO participation, ACT participation and score, AP exam, CTE achievement, and MCA Math (with the missing-data adjustment) to the demographic and district baseline (n = 10,128).
+Model 2: Add High School Accomplishments
 
-**English learner status collapses from the strongest predictor in Model 1 to fully non-significant — this is the central confirmatory finding of this analysis.** OR drops from 1.94 (Model 1, p \< .001) to 0.905 (Model 2, CI: 0.731-1.118, p = .356). This directly replicates the masking pattern already documented elsewhere in this project: English learners' apparent disadvantage in persistent no-record status is substantially explained by the fact that English learners are far more likely to have a missing MCA Math score — not by English learner status itself. The bivariate finding was real, but its true driver was hiding underneath it.
+This model adds PSEO participation, ACT participation and score, AP exam, and CTE achievement to the demographic and district baseline (n = 10,128).
 
-**MCA Math missingness is, by a wide margin, the strongest predictor in this entire analysis.** OR ≈ 8.90 (CI: 6.916-11.495, p \< 2e-16) — students with a missing MCA Math score show nearly nine times the odds of persistent no-record status. This is the mechanism absorbing English learner's Model 1 effect, and it is a dramatically larger coefficient than the modest, protective MCA-missingness effect found in the non-sustained-employment sequence — confirming that this variable's role is highly outcome-specific, not a generic effect that shows up everywhere.
+English learner status remains the strongest effect in the model, only modestly reduced from Model 1. OR ≈ 1.79 (CI: 1.489-2.148, p \< .001) — English learners continue to show substantially higher odds of persistent no-record status once high school accomplishments are accounted for.
 
-**Race/Ethnicity effects attenuate substantially across the board, consistent with the same masking mechanism operating for these groups too.** Hispanic drops from OR ≈ 2.42 (p \< .001) to 1.42 (p = .075, now only marginal). Black drops from a significant 1.47 (p = .003) to a non-significant 1.10 (p = .514). Asian/Pacific Islander remains significant but roughly halves in magnitude (OR ≈ 1.66, CI: 1.120-2.435, p = .010, down from 2.41). American Indian remains marginal, essentially unchanged (OR ≈ 1.19, p = .062). This pattern — real bivariate racial disparities substantially explained once MCA missingness enters the model — mirrors the English learner finding closely, and suggests MCA Math missingness may be correlated with race/ethnicity in ways not yet directly examined.
+Race/Ethnicity effects remain strong and largely intact. Hispanic graduates show OR ≈ 2.32 (CI: 1.663-3.223, p \< .001), and Asian/Pacific Islander graduates show OR ≈ 2.24 (CI: 1.579-3.156, p \< .001) — both remain more than double the odds of persistent no-record status relative to White graduates, consistent with Model 1. Black graduates strengthen to significance here (OR ≈ 1.41, CI: 1.081-1.826, p = .010). American Indian graduates remain non-significant (OR ≈ 1.15, p = .123), consistent with the bivariate finding that AI graduates' disadvantage concentrates in the instability mechanism, not this one.
 
-**PSEO, ACT participation, and ACT score all confirm their bivariate roles precisely, and ACT participation shows the largest coefficient of any accomplishment variable.** Taking the ACT is strongly protective (OR ≈ 0.314, CI: 0.209-0.472, p \< .001) — the same large protective effect found bivariately. ACT composite score shows the expected adverse crossover (OR ≈ 1.056 per point, p \< .001) — higher scores among test-takers predicting *higher* odds of no-record status, confirming the threshold-effect pattern found bivariately. PSEO participation is now significantly protective (OR ≈ 0.869, p = .031), matching its bivariate direction.
+Took-ACT shows a large, highly significant protective effect. OR ≈ 0.265 (CI: 0.179-0.391, p \< .001) — students who took the ACT show roughly 74% lower odds of persistent no-record status. ACT composite score shows the expected adverse direction among test-takers (OR ≈ 1.048 per point, p \< .001, CI: 1.028-1.068) — higher scores predicting somewhat higher odds of no-record status, consistent with the threshold-effect pattern found bivariately.
 
-**Average local unemployment rate becomes significant here for the first time in this entire project's disconnection work** (OR ≈ 0.920 per unit, CI: 0.878-0.964, p \< .001) — higher local unemployment predicting *lower* odds of persistent no-record status. This is the same counterintuitive direction found in the bivariate analysis, now confirmed as statistically real rather than a fluke — worth noting as genuinely present, but still resistant to a simple explanation.
+PSEO participation is significantly protective (OR ≈ 0.751, CI: 0.664-0.848, p \< .001), confirming the bivariate finding that PSEO's protective role for this population runs heavily through the no-record mechanism.
 
-**Special Education status remains non-significant**, confirming Model 1's surprise finding — Special Ed shows no relationship with no-record status at any level of control tested so far, reinforcing that its true disconnection story (established in the non-sustained sequence) is an instability story, not a no-record story.
+CTE achievement shows a strong, significant protective effect for both categories — Concentrator/Completor (OR ≈ 0.686, p \< .001) and Participant (OR ≈ 0.747, p \< .001) — a more substantial relationship than CTE showed against instability.
 
-**Economic status and Gender both strengthen slightly and remain protective** (economic status: OR ≈ 0.826, p \< .001; Gender: OR ≈ 0.849, p = .003), consistent with Model 1.
+Average local unemployment rate becomes significant here (OR ≈ 0.923 per unit, CI: 0.884-0.964, p \< .001) — higher local unemployment predicting lower odds of persistent no-record status, the same counterintuitive direction found in the bivariate analysis.
 
-**CTE achievement shows a modest, borderline protective effect** (Concentrator/Completer: OR ≈ 0.871, p = .046) not clearly visible bivariately. MCA Math's filled score, once the missingness indicator is separated out, shows a real protective effect (OR ≈ 0.877 per point, p \< .001) — higher actual scores predicting lower odds of no-record status, the expected direction once the missingness confound is removed.
+Special Education status remains non-significant (OR ≈ 0.95, p = .501), extending the Model 1 finding — Special Ed shows no relationship with no-record status at this stage either, reinforcing that its disconnection story runs through the instability mechanism instead.
 
-**Overall Interpretation**
+Economic status and Gender both remain significant and protective (economic status: OR ≈ 0.734, p \< .001; Gender: OR ≈ 0.872, p = .010), consistent with Model 1. AP exam remains non-significant (OR ≈ 1.01, p = .913).
 
-Adding high school accomplishments produces a massive improvement in model fit (likelihood ratio test: Δdeviance = 849.54, df = 8, p \< .001; AIC decreases sharply from 10,201.6 to 9,144.5) — the largest single-block improvement found anywhere in this project's disconnection work, driven almost entirely by MCA Math missingness. This model delivers the confirmatory result the analysis was built to test: English learner status's strong bivariate association with persistent no-record status is not an independent effect — it is substantially explained by the correlation between English learner status and missing MCA Math scores. The same masking pattern extends to Hispanic and Black graduates' racial disparities, both of which attenuate to non-significance or near-non-significance once this variable is controlled for. This means the bivariate framing of "English learner and certain racial groups are structurally more likely to disappear from Minnesota's employment records" needs to be revised to something more specific: much of that disparity appears to trace back to gaps in academic assessment records themselves, which may reflect testing exemptions, transfers, or other structural factors correlated with both group membership and record completeness.
+Overall Interpretation
 
-**Model fit:** AIC = 9,144.5 (down from 10,201.6 in Model 1); Δdeviance = 849.54 on 8 df, p \< .001; n = 10,128 in both models.
+Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 146.75, df = 6, p \< .001; AIC decreases from 10,201.6 to 9,843.3). English learner status and the Hispanic, Black, and Asian/Pacific Islander racial disparities identified in Model 1 all remain strong, significant predictors of persistent no-record status — none attenuate to non-significance once high school accomplishments are added. ACT participation and score, PSEO participation, and CTE achievement all confirm substantial, independent relationships with no-record status, consistent with the bivariate finding that these variables' broad protective effects for this population run heavily through avoiding no-record status specifically. Special Education status remains non-significant, extending the pattern from Model 1.
+
+Model fit: AIC = 9,843.3 (down from 10,201.6 in Model 1); Δdeviance = 146.75 on 6 df, p \< .001; n = 10,128 in both models.
 
 ```{r}
 model2_no_record <- glm(
@@ -598,9 +587,7 @@ model2_no_record <- glm(
     took.ACT +
     ACTCompositeScore.filled +
     ap.exam +
-    cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing,
+    cte.achievement,
   family = binomial,
   data = master.disc
 )
@@ -636,29 +623,29 @@ anova(model1_no_record_matched, model2_no_record, test = "Chisq")
 
 <br>
 
-## Model 3: Add Postsecondary Attempt 
+## Model 3: Add Postsecondary Attempt
 
-This model adds `attended.ps` to the full specification (n = 10,128, same complete-case sample as Model 2).
+This model adds attended.ps to the full specification (n = 10,128, same complete-case sample as Model 2).
 
-**Attempting postsecondary education shows the second-largest effect in this entire model, confirming its bivariate standing as the strongest overall predictor of disconnection.** OR ≈ 0.613 (CI: 0.541-0.693, p \< 2e-16): students who attempted postsecondary education show roughly 39% lower odds of persistent no-record status than those who never attempted it — a larger protective effect than any other accomplishment variable in the model except MCA Math missingness. This confirms that `attended.ps`'s bivariate strength on this outcome specifically is real and independent, not an artifact of overlap with PSEO, ACT, or CTE.
+Attempting postsecondary education shows a strong, independent protective effect — the second-largest effect in this entire model, after took.ACT. OR ≈ 0.530 (CI: 0.470-0.597, p \< 2e-16): students who attempted postsecondary education, even without completing it, show roughly 47% lower odds of persistent no-record status than those who never attempted it. This confirms attended.ps's bivariate strength on this outcome is real and independent, not an artifact of overlap with PSEO, ACT, or CTE.
 
-**MCA Math missingness remains the dominant predictor in the model, essentially unchanged from Model 2** (OR ≈ 8.35, CI: 6.479-10.784, p \< 2e-16, down only slightly from 8.90). The magnitude of this effect is not explained by postsecondary attempt — it is a genuinely separate, massive predictor of persistent no-record status.
+Took-ACT remains the single largest effect in the model, essentially unchanged from Model 2 (OR ≈ 0.295, CI: 0.199-0.435, p \< .001). ACT composite score also remains stable (OR ≈ 1.047 per point, p \< .001, CI: 1.027-1.067). Neither is meaningfully explained by postsecondary attempt — both hold their own alongside it.
 
-**English learner status remains non-significant, confirming Model 2's finding holds up even with postsecondary attempt in the model** (OR ≈ 0.888, CI: 0.717-1.098, p = .275). This closes the loop on the central question this analysis was designed to answer: English learner status's bivariate relationship with persistent no-record status does not survive multivariate control at any stage, and MCA Math missingness remains the best explanation for where that bivariate signal actually came from.
+English learner status remains a strong, significant predictor, though it attenuates modestly from Model 2. OR ≈ 1.71 (CI: 1.419-2.051, p \< .001), down from 1.79 — a real but small reduction, not a collapse toward non-significance.
 
-**Race/Ethnicity effects hold essentially steady from Model 2.** Asian/Pacific Islander remains significant (OR ≈ 1.61, p = .017). Hispanic and American Indian remain marginal (p = .072 and p = .054, respectively). Black graduates remain non-significant (OR ≈ 1.12, p = .428). No further attenuation occurs once postsecondary attempt is added — the racial disparities that attenuated in Model 2 stay attenuated here, confirming MCA Math missingness (not lack of postsecondary attempt) was the relevant explanatory factor for those groups too.
+Race/Ethnicity effects hold essentially steady from Model 2. Hispanic (OR ≈ 2.29, p \< .001) and Asian/Pacific Islander (OR ≈ 2.12, p \< .001) graduates remain strongly elevated. Black graduates remain significant (OR ≈ 1.44, p = .007). American Indian graduates remain non-significant (OR ≈ 1.16, p = .103), consistent with every prior model.
 
-**Took-ACT, ACT score, PSEO, and CTE achievement all remain essentially unchanged from Model 2** in direction, magnitude, and significance — none of these accomplishment variables' relationships with no-record status are meaningfully altered by adding postsecondary attempt to the model.
+PSEO participation and CTE achievement both remain essentially unchanged from Model 2 in direction, magnitude, and significance — none of these accomplishment variables' relationships with no-record status are meaningfully altered by adding postsecondary attempt to the model.
 
-**Special Education status remains non-significant**, consistent with both prior models — confirming across the entire model sequence that Special Ed shows no relationship whatsoever with no-record status, at any level of control.
+Special Education status remains non-significant (OR ≈ 0.93, p = .294), consistent with both prior models — Special Ed shows no relationship whatsoever with no-record status, at any level of control.
 
-**Economic status, Gender, and average local unemployment rate all remain significant and essentially stable** from Model 2, each showing modest protective effects.
+Economic status and Gender remain significant and protective (economic status: OR ≈ 0.722, p \< .001; Gender: OR ≈ 0.882, p = .018). Average local unemployment rate, significant in Model 2, weakens to marginal here (OR ≈ 0.963, CI: 0.922-1.006, p = .094) — worth noting as a real shift rather than treating the Model 2 result as the final word on this variable. AP exam remains non-significant (OR ≈ 0.95, p = .694).
 
-**Overall Interpretation**
+Overall Interpretation
 
-Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 62.35, df = 1, p \< .001; AIC decreases from 9,144.5 to 9,084.1), confirming `attended.ps` as a large, genuine, independent predictor of no-record status — its effect here is even more pronounced than in the non-sustained-employment sequence, consistent with the bivariate finding that this variable's protective effect was concentrated more heavily in the no-record mechanism. Critically, this final model does not change the central finding from Model 2: English learner status and the Hispanic/Black racial disparities remain non-significant or marginal, confirming that MCA Math missingness — not postsecondary engagement — is the variable actually explaining those groups' apparent bivariate disadvantage. Across the full sequence, MCA Math missingness stands out as the single most powerful and consistent predictor of persistent no-record status found in this project, alongside a large and independently confirmed protective effect of postsecondary attempt.
+Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 113.57, df = 1, p \< .001; AIC decreases from 9,843.3 to 9,731.7), confirming attended.ps as a large, genuine, independent predictor of no-record status. Across the full three-model sequence, English learner status and the Hispanic, Black, and Asian/Pacific Islander racial disparities identified in Model 1 all remain significant predictors of persistent no-record status through every stage of control — none attenuate to non-significance. Took-ACT, ACT composite score, PSEO participation, and CTE achievement all confirm substantial, independent relationships with no-record status. Special Education status remains non-significant throughout the full sequence.
 
-**Model fit:** AIC = 9,084.1 (down from 9,144.5 in Model 2); Δdeviance = 62.35 on 1 df, p \< .001; n = 10,128 across all three models.
+Model fit: AIC = 9,731.7 (down from 9,843.3 in Model 2); Δdeviance = 113.57 on 1 df, p \< .001; n = 10,128 across all three models.
 
 ```{r}
 model3_no_record <- glm(
@@ -676,8 +663,6 @@ model3_no_record <- glm(
     ACTCompositeScore.filled +
     ap.exam +
     cte.achievement +
-    MCA.M.filled +
-    MCA.M.missing +
     attended.ps,
   family = binomial,
   data = master.disc
@@ -696,23 +681,23 @@ anova(model2_no_record, model3_no_record, test = "Chisq")
 
 <br>
 
-## Summary: Multivariate Confirmation
+## Summary: Multivariate Confirmation — Persistent No Minnesota Employment Record
 
-Across all three models, this analysis delivered the central confirmatory result it was designed to test, along with several supporting findings.
+Across all three models, this analysis delivered a clear, stable central finding, along with several supporting results.
 
-**English learner status's strong bivariate relationship with persistent no-record status does not survive multivariate control.** OR collapsed from 1.94 (p \< .001) in the demographics-only model to non-significant (OR ≈ 0.89, p = .275) once high school accomplishments — specifically the MCA Math missingness indicator — were added, and remained non-significant through the final model. This confirms the masking hypothesis this analysis was built to test: English learners' apparent disadvantage in disappearing from Minnesota's employment records is substantially explained by their much higher rate of missing MCA Math scores, not by English learner status operating independently.
+English learner status is a strong, persistent predictor of no-record status across every stage of control. OR moves from 1.94 (Model 1) to 1.79 (Model 2) to 1.71 (Model 3) — a modest, gradual decline, but English learners remain at nearly double the odds of persistent no-record status relative to non-English-learners even in the fully specified model (p \< .001 throughout). This is the clearest and most consequential finding in this analysis: English learners' disadvantage in disappearing from Minnesota's employment records is not explained away by high school accomplishments or postsecondary attempt — it holds up as an independent, substantial effect.
 
-**The same masking pattern extends to Hispanic and Black graduates.** Both showed large, significant bivariate-consistent effects in the demographics-only model (Hispanic OR ≈ 2.42; Black OR ≈ 1.47) that attenuated to marginal or non-significant once MCA Math missingness entered the model (Hispanic OR ≈ 1.42-1.43, p ≈ .07; Black OR ≈ 1.10-1.12, non-significant). Asian/Pacific Islander graduates are the exception — their effect attenuated by roughly a third but remained significant throughout (OR ≈ 1.61-1.66 in the final models), indicating a real disparity that persists independent of the MCA-missingness pattern.
+The same pattern holds for Hispanic and Asian/Pacific Islander graduates. Both groups show large, significant effects in the demographics-only model (Hispanic OR ≈ 2.42; Asian/PI OR ≈ 2.41) that remain strong and significant through the full model sequence (Hispanic OR ≈ 2.29-2.32; Asian/PI OR ≈ 2.12-2.24, both p \< .001 throughout). Black graduates also remain significant at every stage (OR ≈ 1.41-1.47, p \< .01 throughout). American Indian graduates remain non-significant or marginal across all three models (OR ≈ 1.15-1.18), consistent with the bivariate finding that AI graduates' disadvantage concentrates in the instability mechanism rather than this one.
 
-**MCA Math missingness is the single most powerful predictor found anywhere in this analysis.** OR remained in the 8-9 range across both models where it appeared, dwarfing every other coefficient in either outcome. This is a dramatically different role than the same variable played in the non-sustained-employment sequence, where it was modestly *protective* rather than a massive risk factor — confirming that MCA Math missingness operates in genuinely different, outcome-specific ways depending on which disconnection mechanism is being modeled.
+Took-ACT is the single most powerful predictor found anywhere in this analysis. OR remains in the 0.26-0.30 range across both models where it appears — students who took the ACT show roughly 70-74% lower odds of persistent no-record status. ACT composite score confirms the expected threshold-effect pattern, with higher scores among test-takers predicting modestly higher odds of no-record status (OR ≈ 1.05 per point, p \< .001 in both models).
 
-**Attempting postsecondary education is confirmed as a large, genuine, independent predictor of reduced no-record risk**, holding up fully alongside every other variable (OR ≈ 0.61 in the final model) — an even larger effect than it showed in the non-sustained-employment sequence, consistent with the bivariate finding that `attended.ps`'s protective effect concentrates more heavily in this mechanism.
+Attempting postsecondary education is confirmed as a large, genuine, independent predictor of reduced no-record risk, holding up fully alongside every other variable (OR ≈ 0.53 in the final model) — a larger effect than it showed in the non-sustained-employment sequence, consistent with the bivariate finding that attended.ps's protective effect concentrates more heavily in this mechanism.
 
-**ACT participation and score both confirm their bivariate crossover pattern precisely and hold up fully across every model.** Taking the ACT is strongly protective; among test-takers, higher scores predict *higher* odds of no-record status — the same threshold-effect crossover found bivariately, now confirmed under full multivariate control.
+PSEO participation and CTE achievement both confirm substantial, stable protective effects across every model in which they appear, consistent with the bivariate finding that these variables' broad protective role for this population runs heavily through avoiding no-record status specifically.
 
-**Special Education status shows no relationship with no-record status at any stage** — a clean, consistent null result across all three models, confirming that Special Ed's true disconnection story (established in the companion non-sustained-employment analysis) is an instability story, not a no-record story, despite the bivariate comparison initially suggesting otherwise.
+Special Education status shows no relationship with no-record status at any stage — a clean, consistent null result across all three models, confirming that Special Ed's disconnection story (established in the companion non-sustained-employment analysis) is an instability story, not a no-record story, despite the bivariate comparison initially suggesting otherwise.
 
-**Economic status, Gender, PSEO participation, and average local unemployment rate all emerge as modest but genuine and stable protective predictors**, each holding up consistently once controlled for the full variable set — none of these were as clearly visible in the bivariate work.
+Economic status and Gender both emerge as modest, genuine, stable protective predictors, holding up consistently across all three models. Average local unemployment rate is significant in Model 2 but weakens to marginal in Model 3 once postsecondary attempt is added — a real shift worth tracking rather than treating the Model 2 result as final. AP exam and district geographic classification remain non-significant throughout.
 
 <br>
 
@@ -721,32 +706,31 @@ Across all three models, this analysis delivered the central confirmatory result
 **What the Bivariate Analysis Predicted vs. What the Multivariate Models Confirmed**
 
 | Variable | Bivariate expectation | Confirmed for Non-Sustained? | Confirmed for No-Record? |
-|------------------|------------------|------------------|------------------|
-| Special Education status | No-record mechanism | **No — reversed.** Strong, stable predictor of instability instead (OR ≈ 1.36–1.42) | **No.** Non-significant at every stage |
-| English learner status | No-record mechanism | Confirmed null (never significant) | **No — masked.** Strong in Model 1 (OR ≈ 1.94), collapses once MCA Math missingness is added |
-| Economic status | Instability mechanism | **No.** Non-significant at every stage | **Reversed role — protective, no-record.** Significant, protective (OR ≈ 0.81–0.83) |
-| Gender | Instability mechanism | Confirmed (OR ≈ 1.30–1.34, adverse) | **New finding.** Also significant here, protective (OR ≈ 0.85–0.89) |
+|----|----|----|----|
+| Special Education status | No-record mechanism | **No — reversed.** Strong, stable predictor of instability instead (OR ≈ 1.36–1.45) | **No.** Non-significant at every stage |
+| English learner status | No-record mechanism | Confirmed null (never significant) | **Confirmed, and robust.** Strong at every stage (OR ≈ 1.71–1.94), declining only modestly as controls are added |
+| Economic status | Instability mechanism | **No.** Non-significant at every stage | **Reversed role — protective, no-record.** Significant, protective (OR ≈ 0.72–0.78) |
+| Gender | Instability mechanism | Confirmed (OR ≈ 1.31–1.34, adverse) | **New finding.** Also significant here, protective (OR ≈ 0.87–0.89) |
 | American Indian | Instability mechanism | Confirmed (OR ≈ 1.37–1.39) | Confirmed null (marginal at best) |
-| Hispanic / Asian-PI | No-record mechanism | Confirmed null (mostly) | **Partially masked.** Hispanic attenuates to marginal; Asian/PI persists independently |
-| Black | Both, moderately | Confirmed (OR ≈ 1.68–1.83) | **Masked.** Attenuates to non-significant once MCA missingness enters |
-| MCA Math missingness | Not tested bivariately | **New finding — protective** (OR ≈ 0.44–0.47) | **New finding — massive risk factor** (OR ≈ 8.3–8.9) |
-| Attended postsecondary | Both mechanisms | Confirmed, independent (OR ≈ 0.69) | Confirmed, independent and larger (OR ≈ 0.61) |
-| ACT participation/score | No-record mechanism | **Partially reversed.** Took-ACT flips protective in Model 2, fades to marginal by Model 3 | Confirmed precisely (crossover pattern intact) |
-| PSEO participation | Ambiguous/adverse | Confirmed adverse (OR ≈ 1.19–1.20) | Confirmed protective (OR ≈ 0.87) |
-| Local wages/unemployment/Dem_Desc | Null everywhere | Confirmed null throughout | Mostly null; unemployment rate emerges as a small, real, significant effect |
+| Hispanic | No-record mechanism | Confirmed null (never significant) | **Confirmed, and robust.** Strong at every stage (OR ≈ 2.29–2.42) |
+| Asian/Pacific Islander | No-record mechanism | **Reversed.** Significantly *reduced* odds of instability (OR ≈ 0.55–0.60) | **Confirmed, and robust.** Strong at every stage (OR ≈ 2.12–2.41) |
+| Black | Both, moderately | Confirmed (OR ≈ 1.68–1.74) | **Confirmed, and robust.** Significant at every stage (OR ≈ 1.41–1.47) |
+| Attended postsecondary | Both mechanisms | Confirmed, independent (OR ≈ 0.72) | Confirmed, independent and larger (OR ≈ 0.53) |
+| ACT participation/score | No-record mechanism | **Weakens to non-significant** once postsecondary attempt is added | **Confirmed precisely.** Crossover pattern intact and strong throughout (OR ≈ 0.26–0.30 for participation) |
+| PSEO participation | Ambiguous/adverse | Confirmed adverse (OR ≈ 1.21–1.22) | Confirmed protective (OR ≈ 0.75–0.76) |
+| CTE achievement | Not tested against combined measure this way | Attenuates to non-significance | **Confirmed, strongly protective** (OR ≈ 0.69–0.75 across categories) |
+| Local wages/unemployment/Dem_Desc | Null everywhere | Confirmed null throughout | Mostly null; unemployment rate is significant in Model 2 but **fades to marginal** once postsecondary attempt is added |
 
 ## **The Story This Comparison Tells**
 
-**The core mechanism-split finding survives, but not in its original bivariate form — it's been sharpened and partly rewritten.** The bivariate analysis suggested Special Education and English learner status were both primarily no-record phenomena. The multivariate models tell a more precise story: **English learner status genuinely is a no-record phenomenon, but only because it's a proxy for missing MCA Math scores** — once that's controlled for directly, the effect disappears entirely. **Special Education status, by contrast, turns out to be an instability phenomenon, not a no-record phenomenon at all** — the opposite of what bivariate comparison suggested, and a real reversal rather than an attenuation. These are two different kinds of correction, and both matter for how the finding gets written up: one confirms the mechanism-split logic (EL's effect really does trace back to a no-record-side variable), while the other overturns which mechanism a specific group belongs to (Special Ed belongs to instability, not no-record).
+**The core mechanism-split finding survives largely intact.** The bivariate analysis suggested Special Education and English learner status were both primarily no-record phenomena. The multivariate models confirm this only partially: **Special Education status turns out to be an instability phenomenon, not a no-record phenomenon at all** — the opposite of what the bivariate comparison suggested. **English learner status, by contrast, is confirmed as a genuine, robust no-record phenomenon** — its effect declines only modestly across the three models and remains highly significant throughout.
 
-**MCA Math missingness is the standout finding of this entire confirmatory analysis, and it behaves completely differently across the two outcomes.** It's a modest protective factor for instability (OR ≈ 0.45) but the single most powerful risk factor found anywhere in this project for no-record status (OR ≈ 8-9). This is worth its own dedicated discussion in the report — a missing MCA Math score is, on its own, one of the strongest predictors of falling off Minnesota's employment record entirely, dramatically more so than any demographic characteristic tested. Given that this variable is itself a data-completeness artifact rather than a substantive predictor in the usual sense, this raises a real question worth flagging rather than resolving: what does it mean, structurally, that gaps in a student's academic testing record predict disappearing from the state's employment record years later? That's likely a question for a follow-up investigation, not something this analysis can answer, but it's too large a finding to leave unmentioned.
+**Race/Ethnicity delivers the most important finding of this analysis: the Hispanic, Black, and Asian/Pacific Islander disparities in no-record status are real, independent, and do not attenuate.** All three groups remain significantly elevated at every stage of control, including after high school accomplishments and postsecondary attempt are both accounted for.
 
-**Race/Ethnicity confirms the mechanism-split framework while adding a genuine nuance.** Black graduates' no-record disparity is substantially explained by MCA missingness (mirroring the English learner pattern), while Asian/Pacific Islander graduates' no-record disparity survives full control — a real, independent disparity that isn't explained by the same mechanism. American Indian graduates confirm cleanly as an instability-specific group, exactly as bivariate work suggested.
+**Asian/Pacific Islander graduates show a striking divergence between the two mechanisms** — significantly *reduced* odds of instability, but among the *highest* odds of no-record status of any group. This confirms that different racial/ethnic groups experience genuinely different, sometimes opposite, forms of disadvantage depending on which outcome is examined.
 
-**Gender and Economic status turn out to matter for *both* mechanisms, not just one** — a genuine addition beyond the bivariate framing, which suggested these two variables were concentrated in instability alone. Both are now confirmed as real, independent, protective predictors of no-record status too, just smaller in magnitude than their instability-side effects.
-
-**`attended.ps` and PSEO both confirm their bivariate roles cleanly across every model** — the two clearest, most stable findings in this entire confirmatory analysis, with no attenuation or reversal at any stage.
+**`attended.ps`, PSEO, and CTE achievement all confirm strong, stable roles in the no-record mechanism specifically** — three of the clearest, most consistent findings in this analysis, with no attenuation or reversal at any stage.
 
 ## What This Means for the Report
 
-Three things are ready to go into the report as confirmed, multivariate-tested findings: (1) postsecondary attempt and PSEO participation's mechanism-specific effects, (2) the reframing of English learner and Black disparities as substantially explained by MCA Math missingness rather than group membership itself, and (3) Special Education status's correction from a no-record story to an instability story. The MCA Math missingness finding deserves prominent, standalone treatment given its scale. Given how much correction happened between the bivariate and multivariate stages, I'd recommend the report lead with the multivariate results as the confirmed story, using the bivariate findings only as the motivating context for why this deeper investigation was undertaken — not present both as equally reliable, parallel findings.
+Three things are ready to go into the report as confirmed, multivariate-tested findings: (1) postsecondary attempt, PSEO participation, and CTE achievement's mechanism-specific protective effects on no-record status; (2) **English learner status and the Hispanic, Black, and Asian/Pacific Islander disparities in no-record status are robust, independent findings** — they hold up fully once high school accomplishments and postsecondary attempt are controlled for, and should be presented as confirmed disparities, not as effects requiring further explanation; and (3) Special Education status's correction from a no-record story to an instability story. Given that the central race/ethnicity and English learner findings replicate cleanly across bivariate and multivariate stages, the report can present these as a single, consistent story.

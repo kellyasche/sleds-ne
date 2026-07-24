@@ -13,18 +13,18 @@ This pathway describes high school graduates who do not go on to complete a post
 
 That second sentence points to something important: "disconnected from the workforce" is not one single experience. It actually describes two different things that happen to look similar from a distance but behave very differently up close. This report walks through what that distinction means, how large this population is, and what the data says about who is most affected and why it matters for regional workforce planning.
 
-## How Common Is This Pathway?
+### How Common Is This Pathway?
 
 Approximately 58% of high school graduates in this region do not complete a postsecondary credential. This pathway is concerned specifically with this group — not because failing to finish college is itself a problem, but because a substantial share of these graduates go on to experience prolonged difficulty finding steady work, while others do not. Understanding what separates the two is the point of this analysis.
 
 Among these non-college graduates, tracked over their first five years after leaving formal education (high school for those who went straight to work, or the point they stopped attending college for those who tried it without finishing):
 
-- **About 1 in 8 (roughly 12%)** are consistently, steadily employed in every one of those five years.
-- **The remaining majority** experience some meaningful period of disconnection from stable work — often more than one year, and for many, more than half of the entire five-year window.
+- About 1 in 8 (roughly 12%) are consistently, steadily employed in every one of those five years.
+- The remaining majority experience some meaningful period of disconnection from stable work — often more than one year, and for many, more than half of the entire five-year window.
 
 Stable, uninterrupted employment is the exception for this population, not the norm.
 
-## Two Different Kinds of Disconnection
+### Two Different Kinds of Disconnection
 
 Before going further, it's worth being precise about what "disconnected from the workforce" actually means in this data, because it covers two genuinely different situations.
 
@@ -34,24 +34,25 @@ Before going further, it's worth being precise about what "disconnected from the
 
 These aren't just two labels for the same underlying problem — they behave like two different phenomena entirely:
 
-- **Unstable employment tends to resolve over time.** Most graduates who experience it don't stay in that state for long: about 4 in 10 experience it only briefly (one or two years out of five), and it's the least common outcome for someone to remain unstably employed persistently across nearly the entire five-year window (about 1 in 6).
-- **Having no Minnesota employment record behaves very differently — it's an all-or-nothing pattern.** Just over half of non-college graduates never experience this at all. But among those who do, it's disproportionately likely to become a lasting condition rather than a passing one: roughly 1 in 5 non-college graduates fall into this state persistently, for most or all of their first five years.
+- Unstable employment tends to resolve over time. Most graduates who experience it don't stay in that state for long: about 4 in 10 experience it only briefly (one or two years out of five), and it's the least common outcome for someone to remain unstably employed persistently across nearly the entire five-year window (about 1 in 6).
+
+- Having no Minnesota employment record behaves very differently — it's an all-or-nothing pattern. Just over half of non-college graduates never experience this at all. But among those who do, it's disproportionately likely to become a lasting condition rather than a passing one: roughly 1 in 5 non-college graduates fall into this state persistently, for most or all of their first five years.
 
 Put simply: unstable work is common but usually temporary. Disappearing from the employment record entirely is less common, but when it happens, it tends to stick.
 
 This distinction matters because the two patterns point toward different underlying situations, and potentially different responses. A graduate cycling through unstable jobs is a job-quality and advancement problem. A graduate who disappears from the record for years at a time is a much harder question — possibly reflecting genuine disconnection from work altogether, out-of-state moves, or informal work the state's records simply don't capture.
 
-## Key Characteristics of the Unanchored / At-Risk Pathway
+### Key Characteristics of the Unanchored / At-Risk Pathway
 
 **Lack of postsecondary completion.** This is the single strongest and most consistent dividing line in this analysis. The roughly 58% of graduates who do not complete a postsecondary credential are disproportionately represented among those experiencing either form of disconnection described above. Attempting postsecondary education — even without finishing it — meaningfully lowers the odds of both unstable employment and disappearing from the employment record, and this holds up even after accounting for every other factor examined in this analysis.
 
 **Limited Career and Technical Education (CTE) engagement.** Participation in CTE coursework in high school is one of the clearest protective factors identified in this analysis. Graduates who complete a CTE concentration are meaningfully more likely to reach sustained, stable employment than those with no CTE exposure, and this pattern holds consistently over time.
 
-**Academic engagement and preparation.** Simply taking the ACT — regardless of the score received — is associated with meaningfully lower odds of disconnection, particularly of the no-record type, where ACT test-takers show roughly a two-thirds reduction in odds relative to non-test-takers. This holds even after controlling for every other factor examined. Academic proficiency itself tells a narrower story: lower math proficiency is associated with a higher likelihood of having no Minnesota employment record, but shows little independent relationship with unstable-but-present employment specifically.
+**Academic engagement and preparation.** Simply taking the ACT — regardless of the score received — is associated with a dramatic reduction in the odds of having no Minnesota employment record: ACT test-takers show roughly a 70% reduction in these odds relative to non-test-takers, holding up even after accounting for postsecondary attempt, PSEO participation, and CTE achievement. This relationship is specific to disappearing from the employment record — it does not show the same independent relationship with unstable-but-present employment once postsecondary attempt is factored in.
 
 **Special Education status.** Graduates who received special education services show a real, independent, and unusually persistent association with unstable employment specifically — not with disappearing from the record. This relationship holds up strongly across every version of the analysis, regardless of what other factors are accounted for, making it one of the most reliable findings in this entire pathway.
 
-## Workforce Outcomes Over Time
+### Workforce Outcomes Over Time
 
 Tracked year by year after leaving formal education, a consistent pattern emerges: sustained employment (whether regional or elsewhere in Minnesota) grows steadily, rising from roughly 30% of this population in the first year to about 40% by the fifth year. Unstable employment shrinks over that same period, falling from about 43% to about 26% of the population.
 
@@ -59,26 +60,39 @@ But the share of graduates with no Minnesota employment record does not shrink �
 
 County-level labor market conditions — such as local wages and unemployment rates — explain very little of this pattern. Graduates in stronger and weaker local economies show broadly similar rates of disconnection, suggesting that individual circumstances and preparation matter far more than the strength of the local economy alone.
 
-## Disparities Within the Unanchored / At-Risk Pathway
+### Disparities Within the Unanchored / At-Risk Pathway
 
-Workforce disconnection is not evenly distributed, and — consistent with the distinction drawn earlier — different groups tend to experience different *kinds* of disconnection, not just different overall rates.
+Workforce disconnection is not evenly distributed, and — consistent with the distinction drawn earlier — different groups tend to experience different kinds of disconnection, not just different overall rates. Several groups also show a genuine *protective* pattern for one mechanism even while showing elevated risk for the other, which is worth understanding on its own terms rather than averaging away.
 
 **Groups whose elevated risk shows up mainly as unstable employment:**
 
-- **Special Education status:** graduates with special education services show a real, independent elevation in unstable employment specifically.
-- **Economic disadvantage:** graduates who qualified for free or reduced-price lunch are more likely to experience persistent instability (roughly 17% vs. 14% for their peers) and less likely to avoid instability altogether.
-- **Female graduates** show a similar pattern to economic disadvantage — modestly higher odds of persistent instability than male graduates (roughly 18% vs. 14%).
-- **American Indian graduates** show an elevated risk of unstable employment specifically, a pattern that holds up independently of other factors examined.
+- Special Education status: graduates with special education services show a real, independent elevation in unstable employment specifically — and no corresponding elevation in disappearing from the employment record.
+
+- Female graduates show modestly higher odds of persistent instability than male graduates (roughly 18% vs. 14%), holding up independently.
+
+- American Indian graduates show an elevated risk of unstable employment specifically, a pattern that holds up independently of other factors examined.
 
 **Groups whose elevated risk shows up mainly as disappearing from the employment record:**
 
-- **Hispanic graduates** show the highest rate of persistently having no Minnesota employment record of any group examined — roughly double the rate for White graduates.
-- **Asian/Pacific Islander graduates** show a nearly identical elevated rate, also roughly double the White rate, and this disparity holds up independently even after accounting for every other factor in the analysis — making it one of the more robust and least-explained findings in this pathway.
-- **Black graduates** show elevated risk on both fronts, though their disadvantage is somewhat more concentrated in disappearing from the record (roughly 27% persistently no-record, compared to about 21% for White graduates).
+- **English learner status shows one of the strongest and most persistent disparities identified in this entire pathway.** English learners are persistently without a Minnesota employment record at more than triple the rate of others (35.2% vs. 20.2%), and this disparity holds up independently even after accounting for academic engagement and postsecondary attempt.
 
-This distinction matters for how these disparities should be understood: American Indian graduates' disadvantage looks like an instability problem — cycling through unsteady work — while Hispanic and Asian/Pacific Islander graduates' disadvantage looks much more like disconnection from Minnesota's tracked labor market entirely. These are different situations that likely call for different kinds of outreach or support, even though both show up as "disparities in disconnection" at first glance.
+- Hispanic graduates show the highest rate of persistently having no Minnesota employment record of any group examined — roughly double the rate for White graduates, and this holds up independently after full control.
 
-## Implications for Policy and Practice
+- Asian/Pacific Islander graduates show a nearly identical elevated rate, also roughly double the White rate, and this disparity holds up independently even after accounting for every other factor in the analysis — one of the more robust and least-explained findings in this pathway.
+
+- Black graduates show elevated risk on both fronts, though their disadvantage is somewhat more concentrated in disappearing from the record (roughly 27% persistently no-record, compared to about 21% for White graduates).
+
+**Groups showing a genuine protective pattern once other factors are controlled:**
+
+- Economically disadvantaged graduates show *lower*, not higher, odds of persistent no-record status once other factors are accounted for — a real, independent protective association, even though this group shows no elevated instability risk either.
+
+- Female graduates, despite the elevated instability risk noted above, show *lower* odds of persistent no-record status than male graduates — meaning gender's overall relationship with disconnection runs in opposite directions depending on which mechanism is examined.
+
+- Asian/Pacific Islander graduates, despite showing among the highest no-record risk of any group, show significantly *lower* odds of unstable employment than other graduates — the most striking divergence in this analysis: one of the most at-risk groups for one form of disconnection is simultaneously one of the least at-risk for the other.
+
+This distinction matters for how these disparities should be understood: American Indian graduates' disadvantage looks like an instability problem — cycling through unsteady work — while Hispanic, Asian/Pacific Islander, and English learner graduates' disadvantage looks much more like disconnection from Minnesota's tracked labor market entirely. Gender and Asian/Pacific Islander status show that the same group can face real elevated risk on one dimension while facing genuinely lower risk on the other — underscoring that "disconnection" is not a single spectrum from better to worse, but two separate outcomes that don't always move together.
+
+### Implications for Policy and Practice
 
 **Early instability often persists without intervention — but not to the same degree for every type of disconnection.** Unstable employment tends to resolve on its own over time for many graduates. Disappearing entirely from the employment record does not resolve at the same rate — once established, it behaves like a durable state rather than a temporary setback, making it the more urgent target for early intervention.
 
@@ -86,4 +100,4 @@ This distinction matters for how these disparities should be understood: America
 
 **CTE and non-degree pathways remain central for this population.** Many graduates on this pathway are unlikely to pursue a four-year degree. Structured, employer-connected pathways that don't require one continue to show some of the strongest protective effects identified in this analysis.
 
-**Different groups may need different kinds of support.** Because disconnection splits into two distinct patterns — instability versus disappearance from the tracked labor market — and because different demographic groups are concentrated in different patterns, a single, undifferentiated equity strategy is unlikely to serve every group well. Groups facing an instability problem (Special Education status, economic disadvantage, American Indian graduates) may be better served by job-quality, retention, and advancement-focused supports. Groups facing a no-record problem (Hispanic and Asian/Pacific Islander graduates in particular) may require a different kind of outreach or investigation — one aimed at understanding whether these graduates have left the region, left the state, or become genuinely disconnected from the labor force altogether.
+**Different groups may need different kinds of support.** Because disconnection splits into two distinct patterns — instability versus disappearance from the tracked labor market — and because different demographic groups are concentrated in different patterns, a single, undifferentiated equity strategy is unlikely to serve every group well. Groups facing an instability problem (Special Education status, American Indian graduates, female graduates) may be better served by job-quality, retention, and advancement-focused supports. Groups facing a no-record problem (English learner, Hispanic, and Asian/Pacific Islander graduates in particular) may require a different kind of outreach or investigation — one aimed at understanding whether these graduates have left the region, left the state, or become genuinely disconnected from the labor force altogether. A few groups don't fit neatly into either category: economically disadvantaged and female graduates show a protective relationship with no-record status even while showing elevated instability risk in the case of female graduates, and Asian/Pacific Islander graduates show the reverse — meaningfully lower instability risk alongside among the highest no-record risk of any group. These patterns are a reminder that support strategies built around a single demographic category should account for which specific mechanism is driving that group's risk, not assume risk moves uniformly in one direction.
