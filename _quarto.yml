@@ -66,16 +66,8 @@ website:
             href: analysis_non_college_deeper.qmd
           - text: Multivariate Confirmation Analysis on Persistent Disconnection
             href: analysis_multivariate_confirmation_disconnection_persistence.qmd
-      - text: One-page summaries of pathways
-        icon: fa-gear
-        menu:
-          - text: Pathway - Anchored
-            href: pathway_anchored.qmd
-          - text: Pathway - Mobility
-            href: pathway_mobility.qmd
-          - text: Pathway - Unanchared / At-Risk
-            href: pathway_unanchored.qmd
-        
+      - text: The story
+        href: the_story.qmd
 
 
 format:

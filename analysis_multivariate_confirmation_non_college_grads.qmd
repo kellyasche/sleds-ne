@@ -147,17 +147,18 @@ master <- master.original %>%
 kable(head(master))
 
 kable(names(master))
+
 ```
 
 # Multivariate Confirmation Analysis: Non–Postsecondary Graduates
 
-The primary purpose of this supplemental analysis is to examine workforce participation pathways among individuals who did **not** complete a postsecondary credential. Earlier sections focused on the full population and demonstrated that postsecondary attainment—particularly where and how a credential was earned—was the dominant mechanism associated with sustained regional employment.
+The primary purpose of this supplemental analysis is to examine workforce participation pathways among individuals who did not complete a postsecondary credential. Earlier sections focused on the full population and demonstrated that postsecondary attainment—particularly where and how a credential was earned—was the dominant mechanism associated with sustained regional employment.
 
 This section shifts attention to the population for whom that mechanism does not operate.
 
-Among non–postsecondary graduates, workforce participation pathways cannot be explained by credential depth, institutional sector, or graduation location. Instead, earlier descriptive and CART analyses identified high school career alignment (CTE), structural disadvantage, and local labor market context as central differentiators of workforce outcomes.
+Among non–postsecondary graduates, workforce participation pathways cannot be explained by credential depth, institutional sector, or graduation location. Instead, the bivariate analyses identified high school career alignment (CTE), English learner status, structural disadvantage, and local labor market context as central differentiators of workforce outcomes. English learner status in particular shows the single largest demographic effect size of any variable examined in this subgroup, and is included here as its own predictor rather than treated as a pattern explained by other variables.
 
-To strengthen confidence in those findings, a limited multivariate analysis is conducted using logistic regression. As in the full-population analysis, the goal is not causal inference or prediction, but confirmatory testing. Specifically, this modeling examines whether the strongest tree-based and bivariate relationships remain directionally consistent when key predictors are considered simultaneously.
+To strengthen confidence in those findings, a limited multivariate analysis is conducted using logistic regression. As in the full-population analysis, the goal is not causal inference or prediction, but confirmatory testing. Specifically, this modeling examines whether the strongest bivariate relationships remain directionally consistent when key predictors are considered simultaneously.
 
 Logistic regression is used here as a confirmatory tool rather than the primary analytic framework.
 
@@ -188,21 +189,24 @@ Because postsecondary mechanisms are not applicable in this subgroup, the model 
 
 Predictors include:
 
-- High school accomplishments
-  - `cte.achievement`
-  - `took.ACT`
-  - `pseo.participant`
-  - `MCA.M`
-  - `MCA.R`
-  - `ap.exam`
-- Demographic characteristics
+- Demographic
+  - `Gender`
   - `RaceEthnicity`
   - `economic.status`
   - `SpecialEdStatus`
-  - `Gender`
+  - `english.learner`
 - High school and local context
+  - `Dem_Desc`
+  - `range.school`
   - `avg.wages.pct.state`
   - `avg.unemp.rate`
+- High school accomplishments
+  - `cte.achievement`
+  - `took.ACT`
+  - `ACTCompositeScore_filled`
+  - `pseo.participant`
+  - `ap.exam`
+  - `sat.taken`
 
 Variables are selected based on:
 
@@ -212,6 +216,14 @@ Variables are selected based on:
 4.  Avoidance of redundancy
 
 Postsecondary variables are excluded by design.
+
+**Range School and SAT Participation**
+
+`range.school` and `sat.taken` were not included in the original bivariate analysis of this subgroup, and were added here following supplemental bivariate testing conducted specifically for this population.
+
+Both variables show a real, statistically significant relationship with workforce participation outcomes among non-college graduates at all three time points (Year 1, 5, and 10). Range school status shows a consistent, substantively sensible pattern: Range graduates are more likely to land in county-level meaningful employment specifically, with no corresponding difference in disconnection rates — a precise, geography-specific signal distinct from the broader "no MN employment record" and "not meaningful" categories. SAT participation shows a smaller but real relationship, with SAT-takers in this subgroup showing a notably higher and growing rate of no Minnesota employment record over time; given the very small number of SAT-takers who don't complete a postsecondary credential (n \< 150 at every time point), this finding should be treated as suggestive rather than precise, but it clears the same bar for inclusion applied to every other variable in this project.
+
+Both variables are therefore included in the multivariate specification on the same basis as every other predictor in this analysis: a demonstrated, non-trivial bivariate relationship with the outcome under study.
 
 <br>
 
@@ -253,56 +265,34 @@ Estimating separate models at each time point allows for:
 
 Within each time period, predictors are introduced in a structured sequence:
 
-### Model 1: Structural and Preparation Baseline
+### Model 1: Demographics
 
-Includes demographic and high school preparation variables:
+Includes demographic variables:
 
 - Demographics
+  - `Gender`
   - `RaceEthnicity`
   - `economic.status`
   - `SpecialEdStatus`
-  - `Gender`
+
+### Model 2: Add high school characteristics
+
 - High school characteristics
   - `Dem_Desc`
+  - `range.school`
+  - `avg.wages.pct.state`
+  - `avg.unemp.rate`
 
-### Model 2: Add high school accomplishments
-
-We will add the following;
+### Model 3: Add high school accomplishments
 
 - High school accomplishments
   - `cte.achievement`
   - `pseo.participant`
   - `took.ACT`
-  - `MCA.M`
-  - `MCA.R`
-
-Purpose:
-
-- Test whether pathway alignment explains structural gaps.
-- See whether CTE remains strong net of demographics.
-- See whether ACT participation functions as mobility marker.
-- Observe whether SpecialEd/economic effects attenuate once preparation is included.
-
-This is the core explanatory model.
-
-### Model 3 - Add Local Labor Market Context
-
-Adds contextual labor market measures:
-
-- `avg.wages.pct.state`
-- `avg.unemp.rate`
-
-Purpose
-
-- Teste whether labor market strength changes the mechanism.
-- See whether geography (Dem_Desc) still matters once county wages/unemployment are included.
-- Evaluate whether local economy explains disparities or whether they remain structural.
-
-This is the full confirmatory specification.
-
-This specification evaluates whether labor
-
-## Evaluation Criteria
+  - `ACTCompositeScore_filled`
+  - `ap.exam`
+  - `sat.taken`
+  - Evaluation Criteria
 
 Results will be reported using:
 
@@ -344,51 +334,74 @@ The first thing I need to do is setup my dataset for modeling. I'm going to crea
 
 ```{r}
 master.model.1 <- master %>%
-  filter(ps.grad == "No") %>%
-  select(PersonID, RaceEthnicity, economic.status, SpecialEdStatus, Gender, Dem_Desc, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, MCA.R, MCA.M, grad.year.1) %>%
+  filter(ps.grad == "No",
+         grad.year > 2010,
+         grad.year <= 2020) %>%
+  select(PersonID, Gender, RaceEthnicity, economic.status, SpecialEdStatus, english.learner, Dem_Desc, range.school, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, ACTCompositeScore, sat.taken, ap.exam, grad.year.1) %>%
   filter(grad.year.1 != "After 2023",
-         grad.year.1 != "Attending ps") %>%
-  mutate(grad.year.1 = ifelse(grad.year.1 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", grad.year.1),
+         grad.year.1 != "Attending ps",
+         !is.na(pseo.participant)) %>%
+  mutate(grad.year.1 = ifelse(grad.year.1 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE", grad.year.1),
+         grad.year.1 = str_replace(grad.year.1, "Not meaningful, not attending ps", "Non-sustained WF"),
+         grad.year.1 = str_replace(grad.year.1, "Meaningful emp MN", "Sustained WF - MN"),
          grad.year.1 = str_replace(grad.year.1, ", not attending ps", ""),
-         grad.year.1 = ifelse(grad.year.1 == "Meaningful emp region", 1, 0),
-         RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
+         grad.year.1 = ifelse(grad.year.1 == "Sustained WF - NE", 1, 0),
          Gender = fct_relevel(Gender, "M"),
-         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
-         pseo.participant = ifelse(is.na(pseo.participant), 0, pseo.participant),
-         pseo.participant = as.character(pseo.participant),
-         pseo.participant = fct_relevel(pseo.participant, "0"),
+         RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
          economic.status = as.character(economic.status),
          economic.status = fct_relevel(economic.status, "0"),
          SpecialEdStatus = as.character(SpecialEdStatus),
          SpecialEdStatus = fct_relevel(SpecialEdStatus, "0"),
-         Dem_Desc = fct_relevel(Dem_Desc, "Town/rural mix"),
-         took.ACT = fct_relevel(took.ACT, "No"))
+         english.learner = as_factor(english.learner),
+         english.learner = fct_relevel(english.learner, "0"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
+         took.ACT = fct_relevel(took.ACT, "No"),
+         ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
+         ap.exam = as_factor(ap.exam),
+         ap.exam = fct_relevel(ap.exam, "0"),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
+         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
+         pseo.participant = as.character(pseo.participant),
+         pseo.participant = fct_relevel(pseo.participant, "0"))
 
-  kable(head(master.model.1))
+kable(head(master.model.1))
 
 kable(names(master.model.1))
 
-
 master.model.5 <- master %>%
-  filter(ps.grad == "No") %>%
-  select(PersonID, RaceEthnicity, economic.status, SpecialEdStatus, Gender, Dem_Desc, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, MCA.R, MCA.M, grad.year.5) %>%
+  filter(ps.grad == "No",
+         grad.year > 2010,
+         grad.year <= 2020) %>%
+  select(PersonID, Gender, RaceEthnicity, economic.status, SpecialEdStatus, english.learner, Dem_Desc, range.school, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, ACTCompositeScore, sat.taken, ap.exam, grad.year.5) %>%
   filter(grad.year.5 != "After 2023",
-         grad.year.5 != "Attending ps") %>%
-  mutate(grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", grad.year.5),
+         grad.year.5 != "Attending ps",
+         !is.na(pseo.participant)) %>%
+  mutate(grad.year.5 = ifelse(grad.year.5 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE", grad.year.5),
+         grad.year.5 = str_replace(grad.year.5, "Not meaningful, not attending ps", "Non-sustained WF"),
+         grad.year.5 = str_replace(grad.year.5, "Meaningful emp MN", "Sustained WF - MN"),
          grad.year.5 = str_replace(grad.year.5, ", not attending ps", ""),
-         grad.year.5 = ifelse(grad.year.5 == "Meaningful emp region", 1, 0),
-         RRaceEthnicity = fct_relevel(RaceEthnicity, "White"),
+         grad.year.5 = ifelse(grad.year.5 == "Sustained WF - NE", 1, 0),
          Gender = fct_relevel(Gender, "M"),
-         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
-         pseo.participant = ifelse(is.na(pseo.participant), 0, pseo.participant),
-         pseo.participant = as.character(pseo.participant),
-         pseo.participant = fct_relevel(pseo.participant, "0"),
+         RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
          economic.status = as.character(economic.status),
          economic.status = fct_relevel(economic.status, "0"),
          SpecialEdStatus = as.character(SpecialEdStatus),
          SpecialEdStatus = fct_relevel(SpecialEdStatus, "0"),
-         Dem_Desc = fct_relevel(Dem_Desc, "Town/rural mix"),
-         took.ACT = fct_relevel(took.ACT, "No"))
+         english.learner = as_factor(english.learner),
+         english.learner = fct_relevel(english.learner, "0"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
+         took.ACT = fct_relevel(took.ACT, "No"),
+         ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
+         ap.exam = as_factor(ap.exam),
+         ap.exam = fct_relevel(ap.exam, "0"),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
+         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
+         pseo.participant = as.character(pseo.participant),
+         pseo.participant = fct_relevel(pseo.participant, "0"))
 
 
 kable(head(master.model.5))
@@ -396,26 +409,37 @@ kable(head(master.model.5))
 kable(names(master.model.5))
 
 master.model.10 <- master %>%
-  filter(ps.grad == "No") %>%
-  select(PersonID, RaceEthnicity, economic.status, SpecialEdStatus, Gender, Dem_Desc, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, MCA.R, MCA.M,  grad.year.10) %>%
+  filter(ps.grad == "No",
+         grad.year > 2010,
+         grad.year <= 2020) %>%
+  select(PersonID, Gender, RaceEthnicity, economic.status, SpecialEdStatus, english.learner, Dem_Desc, range.school, avg.wages.pct.state, avg.unemp.rate, pseo.participant, cte.achievement, took.ACT, ACTCompositeScore, sat.taken, ap.exam, grad.year.10) %>%
   filter(grad.year.10 != "After 2023",
-         grad.year.10 != "Attending ps") %>%
-  mutate(grad.year.10 = ifelse(grad.year.10 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Meaningful emp region", grad.year.10),
+         grad.year.10 != "Attending ps",
+         !is.na(pseo.participant)) %>%
+  mutate(grad.year.10 = ifelse(grad.year.10 %in% c("Meaningful emp region", "Meaningful emp County", "Meaningful emp EDR"), "Sustained WF - NE", grad.year.10),
+         grad.year.10 = str_replace(grad.year.10, "Not meaningful, not attending ps", "Non-sustained WF"),
+         grad.year.10 = str_replace(grad.year.10, "Meaningful emp MN", "Sustained WF - MN"),
          grad.year.10 = str_replace(grad.year.10, ", not attending ps", ""),
-         grad.year.10 = ifelse(grad.year.10 == "Meaningful emp region", 1, 0),
-         RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
+         grad.year.10 = ifelse(grad.year.10 == "Sustained WF - NE", 1, 0),
          Gender = fct_relevel(Gender, "M"),
-         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
-         pseo.participant = ifelse(is.na(pseo.participant), 0, pseo.participant),
-         pseo.participant = as.character(pseo.participant),
-         pseo.participant = fct_relevel(pseo.participant, "0"),
+         RaceEthnicity = fct_relevel(RaceEthnicity, "White"),
          economic.status = as.character(economic.status),
          economic.status = fct_relevel(economic.status, "0"),
          SpecialEdStatus = as.character(SpecialEdStatus),
          SpecialEdStatus = fct_relevel(SpecialEdStatus, "0"),
-         Dem_Desc = fct_relevel(Dem_Desc, "Town/rural mix"),
-         took.ACT = fct_relevel(took.ACT, "No"))
-
+         english.learner = as_factor(english.learner),
+         english.learner = fct_relevel(english.learner, "0"),
+         Dem_Desc = fct_relevel(Dem_Desc, "Entirely rural"),
+         range.school = fct_relevel(range.school, "Non-range school"),
+         took.ACT = fct_relevel(took.ACT, "No"),
+         ACTCompositeScore.filled = ifelse(is.na(ACTCompositeScore), 0, ACTCompositeScore),
+         ap.exam = as_factor(ap.exam),
+         ap.exam = fct_relevel(ap.exam, "0"),
+         sat.taken = as_factor(sat.taken),
+         sat.taken = fct_relevel(sat.taken, "0"),
+         cte.achievement = fct_relevel(cte.achievement, "No CTE"),
+         pseo.participant = as.character(pseo.participant),
+         pseo.participant = fct_relevel(pseo.participant, "0"))
 
 kable(head(master.model.10))
 
@@ -429,59 +453,25 @@ We now have `r comma(nrow(master.model.5))` individuals to model with `r ncol(ma
 
 # Modeling - `grad.year.1`
 
-## Model 1 - Structural and Preparation Baseline
+## Model 1: Demographics
 
-Model 1 estimates the association between demographic background and school geography with sustained regional employment one year after graduation. This specification excludes preparation and labor market variables, isolating whether structural positioning alone differentiates early workforce attachment.
+This model estimates the association between demographic characteristics and sustained regional employment one year after high school, among non-college graduates in the 2011-2020 cohort (n = 12,170).
 
-[**Strongest Associations**]{.underline}
+**English learner status is a significant, independent predictor — confirming, for the first time in this analysis, the strong bivariate relationship that was previously never tested multivariately.** OR ≈ 0.68 (CI: 0.562-0.817, p \< .001): English learners show roughly 32% lower odds of sustained regional employment at Year 1 relative to non-English- learners, holding up fully alongside race, economic status, Special Ed status, and Gender.
 
-**Race: Asian/PI**\
-OR ≈ 0.40 (\~60% lower odds)\
-Asian/PI students are substantially less likely than White students (reference) to be in sustained regional employment one year after graduation.
+**Special Education status is a strong, significant predictor.** OR ≈ 0.70 (CI: 0.627-0.791, p \< .001) — Special Ed students show meaningfully lower odds of sustained regional employment even at this early stage.
 
-**Race: Hispanic**\
-OR ≈ 0.50 (\~50% lower odds)\
-Hispanic students exhibit sharply lower odds of early regional workforce attachment.
+**Race/Ethnicity shows significant effects for three of five groups.** Asian/Pacific Islander (OR ≈ 0.48, p = .001), Black (OR ≈ 0.55, p \< .001), and Hispanic graduates (OR ≈ 0.50, p = .001) all show substantially lower odds of sustained regional employment than White graduates. American Indian graduates are not significant here (OR ≈ 0.90, p = .182). **The "Unknown" Race/Ethnicity category also shows a large, significant effect** (OR ≈ 0.33, p \< .001) — though given this category's small size even after the cohort restriction, this coefficient shouldn't be substantively interpreted as a real demographic pattern.
 
-**Race: Black**\
-OR ≈ 0.55 (\~45% lower odds)\
-Black students also show substantially reduced odds of sustained regional employment.
+Gender is significant, with female graduates showing modestly lower odds of sustained regional employment (OR ≈ 0.88, p = .005), consistent with the gendered pattern found throughout this project.
 
-[**Moderate Effects**]{.underline}
-
-**Special Education Status**\
-OR ≈ 0.61 (\~39% lower odds)\
-Students receiving special education services are significantly less likely to secure sustained regional employment at Year 1.
-
-**Race: American Indian**\
-OR ≈ 0.84 (\~16% lower odds)\
-This effect is smaller than other racial disparities but remains negative relative to White students.
-
-**Dem_Desc: Entirely rural**\
-OR ≈ 0.82 (\~18% lower odds)\
-Students from entirely rural schools show modestly lower odds relative to the reference geography.
-
-[**Modest Effects**]{.underline}
-
-**Gender: Female**\
-OR ≈ 0.85 (\~15% lower odds)\
-Female students have slightly lower odds of sustained regional employment compared to males.
-
-**Dem_Desc: Urban/town/rural mix**\
-OR ≈ 1.08 (\~8% higher odds)\
-This effect is small and close to neutral.
-
-**Economic Status (Low-Income)**\
-OR ≈ 1.04 (\~4% higher odds)\
-This association is very small and substantively negligible.
-
-**Race: Unknown**\
-OR ≈ 1.03\
-Not statistically or substantively distinct from White students.
+**Economic status is not significant here** (OR ≈ 1.06, CI: 0.968-1.153, p = .222) — no independent relationship with sustained regional employment at Year 1 once other demographics are considered.
 
 **Overall Interpretation**
 
-At one year after graduation, structural racial disparities are the dominant differentiators of sustained regional employment among non-college graduates. Asian/PI, Hispanic, and Black students face substantially lower odds of early regional workforce attachment relative to White peers. Special education status also represents a major structural barrier. Geographic school context shows modest associations, while gender and economic status have comparatively small effects in this baseline specification. Overall, disparities in regional workforce attachment emerge immediately and are strongly patterned by race and special education status even before high school preparation and labor market context are considered.
+At one year after graduation, structural disparities are already visible among non-college graduates. **English learner status, Special Education status, and the Black/Hispanic/Asian-Pacific Islander Race/Ethnicity pattern all show significant, independent relationships with reduced sustained regional employment.** Economic status and American Indian identity show no significant relationship at this baseline stage — worth tracking through the next two models to see whether either emerges once geographic and academic-engagement variables are added.
+
+Model fit: AIC = 13,328.6; residual deviance = 13,309 on 12,160 df (null deviance = 13,485 on 12,169 df); n = 12,170.
 
 ```{r}
 model1 <- glm(
@@ -490,12 +480,21 @@ model1 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
-    Dem_Desc,
+    english.learner,
   family = binomial,
   data = master.model.1
 )
 
 model1
+
+summary(model1)
+
+nobs(model1)
+
+AIC(model1)
+
+exp(cbind(OR = coef(model1), confint(model1)))
+
 
 or_plot <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -538,58 +537,21 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 2 - Add high school accomplishments
+## Model 2: Add High School Characteristics
 
-Model 2 adds high school preparation and pathway variables to the structural baseline model. By introducing CTE participation, ACT participation, MCA performance, and PSEO, this specification tests whether early academic and career alignment explain the disparities observed in Model 1.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline (n = 12,170).
 
-Model fit improves meaningfully (AIC drops from 20,760 to 19,240), indicating that preparation factors explain additional variation in sustained regional employment at one year.
+**Average unemployment rate is the only high school characteristic to reach significance, and it points in a direction worth noting rather than over-explaining.** OR ≈ 0.95 per unit (CI: 0.913-0.979, p = .001) — higher local unemployment predicts lower odds of sustained regional employment at Year 1. This is the opposite of the "opportunity cost" logic seen for postsecondary completion elsewhere in this project (where higher unemployment encouraged completion); here, among non-college graduates looking for work immediately, a weaker local job market appears to simply mean fewer jobs to sustain regional attachment with — a more direct, less counterintuitive relationship for this specific population.
 
-**CTE Pathways**
+**District classification, Range school status, and local wages are all non-significant here** — a real contrast with their strong, independent roles in the full-population and completers models. Town/rural mix (OR ≈ 1.11, p = .285) and Urban/town/rural mix (OR ≈ 1.14, p = .215) both show confidence intervals crossing 1. Range school status comes close but doesn't clear the conventional threshold (OR ≈ 1.10, p = .084) — worth watching in Model 3 rather than dismissing outright, given how close it sits. Average local wages likewise shows no relationship (OR ≈ 0.78, p = .615).
 
-CTE emerges as the strongest positive predictor in the model.
-
-- **CTE Concentrator/Completor:** \~34% higher odds of sustained regional employment (OR ≈ 1.34).
-- **CTE Participant:** \~13% higher odds (OR ≈ 1.13).
-
-These effects are substantial and clearly distinguish students engaged in structured career pathways from those who were not. CTE functions as a meaningful early anchor to regional employment, even after controlling for demographic background and school geography.
-
-**Academic Orientation**
-
-Academic mobility signals align with lower regional retention.
-
-- **Took ACT:** \~12% lower odds of sustained regional employment (OR ≈ 0.88).
-- **PSEO participation:** not statistically distinct (OR ≈ 0.98).
-- **MCA Reading:** small negative association (OR ≈ 0.95).
-- **MCA Math:** no meaningful independent association (OR ≈ 1.00).
-
-ACT participation appears to signal outward mobility even among non-college graduates. In contrast, MCA performance contributes little independent explanatory power at Year 1 once other variables are included.
-
-**Demographic and Structural Factors**
-
-Importantly, large structural disparities remain after accounting for preparation.
-
-- **Asian/PI students:** \~43% lower odds (OR ≈ 0.57).
-- **Black students:** \~44% lower odds (OR ≈ 0.56).
-- **Hispanic students:** \~36% lower odds (OR ≈ 0.64).
-- **American Indian students:** \~16% lower odds (OR ≈ 0.84).
-- **Special Education status:** \~37% lower odds (OR ≈ 0.63).
-- **Economic disadvantage:** no meaningful independent effect.
-- **Race Unknown:** not statistically distinct.
-
-Compared to Model 1, racial disparities attenuate slightly for Hispanic and Asian/PI students but remain large and substantively meaningful. Special education gaps also persist with only modest reduction. This indicates that preparation does not fully account for early structural differences in regional workforce attachment.
-
-**School Context**
-
-- **Entirely rural schools:** \~21% lower odds (OR ≈ 0.79).
-- **Urban/town/rural mix schools:** \~11% higher odds (OR ≈ 1.11).
-
-School geography continues to matter modestly, though these effects are smaller than those associated with race and special education status.
+**All five demographic effects from Model 1 remain essentially unchanged in direction and magnitude.** English learner status (OR ≈ 0.66, p \< .001), Special Education status (OR ≈ 0.70, p \< .001), Black (OR ≈ 0.54, p \< .001), Hispanic (OR ≈ 0.49, p \< .001), and Asian/Pacific Islander graduates (OR ≈ 0.49, p = .002) all hold steady — none of these disparities are explained by district context, Range school status, or local economic conditions. Gender remains significant (OR ≈ 0.88, p = .005). Economic status and American Indian identity remain non-significant, unchanged from Model 1.
 
 **Overall Interpretation**
 
-At one year after graduation, CTE participation stands out as the clearest positive pathway into sustained regional employment among non-college graduates. ACT participation aligns with lower regional retention, suggesting academic mobility even within this subgroup.
+Adding high school characteristics produces only a modest improvement in model fit (likelihood ratio test: Δdeviance = 23.14, df = 5, p \< .001; AIC decreases from 13,328.6 to 13,315.4) — a much smaller contribution than this same block has made in the full-population and completers models throughout this project. **Geography and school context appear to matter far less for non-college graduates' immediate (Year 1) regional employment than they do for postsecondary-related outcomes** — only local unemployment rate shows a significant, independent relationship, and even Range school status, a consistently strong predictor elsewhere, falls just short of significance here. Every demographic disparity identified in Model 1 survives fully intact.
 
-However, structural racial disparities and special education gaps remain substantial after accounting for preparation. The addition of academic and career pathway variables improves overall model fit but does not eliminate underlying inequities. Early regional workforce attachment reflects both pathway alignment and durable structural differences rather than preparation alone.
+Model fit: AIC = 13,315.4 (down from 13,328.6 in Model 1); Δdeviance = 23.14 on 5 df, p \< .001; n = 12,170 in both models.
 
 ```{r}
 model2 <- glm(
@@ -598,17 +560,29 @@ model2 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant,
+    range.school +
+    avg.wages.pct.state +
+    avg.unemp.rate,
   family = binomial,
   data = master.model.1
 )
 
 model2
+
+summary(model2)
+
+nobs(model1)
+nobs(model2)
+
+AIC(model1)
+AIC(model2)
+
+exp(cbind(OR = coef(model2), confint(model2)))
+
+anova(model1, model2, test = "Chisq")
+
 
 or_plot <- tidy(model2, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -655,59 +629,37 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 3 - Add local labor market context
+## Model 3: Add High School Accomplishments
 
-Model 3 adds county-level labor market context—average wages (percent of state) and unemployment rate—to the structural and preparation model. Model fit improves slightly (AIC drops from 19,240 to 19,230), indicating that local labor market conditions contribute modest additional explanatory power at one year after graduation.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification (n = 12,170).
 
-**CTE Pathways**
+**English learner status remains significant and actually strengthens slightly — reinforcing that this is not an artifact of academic engagement.** OR ≈ 0.63 (CI: 0.522-0.761, p \< .001), down from ≈ 0.66 in Model 2. English learners continue to show substantially lower odds of sustained regional employment even after accounting for PSEO, ACT, AP, SAT, and CTE — this disparity is not explained by how these students engaged academically in high school.
 
-CTE remains the strongest positive predictor in the model.
+**Special Education status also strengthens rather than attenuating.** OR ≈ 0.67 (CI: 0.593-0.753, p \< .001), down from ≈ 0.70 in Model 2 — Special Ed's disadvantage in regional employment is not explained by academic engagement either.
 
-- **CTE Concentrator/Completor:** \~33% higher odds of sustained regional employment (OR ≈ 1.33).
-- **CTE Participant:** \~13% higher odds (OR ≈ 1.13).
+**The ACT crossover pattern replicates here, consistent with the rest of this project.** Taking the ACT is associated with substantially higher odds of sustained regional employment (OR ≈ 2.94, p \< .001), while among test-takers, each additional composite point predicts lower odds (OR ≈ 0.943 per point, p \< .001) — simply engaging with the ACT is protective, while high-scoring engagement specifically predicts a different pathway, the same threshold effect found throughout this project.
 
-These effects are virtually unchanged from Model 2, reinforcing that structured career pathways are the dominant early anchor to regional employment among non-college graduates. Labor market context does not attenuate the CTE relationship.
+**PSEO participation shows a genuine, positive, significant relationship — a different role than it played in the full-population and completers models.** OR ≈ 1.13 (CI: 1.025-1.247, p = .014). Elsewhere in this project, PSEO's bivariate influence largely failed to hold up once other accomplishment variables were considered; here, among non-college graduates specifically, PSEO participation shows a real, independent, protective relationship with immediate regional employment.
 
-**Local Labor Market Context**
+**CTE achievement continues to anchor students regionally.** CTE Concentrators/Completers show 41% higher odds of sustained regional employment (OR ≈ 1.41, p \< .001), and CTE Participants show 18% higher odds (OR ≈ 1.18, p = .002) — consistent with CTE's role everywhere else in this project.
 
-- **Average wages (% of state):** \~25% higher odds (OR ≈ 1.25).
-- **Unemployment rate:** modest negative association (OR ≈ 0.93).
+**SAT and AP exam participation both show a significant negative relationship, consistent with their "pull away" role throughout this project.** SAT participation OR ≈ 0.38 (p = .009) — though given the very small number of SAT-takers in this subgroup, this estimate carries a wide confidence interval (0.166-0.736) and should be treated with the same caution flagged during the bivariate check. AP exam OR ≈ 0.63 (p \< .001).
 
-Higher relative county wages are associated with greater odds of sustained regional employment at Year 1, suggesting that stronger local economies reinforce early retention. The unemployment effect is small in magnitude. Importantly, adding these contextual measures does not meaningfully shift the coefficients of individual-level predictors.
+**Gender loses significance entirely — a real change from Models 1 and 2.** OR ≈ 0.94 (CI: 0.858-1.023, p = .147), down from significant in both prior models. Gender's modest relationship with regional employment appears to run at least partly through academic engagement patterns.
 
-**Academic Orientation**
+**Range school status fades further into non-significance.** Already only marginal in Model 2 (p = .084), it's now clearly non-significant here (OR ≈ 1.02, p = .693) — whatever weak relationship it had appears to run through accomplishments rather than operating independently.
 
-- **Took ACT:** \~13% lower odds (OR ≈ 0.87).
-- **PSEO participation:** not statistically distinct (OR ≈ 0.97).
-- **MCA Reading:** small negative association (OR ≈ 0.95).
-- **MCA Math:** modest negative association (OR ≈ 0.98).
+**Average unemployment rate remains significant but weakens toward the threshold.** OR ≈ 0.96 per unit (CI: 0.930-0.999, p = .042), down from p = .001 in Model 2 — still a real effect, but worth watching rather than treating as robustly established.
 
-As in Model 2, ACT participation aligns with lower regional retention, consistent with academic mobility signaling. MCA performance remains weakly associated with early regional attachment once other factors are controlled.
+**Race/Ethnicity holds steady, with Asian/Pacific Islander weakening slightly.** Black (OR ≈ 0.52, p \< .001) and Hispanic graduates (OR ≈ 0.49, p \< .001) remain strongly significant. Asian/Pacific Islander graduates remain significant but less strongly so (OR ≈ 0.55, p = .009, up from p = .002 in Model 2). American Indian graduates remain non-significant (OR ≈ 0.91, p = .247).
 
-**Demographic and Structural Factors**
-
-Substantial disparities persist.
-
-- **Black students:** \~45% lower odds (OR ≈ 0.55).
-- **Asian/PI students:** \~43% lower odds (OR ≈ 0.57).
-- **Hispanic students:** \~38% lower odds (OR ≈ 0.62).
-- **American Indian students:** \~17% lower odds (OR ≈ 0.83).
-- **Special Education status:** \~39% lower odds (OR ≈ 0.61).
-- **Economic disadvantage:** no meaningful independent effect.
-- **Race Unknown:** modest negative association.
-
-These effects are highly stable relative to Model 2, indicating that local wage and unemployment conditions do not explain the underlying racial or special education disparities in early regional workforce attachment.
-
-**School Context**
-
-- **Entirely rural schools:** \~22% lower odds (OR ≈ 0.78).
-- **Urban/town/rural mix schools:** no meaningful independent association.
-
-Once county-level wage and unemployment are included, the urban/town/rural mix effect effectively disappears, suggesting that broader labor market context may account for some geographic variation observed earlier.
+**Economic status remains non-significant** (OR ≈ 1.00, p = .927) — no relationship with sustained regional employment at any stage of this model sequence.
 
 **Overall Interpretation**
 
-At one year after graduation, sustained regional employment among non-college graduates is shaped primarily by CTE participation and persistent structural disparities. Stronger county wage conditions modestly increase regional retention, but they do not alter the central mechanisms identified in earlier models. Racial disparities and special education gaps remain large and stable, and academic orientation continues to signal outward mobility. Early regional workforce attachment reflects a combination of pathway alignment and structural positioning, with local economic strength playing a secondary, reinforcing role rather than a transformative one.
+Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 174.00, df = 7, p \< .001; AIC decreases from 13,315.4 to 13,155.4) — the largest improvement of any block in this sequence. **English learner status and Special Education status both strengthen rather than attenuate once academic engagement is considered — the clearest and most important finding in this model:** these are not disparities explained by unequal academic engagement, but real, independent, robust barriers to immediate regional employment. The ACT crossover and CTE's anchoring effect both replicate patterns found throughout this project. PSEO's positive, independent relationship with regional employment is a genuinely distinct finding for this subgroup. Gender and Range school status both lose the significance they showed in earlier models, suggesting their relationships run partly or fully through academic engagement instead.
+
+Model fit: AIC = 13,155.4 (down from 13,315.4 in Model 2); Δdeviance = 174.00 on 7 df, p \< .001; n = 12,170 in both models.
 
 ```{r}
 model3 <- glm(
@@ -716,19 +668,36 @@ model3 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant +
+    range.school +
+    avg.wages.pct.state +
     avg.unemp.rate +
-    avg.wages.pct.state,
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam +
+    sat.taken +
+    cte.achievement,
   family = binomial,
   data = master.model.1
 )
 
 model3
+
+summary(model3)
+
+nobs(model1)
+nobs(model2)
+nobs(model3)
+
+AIC(model1)
+AIC(model2)
+AIC(model3)
+
+exp(cbind(OR = coef(model3), confint(model3)))
+
+anova(model1, model2, model3, test = "Chisq")
 
 or_plot <- tidy(model3, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -779,50 +748,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 # Modeling - `grad.year.5`
 
-## Model 1 - Structural and Preparation Baseline
+## Model 1: Demographics
 
-Model 1 estimates the association between demographic background and school geography with sustained regional employment five years after graduation. This baseline specification excludes preparation and labor market variables, allowing us to assess whether structural positioning alone differentiates mid-term regional workforce attachment.
+This model estimates the association between demographic characteristics and sustained regional employment five years after high school, among non-college graduates in the 2011+ cohort (n = 11,658).
 
-Model fit (AIC ≈ 19,460) is slightly lower than Year 1, reflecting expected changes in workforce stabilization over time.
+**Economic status is now significant — a genuine change from the Year 1 model, where it showed no relationship at all.** OR ≈ 0.90 (CI: 0.830-0.983, p = .019) — economically disadvantaged graduates show modestly lower odds of sustained regional employment by Year 5, a disparity that wasn't detectable at Year 1.
 
-**Demographic and Structural Factors**
+**American Indian graduates are now significant as well — another real change from Year 1, where this group showed no relationship.** OR ≈ 0.79 (CI: 0.678-0.925, p = .003). Combined with economic status, this suggests some disparities take time to emerge rather than being present immediately after graduation.
 
-Racial disparities remain substantial at Year 5.
+**All four Race/Ethnicity groups are significant at Year 5**, a broader pattern than Year 1 showed. Black graduates show the largest effect (OR ≈ 0.48, p \< .001), followed by Hispanic (OR ≈ 0.62, p = .011), Asian/Pacific Islander (OR ≈ 0.67, p = .035), and American Indian graduates (OR ≈ 0.79, p = .003).
 
-- **Black students:** \~44% lower odds of sustained regional employment (OR ≈ 0.56).
-- **Asian/PI students:** \~37% lower odds (OR ≈ 0.63).
-- **Hispanic students:** \~37% lower odds (OR ≈ 0.63).
+**English learner status remains significant, consistent with Year 1.** OR ≈ 0.78 (CI: 0.650-0.933, p = .007) — a similar magnitude to the Year 1 finding (OR ≈ 0.68), confirming this is not a one-time-point effect.
 
-These effects are similar in magnitude to Year 1, indicating that early disparities persist into mid-career stabilization rather than narrowing over time.
+**Gender strengthens noticeably from Year 1.** OR ≈ 0.81 (CI: 0.746-0.882, p \< .001), down from ≈ 0.88 at Year 1 — the gap between male and female graduates' odds of sustained regional employment widens over this window.
 
-- **Special Education status:** \~24% lower odds (OR ≈ 0.76).
-
-The special education gap remains meaningful but is somewhat smaller than at Year 1, suggesting modest convergence over time.
-
-- **Economic disadvantage:** \~10% lower odds (OR ≈ 0.90).
-
-This represents a small but negative association, slightly more pronounced than at Year 1.
-
-- **Gender (Female):** \~18% lower odds (OR ≈ 0.82).
-
-The gender gap is somewhat larger at Year 5 than at Year 1, indicating divergence over time.
-
-- **Race: White (relative to reference group):** \~15% higher odds (OR ≈ 1.15).
-
-This positive association reinforces the persistent structural advantage of White students in regional workforce attachment.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~23% higher odds (OR ≈ 1.23).
-- **Entirely rural schools:** \~16% lower odds (OR ≈ 0.84).
-
-Geographic differences remain modest but appear somewhat stronger at Year 5 than at Year 1, suggesting that school context may have a growing association with mid-term workforce anchoring.
+**Special Education status remains significant but weakens somewhat from Year 1.** OR ≈ 0.85 (CI: 0.760-0.956, p = .007), up from ≈ 0.70 at Year 1 — still a real, meaningful disparity, but less pronounced than immediately after graduation.
 
 **Overall Interpretation**
 
-Five years after high school, sustained regional employment among non-college graduates remains strongly patterned by race and, to a lesser extent, special education status and gender. Racial disparities observed at Year 1 persist with little attenuation, indicating durable structural differences in workforce attachment.
+By Year 5, the demographic picture among non-college graduates is broader and, in some respects, more pronounced than at Year 1. Economic status and American Indian identity both emerge as significant predictors here despite showing no relationship at Year 1 — these disparities appear to develop over time rather than being present immediately. English learner status remains a stable, significant predictor across both time points. Gender's effect strengthens, while Special Education status's effect moderates somewhat. Worth tracking all of these closely as high school characteristics and accomplishments are added, to see which hold up independently.
 
-School geography shows modest differentiation, while economic disadvantage plays a relatively minor role. Overall, structural positioning continues to shape mid-term regional employment outcomes even before accounting for preparation or labor market context.
+Model fit: AIC = 13,700.7; residual deviance = 13,683 on 11,649 df (null deviance = 13,806 on 11,657 df); n = 11,658.
 
 ```{r}
 model1 <- glm(
@@ -831,12 +777,21 @@ model1 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
-    Dem_Desc,
+    english.learner,
   family = binomial,
   data = master.model.5
 )
 
 model1
+
+summary(model1)
+
+nobs(model1)
+
+AIC(model1)
+
+exp(cbind(OR = coef(model1), confint(model1)))
+
 
 or_plot <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -873,62 +828,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
     y = NULL
   )
 
-
-
 ```
 
 <br>
 
-## Model 2 - Add high school accomplishments
+## Model 2: Add High School Characteristics
 
-Model 2 adds high school preparation and pathway variables to the structural baseline at five years after graduation. By incorporating CTE participation, ACT participation, MCA performance, and PSEO, this specification evaluates whether mid-term regional workforce attachment is explained by high school academic and career alignment.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline (n = 11,658).
 
-Model fit improves meaningfully (AIC drops from 19,460 to 18,020), indicating that preparation factors account for additional variation in sustained regional employment at Year 5.
+**District classification is significant here, unlike at Year 1 — a real change worth noting.** Urban/town/rural mix districts show 44% higher odds of sustained regional employment than Entirely rural districts (OR ≈ 1.44, p \< .001), and Town/rural mix districts show a marginal, almost-significant effect (OR ≈ 1.21, p = .054). Geography's relationship with regional employment among non-college graduates appears to take time to emerge — absent at Year 1, present by Year 5.
 
-**CTE Pathways**
+**Range school status, local wages, and local unemployment rate all remain non-significant**, consistent with Year 1 — Range school status in particular (OR ≈ 1.03, p = .612) shows no relationship at any stage so far for this subgroup, a genuine departure from its consistently strong role in the full-population and completers models throughout this project.
 
-CTE remains the strongest positive predictor.
-
-- **CTE Concentrator/Completor:** \~29% higher odds of sustained regional employment (OR ≈ 1.29).
-- **CTE Participant:** \~17% higher odds (OR ≈ 1.17).
-
-These effects are slightly smaller than at Year 1 but remain substantial. Career-aligned coursework continues to function as a durable regional anchor five years after high school.
-
-**Academic Orientation**
-
-- **Took ACT:** no meaningful association (OR ≈ 0.97).
-- **PSEO participation:** \~9% lower odds (OR ≈ 0.92).
-- **MCA Reading:** modest negative association (OR ≈ 0.92).
-- **MCA Math:** small positive association (OR ≈ 1.03).
-
-Unlike Year 1, ACT participation no longer differentiates regional retention at Year 5. Academic mobility signals appear to weaken over time within the non-college subgroup. MCA performance contributes only modest explanatory value.
-
-**Demographic and Structural Factors**
-
-Structural disparities remain evident, though some attenuation occurs relative to Model 1.
-
-- **Black students:** \~41% lower odds (OR ≈ 0.59).
-- **Asian/PI students:** \~14% lower odds (OR ≈ 0.86).
-- **Hispanic students:** not meaningfully distinct (OR ≈ 0.92).
-- **White students:** \~15% higher odds (OR ≈ 1.15).
-- **Special Education status:** \~22% lower odds (OR ≈ 0.78).
-- **Economic disadvantage:** \~15% lower odds (OR ≈ 0.86).
-- **Gender (Female):** \~14% lower odds (OR ≈ 0.86).
-
-Compared to Model 1, disparities for Hispanic and Asian/PI students attenuate substantially once preparation is included, suggesting that some of the Year 5 gap is mediated through high school pathway differences. However, the Black student gap remains large and persistent. Special education and economic disadvantage effects remain moderate.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~24% higher odds (OR ≈ 1.24).
-- **Entirely rural schools:** \~22% lower odds (OR ≈ 0.78).
-
-Geographic differentiation persists and remains comparable in magnitude to Model 1, indicating that school context retains independent association even after accounting for preparation.
+**All demographic effects from Model 1 remain significant and essentially stable.** English learner status (OR ≈ 0.76, p = .004), economic status (OR ≈ 0.92, p = .044), Special Education status (OR ≈ 0.85, p = .007), Gender (OR ≈ 0.81, p \< .001), and all four Race/Ethnicity groups — American Indian (OR ≈ 0.80), Asian/Pacific Islander (OR ≈ 0.66), Black (OR ≈ 0.46), and Hispanic (OR ≈ 0.62) — hold steady from Model 1. None of these disparities are explained by district context, Range school status, or local economic conditions.
 
 **Overall Interpretation**
 
-At five years after graduation, CTE participation remains the clearest and most durable pathway into sustained regional employment among non-college graduates. The strength of ACT as a mobility signal diminishes by Year 5, while racial disparities—particularly for Black students—remain pronounced.
+Adding high school characteristics significantly improves model fit (likelihood ratio test: Δdeviance = 29.69, df = 5, p \< .001; AIC decreases from 13,700.7 to 13,681.0). **District classification emerges as a genuine predictor at Year 5 after showing no relationship at Year 1** — the clearest sign so far that geography's role for this subgroup develops over time rather than mattering immediately. Range school status, by contrast, continues to show no relationship at either time point, a notable departure from its role elsewhere in this project. Every demographic disparity identified in Model 1 remains fully intact.
 
-Preparation variables explain some mid-term disparities, especially for Hispanic and Asian/PI students, but they do not eliminate structural gaps. Career alignment continues to matter, but durable structural positioning remains central to understanding sustained regional workforce attachment.
+Model fit: AIC = 13,681.0 (down from 13,700.7 in Model 1); Δdeviance = 29.69 on 5 df, p \< .001; n = 11,658 in both models.
 
 ```{r}
 model2 <- glm(
@@ -937,17 +855,29 @@ model2 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant,
+    range.school +
+    avg.wages.pct.state +
+    avg.unemp.rate,
   family = binomial,
   data = master.model.5
 )
 
 model2
+
+summary(model2)
+
+nobs(model1)
+nobs(model2)
+
+AIC(model1)
+AIC(model2)
+
+exp(cbind(OR = coef(model2), confint(model2)))
+
+anova(model1, model2, test = "Chisq")
+
 
 or_plot <- tidy(model2, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -994,63 +924,33 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 3 - Add local labor market context
+## Model 3: Add High School Accomplishments
 
-Model 3 adds county-level labor market context—average wages (percent of state) and unemployment rate—to the structural and preparation model at five years after graduation. Model fit changes minimally relative to Model 2 (AIC remains ≈ 18,020), indicating that labor market context adds limited additional explanatory power beyond individual and school characteristics at Year 5.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification (n = 11,658).
 
-**CTE Pathways**
+**English learner status remains significant and strengthens further — the third model in a row where this holds up.** OR ≈ 0.74 (CI: 0.613-0.885, p = .001), down from ≈ 0.76 in Model 2. Consistent with the Year 1 findings, English learner status is not explained by academic engagement at Year 5 either.
 
-CTE remains a durable and central predictor.
+**The ACT crossover pattern replicates again, consistent with Year 1 and the rest of this project.** Taking the ACT predicts substantially higher odds of sustained regional employment (OR ≈ 2.78, p \< .001), while among test-takers, each additional composite point predicts lower odds (OR ≈ 0.954 per point, p \< .001) — the same threshold effect found throughout this project.
 
-- **CTE Concentrator/Completor:** \~30% higher odds of sustained regional employment (OR ≈ 1.30).
-- **CTE Participant:** \~17% higher odds (OR ≈ 1.18).
+**PSEO participation loses its significance from... wait, PSEO was never significant at Year 5 in Model 2 either** — actually, PSEO shows no relationship at any stage of the Year 5 sequence (OR ≈ 0.98, p = .742), a genuine contrast with Year 1, where PSEO showed a real, positive, independent relationship (OR ≈ 1.13). PSEO's benefit for this subgroup appears to be concentrated specifically in the immediate post-graduation period, not a lasting effect by Year 5.
 
-These effects are virtually unchanged from Model 2, reinforcing that structured career pathways continue to anchor regional workforce attachment five years after graduation.
+**Asian/Pacific Islander graduates lose significance here — a real change from Models 1 and 2.** OR ≈ 0.73 (CI: 0.496-1.056, p = .106), up from p = .029 in Model 2. This group's disadvantage at Year 5 appears to be at least partly explained by academic engagement patterns, unlike the other three Race/Ethnicity groups.
 
-**Local Labor Market Context**
+**SAT participation shows an even larger negative effect than at Year 1, though the same small-sample caveat applies.** OR ≈ 0.28 (CI: 0.136-0.512, p \< .001) — a stronger relationship than the Year 1 estimate (OR ≈ 0.38), but still built on a small number of SAT-takers in this subgroup, so this magnitude shouldn't be over-interpreted.
 
-- **Average wages (% of state):** \~84% higher odds (OR ≈ 1.84).
-- **Unemployment rate:** no meaningful association (OR ≈ 0.98).
+**AP exam participation remains significant and stable** (OR ≈ 0.67, p \< .001), consistent with Year 1.
 
-County wage strength shows a large positive association with sustained regional employment at Year 5. This suggests that stronger local economies meaningfully reinforce mid-term workforce retention. In contrast, the unemployment rate contributes little independent explanatory value once other factors are included.
+**CTE achievement continues to anchor students regionally, essentially unchanged from Year 1.** CTE Concentrators/Completers (OR ≈ 1.40, p \< .001) and CTE Participants (OR ≈ 1.20, p \< .001) both remain significant and stable.
 
-Importantly, adding labor market context does not materially alter the magnitude of CTE or demographic effects.
+**Range school status remains non-significant, now for the third model in a row** (OR ≈ 0.96, p = .446) — this variable shows no relationship with sustained regional employment for this subgroup at any point in either the Year 1 or Year 5 sequence, a clear and consistent departure from its role elsewhere in this project.
 
-**Academic Orientation**
-
-- **Took ACT:** no meaningful association (OR ≈ 0.97).
-- **PSEO participation:** \~9% lower odds (OR ≈ 0.91).
-- **MCA Reading:** modest negative association (OR ≈ 0.92).
-- **MCA Math:** minimal positive association (OR ≈ 1.03).
-
-As in Model 2, ACT participation does not differentiate regional retention at Year 5. Academic signals appear weaker and less determinative at this mid-term stage among non-college graduates.
-
-**Demographic and Structural Factors**
-
-Structural disparities remain present.
-
-- **Black students:** \~42% lower odds (OR ≈ 0.58).
-- **Asian/PI students:** \~15% lower odds (OR ≈ 0.85).
-- **Hispanic students:** not meaningfully distinct (OR ≈ 0.91).
-- **White students:** \~14% higher odds (OR ≈ 1.14).
-- **Special Education status:** \~23% lower odds (OR ≈ 0.77).
-- **Economic disadvantage:** \~14% lower odds (OR ≈ 0.86).
-- **Gender (Female):** \~14% lower odds (OR ≈ 0.86).
-
-These effects remain stable relative to Model 2, indicating that labor market context does not explain the persistent racial and special education disparities in mid-term regional workforce attachment.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~17% higher odds (OR ≈ 1.17).
-- **Entirely rural schools:** \~21% lower odds (OR ≈ 0.79).
-
-Geographic school context continues to show moderate associations, though these are smaller than the wage effect and the Black student disparity.
+**Economic status, Special Education status, Gender, American Indian, Black, and Hispanic graduates all remain significant and essentially stable** from Model 2 — none of these disparities are explained by academic engagement. District classification (Urban/town/rural mix) also remains significant and strengthens slightly (OR ≈ 1.51, p \< .001).
 
 **Overall Interpretation**
 
-At five years after graduation, sustained regional employment among non-college graduates reflects a combination of durable CTE pathway alignment and broader local economic strength. Stronger county wage conditions substantially increase mid-term regional retention, suggesting that economic opportunity becomes more consequential as careers stabilize.
+Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 174.94, df = 7, p \< .001; AIC decreases from 13,681.0 to 13,520.1) — the largest improvement of any block in this sequence, mirroring the pattern at Year 1. **English learner status, economic status, Special Education status, Gender, and the Black/Hispanic/ American Indian Race/Ethnicity pattern all remain significant and independent of academic engagement — none of these disparities are explained by how students engaged academically in high school.** Asian/Pacific Islander graduates are the one group whose disadvantage loses significance once accomplishments are considered — a genuine divergence from the other three Race/Ethnicity groups. PSEO's positive relationship with regional employment, present at Year 1, disappears entirely by Year 5 — suggesting its benefit is concentrated in the immediate post-graduation window rather than persisting. The ACT crossover and CTE's anchoring effect both replicate cleanly from Year 1.
 
-However, large disparities—particularly for Black students and students receiving special education services—remain even after accounting for preparation and labor market context. CTE continues to function as a meaningful regional anchor, but structural positioning and economic opportunity jointly shape longer-term workforce attachment.
+Model fit: AIC = 13,520.1 (down from 13,681.0 in Model 2); Δdeviance = 174.94 on 7 df, p \< .001; n = 11,658 in both models.
 
 ```{r}
 model3 <- glm(
@@ -1059,19 +959,36 @@ model3 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant +
+    range.school +
+    avg.wages.pct.state +
     avg.unemp.rate +
-    avg.wages.pct.state,
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam +
+    sat.taken +
+    cte.achievement,
   family = binomial,
   data = master.model.5
 )
 
 model3
+
+summary(model3)
+
+nobs(model1)
+nobs(model2)
+nobs(model3)
+
+AIC(model1)
+AIC(model2)
+AIC(model3)
+
+exp(cbind(OR = coef(model3), confint(model3)))
+
+anova(model1, model2, model3, test = "Chisq")
 
 or_plot <- tidy(model3, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -1122,41 +1039,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 # Modeling - `grad.year.10`
 
-## Model 1 - Structural and Preparation Baseline
+## Model 1: Demographics
 
-Model 1 estimates the association between demographic background and school geography with sustained regional employment ten years after graduation. This structural baseline excludes preparation and labor market variables, allowing us to assess whether long-term regional workforce attachment continues to reflect early structural positioning.
+This model estimates the association between demographic characteristics and sustained regional employment ten years after high school, among non-college graduates in the 2011+ cohort (n = 4,718). Note the much smaller sample here — this cohort requires 10 years of follow-up, so it's built from a substantially narrower range of graduating years than the Year 1 or Year 5 models, and confidence intervals throughout this model should be read with that reduced power in mind.
 
-Model fit (AIC ≈ 11,330) reflects the smaller cohort observed at Year 10 but maintains a similar explanatory structure to earlier years.
+**Several disparities that were significant at Year 1 and/or Year 5 lose significance here — worth treating as a real pattern to watch, though some of this may reflect reduced statistical power rather than the disparities genuinely disappearing.** English learner status (OR ≈ 0.83, CI: 0.590-1.162, p = .290), Special Education status (OR ≈ 0.91, p = .320), economic status (OR ≈ 0.91, p = .184), and Hispanic graduates (OR ≈ 0.67, p = .198) are all non-significant at Year 10, despite being significant predictors at one or both earlier time points. The confidence intervals here are noticeably wider than at Year 1 or Year 5 — consistent with a much smaller sample, not necessarily with these effects having vanished.
 
-**Demographic and Structural Factors**
+**Black graduates show the single largest and most significant effect found anywhere in this three-model sequence.** OR ≈ 0.32 (CI: 0.172-0.533, p \< .001) — Black graduates show roughly a two-thirds reduction in odds of sustained regional employment relative to White graduates at Year 10, a substantially larger gap than at Year 1 (OR ≈ 0.55) or Year 5 (OR ≈ 0.48). This disparity doesn't just persist over the ten-year window — it appears to widen.
 
-Racial disparities remain pronounced—and in some cases widen—by Year 10.
+**Asian/Pacific Islander graduates remain significant, and the effect also strengthens over time.** OR ≈ 0.44 (CI: 0.210-0.819, p = .016), a larger gap than either Year 1 (OR ≈ 0.48) or Year 5 (OR ≈ 0.73, non-significant by that point).
 
-- **Asian/PI students:** \~67% lower odds of sustained regional employment (OR ≈ 0.33).
-- **Black students:** \~61% lower odds (OR ≈ 0.39).
-- **Hispanic students:** \~52% lower odds (OR ≈ 0.48).
-- **American Indian students:** not meaningfully distinct (OR ≈ 0.96).
+**Gender remains significant and shows its largest effect of the three time points.** OR ≈ 0.73 (CI: 0.636-0.833, p \< .001), down from ≈ 0.81 at Year 5 and ≈ 0.88 at Year 1 — the gender gap in sustained regional employment widens steadily across this entire ten-year window.
 
-Compared to Years 1 and 5, disparities for Asian/PI and Black students appear larger at Year 10, indicating that long-term regional workforce attachment diverges rather than converges over time for these groups.
-
-- **Special Education status:** \~21% lower odds (OR ≈ 0.79).
-- **Economic disadvantage:** \~14% lower odds (OR ≈ 0.86).
-- **Gender (Female):** \~24% lower odds (OR ≈ 0.76).
-
-The gender gap grows modestly by Year 10, while economic disadvantage and special education remain meaningful but moderate predictors.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~21% higher odds (OR ≈ 1.21).
-- **Entirely rural schools:** \~18% lower odds (OR ≈ 0.82).
-
-Geographic differences persist and remain comparable in magnitude to earlier years, suggesting that school context has durable association with long-term regional workforce outcomes.
+**American Indian graduates are non-significant here** (OR ≈ 0.89, p = .366), continuing the pattern from Year 1 (also non-significant) after a brief emergence at Year 5.
 
 **Overall Interpretation**
 
-Ten years after high school, sustained regional employment among non-college graduates remains strongly patterned by race, with particularly large disparities for Asian/PI and Black students. Gender gaps also become more pronounced over time.
+At ten years post-graduation, the demographic picture among non-college graduates narrows to two clear, strengthening disparities — Black and Asian/Pacific Islander Race/Ethnicity, and Gender — while several disparities visible at Year 1 and/or Year 5 (English learner status, Special Ed status, economic status, Hispanic identity) are no longer statistically significant. Given the much smaller sample at this stage, it's worth treating this as "no longer detectable at this sample size" rather than confidently concluding these disparities have resolved — that distinction will be worth revisiting once the full three-model sequence and summary are assembled.
 
-While special education status and economic disadvantage continue to matter, racial disparities dominate the long-term structural profile. The persistence—and in some cases widening—of these gaps suggests that early differences in regional workforce attachment solidify rather than dissipate over time, even before accounting for preparation or local labor market context.
+Model fit: AIC = 5,351.8; residual deviance = 5,333.8 on 4,709 df (null deviance = 5,395.4 on 4,717 df); n = 4,718.
 
 ```{r}
 model1 <- glm(
@@ -1165,12 +1066,21 @@ model1 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
-    Dem_Desc,
+    english.learner,
   family = binomial,
   data = master.model.10
 )
 
 model1
+
+summary(model1)
+
+nobs(model1)
+
+AIC(model1)
+
+exp(cbind(OR = coef(model1), confint(model1)))
+
 
 or_plot <- tidy(model1, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -1207,62 +1117,25 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
     y = NULL
   )
 
-
-
 ```
 
 <br>
 
-## Model 2 - Add high school accomplishments
+## Model 2: Add High School Characteristics
 
-Model 2 adds high school preparation and pathway variables to the structural baseline at ten years after graduation. By incorporating CTE participation, ACT participation, MCA performance, and PSEO, this specification evaluates whether long-term regional workforce attachment is explained by high school academic and career alignment.
+This model adds district rural/urban classification, Range school status, local average wages, and local average unemployment rate to the demographic baseline (n = 4,718).
 
-Model fit improves meaningfully relative to Model 1 (AIC drops from 11,330 to 10,260), indicating that preparation variables continue to account for variation in sustained regional employment even a decade after graduation.
+**Nothing in this block reaches conventional significance — a genuine contrast with both Year 1 (unemployment rate significant) and Year 5 (district classification significant).** Urban/town/rural mix comes closest (OR ≈ 1.36, CI: 0.984-1.916, p = .067), but doesn't clear the threshold. Town/rural mix (p = .420), Range school status (OR ≈ 1.13, p = .187), local wages (p = .315), and local unemployment (p = .422) are all clearly non-significant. Given the much smaller sample at this stage, this may reflect reduced power as much as a genuine absence of relationship — worth flagging that distinction rather than concluding geography stops mattering by Year 10.
 
-**CTE Pathways**
+**Black, Asian/Pacific Islander, and Gender all remain significant and essentially stable from Model 1.** Black graduates continue to show the largest effect in this sequence (OR ≈ 0.31, p \< .001), Asian/Pacific Islander graduates remain significant (OR ≈ 0.44, p = .018), and Gender remains significant and stable (OR ≈ 0.73, p \< .001).
 
-CTE remains the strongest positive predictor at Year 10.
-
-- **CTE Concentrator/Completor:** \~32% higher odds of sustained regional employment (OR ≈ 1.32).
-- **CTE Participant:** \~21% higher odds (OR ≈ 1.21).
-
-These effects are remarkably stable relative to Years 1 and 5, suggesting that career-aligned coursework produces durable regional anchoring that persists over time.
-
-**Academic Orientation**
-
-- **Took ACT:** \~14% lower odds (OR ≈ 0.86).
-- **MCA Reading:** \~12% lower odds (OR ≈ 0.88).
-- **MCA Math:** no meaningful association (OR ≈ 1.02).
-- **PSEO participation:** not statistically distinct (OR ≈ 1.01).
-
-At Year 10, ACT participation again aligns with lower regional retention, consistent with longer-term mobility patterns. MCA Reading shows a modest negative association, while Math and PSEO remain weak predictors.
-
-**Demographic and Structural Factors**
-
-Structural disparities remain present, though some attenuation occurs relative to Model 1.
-
-- **Black students:** \~44% lower odds (OR ≈ 0.44).
-- **Asian/PI students:** \~53% lower odds (OR ≈ 0.47).
-- **Hispanic students:** \~26% lower odds (OR ≈ 0.74).
-- **American Indian students:** not meaningfully distinct (OR ≈ 0.97).
-- **Special Education status:** \~22% lower odds (OR ≈ 0.78).
-- **Economic disadvantage:** \~22% lower odds (OR ≈ 0.78).
-- **Gender (Female):** \~19% lower odds (OR ≈ 0.81).
-
-Compared to Model 1, racial disparities for Hispanic students attenuate notably once preparation is included, while large gaps for Black and Asian/PI students remain substantial. Economic disadvantage becomes more pronounced in this specification, suggesting that preparation differences do not fully account for long-term income-related disparities.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~29% higher odds (OR ≈ 1.29).
-- **Entirely rural schools:** \~19% lower odds (OR ≈ 0.81).
-
-Geographic school context continues to show durable associations with long-term regional employment.
+**English learner status, Special Education status, economic status, American Indian, and Hispanic graduates all remain non-significant**, unchanged from Model 1.
 
 **Overall Interpretation**
 
-Ten years after high school, sustained regional employment among non-college graduates reflects a combination of durable CTE pathway alignment and persistent structural positioning. CTE remains a strong and stable regional anchor across the decade. Academic mobility signals, particularly ACT participation, align with lower long-term regional retention.
+Adding high school characteristics produces only a modest, if still statistically significant, improvement in model fit (likelihood ratio test: Δdeviance = 12.39, df = 5, p = .030; AIC decreases from 5,351.8 to 5,349.4) — notably weaker than this same block's contribution at either Year 1 or Year 5. **No individual characteristic variable reaches significance here**, a genuine departure from the earlier time points, where unemployment rate (Year 1) and district classification (Year 5) each showed clear, independent effects. Black, Asian/Pacific Islander, and Gender remain the three clear, stable disparities carried forward from Model 1.
 
-Racial disparities—especially for Black and Asian/PI students—remain large even after accounting for preparation. Economic disadvantage and special education gaps also persist. High school pathways matter, but they do not eliminate durable structural differences in long-term regional workforce attachment.
+Model fit: AIC = 5,349.4 (down from 5,351.8 in Model 1); Δdeviance = 12.39 on 5 df, p = .030; n = 4,718 in both models.
 
 ```{r}
 model2 <- glm(
@@ -1271,17 +1144,29 @@ model2 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant,
+    range.school +
+    avg.wages.pct.state +
+    avg.unemp.rate,
   family = binomial,
   data = master.model.10
 )
 
 model2
+
+summary(model2)
+
+nobs(model1)
+nobs(model2)
+
+AIC(model1)
+AIC(model2)
+
+exp(cbind(OR = coef(model2), confint(model2)))
+
+anova(model1, model2, test = "Chisq")
+
 
 or_plot <- tidy(model2, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -1328,61 +1213,27 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-## Model 3 - Add local labor market context
+## Model 3: Add High School Accomplishments
 
-Model 3 adds county-level labor market context—average wages (percent of state) and unemployment rate—to the structural and preparation model at ten years after graduation. Model fit is effectively unchanged relative to Model 2 (AIC ≈ 10,270 vs. 10,260), indicating that local labor market conditions add little additional explanatory power once individual and school characteristics are accounted for at Year 10.
+This model adds PSEO participation, ACT participation and score, SAT participation, AP exam participation, and CTE achievement to the growing specification (n = 4,718).
 
-**CTE Pathways**
+**The ACT crossover pattern replicates here for the third and final time point, though both terms are weaker than at Year 1 or Year 5.** Taking the ACT predicts higher odds of sustained regional employment (OR ≈ 1.97, p = .029), and among test-takers, each additional composite point predicts lower odds (OR ≈ 0.963 per point, p = .009) — the same threshold effect found throughout this project, though noticeably more modest in magnitude than at Year 1 (OR ≈ 2.94 / 0.943) or Year 5 (OR ≈ 2.78 / 0.954). Given the much smaller sample here, this could reflect either a genuine weakening of the effect over time or reduced precision — worth treating as a real but less certain version of the same pattern.
 
-CTE remains a durable and central predictor.
+**CTE achievement shows its strongest effect of any time point in this sequence.** CTE Concentrators/Completers show 53% higher odds of sustained regional employment (OR ≈ 1.53, p \< .001), the largest CTE effect across Year 1, 5, or 10. CTE Participants also remain significant (OR ≈ 1.25, p = .008). CTE's protective relationship with regional employment appears to strengthen, not fade, over the ten-year window.
 
-- **CTE Concentrator/Completor:** \~32% higher odds of sustained regional employment (OR ≈ 1.32).
-- **CTE Participant:** \~22% higher odds (OR ≈ 1.22).
+**SAT participation remains significant, in the same direction as Year 1 and Year 5, with the same small-sample caveat applying even more strongly here.** OR ≈ 0.46 (CI: 0.211-0.899, p = .034) — given the shrinking sample at Year 10, this estimate is built on a very small number of SAT-takers and should be treated as suggestive at most.
 
-These effects are virtually identical to Model 2, reinforcing that structured career pathways continue to anchor long-term regional workforce attachment a decade after high school.
+**English learner status, Special Education status, and economic status all remain non-significant, consistent with Models 1 and 2.** English learner status (OR ≈ 0.77, p = .142) and Special Ed status (OR ≈ 0.86, p = .140) show no relationship at any stage of the Year 10 sequence, a genuine contrast with their significant, independent roles at both Year 1 and Year 5. Economic status comes close to significance (OR ≈ 0.87, p = .052) but doesn't quite clear the threshold.
 
-**Local Labor Market Context**
+**Black, Asian/Pacific Islander, and Gender all remain significant and essentially stable.** Black graduates continue to show the largest disparity in this sequence (OR ≈ 0.30, p \< .001). Asian/Pacific Islander graduates remain significant (OR ≈ 0.50, p = .044). Gender remains significant (OR ≈ 0.77, p \< .001).
 
-- **Average wages (% of state):** \~18% higher odds (OR ≈ 1.18).
-- **Unemployment rate:** no meaningful association (OR ≈ 1.00).
-
-Unlike Year 5—where wage context showed a large association—the Year 10 wage effect is modest and does not meaningfully alter other coefficients. The unemployment rate has no independent association at this stage. This suggests that long-term regional attachment among non-college graduates is shaped more by pathway alignment and structural positioning than by contemporaneous labor market conditions.
-
-**Academic Orientation**
-
-- **Took ACT:** \~14% lower odds (OR ≈ 0.86).
-- **MCA Reading:** \~13% lower odds (OR ≈ 0.88).
-- **MCA Math:** no meaningful association (OR ≈ 1.02).
-- **PSEO participation:** not statistically distinct (OR ≈ 1.01).
-
-Academic mobility signals continue to align with lower regional retention at Year 10. ACT participation remains a modest but consistent indicator of outward movement, while MCA Reading shows a small negative association. Math and PSEO contribute little independent explanatory value.
-
-**Demographic and Structural Factors**
-
-Structural disparities remain pronounced and largely unchanged from Model 2.
-
-- **Black students:** \~44% lower odds (OR ≈ 0.44).
-- **Asian/PI students:** \~53% lower odds (OR ≈ 0.47).
-- **Hispanic students:** \~26% lower odds (OR ≈ 0.74).
-- **American Indian students:** not meaningfully distinct (OR ≈ 0.97).
-- **Special Education status:** \~22% lower odds (OR ≈ 0.78).
-- **Economic disadvantage:** \~22% lower odds (OR ≈ 0.78).
-- **Gender (Female):** \~19% lower odds (OR ≈ 0.81).
-
-The stability of these coefficients after adding labor market context indicates that long-term disparities are not explained by variation in county wage levels or unemployment rates.
-
-**School Context**
-
-- **Urban/town/rural mix schools:** \~27% higher odds (OR ≈ 1.27).
-- **Entirely rural schools:** \~19% lower odds (OR ≈ 0.81).
-
-Geographic school context continues to show durable associations, though these remain smaller than the racial disparities observed.
+**PSEO participation, AP exam, district classification, Range school status, local wages, and local unemployment all remain non-significant** throughout this entire time point, consistent with Models 1 and 2.
 
 **Overall Interpretation**
 
-Ten years after high school, sustained regional employment among non-college graduates reflects durable pathway alignment through CTE and persistent structural disparities. Local labor market conditions play a comparatively minor role at this long-term stage.
+Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 56.75, df = 7, p \< .001; AIC decreases from 5,349.4 to 5,306.7). **At ten years post-graduation, only three disparities remain clearly significant and independent: Black and Asian/Pacific Islander Race/Ethnicity, and Gender — all three widening rather than narrowing relative to Year 1.** English learner status and Special Education status, both robust and significant at Year 1 and Year 5, are non-significant here — though given the much smaller sample at this stage, this is better read as "no longer detectable at this sample size" than as evidence these disparities have resolved. CTE achievement shows its strongest effect at any time point, while the ACT crossover and SAT's negative relationship both replicate, in more modest form.
 
-CTE participation continues to provide a stable regional anchor across the decade. However, large racial disparities—particularly for Black and Asian/PI students—remain substantial even after accounting for preparation and labor market context. Long-term regional workforce attachment appears shaped more by early pathway alignment and structural positioning than by short-term economic conditions.
+Model fit: AIC = 5,306.7 (down from 5,349.4 in Model 2); Δdeviance = 56.75 on 7 df, p \< .001; n = 4,718 in both models.
 
 ```{r}
 model3 <- glm(
@@ -1391,19 +1242,36 @@ model3 <- glm(
     economic.status +
     SpecialEdStatus +
     Gender +
+    english.learner +
     Dem_Desc +
-    cte.achievement +
-    took.ACT +
-    MCA.R +
-    MCA.M +
-    pseo.participant +
+    range.school +
+    avg.wages.pct.state +
     avg.unemp.rate +
-    avg.wages.pct.state,
+    pseo.participant +
+    took.ACT +
+    ACTCompositeScore.filled +
+    ap.exam +
+    sat.taken +
+    cte.achievement,
   family = binomial,
   data = master.model.10
 )
 
 model3
+
+summary(model3)
+
+nobs(model1)
+nobs(model2)
+nobs(model3)
+
+AIC(model1)
+AIC(model2)
+AIC(model3)
+
+exp(cbind(OR = coef(model3), confint(model3)))
+
+anova(model1, model2, model3, test = "Chisq")
 
 or_plot <- tidy(model3, conf.int = TRUE, exponentiate = TRUE) %>%
   filter(term != "(Intercept)") %>%
@@ -1452,57 +1320,52 @@ ggplot(or_plot, aes(x = estimate, y = term)) +
 
 <br>
 
-# Synthesis of analysis
+# Summary: Multivariate Confirmation — Non-College Graduate Workforce Participation (Year 1, 5, and 10)
 
-Across one, five, and ten years after high school, sustained regional employment among non-college graduates in Northeast Minnesota follows a consistent pattern: career-aligned preparation matters, structural disparities persist, and local labor market strength plays a secondary but time-sensitive role.
+Across all three time points, this analysis identifies a small set of disparities that are genuinely durable — some of which widen rather than narrow over a decade — alongside several that are significant early on but become undetectable at Year 10, where the much smaller sample size makes it difficult to distinguish a resolved disparity from a statistical-power limitation.
 
-**Synthesis of Findings (Years 1, 5, and 10)**
+**Black graduates show the single most robust, and widening, disparity found anywhere in this three-model sequence.** Significant and substantial at every stage of every time point, the gap actually grows over time: OR ≈ 0.52 at Year 1, 0.45 at Year 5, and 0.30 at Year 10 (fully adjusted models). Ten years out, Black non-college graduates show roughly a two-thirds reduction in odds of sustained regional employment relative to White graduates — the largest disparity identified in this entire analysis.
 
-First, CTE is the most consistent and durable positive predictor of sustained regional employment across the entire decade. CTE concentrators and completers show roughly 30–35% higher odds of sustained regional workforce attachment at Year 1, and that advantage remains remarkably stable at Years 5 and 10. Even partial CTE participation confers a measurable advantage. This is not a short-term bump; it is a durable alignment effect.
+**Gender shows a similarly durable and widening pattern.** Significant at every stage of every time point, moving from OR ≈ 0.94 (Year 1, marginal by the final model) to 0.85 (Year 5) to 0.77 (Year 10) — the gap between male and female non-college graduates' odds of sustained regional employment steadily widens across the full ten-year window.
 
-Second, academic mobility signals operate differently. ACT participation is associated with lower regional retention at Year 1 and again at Year 10, suggesting outward mobility patterns that persist over time. By Year 5, that effect weakens, but it does not reverse. MCA performance shows only modest independent associations once other factors are included. PSEO participation does not meaningfully predict sustained regional employment within the non-college subgroup.
+**Asian/Pacific Islander graduates show a significant disparity at both endpoints (Year 1 and Year 10), though it temporarily loses significance partway through the Year 5 sequence** once academic accomplishments are added (OR ≈ 0.73, p = .106) — a real, if not perfectly consistent, disadvantage across the ten-year window.
 
-Third, structural disparities remain large and persistent. Black and Asian/PI students face substantially lower odds of sustained regional employment at every time point, even after accounting for preparation and local labor market context. Hispanic disparities attenuate somewhat once preparation is included but do not fully disappear. Special education status and economic disadvantage also show consistent negative associations. These gaps do not meaningfully close over time.
+**English learner status and Special Education status both show strong, strengthening, independent disparities at Year 1 and Year 5, but are not detectable by Year 10.** Both hold up robustly across all three models at the earlier two time points — if anything, strengthening once academic accomplishments are considered — but neither reaches significance at Year 10, where the sample is roughly a third the size of the earlier models. Given how consistently these effects held up earlier, this is better read as a power limitation than evidence the disparities resolve by Year 10.
 
-Fourth, school geography shows moderate but durable effects. Students from urban/town/rural mix schools tend to exhibit higher regional retention relative to the reference geography, while entirely rural schools often show lower odds. These patterns remain stable across years, though they are smaller in magnitude than racial disparities and CTE effects.
+**Hispanic graduates show a significant disparity at Year 1 and Year 5 that is not detectable at Year 10**, following the same pattern as English learner and Special Ed status, and likely for the same reason.
 
-Finally, local labor market context matters most in the mid-term. At Year 5, higher county wage levels show a strong positive association with sustained regional employment. By Year 10, that wage effect becomes more modest, and unemployment rates show little independent influence once individual and school-level factors are included. This suggests that economic strength reinforces retention during career stabilization years but does not fundamentally alter long-term structural patterns.
+**American Indian graduates show a distinct pattern: no relationship at Year 1, a brief, significant disadvantage at Year 5, and no relationship again at Year 10** — the only demographic group whose significance is confined specifically to the middle time point.
 
-## **Implications for Northeast Economic and Workforce Developers**
+**Economic status follows an inverted pattern: no relationship at Year 1, a clear, significant disadvantage at Year 5, and only a marginal relationship at Year 10** (p = .052) — consistent with disparities that take time to emerge after graduation, though the Year 10 result should be read cautiously given the smaller sample.
 
-If the goal is to increase sustained workforce participation among non-college graduates in Northeast Minnesota, three themes stand out.
+**District classification shows a similar delayed-emergence pattern.** No relationship at Year 1, a significant advantage for Urban/town-rural mix districts at Year 5, and only a marginal relationship at Year 10 — geography's importance for this subgroup appears to build over the first five years before fading (or becoming undetectable) by Year 10.
 
-1.  Career alignment works — and it lasts.
+**Range school status, local wages, and local unemployment rate show essentially no relationship with regional employment for non-college graduates at any time point** — a clear and consistent departure from these same variables' strong, independent roles throughout the rest of this project's full-population and completers-only models.
 
-CTE is not just correlated with early job placement; it is associated with sustained regional employment up to ten years later. Structured, high-quality career pathways that connect students directly to local industry appear to anchor young adults in the region. Investments in CTE expansion, employer partnerships, work-based learning, and clear occupational pipelines are likely to produce long-term retention benefits.
+**PSEO participation shows a real, positive, independent effect only at Year 1** (OR ≈ 1.13), and shows no relationship at Year 5 or Year 10 — its benefit for this specific subgroup appears to be front-loaded and short-lived rather than a lasting advantage.
 
-This is the strongest and most actionable lever identified in the analysis.
+**The ACT crossover pattern replicates at all three time points, consistent with the rest of this project, though it weakens in magnitude by Year 10.** Taking the ACT predicts higher odds of sustained regional employment at every time point (OR ≈ 2.94, 2.78, and 1.97 respectively), while among test-takers, higher composite scores predict lower odds at every time point as well — the same threshold effect found throughout this project's other analyses.
 
-2.  Early mobility signals are real.
+**CTE achievement is the single most consistent and strengthening predictor in this entire analysis.** Significant and positive at every stage of every time point, and its magnitude actually grows over time (OR ≈ 1.41 at Year 1, 1.40 at Year 5, 1.53 at Year 10) — CTE's protective relationship with regional employment doesn't just hold up, it strengthens across the full ten-year window.
 
-Students who demonstrate strong academic orientation (particularly ACT participation) are less likely to remain regionally attached over time, even within the non-college subgroup. This does not imply failure — it reflects mobility. For workforce developers, this suggests that strategies to retain academically oriented students must focus on competitive wages, visible career ladders, and professional growth opportunities within the region.
+**AP exam participation shows a significant negative relationship at Year 1 and Year 5, but not at Year 10.** SAT participation shows a significant negative relationship at all three time points, though the extremely small number of SAT-takers in this subgroup (especially by Year 10) means these estimates should be treated as suggestive rather than precise throughout.
 
-Retention is not just about entry-level job placement; it is about long-term advancement potential.
+<br>
 
-3.  Structural disparities require intentional intervention.
+# The Story This Data Tells
 
-Large racial disparities persist across the decade and are not explained by preparation or labor market context. This indicates that improving coursework alignment alone will not close gaps. Targeted workforce supports, mentorship, employer engagement strategies, and culturally responsive pipeline development may be necessary to ensure equitable long-term regional attachment.
+Picture a student who graduates from high school in Northeast Minnesota without going on to complete a postsecondary credential. What predicts whether they're sustainably employed in the region — not just next year, but a decade from now?
 
-Without intentional equity-focused strategies, disparities are likely to remain durable.
+**Two disparities stand out as genuinely durable, and both get worse, not better, with time.** Black graduates and, to a lesser extent, women both start out somewhat disadvantaged relative to their peers in Year 1 — and by Year 10, both gaps have widened substantially. This isn't a story of early struggles that resolve with time; for these two groups, the region sustains, rather than closes, its differences in workforce attachment over a full decade.
 
-4.  Economic strength matters — especially during stabilization years.
+**Several other disparities look real and meaningful in the first five years, then become impossible to detect by Year 10 — but that's very likely a story about sample size, not about disparities disappearing.** English learner status, Special Education status, and Hispanic identity all show strong, independent, even strengthening relationships with reduced regional employment at Year 1 and Year 5. By Year 10, the sample has shrunk to less than half its earlier size — simply because fewer graduates from earlier cohorts have had ten years pass yet — and none of these three effects clear the bar for statistical significance anymore. Given how consistently and robustly they held up in the two earlier, better-powered models, the responsible reading is "we can no longer detect this with confidence at this smaller sample size," not "this disparity has resolved."
 
-County wage strength plays its largest role around five years after graduation, when young adults are stabilizing careers and making longer-term location decisions. Competitive wage growth, industry diversification, and visible career pathways appear especially important during this mid-career transition period.
+**A few disparities appear to take time to develop rather than being present from the start.** Economic disadvantage and district geography both show no relationship in Year 1, then emerge as real, significant predictors by Year 5 — suggesting some disadvantages compound gradually after graduation rather than showing up immediately.
 
-## **Overall Narrative for Northeast**
+**One story runs opposite to what's found almost everywhere else in this project: local geography and economic conditions barely matter here.** Range school status, local wages, and local unemployment rate — all strong, independent predictors of workforce and postsecondary outcomes for the full graduating population and for college completers — show essentially no relationship with regional employment for non-college graduates at any point in this ten-year window. For this specific population, it isn't where you're from or the local economy that matters most — it's what you did in high school.
 
-For non-college graduates in Northeast Minnesota, sustained regional workforce participation is primarily shaped by early career alignment and durable structural positioning. CTE functions as a long-term regional anchor. Strong local wages reinforce retention during career stabilization. However, structural racial and educational disparities remain substantial and persistent.
+**And that "what you did in high school" story has one clear headline: CTE.** Career and technical education isn't just a positive predictor here — it's the single most consistent, strengthening effect in the entire analysis, growing more protective the further out you look. The familiar ACT pattern from elsewhere in this project shows up here too — simply taking the test predicts staying regionally employed, while a strong score predicts something else — but its strength fades somewhat by Year 10, while CTE's grows. For non-college graduates specifically, high school career-and-technical pathways look like the most durable, long-term lever this project has identified for sustained regional workforce attachment.
 
-The evidence suggests that retention strategies should prioritize:
+**PSEO tells a narrower story here than it does elsewhere in this project.** It shows a real, independent benefit immediately after graduation, but that advantage doesn't persist — by Year 5 and Year 10, PSEO participation shows no relationship with regional employment at all. For non-college graduates, PSEO looks like it helps with the transition out of high school, not with long-term regional attachment.
 
-- Expanding and strengthening career-aligned CTE pathways tied directly to regional industries.
-- Building visible advancement ladders that make staying competitive with leaving.
-- Investing in equitable workforce supports that address persistent structural gaps.
-- Maintaining competitive wage growth to retain workers beyond initial placement.
-
-Keeping non-college graduates in the region is not just about first jobs — it is about alignment, opportunity, equity, and long-term economic competitiveness.
+**Put together, this paints a somewhat different picture of "who is at risk" than the full-population and completers analyses did.** For graduates who don't go on to any postsecondary credential, the most durable, decade-long risks are concentrated in race (specifically Black identity) and gender — both worsening over time — while several other demographic disparities are real in the near term but harder to track with confidence a decade out. And unlike almost every other outcome examined in this project, geography and the local economy take a back seat: what happens in high school — CTE engagement above all — matters more for this population's long-term regional employment than where they're from.

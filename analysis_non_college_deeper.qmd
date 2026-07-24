@@ -1357,7 +1357,7 @@ tab_xtab(var.row = updated.master$disconnected.cat, var.col = updated.master$att
 ## Summary: Bivariate Predictors of Overall Disconnection Persistence (`disconnected.cat`)
 
 | Variable | Effect size | Direction |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | **Attended postsecondary (attempt only)** | **V = 0.195** (strongest overall) | Attempting protects against persistence |
 | Special Ed status | V = 0.120 | SpecialEd → more persistent |
 | English learner status | V = 0.105 | EL → more persistent |
@@ -1769,7 +1769,7 @@ tab_xtab(var.row = updated.master$non_sustained.cat, var.col = updated.master$at
 ## Summary: Bivariate Predictors of Non-Sustained Employment Persistence (`non_sustained.cat`)
 
 | Variable | Effect size | Direction |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Economic status | V = 0.083 | Disadvantage → more instability |
 | Gender | V = 0.079 | Female → more instability |
 | Attended postsecondary (attempt only) | V = 0.077 | Attendance → less *persistent* instability, but not less instability overall |
@@ -2187,7 +2187,7 @@ tab_xtab(var.row = updated.master$no_record.cat, var.col = updated.master$attend
 ## Summary: Bivariate Predictors of No-Record Persistence (`no_record.cat`)
 
 | Variable | Effect size | Direction |
-|------------------------|------------------------|------------------------|
+|----|----|----|
 | Attended postsecondary (attempt only) | V = 0.148 | Strongest single predictor; attendance protects |
 | English learner status | V = 0.105 | EL → much more likely persistently no-record |
 | Took ACT (participation) | V = 0.098 | Participation → strongly protective |

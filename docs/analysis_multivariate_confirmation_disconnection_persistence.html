@@ -244,27 +244,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>  
     </ul>
   </li>
-  <li class="nav-item dropdown ">
-    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-one-page-summaries-of-pathways" role="link" data-bs-toggle="dropdown" aria-expanded="false">
-      <i class="bi bi-fa-gear" role="img">
-</i> 
- <span class="menu-text">One-page summaries of pathways</span>
-    </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-one-page-summaries-of-pathways">    
-        <li>
-    <a class="dropdown-item" href="./pathway_anchored.html">
- <span class="dropdown-text">Pathway - Anchored</span></a>
+  <li class="nav-item">
+    <a class="nav-link" href="./the_story.html"> 
+<span class="menu-text">The story</span></a>
   </li>  
-        <li>
-    <a class="dropdown-item" href="./pathway_mobility.html">
- <span class="dropdown-text">Pathway - Mobility</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="./pathway_unanchored.html">
- <span class="dropdown-text">Pathway - Unanchared / At-Risk</span></a>
-  </li>  
-    </ul>
-  </li>
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -306,7 +289,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#model-1-demographics-and-high-school-characteristics-1" id="toc-model-1-demographics-and-high-school-characteristics-1" class="nav-link" data-scroll-target="#model-1-demographics-and-high-school-characteristics-1">Model 1: Demographics and High School Characteristics</a></li>
   <li><a href="#model-2-add-high-school-accomplishments-1" id="toc-model-2-add-high-school-accomplishments-1" class="nav-link" data-scroll-target="#model-2-add-high-school-accomplishments-1">Model 2: Add High School Accomplishments</a></li>
   <li><a href="#model-3-add-postsecondary-attempt-1" id="toc-model-3-add-postsecondary-attempt-1" class="nav-link" data-scroll-target="#model-3-add-postsecondary-attempt-1">Model 3: Add Postsecondary Attempt</a></li>
-  <li><a href="#summary-multivariate-confirmation" id="toc-summary-multivariate-confirmation" class="nav-link" data-scroll-target="#summary-multivariate-confirmation">Summary: Multivariate Confirmation</a></li>
+  <li><a href="#summary-multivariate-confirmation-persistent-no-minnesota-employment-record" id="toc-summary-multivariate-confirmation-persistent-no-minnesota-employment-record" class="nav-link" data-scroll-target="#summary-multivariate-confirmation-persistent-no-minnesota-employment-record">Summary: Multivariate Confirmation — Persistent No Minnesota Employment Record</a></li>
   </ul></li>
   <li><a href="#multivariate-confirmation-side-by-side-comparison-of-the-two-disconnection-mechanisms" id="toc-multivariate-confirmation-side-by-side-comparison-of-the-two-disconnection-mechanisms" class="nav-link" data-scroll-target="#multivariate-confirmation-side-by-side-comparison-of-the-two-disconnection-mechanisms">Multivariate Confirmation: Side-by-Side Comparison of the Two Disconnection Mechanisms</a>
   <ul class="collapse">
@@ -1953,7 +1936,6 @@ The following object is masked from 'package:ggplot2':
 <li><code>took.ACT</code></li>
 <li><code>ACTCompositeScore</code> (recoded to 0 for non-test-takers, entered alongside <code>took.ACT</code>, per the missing-indicator approach established earlier in this project)</li>
 <li><code>cte.achievement</code></li>
-<li><code>MCA.M</code></li>
 </ul>
 <p><strong>Postsecondary variable</strong></p>
 <ul>
@@ -1961,7 +1943,7 @@ The following object is masked from 'package:ggplot2':
 </ul>
 <p><strong>Adjustments from the bivariate variable list:</strong></p>
 <ul>
-<li><strong>MCA Reading (<code>MCA.R</code>) is excluded.</strong> The bivariate analysis tested MCA Math and Reading separately; consistent with the multicollinearity resolution used throughout this project’s other multivariate models, only one MCA subject is retained here. MCA Math is retained on the same grounds established previously — lower missingness and a comparable or stronger association with the outcomes of interest.</li>
+<li><strong>MCA tests are excluded.</strong> There is enourmous amount of missing values and strangeness in the data so we are leaving them out entirely.</li>
 <li><strong><code>total.cte.courses.taken</code> is excluded</strong>, consistent with the redundancy this project has established between the continuous course-count measure and the categorical <code>cte.achievement</code> variable.</li>
 </ul>
 </section>
@@ -1976,7 +1958,7 @@ The following object is masked from 'package:ggplot2':
 <p>This baseline isolates whether structural and demographic positioning alone predicts persistence in either disconnection mechanism, before any measure of academic engagement or preparation is introduced.</p>
 <p><strong>Model 2: Add High School Accomplishments</strong></p>
 <ul>
-<li>Adds: <code>pseo.participant</code>, <code>took.ACT</code>, <code>ACTCompositeScore.filled</code>, <code>ap.exam</code>, <code>cte.achievement</code>, <code>MCA.M.filled</code>, <code>MCA.M.missing</code></li>
+<li>Adds: <code>pseo.participant</code>, <code>took.ACT</code>, <code>ACTCompositeScore.filled</code>, <code>ap.exam</code>, <code>cte.achievement</code></li>
 </ul>
 <p>This is the model of primary interest for this analysis. Because English learner status has previously been shown to correlate with MCA Math missingness, this block specifically tests whether the English learner effect identified in Model 1 attenuates once high school accomplishments — including the MCA missingness indicator — are introduced. The same logic applies to Special Education status and any other Model 1 effect that might operate through academic engagement rather than independently.</p>
 <p><strong>Model 3: Add Postsecondary Attempt</strong></p>
@@ -2001,7 +1983,6 @@ The following object is masked from 'package:ggplot2':
 <p><strong>Missing-indicator recodes for two variables with structural or correlated missingness:</strong></p>
 <ul>
 <li><strong>ACT composite score.</strong> Students who did not take the ACT have no composite score by definition — confirmed here to be a fully deterministic relationship with <code>took.ACT</code> (zero mismatches between the two). <code>ACTCompositeScore</code> is recoded to 0 for non-test-takers and entered into the model alongside <code>took.ACT</code>, so that <code>took.ACT</code> absorbs the effect of test participation itself while the filled score captures the achievement gradient among test-takers only.</li>
-<li><strong>MCA Math.</strong> This project has previously found that MCA Math missingness correlates with English learner status specifically, and that this correlation can mask the true relationship between English learner status and an outcome when the raw (incomplete) score is used directly. Because this analysis is specifically designed to test whether the English learner effect identified bivariately survives multivariate control, the same missing-indicator approach is applied here: a missingness flag (<code>MCA.M.missing</code>) is entered alongside a filled score (<code>MCA.M.filled</code>, coded 0 for missing cases), preserving the full sample and preventing this known masking pattern from silently reappearing.</li>
 </ul>
 <p><strong>Dependent variable construction.</strong> The two outcomes tested in this analysis are built directly from the bivariate persistence categories, collapsed to binary indicators:</p>
 <ul>
@@ -2033,27 +2014,20 @@ The following object is masked from 'package:ggplot2':
 <span id="cb28-21"><a href="#cb28-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># ACT missing-indicator recode - confirmed safe: missingness fully</span></span>
 <span id="cb28-22"><a href="#cb28-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># explained by took.ACT (9,228 No/missing, 5,941 Yes/present, zero mismatches)</span></span>
 <span id="cb28-23"><a href="#cb28-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">ACTCompositeScore.filled =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(ACTCompositeScore), <span class="dv">0</span>, ACTCompositeScore),</span>
-<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MCA Math missing-indicator recode - applied here specifically because</span></span>
-<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="co"># English learner status is central to this confirmatory analysis, and</span></span>
-<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># MCA missingness has previously been shown to correlate with EL status</span></span>
-<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># and mask its true relationship with the outcome</span></span>
-<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">MCA.M.missing =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(MCA.M), <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">MCA.M.filled  =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(MCA.M), <span class="dv">0</span>, MCA.M),</span>
-<span id="cb28-31"><a href="#cb28-31" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb28-32"><a href="#cb28-32" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dependent variables: binary persistence indicators</span></span>
-<span id="cb28-33"><a href="#cb28-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">persistent.non_sustained =</span> <span class="fu">ifelse</span>(non_sustained.cat <span class="sc">==</span> <span class="st">"Persistently non-sustained"</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
-<span id="cb28-34"><a href="#cb28-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">persistent.no_record     =</span> <span class="fu">ifelse</span>(no_record.cat <span class="sc">==</span> <span class="st">"Persistently no-record"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
-<span id="cb28-35"><a href="#cb28-35" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb28-36"><a href="#cb28-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb28-37"><a href="#cb28-37" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(master.disc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb28-24"><a href="#cb28-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-25"><a href="#cb28-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dependent variables: binary persistence indicators</span></span>
+<span id="cb28-26"><a href="#cb28-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">persistent.non_sustained =</span> <span class="fu">ifelse</span>(non_sustained.cat <span class="sc">==</span> <span class="st">"Persistently non-sustained"</span>, <span class="dv">1</span>, <span class="dv">0</span>),</span>
+<span id="cb28-27"><a href="#cb28-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">persistent.no_record     =</span> <span class="fu">ifelse</span>(no_record.cat <span class="sc">==</span> <span class="st">"Persistently no-record"</span>, <span class="dv">1</span>, <span class="dv">0</span>)</span>
+<span id="cb28-28"><a href="#cb28-28" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb28-29"><a href="#cb28-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-30"><a href="#cb28-30" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(master.disc)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10310</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>model_vars_disc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Gender"</span>, <span class="st">"RaceEthnicity"</span>, <span class="st">"economic.status"</span>, <span class="st">"SpecialEdStatus"</span>,</span>
 <span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"english.learner"</span>, <span class="st">"Dem_Desc"</span>, <span class="st">"avg.wages.pct.state"</span>, <span class="st">"avg.unemp.rate"</span>,</span>
 <span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"pseo.participant"</span>, <span class="st">"took.ACT"</span>, <span class="st">"ACTCompositeScore.filled"</span>, <span class="st">"ap.exam"</span>,</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"cte.achievement"</span>, <span class="st">"MCA.M.filled"</span>, <span class="st">"MCA.M.missing"</span>, <span class="st">"attended.ps"</span>,</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"cte.achievement"</span>, <span class="st">"attended.ps"</span>,</span>
 <span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>                     <span class="st">"persistent.non_sustained"</span>, <span class="st">"persistent.no_record"</span>)</span>
 <span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(<span class="fu">is.na</span>(master.disc[, model_vars_disc]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2066,10 +2040,10 @@ The following object is masked from 'package:ggplot2':
                        0                        0                      182 
                 took.ACT ACTCompositeScore.filled                  ap.exam 
                        0                        0                        0 
-         cte.achievement             MCA.M.filled            MCA.M.missing 
+         cte.achievement              attended.ps persistent.non_sustained 
                        0                        0                        0 
-             attended.ps persistent.non_sustained     persistent.no_record 
-                       0                        0                        0 </code></pre>
+    persistent.no_record 
+                       0 </code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(master.disc<span class="sc">$</span>persistent.non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2083,17 +2057,15 @@ The following object is masked from 'package:ggplot2':
    0    1 
 8234 2076 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># confirm the EL/MCA-missingness correlation is present in this restricted,</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># cohort-adjusted sample before we see whether the model absorbs it</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>master.disc <span class="sc">%&gt;%</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(english.learner) <span class="sc">%&gt;%</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pct_mca_missing =</span> <span class="fu">mean</span>(MCA.M.missing), <span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>master.disc <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(english.learner) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">pct_missing_pseo =</span> <span class="fu">mean</span>(<span class="fu">is.na</span>(pseo.participant)), <span class="at">n =</span> <span class="fu">n</span>())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 2 × 3
-  english.learner pct_mca_missing     n
-  &lt;fct&gt;                     &lt;dbl&gt; &lt;int&gt;
-1 0                        0.0436  9321
-2 1                        0.298    989</code></pre>
+  english.learner pct_missing_pseo     n
+  &lt;fct&gt;                      &lt;dbl&gt; &lt;int&gt;
+1 0                         0.0142  9321
+2 1                         0.0506   989</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -2192,18 +2164,17 @@ avg.unemp.rate               0.9970565 0.95425550 1.0416895</code></pre>
 </section>
 <section id="model-2-add-high-school-accomplishments" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-add-high-school-accomplishments">Model 2: Add High School Accomplishments</h2>
-<p>This model adds PSEO participation, ACT participation and score, AP exam, CTE achievement, and MCA Math (with the missing-data adjustment) to the demographic and district baseline (n = 10,128; 182 observations dropped for PSEO missingness, matching the expected small residual gap identified earlier).</p>
-<p><strong>Special Education status strengthens rather than attenuating — the reversal from Model 1 is not explained by academic engagement.</strong> OR increases slightly, from 1.36 in Model 1 to 1.42 here (CI: 1.223-1.647, p &lt; .001). This rules out the hypothesis raised after Model 1 that Special Ed’s unexpected positive association with instability might be a proxy for weaker academic preparation — controlling for accomplishments directly does not reduce the effect at all.</p>
-<p><strong>Economic status remains non-significant</strong> (OR ≈ 1.09, p = .139), consistent with Model 1 — its bivariate relationship with instability continues not to hold up once other variables are controlled.</p>
-<p><strong>PSEO participation is now significant, and in the adverse direction found bivariately.</strong> OR ≈ 1.19 (CI: 1.047-1.349, p = .007) — PSEO participants show <em>higher</em>, not lower, odds of persistent non-sustained employment. This directly confirms the bivariate finding that PSEO’s protective effect on overall disconnection runs almost entirely through avoiding no-record status, while showing a mild adverse relationship with instability specifically.</p>
-<p><strong>ACT shows a genuine reversal from the bivariate pattern, worth flagging directly rather than glossing over.</strong> Taking the ACT is now significantly <em>protective</em> (OR ≈ 0.638, CI: 0.426-0.953, p = .029) — the opposite of the bivariate finding, where ACT test-takers showed a slightly <em>lower</em> “never non-sustained” rate than non-test-takers. ACT composite score remains in the expected adverse direction, though only barely significant (OR ≈ 1.02 per point, p = .049, CI: 1.00008-1.041) — higher scores modestly predicting greater odds of persistent instability, consistent with the bivariate crossover.</p>
-<p><strong>MCA Math missingness is now strongly significant and protective — a new finding not visible bivariately.</strong> OR ≈ 0.469 (CI: 0.339-0.641, p &lt; .001): students with a missing MCA Math score show substantially <em>lower</em> odds of persistent non-sustained employment. This is a different direction than the pattern found throughout the rest of this project, where MCA missingness typically predicted <em>worse</em> outcomes. This is worth flagging as a genuinely new, multivariate-only signal rather than assuming it replicates the usual pattern.</p>
-<p><strong>CTE achievement and AP exam both attenuate to non-significance.</strong> Neither CTE category holds up (Concentrator/Completor: OR ≈ 0.89, p = .102; Participant: OR ≈ 0.91, p = .174), a real weakening from the bivariate finding of a genuine, if complex, CTE relationship with instability. AP exam similarly loses significance (OR ≈ 1.20, p = .156).</p>
-<p><strong>English learner status remains non-significant, in the same direction as Model 1</strong> (OR ≈ 1.11, p = .351) — no masking effect detected for this outcome, consistent with the bivariate finding that English learner status was never a strong predictor of instability specifically.</p>
-<p><strong>Gender, Race/Ethnicity (AI and Black), and district/local-context variables</strong> remain essentially unchanged in direction and significance from Model 1.</p>
-<p><strong>Overall Interpretation</strong></p>
-<p>Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 56.22, df = 8, p &lt; .001; AIC decreases from 9,092.4 to 8,870.1). The Special Education reversal identified in Model 1 is confirmed, not explained away, by this block — it is not a proxy for academic underpreparation. PSEO and ACT both show genuine reversals from their bivariate relationships once controlled for other accomplishments, and MCA Math missingness emerges as a new, protective, multivariate-only predictor running counter to this project’s usual pattern. CTE and AP exam, both real bivariate predictors of instability, do not hold up once entered alongside the other accomplishment variables.</p>
-<p><strong>Model fit:</strong> AIC = 8,870.1 (down from 9,092.4 in Model 1); Δdeviance = 56.22 on 8 df, p &lt; .001; n = 10,128 in both models.</p>
+<p>This model adds PSEO participation, ACT participation and score, AP exam, and CTE achievement to the demographic and district baseline (n = 10,128; 182 observations dropped for PSEO missingness, matching the expected small residual gap identified earlier).</p>
+<p>Special Education status strengthens rather than attenuating — the reversal from Model 1 is not explained by academic engagement. OR increases slightly, from 1.36 in Model 1 to 1.45 here (CI: 1.255-1.676, p &lt; .001). This rules out the hypothesis raised after Model 1 that Special Ed’s unexpected positive association with instability might be a proxy for weaker academic preparation — controlling for accomplishments directly does not reduce the effect at all.</p>
+<p>Economic status remains non-significant (OR ≈ 1.12, CI: 0.995-1.254, p = .062), consistent with Model 1 — its bivariate relationship with instability continues not to hold up once other variables are controlled.</p>
+<p>PSEO participation is significant, and in the adverse direction found bivariately. OR ≈ 1.21 (CI: 1.068-1.372, p = .003) — PSEO participants show higher, not lower, odds of persistent non-sustained employment. This directly confirms the bivariate finding that PSEO’s protective effect on overall disconnection runs almost entirely through avoiding no-record status, while showing a mild adverse relationship with instability specifically.</p>
+<p>ACT participation and score both fall short of conventional significance. Taking the ACT shows a protective direction (OR ≈ 0.694, CI: 0.468-1.027, p = .069), and ACT composite score shows the expected adverse direction among test-takers (OR ≈ 1.018 per point, CI: 0.999-1.038, p = .066) — but neither clears the p &lt; .05 threshold. Both are worth watching in Model 3 rather than dismissing outright, given how close each sits to significance.</p>
+<p>CTE achievement and AP exam both remain non-significant. Neither CTE category holds up (Concentrator/Completor: OR ≈ 0.92, p = .266; Participant: OR ≈ 0.94, p = .352). AP exam similarly shows no significant relationship (OR ≈ 1.21, p = .128).</p>
+<p>English learner status remains non-significant, in the same direction as Model 1 (OR ≈ 0.97, p = .797) — consistent with the bivariate finding that English learner status was never a strong predictor of instability specifically.</p>
+<p>Gender, Race/Ethnicity (AI and Black), and district/local-context variables remain essentially unchanged in direction and significance from Model 1.</p>
+<p>Overall Interpretation</p>
+<p>Adding high school accomplishments significantly improves model fit (likelihood ratio test: Δdeviance = 26.06, df = 6, p &lt; .001; AIC decreases from 9,092.4 to 8,896.2). The Special Education reversal identified in Model 1 is confirmed, not explained away, by this block — it is not a proxy for academic underpreparation. PSEO shows a genuine reversal from its bivariate relationship once controlled for other accomplishments. ACT participation and score both trend in the expected protective/adverse directions but do not reach significance here. CTE and AP exam, both real bivariate predictors of instability, do not hold up once entered alongside the other accomplishment variables.</p>
+<p>Model fit: AIC = 8,896.2 (down from 9,092.4 in Model 1); Δdeviance = 26.06 on 6 df, p &lt; .001; n = 10,128 in both models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>model2_non_sustained <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  persistent.non_sustained <span class="sc">~</span></span>
@@ -2219,14 +2190,12 @@ avg.unemp.rate               0.9970565 0.95425550 1.0416895</code></pre>
 <span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    took.ACT <span class="sc">+</span></span>
 <span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    ACTCompositeScore.filled <span class="sc">+</span></span>
 <span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a>    ap.exam <span class="sc">+</span></span>
-<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement <span class="sc">+</span></span>
-<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    MCA.M.filled <span class="sc">+</span></span>
-<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>    MCA.M.missing,</span>
-<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
-<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement, </span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10310</code></pre>
 </div>
@@ -2240,7 +2209,7 @@ avg.unemp.rate               0.9970565 0.95425550 1.0416895</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8870.078</code></pre>
+<pre><code>[1] 8896.239</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2249,90 +2218,84 @@ Call:
 glm(formula = persistent.non_sustained ~ Gender + RaceEthnicity + 
     economic.status + SpecialEdStatus + english.learner + Dem_Desc + 
     avg.wages.pct.state + avg.unemp.rate + pseo.participant + 
-    took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement + 
-    MCA.M.filled + MCA.M.missing, family = binomial, data = master.disc)
+    took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement, 
+    family = binomial, data = master.disc)
 
 Coefficients:
-                                             Estimate Std. Error z value
-(Intercept)                                  -1.38533    0.51247  -2.703
-GenderF                                       0.26341    0.05611   4.695
-RaceEthnicityAI                               0.32179    0.09093   3.539
-RaceEthnicityAsian/PI                        -0.49973    0.28511  -1.753
-RaceEthnicityBlack                            0.58816    0.13392   4.392
-RaceEthnicityHispanic                         0.19460    0.21643   0.899
-economic.status1                              0.08774    0.05936   1.478
-SpecialEdStatus1                              0.35085    0.07587   4.624
-english.learner1                              0.10073    0.10801   0.933
-Dem_DescTown/rural mix                       -0.05974    0.12144  -0.492
-Dem_DescUrban/town/rural mix                  0.01824    0.12431   0.147
-avg.wages.pct.state                          -0.51764    0.56505  -0.916
-avg.unemp.rate                               -0.01284    0.02441  -0.526
-pseo.participant1                             0.17306    0.06450   2.683
-took.ACTYes                                  -0.44944    0.20542  -2.188
-ACTCompositeScore.filled                      0.02011    0.01020   1.972
-ap.exam1                                      0.18089    0.12736   1.420
-cte.achievementCTE Concentrator or Completor -0.11592    0.07093  -1.634
-cte.achievementCTE Participant               -0.08936    0.06578  -1.359
-MCA.M.filled                                 -0.01361    0.03666  -0.371
-MCA.M.missing                                -0.75772    0.16268  -4.658
+                                              Estimate Std. Error z value
+(Intercept)                                  -1.571237   0.471959  -3.329
+GenderF                                       0.267449   0.055719   4.800
+RaceEthnicityAI                               0.326096   0.090756   3.593
+RaceEthnicityAsian/PI                        -0.563597   0.283917  -1.985
+RaceEthnicityBlack                            0.545859   0.132707   4.113
+RaceEthnicityHispanic                         0.087395   0.214151   0.408
+economic.status1                              0.110464   0.059076   1.870
+SpecialEdStatus1                              0.372330   0.073739   5.049
+english.learner1                             -0.026743   0.103745  -0.258
+Dem_DescTown/rural mix                       -0.073922   0.121284  -0.609
+Dem_DescUrban/town/rural mix                  0.023582   0.124075   0.190
+avg.wages.pct.state                          -0.483950   0.561324  -0.862
+avg.unemp.rate                               -0.006968   0.023458  -0.297
+pseo.participant1                             0.191366   0.063973   2.991
+took.ACTYes                                  -0.365026   0.200524  -1.820
+ACTCompositeScore.filled                      0.017915   0.009762   1.835
+ap.exam1                                      0.193603   0.127366   1.520
+cte.achievementCTE Concentrator or Completor -0.078393   0.070537  -1.111
+cte.achievementCTE Participant               -0.060958   0.065526  -0.930
                                              Pr(&gt;|z|)    
-(Intercept)                                  0.006867 ** 
-GenderF                                      2.67e-06 ***
-RaceEthnicityAI                              0.000402 ***
-RaceEthnicityAsian/PI                        0.079643 .  
-RaceEthnicityBlack                           1.12e-05 ***
-RaceEthnicityHispanic                        0.368601    
-economic.status1                             0.139412    
-SpecialEdStatus1                             3.76e-06 ***
-english.learner1                             0.351017    
-Dem_DescTown/rural mix                       0.622760    
-Dem_DescUrban/town/rural mix                 0.883320    
-avg.wages.pct.state                          0.359620    
-avg.unemp.rate                               0.598901    
-pseo.participant1                            0.007290 ** 
-took.ACTYes                                  0.028676 *  
-ACTCompositeScore.filled                     0.048638 *  
-ap.exam1                                     0.155510    
-cte.achievementCTE Concentrator or Completor 0.102205    
-cte.achievementCTE Participant               0.174302    
-MCA.M.filled                                 0.710407    
-MCA.M.missing                                3.20e-06 ***
+(Intercept)                                  0.000871 ***
+GenderF                                      1.59e-06 ***
+RaceEthnicityAI                              0.000327 ***
+RaceEthnicityAsian/PI                        0.047136 *  
+RaceEthnicityBlack                           3.90e-05 ***
+RaceEthnicityHispanic                        0.683198    
+economic.status1                             0.061501 .  
+SpecialEdStatus1                             4.43e-07 ***
+english.learner1                             0.796578    
+Dem_DescTown/rural mix                       0.542198    
+Dem_DescUrban/town/rural mix                 0.849258    
+avg.wages.pct.state                          0.388601    
+avg.unemp.rate                               0.766421    
+pseo.participant1                            0.002777 ** 
+took.ACTYes                                  0.068705 .  
+ACTCompositeScore.filled                     0.066488 .  
+ap.exam1                                     0.128498    
+cte.achievementCTE Concentrator or Completor 0.266410    
+cte.achievementCTE Participant               0.352224    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 8977.0  on 10127  degrees of freedom
-Residual deviance: 8828.1  on 10107  degrees of freedom
+Residual deviance: 8858.2  on 10109  degrees of freedom
   (182 observations deleted due to missingness)
-AIC: 8870.1
+AIC: 8896.2
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model2_non_sustained), <span class="fu">confint</span>(model2_non_sustained)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                    OR      2.5 %    97.5 %
-(Intercept)                                  0.2502410 0.09152963 0.6825571
-GenderF                                      1.3013577 1.16575505 1.4525729
-RaceEthnicityAI                              1.3795955 1.15189303 1.6454929
-RaceEthnicityAsian/PI                        0.6066959 0.33186828 1.0237453
-RaceEthnicityBlack                           1.8006741 1.37838903 2.3315297
-RaceEthnicityHispanic                        1.2148193 0.77940161 1.8267826
-economic.status1                             1.0917022 0.97187417 1.2265526
-SpecialEdStatus1                             1.4202707 1.22316794 1.6469407
-english.learner1                             1.1059763 0.89374604 1.3651071
-Dem_DescTown/rural mix                       0.9420060 0.74482565 1.1994278
-Dem_DescUrban/town/rural mix                 1.0184110 0.80150071 1.3052315
-avg.wages.pct.state                          0.5959281 0.19619044 1.7982420
-avg.unemp.rate                               0.9872409 0.94106652 1.0355911
-pseo.participant1                            1.1889367 1.04740900 1.3487512
-took.ACTYes                                  0.6379856 0.42606938 0.9533753
-ACTCompositeScore.filled                     1.0203156 1.00007831 1.0408844
-ap.exam1                                     1.1982874 0.93011871 1.5329662
-cte.achievementCTE Concentrator or Completor 0.8905497 0.77441301 1.0227114
-cte.achievementCTE Participant               0.9145119 0.80347999 1.0398857
-MCA.M.filled                                 0.9864818 0.91815111 1.0600438
-MCA.M.missing                                0.4687350 0.33874550 0.6414728</code></pre>
+(Intercept)                                  0.2077879 0.08228293 0.5235092
+GenderF                                      1.3066275 1.17136676 1.4573428
+RaceEthnicityAI                              1.3855490 1.15725897 1.6520080
+RaceEthnicityAsian/PI                        0.5691579 0.31197061 0.9577107
+RaceEthnicityBlack                           1.7260904 1.32428918 2.2293434
+RaceEthnicityHispanic                        1.0913282 0.70295604 1.6328350
+economic.status1                             1.1167961 0.99478738 1.2540518
+SpecialEdStatus1                             1.4511118 1.25491609 1.6756302
+english.learner1                             0.9736112 0.79325425 1.1915488
+Dem_DescTown/rural mix                       0.9287442 0.73457788 1.1821810
+Dem_DescUrban/town/rural mix                 1.0238626 0.80616972 1.3116350
+avg.wages.pct.state                          0.6163442 0.20435247 1.8458864
+avg.unemp.rate                               0.9930558 0.94837552 1.0397297
+pseo.participant1                            1.2109027 1.06783400 1.3722362
+took.ACTYes                                  0.6941789 0.46800836 1.0273192
+ACTCompositeScore.filled                     1.0180767 0.99873407 1.0377040
+ap.exam1                                     1.2136147 0.94200171 1.5525890
+cte.achievementCTE Concentrator or Completor 0.9246010 0.80464125 1.0609996
+cte.achievementCTE Participant               0.9408631 0.82704747 1.0693133</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>model1_non_sustained_matched <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a>  persistent.non_sustained <span class="sc">~</span></span>
@@ -2362,10 +2325,10 @@ Model 1: persistent.non_sustained ~ Gender + RaceEthnicity + economic.status +
 Model 2: persistent.non_sustained ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing
-  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1     10115     8884.3                          
-2     10107     8828.1  8   56.221 2.555e-09 ***
+    ap.exam + cte.achievement
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
+1     10115     8884.3                         
+2     10109     8858.2  6   26.059 0.000217 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -2374,17 +2337,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="model-3-add-postsecondary-attempt" class="level2">
 <h2 class="anchored" data-anchor-id="model-3-add-postsecondary-attempt">Model 3: Add Postsecondary Attempt</h2>
-<p>This model adds <code>attended.ps</code> to the full specification (n = 10,128, same complete-case sample as Model 2).</p>
-<p><strong>Attempting postsecondary education shows a strong, independent protective effect on top of demographics, district context, and high school accomplishments — confirming this variable adds real explanatory power beyond what CTE, PSEO, and ACT already capture.</strong> OR ≈ 0.694 (CI: 0.614-0.785, p &lt; .001): students who attempted postsecondary education, even without completing it, show roughly 31% lower odds of persistent non-sustained employment than those who never attempted it. This is a meaningful confirmation of the bivariate finding that <code>attended.ps</code> was the one variable affecting both disconnection mechanisms — its instability-side effect survives full multivariate control, not just partial control.</p>
-<p><strong>PSEO’s adverse effect from Model 2 persists essentially unchanged</strong> (OR ≈ 1.20, CI: 1.053-1.358, p = .006) — even with postsecondary attempt now in the model, PSEO participation continues to show a mild, real association with <em>higher</em> odds of persistent instability, not lower.</p>
-<p><strong>Took-ACT and ACT score both attenuate to the edge of significance.</strong> Took-ACT moves from significant in Model 2 (p = .029) to marginal here (OR ≈ 0.677, CI: 0.452-1.011, p = .057). ACT composite score similarly weakens (OR ≈ 1.019, p = .059, CI: 0.999-1.040, now crossing 1). This suggests some of ACT’s apparent relationship with instability in Model 2 was capturing information that <code>attended.ps</code> explains more directly — sensible, since taking the ACT and attempting postsecondary education are closely related behaviors.</p>
-<p><strong>Special Education status remains essentially unchanged and still significant</strong> (OR ≈ 1.39, CI: 1.199-1.616, p &lt; .001) — confirming again that this effect is not explained by postsecondary attempt any more than it was explained by high school accomplishments in Model 2. This is now the third model in a row where Special Ed’s adverse association with instability holds up.</p>
-<p><strong>MCA Math missingness remains strongly protective</strong>, and if anything strengthens slightly (OR ≈ 0.445, CI: 0.321-0.609, p &lt; .001) — this counter-to-pattern finding continues to hold up across every specification tested so far.</p>
-<p><strong>Economic status and English learner status both remain non-significant</strong>, consistent with every prior model — neither shows any relationship with persistent instability once other variables are controlled for.</p>
-<p><strong>Gender and the Race/Ethnicity effects (AI, Black, Asian/PI) remain stable</strong> in direction and magnitude relative to Model 2.</p>
+<p>This model adds attended.ps to the full specification (n = 10,128, same complete-case sample as Model 2).</p>
+<p>Attempting postsecondary education shows a strong, independent protective effect on top of demographics, district context, and high school accomplishments — confirming this variable adds real explanatory power beyond what CTE, PSEO, and ACT already capture. OR ≈ 0.715 (CI: 0.632-0.808, p &lt; .001): students who attempted postsecondary education, even without completing it, show roughly 29% lower odds of persistent non-sustained employment than those who never attempted it. This confirms the bivariate finding that attended.ps was the one variable affecting both disconnection mechanisms — its instability-side effect survives full multivariate control, not just partial control.</p>
+<p>PSEO’s adverse effect from Model 2 persists essentially unchanged (OR ≈ 1.22, CI: 1.076-1.384, p = .002) — even with postsecondary attempt now in the model, PSEO participation continues to show a mild, real association with higher odds of persistent instability, not lower.</p>
+<p>Took-ACT and ACT score both weaken further and no longer approach significance. Took-ACT moves from marginal in Model 2 (p = .069) to clearly non-significant here (OR ≈ 0.734, CI: 0.495-1.086, p = .123). ACT composite score remains only marginal (OR ≈ 1.018, p = .074, CI: 0.998-1.037). This suggests some of ACT’s apparent relationship with instability in Model 2 was capturing information that attended.ps explains more directly — sensible, since taking the ACT and attempting postsecondary education are closely related behaviors.</p>
+<p>Special Education status remains essentially unchanged and still significant (OR ≈ 1.43, CI: 1.232-1.647, p &lt; .001) — confirming again that this effect is not explained by postsecondary attempt any more than it was explained by high school accomplishments in Model 2. This is now the third model in a row where Special Ed’s adverse association with instability holds up.</p>
+<p>Economic status and English learner status both remain non-significant (economic status: OR ≈ 1.11, p = .080; English learner: OR ≈ 0.95, p = .614), consistent with every prior model — neither shows any relationship with persistent instability once other variables are controlled for.</p>
+<p>Gender and the Race/Ethnicity effects (AI, Black, Asian/PI) remain stable in direction and magnitude relative to Model 2. Hispanic graduates remain non-significant (OR ≈ 1.08, p = .719).</p>
 <p><strong>Overall Interpretation</strong></p>
-<p>Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 34.94, df = 1, p &lt; .001; AIC decreases from 8,870.1 to 8,837.1). This confirms <code>attended.ps</code> as a genuine, independent predictor of instability specifically, not merely a proxy for the academic-preparation variables already in the model — it earns its place in the specification on its own merits. Across all three models, two findings have proven remarkably stable and are the clearest results of this analysis: Special Education status is a real, persistent, positive predictor of instability that survives every level of control tested, directly contradicting its weak bivariate relationship with this specific mechanism; and MCA Math missingness is a real, persistent, protective predictor that runs counter to the pattern found everywhere else in this project. Economic status and English learner status, by contrast, never emerge as significant predictors of instability at any stage, confirming the bivariate finding that whatever drives these two groups’ overall disconnection, it is not this mechanism.</p>
-<p><strong>Model fit:</strong> AIC = 8,837.1 (down from 8,870.1 in Model 2); Δdeviance = 34.94 on 1 df, p &lt; .001; n = 10,128 across all three models.</p>
+<p>Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 29.59, df = 1, p &lt; .001; AIC decreases from 8,896.2 to 8,868.7). This confirms attended.ps as a genuine, independent predictor of instability specifically, not merely a proxy for the academic-preparation variables already in the model — it earns its place in the specification on its own merits. Across all three models, Special Education status is the clearest and most stable finding of this analysis: a real, persistent, positive predictor of instability that survives every level of control tested, directly contradicting its weak bivariate relationship with this specific mechanism. Economic status and English learner status, by contrast, never emerge as significant predictors of instability at any stage, confirming the bivariate finding that whatever drives these two groups’ overall disconnection, it is not this mechanism. ACT participation and score trend in the expected direction throughout but do not hold up as independent, reliable predictors once postsecondary attempt is accounted for.</p>
+<p>Model fit: AIC = 8,868.7 (down from 8,896.2 in Model 2); Δdeviance = 29.59 on 1 df, p &lt; .001; n = 10,128 across all three models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>model3_non_sustained <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  persistent.non_sustained <span class="sc">~</span></span>
@@ -2401,14 +2363,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a>    ACTCompositeScore.filled <span class="sc">+</span></span>
 <span id="cb62-14"><a href="#cb62-14" aria-hidden="true" tabindex="-1"></a>    ap.exam <span class="sc">+</span></span>
 <span id="cb62-15"><a href="#cb62-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement <span class="sc">+</span></span>
-<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>    MCA.M.filled <span class="sc">+</span></span>
-<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>    MCA.M.missing <span class="sc">+</span></span>
-<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>    attended.ps,</span>
-<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
-<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb62-22"><a href="#cb62-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb62-23"><a href="#cb62-23" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb62-16"><a href="#cb62-16" aria-hidden="true" tabindex="-1"></a>    attended.ps,</span>
+<span id="cb62-17"><a href="#cb62-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
+<span id="cb62-18"><a href="#cb62-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
+<span id="cb62-19"><a href="#cb62-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb62-20"><a href="#cb62-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-21"><a href="#cb62-21" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10128</code></pre>
 </div>
@@ -2418,11 +2378,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8870.078</code></pre>
+<pre><code>[1] 8896.239</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model3_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 8837.134</code></pre>
+<pre><code>[1] 8868.65</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3_non_sustained)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2432,93 +2392,86 @@ glm(formula = persistent.non_sustained ~ Gender + RaceEthnicity +
     economic.status + SpecialEdStatus + english.learner + Dem_Desc + 
     avg.wages.pct.state + avg.unemp.rate + pseo.participant + 
     took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement + 
-    MCA.M.filled + MCA.M.missing + attended.ps, family = binomial, 
-    data = master.disc)
+    attended.ps, family = binomial, data = master.disc)
 
 Coefficients:
                                               Estimate Std. Error z value
-(Intercept)                                  -1.608543   0.514968  -3.124
-GenderF                                       0.274583   0.056253   4.881
-RaceEthnicityAI                               0.325704   0.091147   3.573
-RaceEthnicityAsian/PI                        -0.530221   0.285580  -1.857
-RaceEthnicityBlack                            0.603627   0.134344   4.493
-RaceEthnicityHispanic                         0.197572   0.216847   0.911
-economic.status1                              0.077384   0.059591   1.299
-SpecialEdStatus1                              0.331594   0.076046   4.360
-english.learner1                              0.087188   0.108102   0.807
-Dem_DescTown/rural mix                       -0.086094   0.121835  -0.707
-Dem_DescUrban/town/rural mix                  0.035122   0.124862   0.281
-avg.wages.pct.state                          -0.353696   0.569505  -0.621
-avg.unemp.rate                                0.013901   0.024828   0.560
-pseo.participant1                             0.178979   0.064833   2.761
-took.ACTYes                                  -0.390097   0.205190  -1.901
-ACTCompositeScore.filled                      0.019272   0.010188   1.892
-ap.exam1                                      0.138127   0.128153   1.078
-cte.achievementCTE Concentrator or Completor -0.116876   0.071091  -1.644
-cte.achievementCTE Participant               -0.079001   0.065944  -1.198
-MCA.M.filled                                 -0.009721   0.036688  -0.265
-MCA.M.missing                                -0.810348   0.162921  -4.974
-attended.psYes                               -0.364655   0.062611  -5.824
+(Intercept)                                  -1.767641   0.474621  -3.724
+GenderF                                       0.277128   0.055847   4.962
+RaceEthnicityAI                               0.329956   0.090938   3.628
+RaceEthnicityAsian/PI                        -0.598910   0.284291  -2.107
+RaceEthnicityBlack                            0.555561   0.133025   4.176
+RaceEthnicityHispanic                         0.077269   0.214419   0.360
+economic.status1                              0.103857   0.059248   1.753
+SpecialEdStatus1                              0.354608   0.073912   4.798
+english.learner1                             -0.052480   0.103940  -0.505
+Dem_DescTown/rural mix                       -0.098664   0.121638  -0.811
+Dem_DescUrban/town/rural mix                  0.039360   0.124567   0.316
+avg.wages.pct.state                          -0.339082   0.565405  -0.600
+avg.unemp.rate                                0.017177   0.023865   0.720
+pseo.participant1                             0.199514   0.064283   3.104
+took.ACTYes                                  -0.308914   0.200390  -1.542
+ACTCompositeScore.filled                      0.017407   0.009751   1.785
+ap.exam1                                      0.155349   0.128114   1.213
+cte.achievementCTE Concentrator or Completor -0.074886   0.070665  -1.060
+cte.achievementCTE Participant               -0.048320   0.065681  -0.736
+attended.psYes                               -0.335394   0.062526  -5.364
                                              Pr(&gt;|z|)    
-(Intercept)                                  0.001787 ** 
-GenderF                                      1.05e-06 ***
-RaceEthnicityAI                              0.000352 ***
-RaceEthnicityAsian/PI                        0.063362 .  
-RaceEthnicityBlack                           7.02e-06 ***
-RaceEthnicityHispanic                        0.362238    
-economic.status1                             0.194088    
-SpecialEdStatus1                             1.30e-05 ***
-english.learner1                             0.419936    
-Dem_DescTown/rural mix                       0.479786    
-Dem_DescUrban/town/rural mix                 0.778489    
-avg.wages.pct.state                          0.534561    
-avg.unemp.rate                               0.575560    
-pseo.participant1                            0.005769 ** 
-took.ACTYes                                  0.057282 .  
-ACTCompositeScore.filled                     0.058522 .  
-ap.exam1                                     0.281109    
-cte.achievementCTE Concentrator or Completor 0.100170    
-cte.achievementCTE Participant               0.230918    
-MCA.M.filled                                 0.791037    
-MCA.M.missing                                6.56e-07 ***
-attended.psYes                               5.74e-09 ***
+(Intercept)                                  0.000196 ***
+GenderF                                      6.97e-07 ***
+RaceEthnicityAI                              0.000285 ***
+RaceEthnicityAsian/PI                        0.035146 *  
+RaceEthnicityBlack                           2.96e-05 ***
+RaceEthnicityHispanic                        0.718574    
+economic.status1                             0.079618 .  
+SpecialEdStatus1                             1.61e-06 ***
+english.learner1                             0.613623    
+Dem_DescTown/rural mix                       0.417292    
+Dem_DescUrban/town/rural mix                 0.752021    
+avg.wages.pct.state                          0.548696    
+avg.unemp.rate                               0.471678    
+pseo.participant1                            0.001911 ** 
+took.ACTYes                                  0.123180    
+ACTCompositeScore.filled                     0.074238 .  
+ap.exam1                                     0.225289    
+cte.achievementCTE Concentrator or Completor 0.289266    
+cte.achievementCTE Participant               0.461926    
+attended.psYes                               8.14e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 8977.0  on 10127  degrees of freedom
-Residual deviance: 8793.1  on 10106  degrees of freedom
+Residual deviance: 8828.7  on 10108  degrees of freedom
   (182 observations deleted due to missingness)
-AIC: 8837.1
+AIC: 8868.7
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model3_non_sustained), <span class="fu">confint</span>(model3_non_sustained)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>                                                    OR      2.5 %    97.5 %
-(Intercept)                                  0.2001791 0.07285497 0.5486476
-GenderF                                      1.3159817 1.17852413 1.4693229
-RaceEthnicityAI                              1.3850049 1.15593582 1.6526538
-RaceEthnicityAsian/PI                        0.5884752 0.32163748 0.9940451
-RaceEthnicityBlack                           1.8287402 1.39877079 2.3698932
-RaceEthnicityHispanic                        1.2184403 0.78114196 1.8338141
-economic.status1                             1.0804573 0.96142919 1.2144571
-SpecialEdStatus1                             1.3931873 1.19942647 1.6160885
-english.learner1                             1.0911019 0.88156064 1.3470027
-Dem_DescTown/rural mix                       0.9175080 0.72488249 1.1690993
-Dem_DescUrban/town/rural mix                 1.0357464 0.81427069 1.3289117
-avg.wages.pct.state                          0.7020886 0.22913905 2.1372589
-avg.unemp.rate                               1.0139977 0.96579502 1.0645306
-pseo.participant1                            1.1959955 1.05293111 1.3576598
-took.ACTYes                                  0.6769910 0.45232433 1.0112170
-ACTCompositeScore.filled                     1.0194594 0.99926406 1.0399859
-ap.exam1                                     1.1481218 0.88978762 1.4710529
-cte.achievementCTE Concentrator or Completor 0.8896959 0.77342740 1.0220578
-cte.achievementCTE Participant               0.9240389 0.81159653 1.0510616
-MCA.M.filled                                 0.9903260 0.92166830 1.0642431
-MCA.M.missing                                0.4447032 0.32122723 0.6088823
-attended.psYes                               0.6944361 0.61381153 0.7845963</code></pre>
+(Intercept)                                  0.1707352 0.06725255 0.4323695
+GenderF                                      1.3193352 1.18246708 1.4718917
+RaceEthnicityAI                              1.3909076 1.16133010 1.6590026
+RaceEthnicityAsian/PI                        0.5494101 0.30095134 0.9252543
+RaceEthnicityBlack                           1.7429179 1.33640125 2.2525360
+RaceEthnicityHispanic                        1.0803331 0.69553660 1.6172942
+economic.status1                             1.1094414 0.98789971 1.2462128
+SpecialEdStatus1                             1.4256212 1.23245011 1.6467496
+english.learner1                             0.9488730 0.77280314 1.1617158
+Dem_DescTown/rural mix                       0.9060473 0.71611295 1.1540615
+Dem_DescUrban/town/rural mix                 1.0401450 0.81821205 1.3337952
+avg.wages.pct.state                          0.7124241 0.23433685 2.1508715
+avg.unemp.rate                               1.0173255 0.97078409 1.0659985
+pseo.participant1                            1.2208094 1.07591915 1.3843092
+took.ACTYes                                  0.7342442 0.49515243 1.0863343
+ACTCompositeScore.filled                     1.0175595 0.99824946 1.0371545
+ap.exam1                                     1.1680653 0.90531270 1.4964874
+cte.achievementCTE Concentrator or Completor 0.9278492 0.80726915 1.0649979
+cte.achievementCTE Participant               0.9528287 0.83731670 1.0832505
+attended.psYes                               0.7150565 0.63213951 0.8077523</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood ratio test comparing Model 2 to Model 3</span></span>
 <span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model2_non_sustained, model3_non_sustained, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2528,15 +2481,14 @@ attended.psYes                               0.6944361 0.61381153 0.7845963</cod
 Model 1: persistent.non_sustained ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing
+    ap.exam + cte.achievement
 Model 2: persistent.non_sustained ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing + 
-    attended.ps
-  Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1     10107     8828.1                          
-2     10106     8793.1  1   34.943 3.395e-09 ***
+    ap.exam + cte.achievement + attended.ps
+  Resid. Df Resid. Dev Df Deviance Pr(&gt;Chi)    
+1     10109     8858.2                         
+2     10108     8828.7  1   29.589 5.34e-08 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -2545,14 +2497,16 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="summary-multivariate-confirmation-persistent-non-sustained-employment" class="level2">
 <h2 class="anchored" data-anchor-id="summary-multivariate-confirmation-persistent-non-sustained-employment">Summary: Multivariate Confirmation — Persistent Non-Sustained Employment</h2>
-<p>Across all three models, several bivariate findings held up, but two demographic effects reversed direction in a way worth treating as this analysis’s central discovery.</p>
-<p><strong>Special Education status is a genuine, positive predictor of instability — the opposite of what the bivariate analysis suggested.</strong> Bivariately, Special Ed appeared to be almost entirely a no-record phenomenon with little relationship to instability specifically. Once demographics, district context, high school accomplishments, and postsecondary attempt are all controlled for, Special Ed shows a strong, stable, significant association with <em>higher</em> odds of persistent non-sustained employment (OR ≈ 1.36–1.42 across all three models) that never attenuates, no matter what else is added to the model. This is a real reversal, not a bivariate artifact resolving itself — Special Ed’s relationship with instability appears to have been <em>suppressed</em> in the bivariate comparison, not masked by something the multivariate model then explains away.</p>
-<p><strong>Economic status and English learner status never emerge as predictors of instability at any stage</strong>, confirming the bivariate finding cleanly: whatever drives these two groups toward overall disconnection, it is not the instability mechanism.</p>
-<p><strong>PSEO participation and MCA Math missingness both behave in ways that run counter to expectations set elsewhere in this project.</strong> PSEO shows a small but real <em>adverse</em> association with instability (consistent with the bivariate finding), holding steady across every model once other variables are controlled. MCA Math missingness is strongly <em>protective</em> against instability (OR consistently around 0.44–0.47) — the opposite of the pattern found throughout the rest of this project, where missing academic records typically predict worse outcomes. This is a genuinely new, multivariate-specific finding that couldn’t have been seen bivariately, since the bivariate analysis only tested the raw score, not the missingness itself.</p>
-<p><strong>Attempting postsecondary education is confirmed as an independent, genuine predictor of reduced instability</strong>, surviving full control alongside CTE, PSEO, and ACT (OR ≈ 0.69 in the final model) — this is the clearest bivariate finding to survive multivariate testing fully intact.</p>
-<p><strong>Race/Ethnicity effects for American Indian, Black, and Asian/Pacific Islander graduates all replicate their bivariate direction and remain significant or near-significant across every model</strong> — American Indian and Black graduates show elevated odds of instability, Asian/Pacific Islander graduates show reduced odds, consistent with the bivariate finding that these groups’ disadvantage (or advantage) is genuinely instability-driven.</p>
-<p><strong>CTE achievement and AP exam, both real bivariate predictors of instability, do not survive multivariate control</strong> — neither reaches significance once entered alongside the other accomplishment variables, suggesting their bivariate relationships were substantially explained by other correlated variables now in the model.</p>
-<p><strong>Local geographic and economic context (Dem_Desc, wages, unemployment) remains entirely non-predictive across all three models</strong>, confirming this project’s consistent finding that local labor market conditions do not meaningfully shape workforce instability for this population.</p>
+<p>Summary: Multivariate Confirmation — Persistent Non-Sustained Employment</p>
+<p>Across all three models, several bivariate findings held up, but one demographic effect reversed direction in a way worth treating as this analysis’s central discovery.</p>
+<p>Special Education status is a genuine, positive predictor of instability — the opposite of what the bivariate analysis suggested. Bivariately, Special Ed appeared to be almost entirely a no-record phenomenon with little relationship to instability specifically. Once demographics, district context, high school accomplishments, and postsecondary attempt are all controlled for, Special Ed shows a strong, stable, significant association with higher odds of persistent non-sustained employment (OR ≈ 1.36–1.45 across all three models) that never attenuates, no matter what else is added to the model. This is a real reversal, not a bivariate artifact resolving itself — Special Ed’s relationship with instability appears to have been suppressed in the bivariate comparison, not masked by something the multivariate model then explains away.</p>
+<p>Economic status and English learner status never emerge as predictors of instability at any stage, confirming the bivariate finding cleanly: whatever drives these two groups toward overall disconnection, it is not the instability mechanism.</p>
+<p>PSEO participation behaves in a way that runs counter to its usual “broadly protective” role elsewhere in this project. It shows a small but real adverse association with instability (OR ≈ 1.21–1.22, consistent with the bivariate finding), holding steady across every model once other variables are controlled.</p>
+<p>ACT participation and score both trend in the expected protective/adverse directions, but neither holds up as a reliable, independent predictor. Both sit at the edge of significance once high school accomplishments are added, and both fall further from significance once postsecondary attempt enters the model — suggesting whatever relationship they have with instability is substantially overlapping with attempting postsecondary education itself, rather than representing a distinct, independent effect.</p>
+<p>Attempting postsecondary education is confirmed as an independent, genuine predictor of reduced instability, surviving full control alongside CTE, PSEO, and ACT (OR ≈ 0.72 in the final model) — this is the clearest bivariate finding to survive multivariate testing fully intact.</p>
+<p>Race/Ethnicity effects for American Indian, Black, and Asian/Pacific Islander graduates all replicate their bivariate direction and remain significant across every model — American Indian and Black graduates show elevated odds of instability, Asian/Pacific Islander graduates show reduced odds, consistent with the bivariate finding that these groups’ disadvantage (or advantage) is genuinely instability-driven. Hispanic graduates show no significant effect at any stage, consistent with the bivariate finding that this group’s disadvantage is concentrated in no-record status rather than instability.</p>
+<p>CTE achievement and AP exam, both real bivariate predictors of instability, do not survive multivariate control — neither reaches significance once entered alongside the other accomplishment variables, suggesting their bivariate relationships were substantially explained by other correlated variables now in the model.</p>
+<p>Local geographic and economic context (Dem_Desc, wages, unemployment) remains entirely non-predictive across all three models, confirming this project’s consistent finding that local labor market conditions do not meaningfully shape workforce instability for this population.</p>
 <p><br></p>
 </section>
 </section>
@@ -2650,18 +2604,19 @@ avg.unemp.rate               0.9811516 0.94213386 1.0217022</code></pre>
 </section>
 <section id="model-2-add-high-school-accomplishments-1" class="level2">
 <h2 class="anchored" data-anchor-id="model-2-add-high-school-accomplishments-1">Model 2: Add High School Accomplishments</h2>
-<p>This model adds PSEO participation, ACT participation and score, AP exam, CTE achievement, and MCA Math (with the missing-data adjustment) to the demographic and district baseline (n = 10,128).</p>
-<p><strong>English learner status collapses from the strongest predictor in Model 1 to fully non-significant — this is the central confirmatory finding of this analysis.</strong> OR drops from 1.94 (Model 1, p &lt; .001) to 0.905 (Model 2, CI: 0.731-1.118, p = .356). This directly replicates the masking pattern already documented elsewhere in this project: English learners’ apparent disadvantage in persistent no-record status is substantially explained by the fact that English learners are far more likely to have a missing MCA Math score — not by English learner status itself. The bivariate finding was real, but its true driver was hiding underneath it.</p>
-<p><strong>MCA Math missingness is, by a wide margin, the strongest predictor in this entire analysis.</strong> OR ≈ 8.90 (CI: 6.916-11.495, p &lt; 2e-16) — students with a missing MCA Math score show nearly nine times the odds of persistent no-record status. This is the mechanism absorbing English learner’s Model 1 effect, and it is a dramatically larger coefficient than the modest, protective MCA-missingness effect found in the non-sustained-employment sequence — confirming that this variable’s role is highly outcome-specific, not a generic effect that shows up everywhere.</p>
-<p><strong>Race/Ethnicity effects attenuate substantially across the board, consistent with the same masking mechanism operating for these groups too.</strong> Hispanic drops from OR ≈ 2.42 (p &lt; .001) to 1.42 (p = .075, now only marginal). Black drops from a significant 1.47 (p = .003) to a non-significant 1.10 (p = .514). Asian/Pacific Islander remains significant but roughly halves in magnitude (OR ≈ 1.66, CI: 1.120-2.435, p = .010, down from 2.41). American Indian remains marginal, essentially unchanged (OR ≈ 1.19, p = .062). This pattern — real bivariate racial disparities substantially explained once MCA missingness enters the model — mirrors the English learner finding closely, and suggests MCA Math missingness may be correlated with race/ethnicity in ways not yet directly examined.</p>
-<p><strong>PSEO, ACT participation, and ACT score all confirm their bivariate roles precisely, and ACT participation shows the largest coefficient of any accomplishment variable.</strong> Taking the ACT is strongly protective (OR ≈ 0.314, CI: 0.209-0.472, p &lt; .001) — the same large protective effect found bivariately. ACT composite score shows the expected adverse crossover (OR ≈ 1.056 per point, p &lt; .001) — higher scores among test-takers predicting <em>higher</em> odds of no-record status, confirming the threshold-effect pattern found bivariately. PSEO participation is now significantly protective (OR ≈ 0.869, p = .031), matching its bivariate direction.</p>
-<p><strong>Average local unemployment rate becomes significant here for the first time in this entire project’s disconnection work</strong> (OR ≈ 0.920 per unit, CI: 0.878-0.964, p &lt; .001) — higher local unemployment predicting <em>lower</em> odds of persistent no-record status. This is the same counterintuitive direction found in the bivariate analysis, now confirmed as statistically real rather than a fluke — worth noting as genuinely present, but still resistant to a simple explanation.</p>
-<p><strong>Special Education status remains non-significant</strong>, confirming Model 1’s surprise finding — Special Ed shows no relationship with no-record status at any level of control tested so far, reinforcing that its true disconnection story (established in the non-sustained sequence) is an instability story, not a no-record story.</p>
-<p><strong>Economic status and Gender both strengthen slightly and remain protective</strong> (economic status: OR ≈ 0.826, p &lt; .001; Gender: OR ≈ 0.849, p = .003), consistent with Model 1.</p>
-<p><strong>CTE achievement shows a modest, borderline protective effect</strong> (Concentrator/Completer: OR ≈ 0.871, p = .046) not clearly visible bivariately. MCA Math’s filled score, once the missingness indicator is separated out, shows a real protective effect (OR ≈ 0.877 per point, p &lt; .001) — higher actual scores predicting lower odds of no-record status, the expected direction once the missingness confound is removed.</p>
-<p><strong>Overall Interpretation</strong></p>
-<p>Adding high school accomplishments produces a massive improvement in model fit (likelihood ratio test: Δdeviance = 849.54, df = 8, p &lt; .001; AIC decreases sharply from 10,201.6 to 9,144.5) — the largest single-block improvement found anywhere in this project’s disconnection work, driven almost entirely by MCA Math missingness. This model delivers the confirmatory result the analysis was built to test: English learner status’s strong bivariate association with persistent no-record status is not an independent effect — it is substantially explained by the correlation between English learner status and missing MCA Math scores. The same masking pattern extends to Hispanic and Black graduates’ racial disparities, both of which attenuate to non-significance or near-non-significance once this variable is controlled for. This means the bivariate framing of “English learner and certain racial groups are structurally more likely to disappear from Minnesota’s employment records” needs to be revised to something more specific: much of that disparity appears to trace back to gaps in academic assessment records themselves, which may reflect testing exemptions, transfers, or other structural factors correlated with both group membership and record completeness.</p>
-<p><strong>Model fit:</strong> AIC = 9,144.5 (down from 10,201.6 in Model 1); Δdeviance = 849.54 on 8 df, p &lt; .001; n = 10,128 in both models.</p>
+<p>Model 2: Add High School Accomplishments</p>
+<p>This model adds PSEO participation, ACT participation and score, AP exam, and CTE achievement to the demographic and district baseline (n = 10,128).</p>
+<p>English learner status remains the strongest effect in the model, only modestly reduced from Model 1. OR ≈ 1.79 (CI: 1.489-2.148, p &lt; .001) — English learners continue to show substantially higher odds of persistent no-record status once high school accomplishments are accounted for.</p>
+<p>Race/Ethnicity effects remain strong and largely intact. Hispanic graduates show OR ≈ 2.32 (CI: 1.663-3.223, p &lt; .001), and Asian/Pacific Islander graduates show OR ≈ 2.24 (CI: 1.579-3.156, p &lt; .001) — both remain more than double the odds of persistent no-record status relative to White graduates, consistent with Model 1. Black graduates strengthen to significance here (OR ≈ 1.41, CI: 1.081-1.826, p = .010). American Indian graduates remain non-significant (OR ≈ 1.15, p = .123), consistent with the bivariate finding that AI graduates’ disadvantage concentrates in the instability mechanism, not this one.</p>
+<p>Took-ACT shows a large, highly significant protective effect. OR ≈ 0.265 (CI: 0.179-0.391, p &lt; .001) — students who took the ACT show roughly 74% lower odds of persistent no-record status. ACT composite score shows the expected adverse direction among test-takers (OR ≈ 1.048 per point, p &lt; .001, CI: 1.028-1.068) — higher scores predicting somewhat higher odds of no-record status, consistent with the threshold-effect pattern found bivariately.</p>
+<p>PSEO participation is significantly protective (OR ≈ 0.751, CI: 0.664-0.848, p &lt; .001), confirming the bivariate finding that PSEO’s protective role for this population runs heavily through the no-record mechanism.</p>
+<p>CTE achievement shows a strong, significant protective effect for both categories — Concentrator/Completor (OR ≈ 0.686, p &lt; .001) and Participant (OR ≈ 0.747, p &lt; .001) — a more substantial relationship than CTE showed against instability.</p>
+<p>Average local unemployment rate becomes significant here (OR ≈ 0.923 per unit, CI: 0.884-0.964, p &lt; .001) — higher local unemployment predicting lower odds of persistent no-record status, the same counterintuitive direction found in the bivariate analysis.</p>
+<p>Special Education status remains non-significant (OR ≈ 0.95, p = .501), extending the Model 1 finding — Special Ed shows no relationship with no-record status at this stage either, reinforcing that its disconnection story runs through the instability mechanism instead.</p>
+<p>Economic status and Gender both remain significant and protective (economic status: OR ≈ 0.734, p &lt; .001; Gender: OR ≈ 0.872, p = .010), consistent with Model 1. AP exam remains non-significant (OR ≈ 1.01, p = .913).</p>
+<p>Overall Interpretation</p>
+<p>Adding high school accomplishments substantially improves model fit (likelihood ratio test: Δdeviance = 146.75, df = 6, p &lt; .001; AIC decreases from 10,201.6 to 9,843.3). English learner status and the Hispanic, Black, and Asian/Pacific Islander racial disparities identified in Model 1 all remain strong, significant predictors of persistent no-record status — none attenuate to non-significance once high school accomplishments are added. ACT participation and score, PSEO participation, and CTE achievement all confirm substantial, independent relationships with no-record status, consistent with the bivariate finding that these variables’ broad protective effects for this population run heavily through avoiding no-record status specifically. Special Education status remains non-significant, extending the pattern from Model 1.</p>
+<p>Model fit: AIC = 9,843.3 (down from 10,201.6 in Model 1); Δdeviance = 146.75 on 6 df, p &lt; .001; n = 10,128 in both models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>model2_no_record <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>  persistent.no_record <span class="sc">~</span></span>
@@ -2677,14 +2632,12 @@ avg.unemp.rate               0.9811516 0.94213386 1.0217022</code></pre>
 <span id="cb84-12"><a href="#cb84-12" aria-hidden="true" tabindex="-1"></a>    took.ACT <span class="sc">+</span></span>
 <span id="cb84-13"><a href="#cb84-13" aria-hidden="true" tabindex="-1"></a>    ACTCompositeScore.filled <span class="sc">+</span></span>
 <span id="cb84-14"><a href="#cb84-14" aria-hidden="true" tabindex="-1"></a>    ap.exam <span class="sc">+</span></span>
-<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement <span class="sc">+</span></span>
-<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a>    MCA.M.filled <span class="sc">+</span></span>
-<span id="cb84-17"><a href="#cb84-17" aria-hidden="true" tabindex="-1"></a>    MCA.M.missing,</span>
-<span id="cb84-18"><a href="#cb84-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb84-19"><a href="#cb84-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
-<span id="cb84-20"><a href="#cb84-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb84-21"><a href="#cb84-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-22"><a href="#cb84-22" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb84-15"><a href="#cb84-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement,</span>
+<span id="cb84-16"><a href="#cb84-16" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
+<span id="cb84-17"><a href="#cb84-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
+<span id="cb84-18"><a href="#cb84-18" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb84-19"><a href="#cb84-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb84-20"><a href="#cb84-20" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model1_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10310</code></pre>
 </div>
@@ -2698,7 +2651,7 @@ avg.unemp.rate               0.9811516 0.94213386 1.0217022</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9144.474</code></pre>
+<pre><code>[1] 9843.27</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model2_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2707,90 +2660,84 @@ Call:
 glm(formula = persistent.no_record ~ Gender + RaceEthnicity + 
     economic.status + SpecialEdStatus + english.learner + Dem_Desc + 
     avg.wages.pct.state + avg.unemp.rate + pseo.participant + 
-    took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement + 
-    MCA.M.filled + MCA.M.missing, family = binomial, data = master.disc)
+    took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement, 
+    family = binomial, data = master.disc)
 
 Coefficients:
-                                             Estimate Std. Error z value
-(Intercept)                                  -0.80569    0.50263  -1.603
-GenderF                                      -0.16348    0.05597  -2.921
-RaceEthnicityAI                               0.17741    0.09499   1.868
-RaceEthnicityAsian/PI                         0.50851    0.19772   2.572
-RaceEthnicityBlack                            0.09629    0.14737   0.653
-RaceEthnicityHispanic                         0.35095    0.19729   1.779
-economic.status1                             -0.19091    0.05781  -3.302
-SpecialEdStatus1                             -0.01686    0.07726  -0.218
-english.learner1                             -0.10014    0.10847  -0.923
-Dem_DescTown/rural mix                        0.05859    0.12188   0.481
-Dem_DescUrban/town/rural mix                 -0.07096    0.12190  -0.582
-avg.wages.pct.state                           0.48135    0.54754   0.879
-avg.unemp.rate                               -0.08327    0.02361  -3.527
-pseo.participant1                            -0.14046    0.06512  -2.157
-took.ACTYes                                  -1.15754    0.20829  -5.557
-ACTCompositeScore.filled                      0.05441    0.01017   5.347
-ap.exam1                                      0.09519    0.12828   0.742
-cte.achievementCTE Concentrator or Completor -0.13845    0.06941  -1.995
-cte.achievementCTE Participant               -0.12064    0.06505  -1.855
-MCA.M.filled                                 -0.13094    0.03644  -3.594
-MCA.M.missing                                 2.18621    0.12959  16.870
+                                              Estimate Std. Error z value
+(Intercept)                                  -0.826577   0.445570  -1.855
+GenderF                                      -0.136957   0.052900  -2.589
+RaceEthnicityAI                               0.139800   0.090685   1.542
+RaceEthnicityAsian/PI                         0.807488   0.176276   4.581
+RaceEthnicityBlack                            0.344203   0.133613   2.576
+RaceEthnicityHispanic                         0.843613   0.168488   5.007
+economic.status1                             -0.308662   0.054744  -5.638
+SpecialEdStatus1                             -0.048181   0.071645  -0.672
+english.learner1                              0.581480   0.093582   6.214
+Dem_DescTown/rural mix                        0.135545   0.116969   1.159
+Dem_DescUrban/town/rural mix                 -0.073266   0.117790  -0.622
+avg.wages.pct.state                           0.604553   0.520165   1.162
+avg.unemp.rate                               -0.079770   0.021942  -3.635
+pseo.participant1                            -0.286287   0.062316  -4.594
+took.ACTYes                                  -1.328789   0.199197  -6.671
+ACTCompositeScore.filled                      0.046708   0.009526   4.903
+ap.exam1                                      0.013900   0.127026   0.109
+cte.achievementCTE Concentrator or Completor -0.377178   0.066038  -5.712
+cte.achievementCTE Participant               -0.291867   0.061715  -4.729
                                              Pr(&gt;|z|)    
-(Intercept)                                  0.108941    
-GenderF                                      0.003491 ** 
-RaceEthnicityAI                              0.061816 .  
-RaceEthnicityAsian/PI                        0.010115 *  
-RaceEthnicityBlack                           0.513532    
-RaceEthnicityHispanic                        0.075263 .  
-economic.status1                             0.000960 ***
-SpecialEdStatus1                             0.827295    
-english.learner1                             0.355859    
-Dem_DescTown/rural mix                       0.630743    
-Dem_DescUrban/town/rural mix                 0.560501    
-avg.wages.pct.state                          0.379334    
-avg.unemp.rate                               0.000421 ***
-pseo.participant1                            0.031002 *  
-took.ACTYes                                  2.74e-08 ***
-ACTCompositeScore.filled                     8.94e-08 ***
-ap.exam1                                     0.458087    
-cte.achievementCTE Concentrator or Completor 0.046076 *  
-cte.achievementCTE Participant               0.063651 .  
-MCA.M.filled                                 0.000326 ***
-MCA.M.missing                                 &lt; 2e-16 ***
+(Intercept)                                  0.063582 .  
+GenderF                                      0.009626 ** 
+RaceEthnicityAI                              0.123172    
+RaceEthnicityAsian/PI                        4.63e-06 ***
+RaceEthnicityBlack                           0.009992 ** 
+RaceEthnicityHispanic                        5.53e-07 ***
+economic.status1                             1.72e-08 ***
+SpecialEdStatus1                             0.501273    
+english.learner1                             5.18e-10 ***
+Dem_DescTown/rural mix                       0.246531    
+Dem_DescUrban/town/rural mix                 0.533942    
+avg.wages.pct.state                          0.245141    
+avg.unemp.rate                               0.000277 ***
+pseo.participant1                            4.35e-06 ***
+took.ACTYes                                  2.55e-11 ***
+ACTCompositeScore.filled                     9.44e-07 ***
+ap.exam1                                     0.912865    
+cte.achievementCTE Concentrator or Completor 1.12e-08 ***
+cte.achievementCTE Participant               2.25e-06 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 10115.0  on 10127  degrees of freedom
-Residual deviance:  9102.5  on 10107  degrees of freedom
+Residual deviance:  9805.3  on 10109  degrees of freedom
   (182 observations deleted due to missingness)
-AIC: 9144.5
+AIC: 9843.3
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model2_no_record), <span class="fu">confint</span>(model2_no_record)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                                    OR     2.5 %     97.5 %
-(Intercept)                                  0.4467774 0.1665510  1.1949821
-GenderF                                      0.8491871 0.7607617  0.9474226
-RaceEthnicityAI                              1.1941195 0.9889499  1.4353783
-RaceEthnicityAsian/PI                        1.6628174 1.1202434  2.4345102
-RaceEthnicityBlack                           1.1010737 0.8201609  1.4622006
-RaceEthnicityHispanic                        1.4204224 0.9582452  2.0780344
-economic.status1                             0.8262092 0.7376416  0.9252981
-SpecialEdStatus1                             0.9832851 0.8443250  1.1430560
-english.learner1                             0.9047064 0.7305378  1.1177868
-Dem_DescTown/rural mix                       1.0603368 0.8376415  1.3511429
-Dem_DescUrban/town/rural mix                 0.9314989 0.7361865  1.1876088
-avg.wages.pct.state                          1.6182599 0.5523332  4.7264306
-avg.unemp.rate                               0.9201067 0.8784303  0.9636183
-pseo.participant1                            0.8689578 0.7644978  0.9868458
-took.ACTYes                                  0.3142595 0.2085696  0.4719792
-ACTCompositeScore.filled                     1.0559125 1.0350544  1.0771810
-ap.exam1                                     1.0998644 0.8521126  1.4094609
-cte.achievementCTE Concentrator or Completor 0.8707090 0.7595367  0.9970863
-cte.achievementCTE Participant               0.8863532 0.7799263  1.0064966
-MCA.M.filled                                 0.8772742 0.8168147  0.9422380
-MCA.M.missing                                8.9014103 6.9159423 11.4950232</code></pre>
+<pre><code>                                                    OR     2.5 %    97.5 %
+(Intercept)                                  0.4375446 0.1824530 1.0467054
+GenderF                                      0.8720074 0.7859433 0.9670718
+RaceEthnicityAI                              1.1500435 0.9606847 1.3710135
+RaceEthnicityAsian/PI                        2.2422679 1.5789672 3.1557145
+RaceEthnicityBlack                           1.4108651 1.0805692 1.8255153
+RaceEthnicityHispanic                        2.3247506 1.6629395 3.2229932
+economic.status1                             0.7344290 0.6596268 0.8175332
+SpecialEdStatus1                             0.9529617 0.8273694 1.0957128
+english.learner1                             1.7886833 1.4885569 2.1484476
+Dem_DescTown/rural mix                       1.1451611 0.9133165 1.4451167
+Dem_DescUrban/town/rural mix                 0.9293539 0.7402937 1.1751505
+avg.wages.pct.state                          1.8304334 0.6592427 5.0672675
+avg.unemp.rate                               0.9233288 0.8843924 0.9638377
+pseo.participant1                            0.7510471 0.6643300 0.8481803
+took.ACTYes                                  0.2647978 0.1788786 0.3906208
+ACTCompositeScore.filled                     1.0478165 1.0284206 1.0675616
+ap.exam1                                     1.0139969 0.7875301 1.2962446
+cte.achievementCTE Concentrator or Completor 0.6857939 0.6021221 0.7800629
+cte.achievementCTE Participant               0.7468681 0.6614374 0.8425012</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Model 1 refit on Model 2's complete-case sample, for a valid LRT</span></span>
 <span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (same fix used for the non-sustained sequence, since PSEO's 182 missing</span></span>
@@ -2823,10 +2770,10 @@ Model 1: persistent.no_record ~ Gender + RaceEthnicity + economic.status +
 Model 2: persistent.no_record ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing
+    ap.exam + cte.achievement
   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
 1     10115     9952.0                          
-2     10107     9102.5  8   849.54 &lt; 2.2e-16 ***
+2     10109     9805.3  6   146.75 &lt; 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
@@ -2835,17 +2782,17 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </section>
 <section id="model-3-add-postsecondary-attempt-1" class="level2">
 <h2 class="anchored" data-anchor-id="model-3-add-postsecondary-attempt-1">Model 3: Add Postsecondary Attempt</h2>
-<p>This model adds <code>attended.ps</code> to the full specification (n = 10,128, same complete-case sample as Model 2).</p>
-<p><strong>Attempting postsecondary education shows the second-largest effect in this entire model, confirming its bivariate standing as the strongest overall predictor of disconnection.</strong> OR ≈ 0.613 (CI: 0.541-0.693, p &lt; 2e-16): students who attempted postsecondary education show roughly 39% lower odds of persistent no-record status than those who never attempted it — a larger protective effect than any other accomplishment variable in the model except MCA Math missingness. This confirms that <code>attended.ps</code>’s bivariate strength on this outcome specifically is real and independent, not an artifact of overlap with PSEO, ACT, or CTE.</p>
-<p><strong>MCA Math missingness remains the dominant predictor in the model, essentially unchanged from Model 2</strong> (OR ≈ 8.35, CI: 6.479-10.784, p &lt; 2e-16, down only slightly from 8.90). The magnitude of this effect is not explained by postsecondary attempt — it is a genuinely separate, massive predictor of persistent no-record status.</p>
-<p><strong>English learner status remains non-significant, confirming Model 2’s finding holds up even with postsecondary attempt in the model</strong> (OR ≈ 0.888, CI: 0.717-1.098, p = .275). This closes the loop on the central question this analysis was designed to answer: English learner status’s bivariate relationship with persistent no-record status does not survive multivariate control at any stage, and MCA Math missingness remains the best explanation for where that bivariate signal actually came from.</p>
-<p><strong>Race/Ethnicity effects hold essentially steady from Model 2.</strong> Asian/Pacific Islander remains significant (OR ≈ 1.61, p = .017). Hispanic and American Indian remain marginal (p = .072 and p = .054, respectively). Black graduates remain non-significant (OR ≈ 1.12, p = .428). No further attenuation occurs once postsecondary attempt is added — the racial disparities that attenuated in Model 2 stay attenuated here, confirming MCA Math missingness (not lack of postsecondary attempt) was the relevant explanatory factor for those groups too.</p>
-<p><strong>Took-ACT, ACT score, PSEO, and CTE achievement all remain essentially unchanged from Model 2</strong> in direction, magnitude, and significance — none of these accomplishment variables’ relationships with no-record status are meaningfully altered by adding postsecondary attempt to the model.</p>
-<p><strong>Special Education status remains non-significant</strong>, consistent with both prior models — confirming across the entire model sequence that Special Ed shows no relationship whatsoever with no-record status, at any level of control.</p>
-<p><strong>Economic status, Gender, and average local unemployment rate all remain significant and essentially stable</strong> from Model 2, each showing modest protective effects.</p>
-<p><strong>Overall Interpretation</strong></p>
-<p>Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 62.35, df = 1, p &lt; .001; AIC decreases from 9,144.5 to 9,084.1), confirming <code>attended.ps</code> as a large, genuine, independent predictor of no-record status — its effect here is even more pronounced than in the non-sustained-employment sequence, consistent with the bivariate finding that this variable’s protective effect was concentrated more heavily in the no-record mechanism. Critically, this final model does not change the central finding from Model 2: English learner status and the Hispanic/Black racial disparities remain non-significant or marginal, confirming that MCA Math missingness — not postsecondary engagement — is the variable actually explaining those groups’ apparent bivariate disadvantage. Across the full sequence, MCA Math missingness stands out as the single most powerful and consistent predictor of persistent no-record status found in this project, alongside a large and independently confirmed protective effect of postsecondary attempt.</p>
-<p><strong>Model fit:</strong> AIC = 9,084.1 (down from 9,144.5 in Model 2); Δdeviance = 62.35 on 1 df, p &lt; .001; n = 10,128 across all three models.</p>
+<p>This model adds attended.ps to the full specification (n = 10,128, same complete-case sample as Model 2).</p>
+<p>Attempting postsecondary education shows a strong, independent protective effect — the second-largest effect in this entire model, after took.ACT. OR ≈ 0.530 (CI: 0.470-0.597, p &lt; 2e-16): students who attempted postsecondary education, even without completing it, show roughly 47% lower odds of persistent no-record status than those who never attempted it. This confirms attended.ps’s bivariate strength on this outcome is real and independent, not an artifact of overlap with PSEO, ACT, or CTE.</p>
+<p>Took-ACT remains the single largest effect in the model, essentially unchanged from Model 2 (OR ≈ 0.295, CI: 0.199-0.435, p &lt; .001). ACT composite score also remains stable (OR ≈ 1.047 per point, p &lt; .001, CI: 1.027-1.067). Neither is meaningfully explained by postsecondary attempt — both hold their own alongside it.</p>
+<p>English learner status remains a strong, significant predictor, though it attenuates modestly from Model 2. OR ≈ 1.71 (CI: 1.419-2.051, p &lt; .001), down from 1.79 — a real but small reduction, not a collapse toward non-significance.</p>
+<p>Race/Ethnicity effects hold essentially steady from Model 2. Hispanic (OR ≈ 2.29, p &lt; .001) and Asian/Pacific Islander (OR ≈ 2.12, p &lt; .001) graduates remain strongly elevated. Black graduates remain significant (OR ≈ 1.44, p = .007). American Indian graduates remain non-significant (OR ≈ 1.16, p = .103), consistent with every prior model.</p>
+<p>PSEO participation and CTE achievement both remain essentially unchanged from Model 2 in direction, magnitude, and significance — none of these accomplishment variables’ relationships with no-record status are meaningfully altered by adding postsecondary attempt to the model.</p>
+<p>Special Education status remains non-significant (OR ≈ 0.93, p = .294), consistent with both prior models — Special Ed shows no relationship whatsoever with no-record status, at any level of control.</p>
+<p>Economic status and Gender remain significant and protective (economic status: OR ≈ 0.722, p &lt; .001; Gender: OR ≈ 0.882, p = .018). Average local unemployment rate, significant in Model 2, weakens to marginal here (OR ≈ 0.963, CI: 0.922-1.006, p = .094) — worth noting as a real shift rather than treating the Model 2 result as the final word on this variable. AP exam remains non-significant (OR ≈ 0.95, p = .694).</p>
+<p>Overall Interpretation</p>
+<p>Adding postsecondary attempt significantly improves model fit (likelihood ratio test: Δdeviance = 113.57, df = 1, p &lt; .001; AIC decreases from 9,843.3 to 9,731.7), confirming attended.ps as a large, genuine, independent predictor of no-record status. Across the full three-model sequence, English learner status and the Hispanic, Black, and Asian/Pacific Islander racial disparities identified in Model 1 all remain significant predictors of persistent no-record status through every stage of control — none attenuate to non-significance. Took-ACT, ACT composite score, PSEO participation, and CTE achievement all confirm substantial, independent relationships with no-record status. Special Education status remains non-significant throughout the full sequence.</p>
+<p>Model fit: AIC = 9,731.7 (down from 9,843.3 in Model 2); Δdeviance = 113.57 on 1 df, p &lt; .001; n = 10,128 across all three models.</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a>model3_no_record <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
 <span id="cb100-2"><a href="#cb100-2" aria-hidden="true" tabindex="-1"></a>  persistent.no_record <span class="sc">~</span></span>
@@ -2862,14 +2809,12 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <span id="cb100-13"><a href="#cb100-13" aria-hidden="true" tabindex="-1"></a>    ACTCompositeScore.filled <span class="sc">+</span></span>
 <span id="cb100-14"><a href="#cb100-14" aria-hidden="true" tabindex="-1"></a>    ap.exam <span class="sc">+</span></span>
 <span id="cb100-15"><a href="#cb100-15" aria-hidden="true" tabindex="-1"></a>    cte.achievement <span class="sc">+</span></span>
-<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a>    MCA.M.filled <span class="sc">+</span></span>
-<span id="cb100-17"><a href="#cb100-17" aria-hidden="true" tabindex="-1"></a>    MCA.M.missing <span class="sc">+</span></span>
-<span id="cb100-18"><a href="#cb100-18" aria-hidden="true" tabindex="-1"></a>    attended.ps,</span>
-<span id="cb100-19"><a href="#cb100-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
-<span id="cb100-20"><a href="#cb100-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
-<span id="cb100-21"><a href="#cb100-21" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb100-22"><a href="#cb100-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb100-23"><a href="#cb100-23" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb100-16"><a href="#cb100-16" aria-hidden="true" tabindex="-1"></a>    attended.ps,</span>
+<span id="cb100-17"><a href="#cb100-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> binomial,</span>
+<span id="cb100-18"><a href="#cb100-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> master.disc</span>
+<span id="cb100-19"><a href="#cb100-19" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb100-20"><a href="#cb100-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb100-21"><a href="#cb100-21" aria-hidden="true" tabindex="-1"></a><span class="fu">nobs</span>(model2_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10128</code></pre>
 </div>
@@ -2879,11 +2824,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model2_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9144.474</code></pre>
+<pre><code>[1] 9843.27</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(model3_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 9084.125</code></pre>
+<pre><code>[1] 9731.696</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model3_no_record)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2893,93 +2838,86 @@ glm(formula = persistent.no_record ~ Gender + RaceEthnicity +
     economic.status + SpecialEdStatus + english.learner + Dem_Desc + 
     avg.wages.pct.state + avg.unemp.rate + pseo.participant + 
     took.ACT + ACTCompositeScore.filled + ap.exam + cte.achievement + 
-    MCA.M.filled + MCA.M.missing + attended.ps, family = binomial, 
-    data = master.disc)
+    attended.ps, family = binomial, data = master.disc)
 
 Coefficients:
-                                             Estimate Std. Error z value
-(Intercept)                                  -1.09093    0.50560  -2.158
-GenderF                                      -0.15300    0.05618  -2.724
-RaceEthnicityAI                               0.18367    0.09521   1.929
-RaceEthnicityAsian/PI                         0.47337    0.19886   2.380
-RaceEthnicityBlack                            0.11697    0.14749   0.793
-RaceEthnicityHispanic                         0.35776    0.19873   1.800
-economic.status1                             -0.20618    0.05815  -3.546
-SpecialEdStatus1                             -0.03945    0.07744  -0.509
-english.learner1                             -0.11835    0.10850  -1.091
-Dem_DescTown/rural mix                        0.02869    0.12244   0.234
-Dem_DescUrban/town/rural mix                 -0.04856    0.12263  -0.396
-avg.wages.pct.state                           0.69789    0.55303   1.262
-avg.unemp.rate                               -0.04952    0.02402  -2.062
-pseo.participant1                            -0.13734    0.06563  -2.093
-took.ACTYes                                  -1.07394    0.20780  -5.168
-ACTCompositeScore.filled                      0.05339    0.01016   5.256
-ap.exam1                                      0.03892    0.12939   0.301
-cte.achievementCTE Concentrator or Completor -0.14086    0.06962  -2.023
-cte.achievementCTE Participant               -0.10795    0.06531  -1.653
-MCA.M.filled                                 -0.12623    0.03650  -3.459
-MCA.M.missing                                 2.12170    0.12996  16.326
-attended.psYes                               -0.48946    0.06329  -7.733
+                                              Estimate Std. Error z value
+(Intercept)                                  -1.168586   0.449965  -2.597
+GenderF                                      -0.125422   0.053240  -2.356
+RaceEthnicityAI                               0.148614   0.091151   1.630
+RaceEthnicityAsian/PI                         0.749501   0.178254   4.205
+RaceEthnicityBlack                            0.361200   0.134580   2.684
+RaceEthnicityHispanic                         0.828465   0.170280   4.865
+economic.status1                             -0.326232   0.055180  -5.912
+SpecialEdStatus1                             -0.075550   0.072019  -1.049
+english.learner1                              0.534384   0.094017   5.684
+Dem_DescTown/rural mix                        0.089694   0.117697   0.762
+Dem_DescUrban/town/rural mix                 -0.049516   0.118681  -0.417
+avg.wages.pct.state                           0.868956   0.527258   1.648
+avg.unemp.rate                               -0.037371   0.022349  -1.672
+pseo.participant1                            -0.276486   0.063014  -4.388
+took.ACTYes                                  -1.221417   0.199091  -6.135
+ACTCompositeScore.filled                      0.045767   0.009531   4.802
+ap.exam1                                     -0.050570   0.128439  -0.394
+cte.achievementCTE Concentrator or Completor -0.374584   0.066411  -5.640
+cte.achievementCTE Participant               -0.271731   0.062114  -4.375
+attended.psYes                               -0.634755   0.061425 -10.334
                                              Pr(&gt;|z|)    
-(Intercept)                                  0.030951 *  
-GenderF                                      0.006457 ** 
-RaceEthnicityAI                              0.053718 .  
-RaceEthnicityAsian/PI                        0.017292 *  
-RaceEthnicityBlack                           0.427732    
-RaceEthnicityHispanic                        0.071821 .  
-economic.status1                             0.000391 ***
-SpecialEdStatus1                             0.610414    
-english.learner1                             0.275379    
-Dem_DescTown/rural mix                       0.814712    
-Dem_DescUrban/town/rural mix                 0.692153    
-avg.wages.pct.state                          0.206969    
-avg.unemp.rate                               0.039211 *  
-pseo.participant1                            0.036374 *  
-took.ACTYes                                  2.36e-07 ***
-ACTCompositeScore.filled                     1.47e-07 ***
-ap.exam1                                     0.763560    
-cte.achievementCTE Concentrator or Completor 0.043050 *  
-cte.achievementCTE Participant               0.098330 .  
-MCA.M.filled                                 0.000543 ***
-MCA.M.missing                                 &lt; 2e-16 ***
-attended.psYes                               1.05e-14 ***
+(Intercept)                                   0.00940 ** 
+GenderF                                       0.01848 *  
+RaceEthnicityAI                               0.10302    
+RaceEthnicityAsian/PI                        2.61e-05 ***
+RaceEthnicityBlack                            0.00728 ** 
+RaceEthnicityHispanic                        1.14e-06 ***
+economic.status1                             3.38e-09 ***
+SpecialEdStatus1                              0.29417    
+english.learner1                             1.32e-08 ***
+Dem_DescTown/rural mix                        0.44602    
+Dem_DescUrban/town/rural mix                  0.67652    
+avg.wages.pct.state                           0.09934 .  
+avg.unemp.rate                                0.09449 .  
+pseo.participant1                            1.15e-05 ***
+took.ACTYes                                  8.52e-10 ***
+ACTCompositeScore.filled                     1.57e-06 ***
+ap.exam1                                      0.69378    
+cte.achievementCTE Concentrator or Completor 1.70e-08 ***
+cte.achievementCTE Participant               1.22e-05 ***
+attended.psYes                                &lt; 2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 (Dispersion parameter for binomial family taken to be 1)
 
     Null deviance: 10115.0  on 10127  degrees of freedom
-Residual deviance:  9040.1  on 10106  degrees of freedom
+Residual deviance:  9691.7  on 10108  degrees of freedom
   (182 observations deleted due to missingness)
-AIC: 9084.1
+AIC: 9731.7
 
 Number of Fisher Scoring iterations: 4</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">exp</span>(<span class="fu">cbind</span>(<span class="at">OR =</span> <span class="fu">coef</span>(model3_no_record), <span class="fu">confint</span>(model3_no_record)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>                                                    OR     2.5 %     97.5 %
-(Intercept)                                  0.3359033 0.1244810  0.9036092
-GenderF                                      0.8581285 0.7684634  0.9577905
-RaceEthnicityAI                              1.2016167 0.9947629  1.4450415
-RaceEthnicityAsian/PI                        1.6053912 1.0792947  2.3559660
-RaceEthnicityBlack                           1.1240870 0.8371988  1.4932702
-RaceEthnicityHispanic                        1.4301195 0.9620528  2.0980337
-economic.status1                             0.8136860 0.7259841  0.9118607
-SpecialEdStatus1                             0.9613163 0.8251805  1.1179018
-english.learner1                             0.8883829 0.7173113  1.0977166
-Dem_DescTown/rural mix                       1.0291099 0.8120519  1.3127393
-Dem_DescUrban/town/rural mix                 0.9526049 0.7517804  1.2162360
-avg.wages.pct.state                          2.0095111 0.6785897  5.9333134
-avg.unemp.rate                               0.9516854 0.9078652  0.9974977
-pseo.participant1                            0.8716745 0.7661185  0.9909194
-took.ACTYes                                  0.3416604 0.2269739  0.5126433
-ACTCompositeScore.filled                     1.0548452 1.0340415  1.0760604
-ap.exam1                                     1.0396895 0.8037361  1.3352129
-cte.achievementCTE Concentrator or Completor 0.8686096 0.7573903  0.9951062
-cte.achievementCTE Participant               0.8976701 0.7894901  1.0198733
-MCA.M.filled                                 0.8814089 0.8205656  0.9467896
-MCA.M.missing                                8.3452889 6.4790151 10.7843956
-attended.psYes                               0.6129600 0.5410389  0.6934245</code></pre>
+<pre><code>                                                    OR     2.5 %    97.5 %
+(Intercept)                                  0.3108060 0.1284763 0.7498618
+GenderF                                      0.8821243 0.7945356 0.9789476
+RaceEthnicityAI                              1.1602245 0.9683308 1.3844539
+RaceEthnicityAsian/PI                        2.1159435 1.4845009 2.9899125
+RaceEthnicityBlack                           1.4350505 1.0971098 1.8604906
+RaceEthnicityHispanic                        2.2898003 1.6324352 3.1860952
+economic.status1                             0.7216379 0.6475800 0.8039770
+SpecialEdStatus1                             0.9272337 0.8044419 1.0669130
+english.learner1                             1.7063970 1.4188595 2.0513520
+Dem_DescTown/rural mix                       1.0938391 0.8710943 1.3822494
+Dem_DescUrban/town/rural mix                 0.9516899 0.7567440 1.2054651
+avg.wages.pct.state                          2.3844198 0.8469631 6.6938324
+avg.unemp.rate                               0.9633182 0.9219737 1.0063988
+pseo.participant1                            0.7584439 0.6699541 0.8577044
+took.ACTYes                                  0.2948121 0.1991984 0.4348154
+ACTCompositeScore.filled                     1.0468303 1.0274458 1.0665687
+ap.exam1                                     0.9506876 0.7362996 1.2186355
+cte.achievementCTE Concentrator or Completor 0.6875753 0.6032501 0.7826666
+cte.achievementCTE Participant               0.7620594 0.6743717 0.8603212
+attended.psYes                               0.5300655 0.4695556 0.5974191</code></pre>
 </div>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># likelihood ratio test comparing Model 2 to Model 3</span></span>
 <span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(model2_no_record, model3_no_record, <span class="at">test =</span> <span class="st">"Chisq"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2989,31 +2927,30 @@ attended.psYes                               0.6129600 0.5410389  0.6934245</cod
 Model 1: persistent.no_record ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing
+    ap.exam + cte.achievement
 Model 2: persistent.no_record ~ Gender + RaceEthnicity + economic.status + 
     SpecialEdStatus + english.learner + Dem_Desc + avg.wages.pct.state + 
     avg.unemp.rate + pseo.participant + took.ACT + ACTCompositeScore.filled + 
-    ap.exam + cte.achievement + MCA.M.filled + MCA.M.missing + 
-    attended.ps
+    ap.exam + cte.achievement + attended.ps
   Resid. Df Resid. Dev Df Deviance  Pr(&gt;Chi)    
-1     10107     9102.5                          
-2     10106     9040.1  1   62.349 2.876e-15 ***
+1     10109     9805.3                          
+2     10108     9691.7  1   113.57 &lt; 2.2e-16 ***
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
 <p><br></p>
 </section>
-<section id="summary-multivariate-confirmation" class="level2">
-<h2 class="anchored" data-anchor-id="summary-multivariate-confirmation">Summary: Multivariate Confirmation</h2>
-<p>Across all three models, this analysis delivered the central confirmatory result it was designed to test, along with several supporting findings.</p>
-<p><strong>English learner status’s strong bivariate relationship with persistent no-record status does not survive multivariate control.</strong> OR collapsed from 1.94 (p &lt; .001) in the demographics-only model to non-significant (OR ≈ 0.89, p = .275) once high school accomplishments — specifically the MCA Math missingness indicator — were added, and remained non-significant through the final model. This confirms the masking hypothesis this analysis was built to test: English learners’ apparent disadvantage in disappearing from Minnesota’s employment records is substantially explained by their much higher rate of missing MCA Math scores, not by English learner status operating independently.</p>
-<p><strong>The same masking pattern extends to Hispanic and Black graduates.</strong> Both showed large, significant bivariate-consistent effects in the demographics-only model (Hispanic OR ≈ 2.42; Black OR ≈ 1.47) that attenuated to marginal or non-significant once MCA Math missingness entered the model (Hispanic OR ≈ 1.42-1.43, p ≈ .07; Black OR ≈ 1.10-1.12, non-significant). Asian/Pacific Islander graduates are the exception — their effect attenuated by roughly a third but remained significant throughout (OR ≈ 1.61-1.66 in the final models), indicating a real disparity that persists independent of the MCA-missingness pattern.</p>
-<p><strong>MCA Math missingness is the single most powerful predictor found anywhere in this analysis.</strong> OR remained in the 8-9 range across both models where it appeared, dwarfing every other coefficient in either outcome. This is a dramatically different role than the same variable played in the non-sustained-employment sequence, where it was modestly <em>protective</em> rather than a massive risk factor — confirming that MCA Math missingness operates in genuinely different, outcome-specific ways depending on which disconnection mechanism is being modeled.</p>
-<p><strong>Attempting postsecondary education is confirmed as a large, genuine, independent predictor of reduced no-record risk</strong>, holding up fully alongside every other variable (OR ≈ 0.61 in the final model) — an even larger effect than it showed in the non-sustained-employment sequence, consistent with the bivariate finding that <code>attended.ps</code>’s protective effect concentrates more heavily in this mechanism.</p>
-<p><strong>ACT participation and score both confirm their bivariate crossover pattern precisely and hold up fully across every model.</strong> Taking the ACT is strongly protective; among test-takers, higher scores predict <em>higher</em> odds of no-record status — the same threshold-effect crossover found bivariately, now confirmed under full multivariate control.</p>
-<p><strong>Special Education status shows no relationship with no-record status at any stage</strong> — a clean, consistent null result across all three models, confirming that Special Ed’s true disconnection story (established in the companion non-sustained-employment analysis) is an instability story, not a no-record story, despite the bivariate comparison initially suggesting otherwise.</p>
-<p><strong>Economic status, Gender, PSEO participation, and average local unemployment rate all emerge as modest but genuine and stable protective predictors</strong>, each holding up consistently once controlled for the full variable set — none of these were as clearly visible in the bivariate work.</p>
+<section id="summary-multivariate-confirmation-persistent-no-minnesota-employment-record" class="level2">
+<h2 class="anchored" data-anchor-id="summary-multivariate-confirmation-persistent-no-minnesota-employment-record">Summary: Multivariate Confirmation — Persistent No Minnesota Employment Record</h2>
+<p>Across all three models, this analysis delivered a clear, stable central finding, along with several supporting results.</p>
+<p>English learner status is a strong, persistent predictor of no-record status across every stage of control. OR moves from 1.94 (Model 1) to 1.79 (Model 2) to 1.71 (Model 3) — a modest, gradual decline, but English learners remain at nearly double the odds of persistent no-record status relative to non-English-learners even in the fully specified model (p &lt; .001 throughout). This is the clearest and most consequential finding in this analysis: English learners’ disadvantage in disappearing from Minnesota’s employment records is not explained away by high school accomplishments or postsecondary attempt — it holds up as an independent, substantial effect.</p>
+<p>The same pattern holds for Hispanic and Asian/Pacific Islander graduates. Both groups show large, significant effects in the demographics-only model (Hispanic OR ≈ 2.42; Asian/PI OR ≈ 2.41) that remain strong and significant through the full model sequence (Hispanic OR ≈ 2.29-2.32; Asian/PI OR ≈ 2.12-2.24, both p &lt; .001 throughout). Black graduates also remain significant at every stage (OR ≈ 1.41-1.47, p &lt; .01 throughout). American Indian graduates remain non-significant or marginal across all three models (OR ≈ 1.15-1.18), consistent with the bivariate finding that AI graduates’ disadvantage concentrates in the instability mechanism rather than this one.</p>
+<p>Took-ACT is the single most powerful predictor found anywhere in this analysis. OR remains in the 0.26-0.30 range across both models where it appears — students who took the ACT show roughly 70-74% lower odds of persistent no-record status. ACT composite score confirms the expected threshold-effect pattern, with higher scores among test-takers predicting modestly higher odds of no-record status (OR ≈ 1.05 per point, p &lt; .001 in both models).</p>
+<p>Attempting postsecondary education is confirmed as a large, genuine, independent predictor of reduced no-record risk, holding up fully alongside every other variable (OR ≈ 0.53 in the final model) — a larger effect than it showed in the non-sustained-employment sequence, consistent with the bivariate finding that attended.ps’s protective effect concentrates more heavily in this mechanism.</p>
+<p>PSEO participation and CTE achievement both confirm substantial, stable protective effects across every model in which they appear, consistent with the bivariate finding that these variables’ broad protective role for this population runs heavily through avoiding no-record status specifically.</p>
+<p>Special Education status shows no relationship with no-record status at any stage — a clean, consistent null result across all three models, confirming that Special Ed’s disconnection story (established in the companion non-sustained-employment analysis) is an instability story, not a no-record story, despite the bivariate comparison initially suggesting otherwise.</p>
+<p>Economic status and Gender both emerge as modest, genuine, stable protective predictors, holding up consistently across all three models. Average local unemployment rate is significant in Model 2 but weakens to marginal in Model 3 once postsecondary attempt is added — a real shift worth tracking rather than treating the Model 2 result as final. AP exam and district geographic classification remain non-significant throughout.</p>
 <p><br></p>
 </section>
 </section>
@@ -3039,26 +2976,26 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <tr class="odd">
 <td>Special Education status</td>
 <td>No-record mechanism</td>
-<td><strong>No — reversed.</strong> Strong, stable predictor of instability instead (OR ≈ 1.36–1.42)</td>
+<td><strong>No — reversed.</strong> Strong, stable predictor of instability instead (OR ≈ 1.36–1.45)</td>
 <td><strong>No.</strong> Non-significant at every stage</td>
 </tr>
 <tr class="even">
 <td>English learner status</td>
 <td>No-record mechanism</td>
 <td>Confirmed null (never significant)</td>
-<td><strong>No — masked.</strong> Strong in Model 1 (OR ≈ 1.94), collapses once MCA Math missingness is added</td>
+<td><strong>Confirmed, and robust.</strong> Strong at every stage (OR ≈ 1.71–1.94), declining only modestly as controls are added</td>
 </tr>
 <tr class="odd">
 <td>Economic status</td>
 <td>Instability mechanism</td>
 <td><strong>No.</strong> Non-significant at every stage</td>
-<td><strong>Reversed role — protective, no-record.</strong> Significant, protective (OR ≈ 0.81–0.83)</td>
+<td><strong>Reversed role — protective, no-record.</strong> Significant, protective (OR ≈ 0.72–0.78)</td>
 </tr>
 <tr class="even">
 <td>Gender</td>
 <td>Instability mechanism</td>
-<td>Confirmed (OR ≈ 1.30–1.34, adverse)</td>
-<td><strong>New finding.</strong> Also significant here, protective (OR ≈ 0.85–0.89)</td>
+<td>Confirmed (OR ≈ 1.31–1.34, adverse)</td>
+<td><strong>New finding.</strong> Also significant here, protective (OR ≈ 0.87–0.89)</td>
 </tr>
 <tr class="odd">
 <td>American Indian</td>
@@ -3067,60 +3004,65 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <td>Confirmed null (marginal at best)</td>
 </tr>
 <tr class="even">
-<td>Hispanic / Asian-PI</td>
+<td>Hispanic</td>
 <td>No-record mechanism</td>
-<td>Confirmed null (mostly)</td>
-<td><strong>Partially masked.</strong> Hispanic attenuates to marginal; Asian/PI persists independently</td>
+<td>Confirmed null (never significant)</td>
+<td><strong>Confirmed, and robust.</strong> Strong at every stage (OR ≈ 2.29–2.42)</td>
 </tr>
 <tr class="odd">
-<td>Black</td>
-<td>Both, moderately</td>
-<td>Confirmed (OR ≈ 1.68–1.83)</td>
-<td><strong>Masked.</strong> Attenuates to non-significant once MCA missingness enters</td>
+<td>Asian/Pacific Islander</td>
+<td>No-record mechanism</td>
+<td><strong>Reversed.</strong> Significantly <em>reduced</em> odds of instability (OR ≈ 0.55–0.60)</td>
+<td><strong>Confirmed, and robust.</strong> Strong at every stage (OR ≈ 2.12–2.41)</td>
 </tr>
 <tr class="even">
-<td>MCA Math missingness</td>
-<td>Not tested bivariately</td>
-<td><strong>New finding — protective</strong> (OR ≈ 0.44–0.47)</td>
-<td><strong>New finding — massive risk factor</strong> (OR ≈ 8.3–8.9)</td>
+<td>Black</td>
+<td>Both, moderately</td>
+<td>Confirmed (OR ≈ 1.68–1.74)</td>
+<td><strong>Confirmed, and robust.</strong> Significant at every stage (OR ≈ 1.41–1.47)</td>
 </tr>
 <tr class="odd">
 <td>Attended postsecondary</td>
 <td>Both mechanisms</td>
-<td>Confirmed, independent (OR ≈ 0.69)</td>
-<td>Confirmed, independent and larger (OR ≈ 0.61)</td>
+<td>Confirmed, independent (OR ≈ 0.72)</td>
+<td>Confirmed, independent and larger (OR ≈ 0.53)</td>
 </tr>
 <tr class="even">
 <td>ACT participation/score</td>
 <td>No-record mechanism</td>
-<td><strong>Partially reversed.</strong> Took-ACT flips protective in Model 2, fades to marginal by Model 3</td>
-<td>Confirmed precisely (crossover pattern intact)</td>
+<td><strong>Weakens to non-significant</strong> once postsecondary attempt is added</td>
+<td><strong>Confirmed precisely.</strong> Crossover pattern intact and strong throughout (OR ≈ 0.26–0.30 for participation)</td>
 </tr>
 <tr class="odd">
 <td>PSEO participation</td>
 <td>Ambiguous/adverse</td>
-<td>Confirmed adverse (OR ≈ 1.19–1.20)</td>
-<td>Confirmed protective (OR ≈ 0.87)</td>
+<td>Confirmed adverse (OR ≈ 1.21–1.22)</td>
+<td>Confirmed protective (OR ≈ 0.75–0.76)</td>
 </tr>
 <tr class="even">
+<td>CTE achievement</td>
+<td>Not tested against combined measure this way</td>
+<td>Attenuates to non-significance</td>
+<td><strong>Confirmed, strongly protective</strong> (OR ≈ 0.69–0.75 across categories)</td>
+</tr>
+<tr class="odd">
 <td>Local wages/unemployment/Dem_Desc</td>
 <td>Null everywhere</td>
 <td>Confirmed null throughout</td>
-<td>Mostly null; unemployment rate emerges as a small, real, significant effect</td>
+<td>Mostly null; unemployment rate is significant in Model 2 but <strong>fades to marginal</strong> once postsecondary attempt is added</td>
 </tr>
 </tbody>
 </table>
 <section id="the-story-this-comparison-tells" class="level2">
 <h2 class="anchored" data-anchor-id="the-story-this-comparison-tells"><strong>The Story This Comparison Tells</strong></h2>
-<p><strong>The core mechanism-split finding survives, but not in its original bivariate form — it’s been sharpened and partly rewritten.</strong> The bivariate analysis suggested Special Education and English learner status were both primarily no-record phenomena. The multivariate models tell a more precise story: <strong>English learner status genuinely is a no-record phenomenon, but only because it’s a proxy for missing MCA Math scores</strong> — once that’s controlled for directly, the effect disappears entirely. <strong>Special Education status, by contrast, turns out to be an instability phenomenon, not a no-record phenomenon at all</strong> — the opposite of what bivariate comparison suggested, and a real reversal rather than an attenuation. These are two different kinds of correction, and both matter for how the finding gets written up: one confirms the mechanism-split logic (EL’s effect really does trace back to a no-record-side variable), while the other overturns which mechanism a specific group belongs to (Special Ed belongs to instability, not no-record).</p>
-<p><strong>MCA Math missingness is the standout finding of this entire confirmatory analysis, and it behaves completely differently across the two outcomes.</strong> It’s a modest protective factor for instability (OR ≈ 0.45) but the single most powerful risk factor found anywhere in this project for no-record status (OR ≈ 8-9). This is worth its own dedicated discussion in the report — a missing MCA Math score is, on its own, one of the strongest predictors of falling off Minnesota’s employment record entirely, dramatically more so than any demographic characteristic tested. Given that this variable is itself a data-completeness artifact rather than a substantive predictor in the usual sense, this raises a real question worth flagging rather than resolving: what does it mean, structurally, that gaps in a student’s academic testing record predict disappearing from the state’s employment record years later? That’s likely a question for a follow-up investigation, not something this analysis can answer, but it’s too large a finding to leave unmentioned.</p>
-<p><strong>Race/Ethnicity confirms the mechanism-split framework while adding a genuine nuance.</strong> Black graduates’ no-record disparity is substantially explained by MCA missingness (mirroring the English learner pattern), while Asian/Pacific Islander graduates’ no-record disparity survives full control — a real, independent disparity that isn’t explained by the same mechanism. American Indian graduates confirm cleanly as an instability-specific group, exactly as bivariate work suggested.</p>
-<p><strong>Gender and Economic status turn out to matter for <em>both</em> mechanisms, not just one</strong> — a genuine addition beyond the bivariate framing, which suggested these two variables were concentrated in instability alone. Both are now confirmed as real, independent, protective predictors of no-record status too, just smaller in magnitude than their instability-side effects.</p>
-<p><strong><code>attended.ps</code> and PSEO both confirm their bivariate roles cleanly across every model</strong> — the two clearest, most stable findings in this entire confirmatory analysis, with no attenuation or reversal at any stage.</p>
+<p><strong>The core mechanism-split finding survives largely intact.</strong> The bivariate analysis suggested Special Education and English learner status were both primarily no-record phenomena. The multivariate models confirm this only partially: <strong>Special Education status turns out to be an instability phenomenon, not a no-record phenomenon at all</strong> — the opposite of what the bivariate comparison suggested. <strong>English learner status, by contrast, is confirmed as a genuine, robust no-record phenomenon</strong> — its effect declines only modestly across the three models and remains highly significant throughout.</p>
+<p><strong>Race/Ethnicity delivers the most important finding of this analysis: the Hispanic, Black, and Asian/Pacific Islander disparities in no-record status are real, independent, and do not attenuate.</strong> All three groups remain significantly elevated at every stage of control, including after high school accomplishments and postsecondary attempt are both accounted for.</p>
+<p><strong>Asian/Pacific Islander graduates show a striking divergence between the two mechanisms</strong> — significantly <em>reduced</em> odds of instability, but among the <em>highest</em> odds of no-record status of any group. This confirms that different racial/ethnic groups experience genuinely different, sometimes opposite, forms of disadvantage depending on which outcome is examined.</p>
+<p><strong><code>attended.ps</code>, PSEO, and CTE achievement all confirm strong, stable roles in the no-record mechanism specifically</strong> — three of the clearest, most consistent findings in this analysis, with no attenuation or reversal at any stage.</p>
 </section>
 <section id="what-this-means-for-the-report" class="level2">
 <h2 class="anchored" data-anchor-id="what-this-means-for-the-report">What This Means for the Report</h2>
-<p>Three things are ready to go into the report as confirmed, multivariate-tested findings: (1) postsecondary attempt and PSEO participation’s mechanism-specific effects, (2) the reframing of English learner and Black disparities as substantially explained by MCA Math missingness rather than group membership itself, and (3) Special Education status’s correction from a no-record story to an instability story. The MCA Math missingness finding deserves prominent, standalone treatment given its scale. Given how much correction happened between the bivariate and multivariate stages, I’d recommend the report lead with the multivariate results as the confirmed story, using the bivariate findings only as the motivating context for why this deeper investigation was undertaken — not present both as equally reliable, parallel findings.</p>
+<p>Three things are ready to go into the report as confirmed, multivariate-tested findings: (1) postsecondary attempt, PSEO participation, and CTE achievement’s mechanism-specific protective effects on no-record status; (2) <strong>English learner status and the Hispanic, Black, and Asian/Pacific Islander disparities in no-record status are robust, independent findings</strong> — they hold up fully once high school accomplishments and postsecondary attempt are controlled for, and should be presented as confirmed disparities, not as effects requiring further explanation; and (3) Special Education status’s correction from a no-record story to an instability story. Given that the central race/ethnicity and English learner findings replicate cleanly across bivariate and multivariate stages, the report can present these as a single, consistent story.</p>
 
 
 </section>
