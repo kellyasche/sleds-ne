@@ -172,7 +172,7 @@ Logistic regression is used here as a confirmatory tool rather than the primary 
 This analysis models five distinct outcomes, each restricted to the appropriate subset of the cohort:
 
 1.  **Sustained regional workforce attachment** (`grad.year.5`) — binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across the full graduating cohort.
-2.  **Sustained regional workforce attachment (`grad.year.5`**, college completers only) - binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across college completers only.
+2.  **Sustained regional workforce attachment (`grad.year.5`**, college completers only) - binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across **college completers only**.
 3.  **Postsecondary completion** (`ps.grad`) — binary (1 = completed a postsecondary credential, 0 = did not), modeled across **all high school graduates**, regardless of whether they ever attended postsecondary education.
 4.  **Postsecondary completion within the region** — binary (1 = completed a postsecondary credential within the region, 0 = completed elsewhere in Minnesota or out of state), restricted to **postsecondary completers only**.
 5.  **Sub-baccalaureate credential attainment** — binary (1 = highest credential earned is an associate degree or less-than-associate credential, 0 = bachelor's degree or higher), restricted to **postsecondary completers only**.
@@ -180,6 +180,8 @@ This analysis models five distinct outcomes, each restricted to the appropriate 
 ### **Sample**
 
 All four models are restricted to the **2011–2023 graduating cohorts**. Earlier cohorts (2008–2010) are excluded because PSEO participation was not consistently tracked in the data system prior to 2011 — missingness in that variable is concentrated almost entirely in those years rather than distributed randomly, and including them would risk misclassifying genuine PSEO participants as non-participants. And PSEO participation was identified as having a very strong relationship to our dependent variables in the bivariate analysis.
+
+We will also be eliminate graduation years between 2020 and 2023 due to significant amounts of "Unknown" categorized in the RaceEthnicty variable.
 
 ### Independent Variables
 
@@ -208,6 +210,7 @@ Variables were selected based on (1) a demonstrated bivariate relationship with 
 - **`ap.exam`** (AP exam participation)
 - `sat.taken`
 - **`cte.achievement`** (CTE concentration/completion level)
+- `total.cte.courses.taken`
 
 **Postsecondary variables**
 

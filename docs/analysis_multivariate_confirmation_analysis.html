@@ -1785,7 +1785,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>This analysis models five distinct outcomes, each restricted to the appropriate subset of the cohort:</p>
 <ol type="1">
 <li><strong>Sustained regional workforce attachment</strong> (<code>grad.year.5</code>) — binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across the full graduating cohort.</li>
-<li><strong>Sustained regional workforce attachment (<code>grad.year.5</code></strong>, college completers only) - binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across college completers only.</li>
+<li><strong>Sustained regional workforce attachment (<code>grad.year.5</code></strong>, college completers only) - binary (1 = meaningful employment within the region five years after high school graduation, 0 = otherwise), modeled across <strong>college completers only</strong>.</li>
 <li><strong>Postsecondary completion</strong> (<code>ps.grad</code>) — binary (1 = completed a postsecondary credential, 0 = did not), modeled across <strong>all high school graduates</strong>, regardless of whether they ever attended postsecondary education.</li>
 <li><strong>Postsecondary completion within the region</strong> — binary (1 = completed a postsecondary credential within the region, 0 = completed elsewhere in Minnesota or out of state), restricted to <strong>postsecondary completers only</strong>.</li>
 <li><strong>Sub-baccalaureate credential attainment</strong> — binary (1 = highest credential earned is an associate degree or less-than-associate credential, 0 = bachelor’s degree or higher), restricted to <strong>postsecondary completers only</strong>.</li>
@@ -1794,6 +1794,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="sample" class="level3">
 <h3 class="anchored" data-anchor-id="sample"><strong>Sample</strong></h3>
 <p>All four models are restricted to the <strong>2011–2023 graduating cohorts</strong>. Earlier cohorts (2008–2010) are excluded because PSEO participation was not consistently tracked in the data system prior to 2011 — missingness in that variable is concentrated almost entirely in those years rather than distributed randomly, and including them would risk misclassifying genuine PSEO participants as non-participants. And PSEO participation was identified as having a very strong relationship to our dependent variables in the bivariate analysis.</p>
+<p>We will also be eliminate graduation years between 2020 and 2023 due to significant amounts of “Unknown” categorized in the RaceEthnicty variable.</p>
 </section>
 <section id="independent-variables" class="level3">
 <h3 class="anchored" data-anchor-id="independent-variables">Independent Variables</h3>
@@ -1821,6 +1822,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong><code>ap.exam</code></strong> (AP exam participation)</li>
 <li><code>sat.taken</code></li>
 <li><strong><code>cte.achievement</code></strong> (CTE concentration/completion level)</li>
+<li><code>total.cte.courses.taken</code></li>
 </ul>
 <p><strong>Postsecondary variables</strong></p>
 <ul>
